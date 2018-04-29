@@ -130,6 +130,7 @@ namespace kk {
         };
         
         class Program;
+        class Buffer;
 
         class Context : public kk::GA::Context {
         public:
@@ -143,6 +144,7 @@ namespace kk {
             virtual void restore();
             virtual void drawTexture(Texture * texture,vec4 dest,vec4 src, Float zIndex);
             virtual void drawTexture(Texture * texture,GLenum mode,TextureVertex * points,kk::Uint count);
+            virtual void drawTexture(Texture * texture,GLenum mode,Buffer *data);
             virtual void drawFillColor(GLenum mode,vec3 * points,kk::Uint count,vec4 color);
             virtual void init();
             virtual kk::Boolean isVisible(vec4 * points,kk::Uint count,vec4 margin);

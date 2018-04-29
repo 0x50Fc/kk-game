@@ -49,7 +49,9 @@ namespace kk {
                 
                 kk::Strong v = (*alloc)(document,item);
                 
-                array.push_back(v.get());
+                if(v.get()) {
+                    array.push_back(v.get());
+                }
                 
                 p ++;
             }
@@ -77,7 +79,9 @@ namespace kk {
             while(p != node->data.mapping.pairs.top) {
                 yaml_node_t * key = yaml_document_get_node(document, p->key);
                 kk::Strong v = (*alloc)(document, yaml_document_get_node(document, p->value));
-                map[Y_toString(key, "")] = v.get();
+                if(v.get()) {
+                    map[Y_toString(key, "")] = v.get();
+                }
                 p ++;
             }
         }

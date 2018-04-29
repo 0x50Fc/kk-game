@@ -23,6 +23,7 @@
 #include "GLMinimapElement.h"
 #include "GLViewportElement.h"
 #include "GLProgramElement.h"
+#include "GLTileMapElement.h"
 
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
@@ -585,6 +586,7 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
             kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::ProgramElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
             
             [KKWebSocket openlib:ctx];
             

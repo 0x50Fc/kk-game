@@ -12,6 +12,7 @@
 #include "yaml.h"
 #include "base64.h"
 #include <zlib.h>
+#include <chipmunk/chipmunk.h>
 
 namespace kk {
     
@@ -37,6 +38,93 @@ namespace kk {
             return _loaded;
         }
         
+        TileLocal TileMap::local(Point global) {
+            TileLocal p = {0,0};
+            
+            kk::Int CHIP_W = tileWidth >> 1;
+            kk::Int CHIP_H = tileHeight >> 1;
+            
+            switch (orientation) {
+                case TileMapOrientationIsometric:
+                    global.y += height * CHIP_H;
+                    p.x = (kk::Int) (global.y / CHIP_H + global.x / CHIP_W) >> 1;
+                    p.y = (kk::Int) (global.y / CHIP_H - global.x / CHIP_W) >> 1;
+                    break;
+                case TileMapOrientationStaggered:
+                case TileMapOrientationHexagonal:
+                    global.x += width * CHIP_W;
+                    global.y += (height * CHIP_H) >> 1;
+                    p.y = (kk::Int) (global.y + CHIP_H) / CHIP_H;
+                    if(p.y % 2 == 0) {
+                        p.x = (kk::Int) (global.x + CHIP_W) / tileWidth;
+                    } else {
+                        p.x = (kk::Int) (global.x) / tileWidth;
+                    }
+                    break;
+                default:
+                    p.x = (global.x + 0.5f * width * tileWidth) / tileWidth;
+                    p.x = (global.y + 0.5f * height * tileHeight) / tileHeight;
+                    break;
+            }
+            
+            return p;
+        }
+        
+        Point TileMap::global(TileLocal local) {
+            
+            Point p;
+            
+            kk::Int CHIP_W = tileWidth >> 1;
+            kk::Int CHIP_H = tileHeight >> 1;
+            
+            switch (orientation) {
+                case TileMapOrientationIsometric:
+                    p.x = (local.x - local.y) * CHIP_W;
+                    p.y = (local.x + local.y) * CHIP_H - height * CHIP_H;
+                    break;
+                case TileMapOrientationStaggered:
+                case TileMapOrientationHexagonal:
+                    if(local.y % 2 == 0) {
+                        p.x = local.x * tileWidth - CHIP_W;
+                        p.y = local.y * CHIP_H - CHIP_H;
+                    } else {
+                        p.x = local.x * tileWidth;
+                        p.y = local.y * CHIP_H - CHIP_H;
+                    }
+                    p.x -= width * CHIP_W;
+                    p.y -= (height * CHIP_H) >> 1;
+                    break;
+                default:
+                    p.x = local.x * tileWidth - width * CHIP_W;
+                    p.y = local.y * tileHeight - height * CHIP_H;
+                    break;
+            }
+            
+            return p;
+        }
+        
+        Tile * TileMap::tile(kk::Int gid) {
+            TileSet * prev = nullptr;
+            std::vector<kk::Strong>::iterator i = tileSets.begin();
+            while(i != tileSets.end()) {
+                TileSet * v = (*i).as<TileSet>();
+                if(v) {
+                    if(v->firstgid > gid) {
+                        break;
+                    } else {
+                        prev = v;
+                    }
+                }
+                i ++;
+            }
+            if(prev != nullptr) {
+                kk::Int i = gid - prev->firstgid;
+                if(i >=0 && i < prev->tiles.size()) {
+                    return prev->tiles[i].as<Tile>();
+                }
+            }
+            return nullptr;
+        }
         
         void TileSet::setContent(yaml_document_t * doc,kk::CString path)  {
             
@@ -74,9 +162,9 @@ namespace kk {
                             yaml_node_t * key = yaml_document_get_node(&document, p->key);
                             yaml_node_t * value = yaml_document_get_node(&document, p->value);
                             if(key->type == YAML_SCALAR_NODE) {
-                                if(Y_isString(key,"width")) {
+                                if(Y_isString(key,"imagewidth")) {
                                     width = Y_toInt(value);
-                                } else if(Y_isString(key,"height")) {
+                                } else if(Y_isString(key,"imageheight")) {
                                     height = Y_toInt(value);
                                 } else if(Y_isString(key,"tilewidth")) {
                                     tileWidth = Y_toInt(value);
@@ -88,12 +176,32 @@ namespace kk {
                                     YMapSet(tilepropertys, &document, value);
                                 } else if(Y_isString(key, "tilecount")) {
                                     tileCount = Y_toInt(value);
+                                } else if(Y_isString(key, "image")) {
+                                    image = kk::CStringPathAppend(basePath.c_str(), Y_toString(value, ""));
+                                } else if(Y_isString(key, "tileoffset")) {
+                                    {
+                                        YMap m;
+                                        YMapSet(m, &document, value);
+                                        YMap::iterator i = m.find("x");
+                                        if(i != m.end()) {
+                                            tileX = Y_toFloat(i->second);
+                                        }
+                                        i = m.find("y");
+                                        if(i != m.end()) {
+                                            tileY = Y_toFloat(i->second);
+                                        }
+                                    }
                                 }
                             }
                             p ++;
                         }
                         
                         char sKey[128];
+                        
+                        sw = (Float) tileWidth / (Float) width;
+                        sh = (Float) tileHeight / (Float) height;
+                        
+                        kk::Uint column = width / tileWidth;
                         
                         for(kk::Uint i = 0;i< tileCount;i++) {
                             
@@ -102,6 +210,8 @@ namespace kk {
                             Tile * tile = new Tile();
                             
                             tile->tileSet = this;
+                            tile->x = i % column;
+                            tile->y = i / column;
                             
                             std::map<kk::String,yaml_node_t *>::iterator ii = tilepropertys.find(sKey);
                             
@@ -176,7 +286,7 @@ namespace kk {
             }
         }
         
-        int TileMapTileLayer::get(kk::Int x,kk::Int y) {
+        kk::Int TileMapTileLayer::get(kk::Int x,kk::Int y) {
             if(_dataBytes != nullptr &&
                x >= this->x && y >= this->y &&
                x < this->x + this->width && y < this->y + this->height) {
@@ -280,6 +390,121 @@ namespace kk {
             }
         }
         
+        void TileMapImageLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+            TileMapLayer::set(key, document, node);
+            
+            
+        }
+        
+        void TileMapCircleObject::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+            if(kk::CStringEqual(key, "x")) {
+                x = Y_toFloat(node);
+            } else if(kk::CStringEqual(key, "y")) {
+                y = Y_toFloat(node);
+            } else if(kk::CStringEqual(key, "width")) {
+                width = Y_toFloat(node);
+            } else if(kk::CStringEqual(key, "height")) {
+                height = Y_toFloat(node);
+            } else if(key == nullptr) {
+                radius = MIN(width, height) * 0.5f;
+            }
+        }
+        
+        void TileMapPolygonObject::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+            if(kk::CStringEqual(key, "polygon") || kk::CStringEqual(key, "polyline") ) {
+                
+                if(node->type == YAML_SEQUENCE_NODE) {
+                    
+                    yaml_node_item_t * p = node->data.sequence.items.start;
+                    
+                    while(p != node->data.sequence.items.top) {
+                        
+                        yaml_node_t * item = yaml_document_get_node(document, *p);
+                        
+                        if(item->type == YAML_MAPPING_NODE) {
+                            Point v = {0,0};
+                            
+                            yaml_node_pair_t * n = item->data.mapping.pairs.start;
+                            
+                            while(n != item->data.mapping.pairs.top) {
+                                
+                                yaml_node_t * key = yaml_document_get_node(document, n->key);
+                                
+                                if(Y_isString(key, "x")) {
+                                    v.x = Y_toFloat(yaml_document_get_node(document, n->value));
+                                } else if(Y_isString(key, "y")) {
+                                    v.y = Y_toFloat(yaml_document_get_node(document, n->value));
+                                }
+                                
+                                n ++;
+                            }
+                            
+                            data.push_back(v);
+                        }
+                        
+                        
+                        
+                        p ++;
+                    }
+                }
+            }
+        }
+        
+        static kk::Strong TileMapLayerObjectAlloc(yaml_document_t * document,yaml_node_t * node) {
+            
+            if(node->type == YAML_MAPPING_NODE) {
+                
+                yaml_node_pair_t * p = node->data.mapping.pairs.start;
+                
+                while(p != node->data.mapping.pairs.end) {
+                    
+                    yaml_node_t * key = yaml_document_get_node(document, p->key);
+                    
+                    if(Y_isString(key, "ellipse")) {
+                        yaml_node_t * value = yaml_document_get_node(document, p->value);
+                        if(Y_isString(value, "true")) {
+                            TileMapCircleObject * v = new TileMapCircleObject();
+                            YObjectSet(v, document, node);
+                            return v;
+                        }
+                    } else if(Y_isString(key, "polygon")) {
+                        TileMapPolygonObject * v = new TileMapPolygonObject();
+                        YObjectSet(v, document, node);
+                        return v;
+                    } else if(Y_isString(key, "polyline")) {
+                        TileMapPolygonObject * v = new TileMapPolygonObject();
+                        YObjectSet(v, document, node);
+                        return v;
+                    }
+                    
+                    p ++;
+                }
+                
+            }
+            
+            return nullptr;
+        }
+        
+        void TileMapObjectLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+            TileMapLayer::set(key, document, node);
+            
+            if(kk::CStringEqual(key, "objects")) {
+                
+                YObjectArraySet(objects, TileMapLayerObjectAlloc, document, node);
+                
+            }
+        }
+        
+        static kk::Strong TileMapLayerAlloc(yaml_document_t * document,yaml_node_t * node);
+        
+        void TileMapGroupLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+            TileMapLayer::set(key, document, node);
+            
+            if(kk::CStringEqual(key, "layers")) {
+                YObjectArraySet(layers, TileMapLayerAlloc, document, node);
+            }
+        }
+        
         static kk::Strong TileMapLayerAlloc(yaml_document_t * document,yaml_node_t * node) {
             
             TileMapLayer * v = nullptr;
@@ -306,14 +531,14 @@ namespace kk {
                         v = new TileMapTileLayer();
                         YObjectSet(v, document, node);
                     } else if(Y_isString(type, "imagelayer")) {
-                        //v = new TileMapImageLayer();
-                        //YObjectSet(v, document, node);
+                        v = new TileMapImageLayer();
+                        YObjectSet(v, document, node);
                     } else if(Y_isString(type, "objectgroup")) {
-                        //v = new TileMapObjectLayer();
-                        //YObjectSet(v, document, node);
+                        v = new TileMapObjectLayer();
+                        YObjectSet(v, document, node);
                     } else if(Y_isString(type, "group")) {
-                        //v = new TileMapGroupLayer();
-                        //YObjectSet(v, document, node);
+                        v = new TileMapGroupLayer();
+                        YObjectSet(v, document, node);
                     }
                 }
                 

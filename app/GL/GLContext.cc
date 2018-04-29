@@ -404,7 +404,7 @@ namespace kk {
              
                 program->setAttrib(_GLSLTextureProgramUniform.position, 3, points, sizeof(TextureVertex));
                 
-                program->setAttrib(_GLSLTextureProgramUniform.texCoord, 2, &points->texCoord, sizeof(TextureVertex));
+                program->setAttrib(_GLSLTextureProgramUniform.texCoord, 2, (char *) points + sizeof(vec3), sizeof(TextureVertex));
                 
                 glDepthMask(GL_FALSE);
                 
@@ -412,6 +412,16 @@ namespace kk {
                 
                 glDepthMask(GL_TRUE);
             }
+            
+        }
+        
+        void Context::drawTexture(Texture * texture,GLenum mode,Buffer *data) {
+            
+            data->bind();
+            
+            drawTexture(texture,mode,NULL,(kk::Uint) (data->size() / sizeof(TextureVertex)));
+            
+            Buffer::unbind();
             
         }
         
