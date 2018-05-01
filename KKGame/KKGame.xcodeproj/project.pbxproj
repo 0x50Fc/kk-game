@@ -198,23 +198,8 @@
 		1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
 		1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */; };
-		1AC5F41E2090286200AB01D7 /* yaml_private.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F4152090286000AB01D7 /* yaml_private.h */; };
-		1AC5F41F2090286200AB01D7 /* emitter.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F4162090286000AB01D7 /* emitter.c */; };
-		1AC5F4202090286200AB01D7 /* api.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F4172090286000AB01D7 /* api.c */; };
-		1AC5F4212090286200AB01D7 /* dumper.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F4182090286000AB01D7 /* dumper.c */; };
-		1AC5F4222090286200AB01D7 /* parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F4192090286000AB01D7 /* parser.c */; };
-		1AC5F4232090286200AB01D7 /* scanner.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F41A2090286100AB01D7 /* scanner.c */; };
-		1AC5F4242090286200AB01D7 /* writer.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F41B2090286100AB01D7 /* writer.c */; };
-		1AC5F4252090286200AB01D7 /* reader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F41C2090286100AB01D7 /* reader.c */; };
-		1AC5F4262090286200AB01D7 /* loader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F41D2090286200AB01D7 /* loader.c */; };
-		1AC5F4282090286A00AB01D7 /* yaml.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F4272090286A00AB01D7 /* yaml.h */; };
-		1AC5F42A2090295600AB01D7 /* config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F4292090295500AB01D7 /* config.h */; };
-		1AC5F4532090526A00AB01D7 /* GLProgramElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F4512090526A00AB01D7 /* GLProgramElement.cc */; };
-		1AC5F4542090526A00AB01D7 /* GLProgramElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F4522090526A00AB01D7 /* GLProgramElement.h */; };
-		1AD772E5209441710091283D /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772E3209441710091283D /* base64.c */; };
-		1AD772E6209441710091283D /* base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD772E4209441710091283D /* base64.h */; };
-		1AD772ED20947DAC0091283D /* kk-yaml.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-yaml.cc */; };
-		1AD772EE20947DAC0091283D /* kk-yaml.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD772EC20947DAC0091283D /* kk-yaml.h */; };
+		1AD772ED20947DAC0091283D /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
+		1AD772EE20947DAC0091283D /* kk-y.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD772EC20947DAC0091283D /* kk-y.h */; };
 		1AD772F02094918B0091283D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD772EF2094918B0091283D /* libz.tbd */; };
 		1AE23FEA2022F361001FFB58 /* KKGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FE82022F361001FFB58 /* KKGame.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE23FF72022F3C3001FFB58 /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
@@ -456,24 +441,9 @@
 		1AB084DE2056242F00EF5783 /* GADocument.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GADocument.cc; sourceTree = "<group>"; };
 		1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLTileMapElement.cc; sourceTree = "<group>"; };
 		1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLTileMapElement.h; sourceTree = "<group>"; };
-		1AC5F4152090286000AB01D7 /* yaml_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yaml_private.h; path = ../lib/libyaml/src/yaml_private.h; sourceTree = SOURCE_ROOT; };
-		1AC5F4162090286000AB01D7 /* emitter.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = emitter.c; path = ../lib/libyaml/src/emitter.c; sourceTree = SOURCE_ROOT; };
-		1AC5F4172090286000AB01D7 /* api.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = api.c; path = ../lib/libyaml/src/api.c; sourceTree = SOURCE_ROOT; };
-		1AC5F4182090286000AB01D7 /* dumper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dumper.c; path = ../lib/libyaml/src/dumper.c; sourceTree = SOURCE_ROOT; };
-		1AC5F4192090286000AB01D7 /* parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parser.c; path = ../lib/libyaml/src/parser.c; sourceTree = SOURCE_ROOT; };
-		1AC5F41A2090286100AB01D7 /* scanner.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = scanner.c; path = ../lib/libyaml/src/scanner.c; sourceTree = SOURCE_ROOT; };
-		1AC5F41B2090286100AB01D7 /* writer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = writer.c; path = ../lib/libyaml/src/writer.c; sourceTree = SOURCE_ROOT; };
-		1AC5F41C2090286100AB01D7 /* reader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = reader.c; path = ../lib/libyaml/src/reader.c; sourceTree = SOURCE_ROOT; };
-		1AC5F41D2090286200AB01D7 /* loader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = loader.c; path = ../lib/libyaml/src/loader.c; sourceTree = SOURCE_ROOT; };
-		1AC5F4272090286A00AB01D7 /* yaml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yaml.h; path = ../lib/libyaml/include/yaml.h; sourceTree = SOURCE_ROOT; };
-		1AC5F4292090295500AB01D7 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../lib/libyaml/include/config.h; sourceTree = SOURCE_ROOT; };
-		1AC5F4512090526A00AB01D7 /* GLProgramElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLProgramElement.cc; sourceTree = "<group>"; };
-		1AC5F4522090526A00AB01D7 /* GLProgramElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLProgramElement.h; sourceTree = "<group>"; };
 		1AC5F4882090832200AB01D7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
-		1AD772E3209441710091283D /* base64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = base64.c; path = ../../lib/libbase64/base64.c; sourceTree = "<group>"; };
-		1AD772E4209441710091283D /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base64.h; path = ../../lib/libbase64/base64.h; sourceTree = "<group>"; };
-		1AD772EB20947DAC0091283D /* kk-yaml.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-yaml.cc"; sourceTree = "<group>"; };
-		1AD772EC20947DAC0091283D /* kk-yaml.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-yaml.h"; sourceTree = "<group>"; };
+		1AD772EB20947DAC0091283D /* kk-y.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-y.cc"; sourceTree = "<group>"; };
+		1AD772EC20947DAC0091283D /* kk-y.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-y.h"; sourceTree = "<group>"; };
 		1AD772EF2094918B0091283D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1AE23FE52022F361001FFB58 /* KKGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KKGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AE23FE82022F361001FFB58 /* KKGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGame.h; sourceTree = "<group>"; };
@@ -590,8 +560,6 @@
 				1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */,
 				1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */,
 				1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */,
-				1AC5F4522090526A00AB01D7 /* GLProgramElement.h */,
-				1AC5F4512090526A00AB01D7 /* GLProgramElement.cc */,
 				1A8BFFAF2092FACE00224854 /* GLShapeElement.h */,
 				1A8BFFAE2092FACE00224854 /* GLShapeElement.cc */,
 			);
@@ -720,33 +688,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1AC5F4142090283900AB01D7 /* yaml */ = {
-			isa = PBXGroup;
-			children = (
-				1AC5F4292090295500AB01D7 /* config.h */,
-				1AC5F4272090286A00AB01D7 /* yaml.h */,
-				1AC5F4172090286000AB01D7 /* api.c */,
-				1AC5F4182090286000AB01D7 /* dumper.c */,
-				1AC5F4162090286000AB01D7 /* emitter.c */,
-				1AC5F41D2090286200AB01D7 /* loader.c */,
-				1AC5F4192090286000AB01D7 /* parser.c */,
-				1AC5F41C2090286100AB01D7 /* reader.c */,
-				1AC5F41A2090286100AB01D7 /* scanner.c */,
-				1AC5F41B2090286100AB01D7 /* writer.c */,
-				1AC5F4152090286000AB01D7 /* yaml_private.h */,
-			);
-			name = yaml;
-			sourceTree = "<group>";
-		};
-		1AD772DA209440930091283D /* base64 */ = {
-			isa = PBXGroup;
-			children = (
-				1AD772E3209441710091283D /* base64.c */,
-				1AD772E4209441710091283D /* base64.h */,
-			);
-			name = base64;
-			sourceTree = "<group>";
-		};
 		1AE23FDB2022F361001FFB58 = {
 			isa = PBXGroup;
 			children = (
@@ -773,9 +714,7 @@
 		1AE23FE72022F361001FFB58 /* KKGame */ = {
 			isa = PBXGroup;
 			children = (
-				1AD772DA209440930091283D /* base64 */,
 				1A8BFF2F2092C52D00224854 /* Chipmunk2D */,
-				1AC5F4142090283900AB01D7 /* yaml */,
 				1A0A665D202D68C2008DA5A3 /* js */,
 				1A0A660E20297D68008DA5A3 /* glsl */,
 				1AE24015202405CF001FFB58 /* duktape */,
@@ -820,8 +759,8 @@
 				1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */,
 				1A0A6626202AA88A008DA5A3 /* kk-app.cc */,
 				1A0A6627202AA88A008DA5A3 /* kk-app.h */,
-				1AD772EC20947DAC0091283D /* kk-yaml.h */,
-				1AD772EB20947DAC0091283D /* kk-yaml.cc */,
+				1AD772EC20947DAC0091283D /* kk-y.h */,
+				1AD772EB20947DAC0091283D /* kk-y.cc */,
 			);
 			name = app;
 			path = ../../app;
@@ -873,7 +812,6 @@
 				1A8BFFA22092C58A00224854 /* chipmunk_structs.h in Headers */,
 				1A8BFFAA2092C58A00224854 /* cpPolyline.h in Headers */,
 				1A0A661520297D68008DA5A3 /* GLSLTexture.h in Headers */,
-				1AD772E6209441710091283D /* base64.h in Headers */,
 				1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */,
 				1A8BFFA12092C58A00224854 /* cpPinJoint.h in Headers */,
 				1A8BFF9B2092C58A00224854 /* cpSpace.h in Headers */,
@@ -887,7 +825,6 @@
 				1A0A658F202828E1008DA5A3 /* kk-element.h in Headers */,
 				1A8BFF972092C58A00224854 /* cpBB.h in Headers */,
 				1A8BFF9E2092C58A00224854 /* cpArbiter.h in Headers */,
-				1AC5F4282090286A00AB01D7 /* yaml.h in Headers */,
 				1A8BFFB12092FACE00224854 /* GLShapeElement.h in Headers */,
 				1A8BFF912092C58A00224854 /* cpConstraint.h in Headers */,
 				1A0A6585202828D8008DA5A3 /* GAContext.h in Headers */,
@@ -897,13 +834,12 @@
 				1A0A658D202828E1008DA5A3 /* kk-object.h in Headers */,
 				1A0A6588202828D8008DA5A3 /* GABody.h in Headers */,
 				1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */,
-				1AC5F42A2090295600AB01D7 /* config.h in Headers */,
 				1A8BFFA82092C58A00224854 /* cpShape.h in Headers */,
 				1A8BFF9A2092C58A00224854 /* cpDampedSpring.h in Headers */,
 				1A8BFFAB2092C58A00224854 /* cpSimpleMotor.h in Headers */,
 				1A0A65A82028547E008DA5A3 /* GLContext.h in Headers */,
 				1A0A65AB20285788008DA5A3 /* KKStrong.h in Headers */,
-				1AD772EE20947DAC0091283D /* kk-yaml.h in Headers */,
+				1AD772EE20947DAC0091283D /* kk-y.h in Headers */,
 				1A8BFFA72092C58A00224854 /* cpRotaryLimitJoint.h in Headers */,
 				1A8BFFA92092C58A00224854 /* cpRobust.h in Headers */,
 				1A0A658C202828E1008DA5A3 /* kk-config.h in Headers */,
@@ -929,8 +865,6 @@
 				1A0A65B320285DD5008DA5A3 /* KKGLView.h in Headers */,
 				1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */,
 				1A8BFFA32092C58A00224854 /* cpGearJoint.h in Headers */,
-				1AC5F4542090526A00AB01D7 /* GLProgramElement.h in Headers */,
-				1AC5F41E2090286200AB01D7 /* yaml_private.h in Headers */,
 				1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */,
 				1A8BFF962092C58A00224854 /* cpBody.h in Headers */,
 				1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */,
@@ -1201,14 +1135,12 @@
 				1AE23FFD2022F86D001FFB58 /* kk-event.cc in Sources */,
 				1AE2401420231F19001FFB58 /* GABody.cc in Sources */,
 				1A8BFF512092C54E00224854 /* cpArray.c in Sources */,
-				1AC5F4232090286200AB01D7 /* scanner.c in Sources */,
 				1A8BFF542092C54E00224854 /* cpBBTree.c in Sources */,
 				1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */,
 				1A0A65B420285DD5008DA5A3 /* KKGLView.mm in Sources */,
 				1A0A659A20284FF1008DA5A3 /* KKGLContext.mm in Sources */,
 				1A8BFF6B2092C54E00224854 /* cpArbiter.c in Sources */,
 				1A8BFF5D2092C54E00224854 /* cpRotaryLimitJoint.c in Sources */,
-				1AC5F41F2090286200AB01D7 /* emitter.c in Sources */,
 				1A8BFF642092C54E00224854 /* cpBody.c in Sources */,
 				1A8BFF6A2092C54E00224854 /* chipmunk.c in Sources */,
 				1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */,
@@ -1217,10 +1149,8 @@
 				1A8BFF662092C54E00224854 /* cpSpatialIndex.c in Sources */,
 				1A8BFF552092C54E00224854 /* cpPinJoint.c in Sources */,
 				1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */,
-				1AD772E5209441710091283D /* base64.c in Sources */,
 				1A0A665C202D4124008DA5A3 /* GAActionMove.cc in Sources */,
 				1A8BFF692092C54E00224854 /* cpSpaceStep.c in Sources */,
-				1AC5F4202090286200AB01D7 /* api.c in Sources */,
 				1A8BFF5E2092C54E00224854 /* cpSpace.c in Sources */,
 				1A8BFF632092C54E00224854 /* cpSpaceComponent.c in Sources */,
 				1A8BFF5B2092C54E00224854 /* cpGrooveJoint.c in Sources */,
@@ -1229,7 +1159,6 @@
 				1A0A65AC20285788008DA5A3 /* KKStrong.mm in Sources */,
 				1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */,
 				1A44E7132046B4F80091A106 /* kk-app.cc in Sources */,
-				1AC5F4252090286200AB01D7 /* reader.c in Sources */,
 				1A0A65592027F073008DA5A3 /* kk-script.cc in Sources */,
 				1A8BFF702092C54E00224854 /* cpDampedSpring.c in Sources */,
 				1A0A6696202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm in Sources */,
@@ -1249,17 +1178,14 @@
 				1A8BFF592092C54E00224854 /* cpDampedRotarySpring.c in Sources */,
 				1A8BFF682092C54E00224854 /* cpSimpleMotor.c in Sources */,
 				1AE23FF72022F3C3001FFB58 /* kk-object.cc in Sources */,
-				1AC5F4532090526A00AB01D7 /* GLProgramElement.cc in Sources */,
 				1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */,
 				1A8BFF6C2092C54E00224854 /* cpRobust.c in Sources */,
-				1AC5F4222090286200AB01D7 /* parser.c in Sources */,
 				1A8BFF562092C54E00224854 /* cpPolyShape.c in Sources */,
 				1AE2400E20230D5D001FFB58 /* GAScene.cc in Sources */,
 				1A8BFF582092C54E00224854 /* cpSpaceHash.c in Sources */,
 				1A0A661320297D68008DA5A3 /* GLSLTexture.cc in Sources */,
-				1AC5F4212090286200AB01D7 /* dumper.c in Sources */,
 				1A8BFF5F2092C54E00224854 /* cpPivotJoint.c in Sources */,
-				1AD772ED20947DAC0091283D /* kk-yaml.cc in Sources */,
+				1AD772ED20947DAC0091283D /* kk-y.cc in Sources */,
 				1A8BFF6D2092C54E00224854 /* cpCollision.c in Sources */,
 				1AE2401B202405F1001FFB58 /* duktape.c in Sources */,
 				1A8BFF5A2092C54E00224854 /* cpSpaceDebug.c in Sources */,
@@ -1269,8 +1195,6 @@
 				1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */,
 				1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */,
 				1A8BFF572092C54E00224854 /* cpPolyline.c in Sources */,
-				1AC5F4242090286200AB01D7 /* writer.c in Sources */,
-				1AC5F4262090286200AB01D7 /* loader.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

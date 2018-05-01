@@ -14,9 +14,9 @@
 #include "GLSLTexture.h"
 #include "GLSLFillColor.h"
 #include "kk-string.h"
+#include "kk-y.h"
 #include <algorithm>
 #include <sstream>
-#include "yaml.h"
 
 #if defined(__ANDROID_API__)
 
@@ -307,74 +307,29 @@ namespace kk {
                 }
             }
             
-            yaml_parser_t ps;
+            kk::String vv = getString(path);
             
-            yaml_parser_initialize(&ps);
-            
-            kk::String p = absolutePath(path);
-            
-            FILE * fd = nullptr;
-            
-            fd = fopen(p.c_str(), "rb");
-            
-            if(fd != nullptr) {
-                yaml_parser_set_input_file(&ps, fd);
-            }
-            
-            if(fd ) {
+            if(!vv.empty()) {
                 
-                kk::CString vsh = nullptr;
-                kk::CString fsh = nullptr;
                 
-                yaml_document_t document;
+                kk::Strong jsContext = new kk::script::Context();
                 
-                if(yaml_parser_load(&ps, &document)) {
-                    
-                    yaml_node_t * n = yaml_document_get_root_node(&document);
-                    
-                    if(n && n->type == YAML_MAPPING_NODE) {
-                        yaml_node_pair_t * p = n->data.mapping.pairs.start;
-                        while(p && p != n->data.mapping.pairs.top) {
-                            yaml_node_t * key = yaml_document_get_node(&document, p->key);
-                            yaml_node_t * value = yaml_document_get_node(&document, p->value);
-                            if(key && value
-                               && key->type == YAML_SCALAR_NODE
-                               && value->type == YAML_SCALAR_NODE) {
-                                if(kk::CStringEqual((kk::CString) key->data.scalar.value, "vsh")) {
-                                    vsh = (kk::CString)value->data.scalar.value;
-                                } else if(kk::CStringEqual((kk::CString)key->data.scalar.value, "fsh")) {
-                                    fsh = (kk::CString)value->data.scalar.value;
-                                }
-                                if(vsh && fsh) {
-                                    break;
-                                }
-                            }
-                            p ++;
-                        }
-                    }
-                    
+                duk_context * ctx = jsContext.as<kk::script::Context>()->jsContext();
+                
+                duk_push_string(ctx, vv.c_str());
+                
+                duk_json_decode(ctx, -1);
+                
+                if(duk_is_object(ctx, -1)) {
+                    kk::CString vsh = Y_toString(ctx, -1, "vsh",nullptr);
+                    kk::CString fsh = Y_toString(ctx, -1, "fsh",nullptr);
                     if(vsh && fsh) {
                         v = new Program(vsh,fsh);
                     }
-                    
-                } else if(ps.error != YAML_NO_ERROR) {
-                    kk::Log("[%d] %s",ps.error,ps.problem);
                 }
                 
-                yaml_document_delete(&document);
+                duk_pop_n(ctx, 1);
                 
-                if(ps.error != YAML_NO_ERROR) {
-                    kk::Log("[%d] %s",ps.error,ps.problem);
-                }
-                
-                
-                
-            }
-            
-            yaml_parser_delete(&ps);
-            
-            if(fd != nullptr) {
-                fclose(fd);
             }
             
             if(v != nullptr) {

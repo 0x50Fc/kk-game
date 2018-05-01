@@ -72,6 +72,7 @@ namespace kk {
             virtual CString basePath();
             virtual void setBasePath(CString basePath);
             virtual kk::String absolutePath(CString path);
+            virtual kk::String getString(CString path);
             virtual void exec(kk::Element * element);
             virtual Size& viewport();
             virtual void setViewport(Size & size);

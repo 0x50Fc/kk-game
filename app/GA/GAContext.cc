@@ -101,6 +101,30 @@ namespace kk {
             return s.str();
         }
         
+        kk::String Context::getString(CString path) {
+            kk::String v;
+            
+            kk::String p = absolutePath(path);
+            
+            FILE * fd = fopen(p.c_str(), "r");
+            
+            if(fd) {
+                
+                char data[20480];
+                size_t n;
+                
+                while((n = fread(data, 1, sizeof(data), fd)) > 0) {
+                    v.append(data,0,n);
+                }
+            
+                fclose(fd);
+            } else{
+                kk::Log("Not Open %s",p.c_str());
+            }
+            
+            return v;
+        }
+        
         void Context::tick() {
             if(_current == 0) {
                 _current = _startTimeInterval = GetTimeIntervalCurrent() - _difference;

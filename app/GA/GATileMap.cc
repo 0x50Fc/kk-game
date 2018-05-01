@@ -9,8 +9,6 @@
 #include "kk-config.h"
 #include "GATileMap.h"
 #include "kk-string.h"
-#include "yaml.h"
-#include "base64.h"
 #include <zlib.h>
 #include <chipmunk/chipmunk.h>
 
@@ -21,13 +19,7 @@ namespace kk {
         IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, TileMap, GATileMap)
         
         IMP_SCRIPT_CLASS_END
-        
-        struct TileMapDocument : yaml_document_t {
-        public:
-            TileMap * map;
-            Context * context;
-        };
-        
+
         TileMap::TileMap()
             :height(0),width(0),
                 tileHeight(0),tileWidth(0),orientation(TileMapOrientationOrthogonal),_loaded(false) {
@@ -126,157 +118,117 @@ namespace kk {
             return nullptr;
         }
         
-        void TileSet::setContent(yaml_document_t * doc,kk::CString path)  {
+        void TileSet::setContent(duk_context * ctx,kk::CString path)  {
             
-            TileMapDocument * mDocument = (TileMapDocument *)(doc);
+            int top = duk_get_top(ctx);
             
-            kk::String basePath = mDocument->map->get("path");
+            TileMap * map = dynamic_cast<TileMap *>( kk::script::GetObject(ctx, - top) );
+            Context * context = dynamic_cast<Context *>( kk::script::GetObject(ctx, - top + 1) );
+            
+            kk::String basePath = map->get("path");
             
             basePath = kk::CStringPathDeleteLast(basePath.c_str());
             
-            kk::String v = mDocument->context->absolutePath(kk::CStringPathAppend(basePath.c_str(), path).c_str());
+            kk::String v = context->getString(kk::CStringPathAppend(basePath.c_str(), path).c_str());
             
-            FILE * fd = fopen(v.c_str(), "r");
+            duk_push_string(ctx, v.c_str());
+            duk_json_decode(ctx, -1);
             
-            if(fd != nullptr) {
+            width = Y_toInt(ctx, -1, "imagewidth");
+            height = Y_toInt(ctx, -1, "imageheight");
+            tileWidth = Y_toInt(ctx, -1, "tilewidth");
+            tileHeight = Y_toInt(ctx, -1, "tileheight");
+            image = kk::CStringPathAppend(basePath.c_str(),Y_toString(ctx, -1, "image",""));
+            
+            {
+                duk_get_prop_string(ctx, -1, "properties");
+                YStringMapSet(propertys, ctx, -1);
+                duk_pop(ctx);
+            }
+            
+            {
+                duk_get_prop_string(ctx, -1, "tileoffset");
+                tileX = Y_toInt(ctx, -1,"x");
+                tileY = Y_toInt(ctx, -1,"y");
+                duk_pop(ctx);
+            }
+            
+            {
+                kk::Int tilecount = Y_toInt(ctx, -1,"tilecount");
+                void * props = Y_toHeapptr(ctx, -1, "tileproperties");
                 
-                yaml_parser_t ps;
+                sw = (Float) tileWidth / (Float) width;
+                sh = (Float) tileHeight / (Float) height;
                 
-                yaml_parser_initialize(&ps);
+                kk::Uint column = width / tileWidth;
                 
-                yaml_parser_set_input_file(&ps, fd);
+                char sKey[255];
                 
-                yaml_document_t document;
-                
-                if(yaml_parser_load(&ps, &document)) {
+                for(kk::Uint i = 0;i< tilecount;i++) {
                     
-                    yaml_node_t * node = yaml_document_get_root_node(&document);
+                    snprintf(sKey, sizeof(sKey), "%u",i);
                     
-                    if(node && node->type == YAML_MAPPING_NODE) {
-                        
-                        kk::Uint tileCount = 0;
-                        std::map<kk::String,yaml_node_t *> tilepropertys;
-                        
-                        yaml_node_pair_t *  p = node->data.mapping.pairs.start;
-                        while(p != node->data.mapping.pairs.top) {
-                            yaml_node_t * key = yaml_document_get_node(&document, p->key);
-                            yaml_node_t * value = yaml_document_get_node(&document, p->value);
-                            if(key->type == YAML_SCALAR_NODE) {
-                                if(Y_isString(key,"imagewidth")) {
-                                    width = Y_toInt(value);
-                                } else if(Y_isString(key,"imageheight")) {
-                                    height = Y_toInt(value);
-                                } else if(Y_isString(key,"tilewidth")) {
-                                    tileWidth = Y_toInt(value);
-                                } else if(Y_isString(key,"tileheight")) {
-                                    tileHeight = Y_toInt(value);
-                                } else if(Y_isString(key, "properties")) {
-                                    YStringMapSet(propertys, &document, value);
-                                } else if(Y_isString(key, "tileproperties")) {
-                                    YMapSet(tilepropertys, &document, value);
-                                } else if(Y_isString(key, "tilecount")) {
-                                    tileCount = Y_toInt(value);
-                                } else if(Y_isString(key, "image")) {
-                                    image = kk::CStringPathAppend(basePath.c_str(), Y_toString(value, ""));
-                                } else if(Y_isString(key, "tileoffset")) {
-                                    {
-                                        YMap m;
-                                        YMapSet(m, &document, value);
-                                        YMap::iterator i = m.find("x");
-                                        if(i != m.end()) {
-                                            tileX = Y_toFloat(i->second);
-                                        }
-                                        i = m.find("y");
-                                        if(i != m.end()) {
-                                            tileY = Y_toFloat(i->second);
-                                        }
-                                    }
-                                }
-                            }
-                            p ++;
-                        }
-                        
-                        char sKey[128];
-                        
-                        sw = (Float) tileWidth / (Float) width;
-                        sh = (Float) tileHeight / (Float) height;
-                        
-                        kk::Uint column = width / tileWidth;
-                        
-                        for(kk::Uint i = 0;i< tileCount;i++) {
-                            
-                            snprintf(sKey, sizeof(sKey), "%u",i);
-                            
-                            Tile * tile = new Tile();
-                            
-                            tile->tileSet = this;
-                            tile->x = i % column;
-                            tile->y = i / column;
-                            
-                            std::map<kk::String,yaml_node_t *>::iterator ii = tilepropertys.find(sKey);
-                            
-                            if(ii != tilepropertys.end()) {
-                                yaml_node_t * node = ii->second;
-                                YStringMapSet(tile->propertys, &document, node);
-                            }
-                            
-                            tiles.push_back(tile);
-                            
-                        }
-                        
+                    Tile * tile = new Tile();
+                    
+                    tile->tileSet = this;
+                    tile->x = i % column;
+                    tile->y = i / column;
+                    
+                    void * prop = Y_toHeapptr(ctx, props, sKey);
+                    
+                    if(prop) {
+                        duk_push_heapptr(ctx, prop);
+                        YStringMapSet(tile->propertys, ctx, -1);
+                        duk_pop(ctx);
                     }
+ 
+                    tiles.push_back(tile);
                     
-                    yaml_document_delete(&document);
-                } else {
-                    kk::Log("(%d,%d) %s",ps.problem_mark.line,ps.problem_mark.column,ps.problem);
                 }
                 
-                yaml_parser_delete(&ps);
-                
-                fclose(fd);
-            } else {
-                kk::Log("Not Open %s",v.c_str());
             }
+            
+            duk_pop(ctx);
             
         }
         
-        void TileSet::set(kk::CString key,yaml_document_t * document,yaml_node_t * node)  {
+        void TileSet::set(kk::CString key,duk_context * ctx,duk_idx_t idx)  {
             
             if(kk::CStringEqual(key, "firstgid")) {
-                firstgid = Y_toInt(node);
+                firstgid = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "source")) {
-                setContent(document, Y_toString(node, ""));
+                setContent(ctx, Y_toString(ctx, idx,""));
             }
             
         }
         
-        static kk::Strong TileMapTileSetAlloc(yaml_document_t * document,yaml_node_t * node) {
+        static kk::Strong TileMapTileSetAlloc(duk_context * ctx,duk_idx_t idx) {
          
             TileSet * v = new TileSet();
             
-            YObjectSet(v, document, node);
+            YObjectSet(v, ctx, idx);
             
             return v;
         }
         
-        void TileMapLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node)  {
+        void TileMapLayer::set(kk::CString key,duk_context * ctx,duk_idx_t idx)  {
             
             if(kk::CStringEqual(key, "x")) {
-                x = Y_toInt(node);
+                x = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "y")) {
-                y = Y_toInt(node);
+                y = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "width")) {
-                width = Y_toInt(node);
+                width = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "height")) {
-                height = Y_toInt(node);
+                height = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "opacity")) {
-                opacity = Y_toInt(node);
+                opacity = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "properties")) {
-                YStringMapSet(propertys, document, node);
+                YStringMapSet(propertys, ctx,idx);
             }
         }
         
-        TileMapTileLayer::TileMapTileLayer():_compression(0),_encoding(0),_data(0),_dataBytes(nullptr){
+        TileMapTileLayer::TileMapTileLayer():_dataBytes(nullptr){
             
         }
         
@@ -295,283 +247,271 @@ namespace kk {
             return 0;
         }
         
-        void TileMapTileLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node)  {
-            TileMapLayer::set(key, document, node);
-            
-            if(kk::CStringEqual(key, "compression")) {
-                _compression = Y_toString(node, nullptr);
-            } else if(kk::CStringEqual(key, "encoding")) {
-                _encoding = Y_toString(node, nullptr);
-            } else if(kk::CStringEqual(key, "data")) {
-                _data = node;
-            }
+        void TileMapTileLayer::set(kk::CString key,duk_context * ctx,duk_idx_t idx)  {
+            TileMapLayer::set(key, ctx, idx);
             
             if(key == nullptr) {
                 
-                if(_encoding == nullptr || _compression == nullptr) {
-                    if(_data && _data->type == YAML_SEQUENCE_NODE) {
-                        yaml_node_item_t * p = _data->data.sequence.items.start;
-                        int i = 0;
+                kk::CString encoding = Y_toString(ctx, idx, "encoding",nullptr);
+                kk::CString compression = Y_toString(ctx, idx, "compression",nullptr);
+            
+                if(encoding == nullptr || encoding == nullptr) {
+                    
+                    void * data = Y_toHeapptr(ctx, idx, "data");
+                    
+                    if(data) {
+                        
                         int n = width * height;
+                        
                         if(_dataBytes) {
                             delete [] _dataBytes;
-                        }
-                        if(_dataBytes == nullptr) {
+                            _dataBytes = new kk::Int[n];
+                        } else {
                             _dataBytes = new kk::Int[n];
                         }
-                        while(p != _data->data.sequence.items.top && i < n) {
-                            yaml_node_t * v = yaml_document_get_node(document, *p);
-                            _dataBytes[i] = Y_toInt(v);
-                            i++;
-                            p ++;
+                        
+                        memset(_dataBytes, 0, n * sizeof(kk::Int));
+                        
+                        duk_push_heapptr(ctx, data);
+                        
+                        if(duk_is_array(ctx, -1)) {
+                            
+                            size_t nn = duk_get_length(ctx, -1);
+                            
+                            for(int i=0;i<nn && i < n;i++ ){
+                                duk_get_prop_index(ctx, -1, i);
+                                _dataBytes[i] = Y_toInt(ctx, -1);
+                                duk_pop(ctx);
+                            }
                         }
+                        
                     }
-                } else if(kk::CStringEqual(_encoding, "base64") && _data) {
-                    kk::CString p = Y_toString(_data, nullptr);
                     
-                    if(p) {
-                        
-                        size_t n = strlen(p);
-                        size_t size = base64_declen(n);
-                        uint8_t * enc = new uint8_t[size];
-                        
-                        n = base64_decode(p, enc, size);
-                        
-                        size = width * height;
-                        
-                        if(_dataBytes) {
-                            delete [] _dataBytes;
-                        }
-                        
-                        if(_dataBytes == nullptr) {
-                            _dataBytes = new kk::Int[size];
-                        }
-                        
-                        memset(_dataBytes, 0,size * sizeof(kk::Int));
-                        
-                        {
-                            z_stream strm;
-                            strm.next_in = enc;
-                            strm.avail_in = (uInt) n;
-                            strm.avail_out = (uInt) size * sizeof(kk::Int);
-                            strm.total_out = 0;
-                            strm.zalloc = Z_NULL;
-                            strm.zfree = Z_NULL;
-                            strm.next_out = (Bytef *) _dataBytes;
+                } else if(kk::CStringEqual(encoding, "base64")) {
+                    
+                    duk_get_prop_string(ctx, idx, "data");
+                    
+                    if(duk_is_string(ctx, -1)) {
+                        duk_base64_decode(ctx, -1);
+                        if(duk_is_buffer(ctx, -1)) {
                             
-                            int r = Z_OK;
+                            size_t nn = 0;
+                            void * p = duk_get_buffer_data(ctx, -1, &nn);
                             
-                            if(kk::CStringEqual(_compression, "zlib")) {
-                                r = inflateInit(&strm);
+                            int n = width * height;
+                            
+                            if(_dataBytes) {
+                                delete [] _dataBytes;
+                                _dataBytes = new kk::Int[n];
                             } else {
-                                r = inflateInit2(&strm,(15+32));
+                                _dataBytes = new kk::Int[n];
                             }
                             
-                            if(r == Z_OK){
+                            memset(_dataBytes, 0, n * sizeof(kk::Int));
+                            
+                            {
+                                z_stream strm;
+                                strm.next_in = (Bytef *) p;
+                                strm.avail_in = (uInt) nn;
+                                strm.avail_out = (uInt) (n * sizeof(kk::Int));
+                                strm.total_out = 0;
+                                strm.zalloc = Z_NULL;
+                                strm.zfree = Z_NULL;
+                                strm.next_out = (Bytef *) _dataBytes;
                                 
-                                r = inflate(&strm,Z_SYNC_FLUSH);
+                                int r = Z_OK;
                                 
-                                if(r == Z_STREAM_END){
+                                if(kk::CStringEqual(compression, "zlib")) {
+                                    r = inflateInit(&strm);
+                                } else {
+                                    r = inflateInit2(&strm,(15+32));
+                                }
+                                
+                                if(r == Z_OK){
                                     
+                                    r = inflate(&strm,Z_SYNC_FLUSH);
+                                    
+                                    if(r == Z_STREAM_END){
+                                        
+                                    }
+                                    else if(r != Z_OK){
+                                        kk::Log("TileMap zlib decode error (%d) ",r);
+                                    }
+                                    
+                                    inflateEnd(&strm);
                                 }
-                                else if(r != Z_OK){
-                                    kk::Log("TileMap zlib decode error (%d) ",r);
-                                }
-                            
-                                inflateEnd(&strm);
                             }
+                            
+                            duk_pop(ctx);
+                            
+                        } else {
+                            duk_pop(ctx);
                         }
-                        
-                        delete [] enc;
-                        
+                    } else {
+                        duk_pop(ctx);
                     }
+                    
                 }
                 
             }
         }
         
-        void TileMapImageLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
-            TileMapLayer::set(key, document, node);
-            
-            
+        void TileMapImageLayer::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
+            TileMapLayer::set(key, ctx, idx);
+  
         }
         
-        void TileMapCircleObject::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+        void TileMapCircleObject::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
             if(kk::CStringEqual(key, "x")) {
-                x = Y_toFloat(node);
+                x = Y_toFloat(ctx,idx);
             } else if(kk::CStringEqual(key, "y")) {
-                y = Y_toFloat(node);
+                y = Y_toFloat(ctx,idx);
             } else if(kk::CStringEqual(key, "width")) {
-                width = Y_toFloat(node);
+                width = Y_toFloat(ctx,idx);
             } else if(kk::CStringEqual(key, "height")) {
-                height = Y_toFloat(node);
+                height = Y_toFloat(ctx,idx);
             } else if(key == nullptr) {
                 radius = MIN(width, height) * 0.5f;
             }
         }
         
-        void TileMapPolygonObject::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+        void TileMapPolygonObject::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
             if(kk::CStringEqual(key, "polygon") || kk::CStringEqual(key, "polyline") ) {
                 
-                if(node->type == YAML_SEQUENCE_NODE) {
-                    
-                    yaml_node_item_t * p = node->data.sequence.items.start;
-                    
-                    while(p != node->data.sequence.items.top) {
+                if(duk_is_array(ctx, idx)) {
+                    size_t n = duk_get_length(ctx, idx);
+                    for(int i=0 ;i < n;i++ ){
+                        duk_get_prop_index(ctx, idx, i);
                         
-                        yaml_node_t * item = yaml_document_get_node(document, *p);
+                        Point v = {0,0};
                         
-                        if(item->type == YAML_MAPPING_NODE) {
-                            Point v = {0,0};
-                            
-                            yaml_node_pair_t * n = item->data.mapping.pairs.start;
-                            
-                            while(n != item->data.mapping.pairs.top) {
-                                
-                                yaml_node_t * key = yaml_document_get_node(document, n->key);
-                                
-                                if(Y_isString(key, "x")) {
-                                    v.x = Y_toFloat(yaml_document_get_node(document, n->value));
-                                } else if(Y_isString(key, "y")) {
-                                    v.y = Y_toFloat(yaml_document_get_node(document, n->value));
-                                }
-                                
-                                n ++;
-                            }
-                            
-                            data.push_back(v);
-                        }
+                        v.x = Y_toFloat(ctx, -1,"x");
+                        v.y = Y_toFloat(ctx, -1,"y");
                         
+                        data.push_back(v);
                         
-                        
-                        p ++;
+                        duk_pop(ctx);
                     }
                 }
+                
             }
         }
         
-        static kk::Strong TileMapLayerObjectAlloc(yaml_document_t * document,yaml_node_t * node) {
+        static kk::Strong TileMapLayerObjectAlloc(duk_context * ctx,duk_idx_t idx) {
             
-            if(node->type == YAML_MAPPING_NODE) {
+            if(duk_is_object(ctx, idx)) {
                 
-                yaml_node_pair_t * p = node->data.mapping.pairs.start;
+                kk::CString v = Y_toString(ctx, idx, "ellipse",nullptr);
                 
-                while(p != node->data.mapping.pairs.end) {
+                if(kk::CStringEqual(v, "true")) {
+                    TileMapCircleObject * v = new TileMapCircleObject();
+                    YObjectSet(v, ctx, idx);
+                    return v;
+                }
+                
+                {
+                
+                    TileMapPolygonObject * v = nullptr;
                     
-                    yaml_node_t * key = yaml_document_get_node(document, p->key);
+                    duk_get_prop_string(ctx, idx, "polygon");
                     
-                    if(Y_isString(key, "ellipse")) {
-                        yaml_node_t * value = yaml_document_get_node(document, p->value);
-                        if(Y_isString(value, "true")) {
-                            TileMapCircleObject * v = new TileMapCircleObject();
-                            YObjectSet(v, document, node);
-                            return v;
+                    if(duk_is_array(ctx, -1)) {
+                        v = new TileMapPolygonObject();
+                    }
+                    
+                    duk_pop(ctx);
+                    
+                    if(v == nullptr) {
+                        
+                        duk_get_prop_string(ctx, idx, "polyline");
+                        
+                        if(duk_is_array(ctx, -1)) {
+                            v = new TileMapPolygonObject();
                         }
-                    } else if(Y_isString(key, "polygon")) {
-                        TileMapPolygonObject * v = new TileMapPolygonObject();
-                        YObjectSet(v, document, node);
-                        return v;
-                    } else if(Y_isString(key, "polyline")) {
-                        TileMapPolygonObject * v = new TileMapPolygonObject();
-                        YObjectSet(v, document, node);
+                        
+                        duk_pop(ctx);
+                    }
+                    
+                    if(v != nullptr) {
+                        YObjectSet(v, ctx, idx);
                         return v;
                     }
                     
-                    p ++;
+                    
                 }
-                
             }
             
             return nullptr;
         }
         
-        void TileMapObjectLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
-            TileMapLayer::set(key, document, node);
+        void TileMapObjectLayer::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
+            TileMapLayer::set(key, ctx, idx);
             
             if(kk::CStringEqual(key, "objects")) {
                 
-                YObjectArraySet(objects, TileMapLayerObjectAlloc, document, node);
+                YObjectArraySet(objects, TileMapLayerObjectAlloc, ctx, idx);
                 
             }
         }
         
-        static kk::Strong TileMapLayerAlloc(yaml_document_t * document,yaml_node_t * node);
+        static kk::Strong TileMapLayerAlloc(duk_context * ctx,duk_idx_t idx);
         
-        void TileMapGroupLayer::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
-            TileMapLayer::set(key, document, node);
+        void TileMapGroupLayer::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
+            TileMapLayer::set(key, ctx, idx);
             
             if(kk::CStringEqual(key, "layers")) {
-                YObjectArraySet(layers, TileMapLayerAlloc, document, node);
+                YObjectArraySet(layers, TileMapLayerAlloc, ctx, idx);
             }
         }
         
-        static kk::Strong TileMapLayerAlloc(yaml_document_t * document,yaml_node_t * node) {
+        static kk::Strong TileMapLayerAlloc(duk_context * ctx,duk_idx_t idx) {
             
             TileMapLayer * v = nullptr;
             
-            if(node->type == YAML_MAPPING_NODE) {
-                
-                yaml_node_t * type = nullptr;
-                
-                yaml_node_pair_t *  p = node->data.mapping.pairs.start;
-                
-                while(p != node->data.mapping.pairs.top) {
-                    
-                    yaml_node_t * key = yaml_document_get_node(document, p->key);
-                    
-                    if(Y_isString(key, "type")) {
-                        type = yaml_document_get_node(document, p->value);
-                        break;
-                    }
-                    p ++;
-                }
-                
-                if(type) {
-                    if(Y_isString(type, "tilelayer")) {
-                        v = new TileMapTileLayer();
-                        YObjectSet(v, document, node);
-                    } else if(Y_isString(type, "imagelayer")) {
-                        v = new TileMapImageLayer();
-                        YObjectSet(v, document, node);
-                    } else if(Y_isString(type, "objectgroup")) {
-                        v = new TileMapObjectLayer();
-                        YObjectSet(v, document, node);
-                    } else if(Y_isString(type, "group")) {
-                        v = new TileMapGroupLayer();
-                        YObjectSet(v, document, node);
-                    }
-                }
-                
+            kk::CString type = Y_toString(ctx, idx, "type",nullptr);
+            
+            if(kk::CStringEqual(type, "tilelayer")) {
+                v = new TileMapTileLayer();
+                YObjectSet(v, ctx, idx);
+            } else if(kk::CStringEqual(type, "imagelayer")) {
+                v = new TileMapImageLayer();
+                YObjectSet(v, ctx, idx);
+            } else if(kk::CStringEqual(type, "objectgroup")) {
+                v = new TileMapObjectLayer();
+                YObjectSet(v, ctx, idx);
+            } else if(kk::CStringEqual(type, "group")) {
+                v = new TileMapGroupLayer();
+                YObjectSet(v, ctx, idx);
             }
             
             return v;
         }
         
-        void TileMap::set(kk::CString key,yaml_document_t * document,yaml_node_t * node) {
+        void TileMap::set(kk::CString key,duk_context * ctx,duk_idx_t idx) {
             if(kk::CStringEqual(key, "width")) {
-                width = Y_toInt(node);
+                width = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "height")) {
-                height = Y_toInt(node);
+                height = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "tilewidth")) {
-                tileWidth = Y_toInt(node);
+                tileWidth = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "tileheight")) {
-                tileHeight = Y_toInt(node);
+                tileHeight = Y_toInt(ctx,idx);
             } else if(kk::CStringEqual(key, "orientation")) {
-                if(Y_isString(node, "isometric")) {
+                if(Y_isString(ctx,idx, "isometric")) {
                     orientation = TileMapOrientationIsometric;
-                } else if(Y_isString(node, "staggered")) {
+                } else if(Y_isString(ctx,idx, "staggered")) {
                     orientation = TileMapOrientationStaggered;
-                } else if(Y_isString(node, "hexagonal")) {
+                } else if(Y_isString(ctx,idx, "hexagonal")) {
                     orientation = TileMapOrientationHexagonal;
                 } else {
                     orientation = TileMapOrientationOrthogonal;
                 }
             } else if(kk::CStringEqual(key, "properties")) {
-                YStringMapSet(propertys, document, node);
+                YStringMapSet(propertys, ctx,idx);
             } else if(kk::CStringEqual(key, "tilesets")) {
-                YObjectArraySet(tileSets, TileMapTileSetAlloc, document, node);
+                YObjectArraySet(tileSets, TileMapTileSetAlloc, ctx,idx);
             } else if(kk::CStringEqual(key, "layers")) {
-                YObjectArraySet(layers, TileMapLayerAlloc, document, node);
+                YObjectArraySet(layers, TileMapLayerAlloc, ctx,idx);
             }
         }
         
@@ -584,47 +524,33 @@ namespace kk {
                 
                 if(!v.empty()) {
                     
-                    kk::String path = context->absolutePath(v.c_str());
+                    kk::String vv = context->getString(v.c_str());
                     
-                    FILE * fd = fopen(path.c_str(), "r");
-                    
-                    if(fd == nullptr) {
-                        kk::Log("Not Open %s",path.c_str());
-                        return;
+                    if(!vv.empty()) {
+                        
+                        kk::Strong jsContext = new kk::script::Context();
+                        
+                        duk_context * ctx = jsContext.as<kk::script::Context>()->jsContext();
+                        
+                        kk::script::PushObject(ctx, this);
+                        kk::script::PushObject(ctx, context);
+                        
+                        duk_push_string(ctx,vv.c_str());
+                        
+                        duk_json_decode(ctx, -1);
+                        
+                        YObjectSet(this, ctx, -1);
+                        
+                        duk_pop_n(ctx,3);
+                        
                     }
-                    
-                    yaml_parser_t ps;
-                    
-                    yaml_parser_initialize(&ps);
-                    
-                    yaml_parser_set_input_file(&ps, fd);
-                    
-                    TileMapDocument document;
-                    
-                    document.context = context;
-                    document.map = this;
-                    
-                    if(yaml_parser_load(&ps, &document)) {
-                        
-                        yaml_node_t * node = yaml_document_get_root_node(&document);
-                        
-                        if(node && node->type == YAML_MAPPING_NODE) {
-                            YObjectSet(this, &document, node);
-                        }
-                        
-                        yaml_document_delete(&document);
-                    } else {
-                        kk::Log("(%d,%d) %s",ps.problem_mark.line,ps.problem_mark.column,ps.problem);
-                    }
-                    
-                    yaml_parser_delete(&ps);
-                    
-                    fclose(fd);
                     
                     _loaded = true;
                     
                 }
             }
+            
+            
         }
        
     }
