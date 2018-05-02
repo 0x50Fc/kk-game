@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo.iml" filepath="$PROJECT_DIR$/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-app/kk-app/kk-app.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-app/kk-app/kk-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-duktape/kk-duktape/kk-duktape.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-duktape/kk-duktape/kk-duktape.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../kk-game/kk-game.iml" filepath="$PROJECT_DIR$/../kk-game/kk-game.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-http/kk-http/kk-http.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-http/kk-http/kk-http.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-image/kk-image/kk-image.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-image/kk-image/kk-image.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-observer/kk-observer/kk-observer.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-observer/kk-observer/kk-observer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-script/kk-script/kk-script.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-script/kk-script/kk-script.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-view/kk-view/kk-view.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-view/kk-view/kk-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../github.com/hailongz/kk-websocket/kk-websocket/kk-websocket.iml" filepath="$PROJECT_DIR$/../../../../github.com/hailongz/kk-websocket/kk-websocket/kk-websocket.iml" />
+    </modules>
+  </component>
+</project>

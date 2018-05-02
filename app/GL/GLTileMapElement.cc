@@ -168,6 +168,8 @@ namespace kk {
             
             if(map && map->isLoaded()) {
                 
+                glBlendFunc(GL_ONE , GL_ONE_MINUS_SRC_ALPHA);
+                
                 std::vector<kk::Strong>::iterator i = map->layers.begin();
                 
                 while(i != map->layers.end()) {

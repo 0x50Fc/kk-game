@@ -2,7 +2,7 @@
 //  GLAnimation.h
 //  KKGame
 //
-//  Created by hailong11 on 2018/2/13.
+//  Created by zhanghailong on 2018/2/13.
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 

@@ -203,4 +203,20 @@ namespace kk {
         
     }
     
+    String CStringPathDeleteExtension(CString path) {
+        
+        if(path == nullptr) {
+            return "";
+        }
+        
+        kk::String v = path;
+        
+        size_t n = v.find_last_of(".");
+        
+        if(n == kk::String::npos) {
+            return v;
+        }
+        
+        return v.substr(0,n);
+    }
 }

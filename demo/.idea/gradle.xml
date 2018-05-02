@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/../kk-game" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-app/kk-app" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-duktape/kk-duktape" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-http/kk-http" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-image/kk-image" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-observer/kk-observer" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-script/kk-script" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-view/kk-view" />
+            <option value="$PROJECT_DIR$/../../../../github.com/hailongz/kk-websocket/kk-websocket" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

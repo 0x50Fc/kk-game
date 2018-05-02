@@ -9,6 +9,7 @@
 #define _KK_CONFIG_H
 
 #include <sys/time.h>
+#include <sys/stat.h>
 #include <math.h>
 
 #ifndef MAXFLOAT

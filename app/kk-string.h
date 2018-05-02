@@ -23,6 +23,7 @@ namespace kk {
     String& CStringTrim(String& string);
     String CStringPathAppend(CString basePath,CString path);
     String CStringPathDeleteLast(CString path);
+    String CStringPathDeleteExtension(CString path);
 }
 
 #endif

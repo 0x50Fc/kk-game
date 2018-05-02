@@ -8,7 +8,11 @@
 
 //#include <sys/param.h >
 #ifndef _WIN32
+#if defined(__ANDROID__)
+#include <linux/sysctl.h>
+#else
 #include <sys/sysctl.h>
+#endif
 #include <pthread.h>
 #else
 #ifndef WIN32_LEAN_AND_MEAN

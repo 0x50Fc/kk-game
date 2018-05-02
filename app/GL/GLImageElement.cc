@@ -2,7 +2,7 @@
 //  GLImageElement.c
 //  KKGame
 //
-//  Created by hailong11 on 2018/2/6.
+//  Created by zhanghailong on 2018/2/6.
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 

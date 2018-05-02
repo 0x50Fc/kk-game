@@ -2,7 +2,7 @@
 //  GADocument.h
 //  KKGame
 //
-//  Created by hailong11 on 2018/3/12.
+//  Created by zhanghailong on 2018/3/12.
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 

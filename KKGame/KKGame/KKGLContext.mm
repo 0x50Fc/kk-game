@@ -2,7 +2,7 @@
 //  KKGLContext.m
 //  KKGame
 //
-//  Created by hailong11 on 2018/2/5.
+//  Created by zhanghailong on 2018/2/5.
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
@@ -23,6 +23,7 @@
 #include "GLMinimapElement.h"
 #include "GLViewportElement.h"
 #include "GLTileMapElement.h"
+#include "GLSpineElement.h"
 
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
@@ -585,6 +586,7 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
             kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
             
             [KKWebSocket openlib:ctx];
             
@@ -829,7 +831,13 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
         KKWeak * oimage = [[KKWeak alloc] initWithObject:image];
         __weak KKGLContext * weakObject = self;
         
-        NSString * path = [[NSString stringWithCString:_GLContext->basePath() encoding:NSUTF8StringEncoding] stringByAppendingPathComponent:uri];
+        NSString * path = nil;
+        
+        if([uri hasPrefix:@"/"]) {
+            path = uri;
+        } else {
+            path = [[NSString stringWithCString:_GLContext->basePath() encoding:NSUTF8StringEncoding] stringByAppendingPathComponent:uri];
+        }
         
         image->setStatus(kk::GL::ImageStatusLoading);
         
