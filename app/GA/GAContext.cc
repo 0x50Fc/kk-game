@@ -21,6 +21,7 @@ namespace kk {
         static kk::script::Property propertys[] = {
             {"difference",(kk::script::Function) &Context::duk_difference,(kk::script::Function) &Context::duk_setDifference},
             {"current",(kk::script::Function) &Context::duk_current,(kk::script::Function)nullptr},
+            {"frames",(kk::script::Function) &Context::duk_frames,(kk::script::Function)&Context::duk_setFrames},
         };
         
         kk::script::SetProperty(ctx, -1, propertys, sizeof(propertys) / sizeof(kk::script::Property));
@@ -126,6 +127,7 @@ namespace kk {
         }
         
         void Context::tick() {
+            _count ++;
             if(_current == 0) {
                 _current = _startTimeInterval = GetTimeIntervalCurrent() - _difference;
             } else {
@@ -221,6 +223,19 @@ namespace kk {
         duk_ret_t Context::duk_current(duk_context * ctx) {
             duk_push_number(ctx, current());
             return 1;
+        }
+        
+        duk_ret_t Context::duk_frames(duk_context * ctx) {
+            duk_push_uint(ctx, _frames);
+            return 1;
+        }
+        
+        duk_ret_t Context::duk_setFrames(duk_context * ctx) {
+            int top = duk_get_top(ctx);
+            if(top > 0 && duk_is_number(ctx, -top)) {
+                setFrames(duk_to_uint(ctx, -top));
+            }
+            return 0;
         }
         
         Function::Function(TimeInterval timeInterval,CFunction cfunc,void * userData):timeInterval(timeInterval),cfunc(cfunc),userData(userData) {

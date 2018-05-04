@@ -61,21 +61,6 @@
 		1A0A66192029B8EE008DA5A3 /* GLImageElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A66182029B8EE008DA5A3 /* GLImageElement.cc */; };
 		1A0A6625202A96D4008DA5A3 /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
 		1A0A6629202AA88A008DA5A3 /* kk-app.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A6627202AA88A008DA5A3 /* kk-app.h */; };
-		1A0A6635202C0289008DA5A3 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6634202C0289008DA5A3 /* main.mm */; };
-		1A0A663A202C035F008DA5A3 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A6639202C035E008DA5A3 /* libstdc++.tbd */; };
-		1A0A663C202C0363008DA5A3 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A663B202C0363008DA5A3 /* libxml2.tbd */; };
-		1A0A663E202C03BF008DA5A3 /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
-		1A0A663F202C03C8008DA5A3 /* kk-string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF42022F3C3001FFB58 /* kk-string.cc */; };
-		1A0A6640202C03C8008DA5A3 /* kk-event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFC2022F86D001FFB58 /* kk-event.cc */; };
-		1A0A6641202C03C8008DA5A3 /* kk-element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFF2022FC4F001FFB58 /* kk-element.cc */; };
-		1A0A6642202C03C8008DA5A3 /* kk-script.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65582027F073008DA5A3 /* kk-script.cc */; };
-		1A0A6643202C03C8008DA5A3 /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
-		1A0A6644202C03C8008DA5A3 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
-		1A0A6645202C03CD008DA5A3 /* GAContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400920230A8C001FFB58 /* GAContext.cc */; };
-		1A0A6646202C03CD008DA5A3 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
-		1A0A6647202C03CD008DA5A3 /* GAShape.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401020231491001FFB58 /* GAShape.cc */; };
-		1A0A6648202C03CD008DA5A3 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
-		1A0A6649202C03DA008DA5A3 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
 		1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A0A665F202D698D008DA5A3 /* require_js.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A665E202D698D008DA5A3 /* require_js.h */; };
@@ -84,9 +69,6 @@
 		1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
 		1A195631207DA99C001C9B0B /* KKGamepadElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A19562F207DA99B001C9B0B /* KKGamepadElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A195632207DA99C001C9B0B /* KKGamepadElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A195630207DA99C001C9B0B /* KKGamepadElement.m */; };
-		1A44E7132046B4F80091A106 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
-		1A44E714204D318F0091A106 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
-		1A44E716204D31D70091A106 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
 		1A65A9FE20417BDE0001B38A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */; };
 		1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65AA1920440F130001B38A /* GLSLFillColor.h */; };
@@ -157,41 +139,61 @@
 		1A8BFFAD2092C58A00224854 /* cpPivotJoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8BFF8F2092C58A00224854 /* cpPivotJoint.h */; };
 		1A8BFFB02092FACE00224854 /* GLShapeElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFAE2092FACE00224854 /* GLShapeElement.cc */; };
 		1A8BFFB12092FACE00224854 /* GLShapeElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8BFFAF2092FACE00224854 /* GLShapeElement.h */; };
-		1A8BFFB220931A6300224854 /* chipmunk.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF492092C54D00224854 /* chipmunk.c */; };
-		1A8BFFB320931A6300224854 /* cpArbiter.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4A2092C54E00224854 /* cpArbiter.c */; };
-		1A8BFFB420931A6300224854 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
-		1A8BFFB520931A6300224854 /* cpBBTree.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF332092C54B00224854 /* cpBBTree.c */; };
-		1A8BFFB620931A6300224854 /* cpBody.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF432092C54D00224854 /* cpBody.c */; };
-		1A8BFFB720931A6300224854 /* cpCollision.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4C2092C54E00224854 /* cpCollision.c */; };
-		1A8BFFB820931A6300224854 /* cpConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF322092C54B00224854 /* cpConstraint.c */; };
-		1A8BFFB920931A6300224854 /* cpDampedRotarySpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF382092C54C00224854 /* cpDampedRotarySpring.c */; };
-		1A8BFFBA20931A6300224854 /* cpDampedSpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4F2092C54E00224854 /* cpDampedSpring.c */; };
-		1A8BFFBB20931A6300224854 /* cpGearJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4E2092C54E00224854 /* cpGearJoint.c */; };
-		1A8BFFBC20931A6300224854 /* cpGrooveJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3A2092C54C00224854 /* cpGrooveJoint.c */; };
-		1A8BFFBD20931A6300224854 /* cpHashSet.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF412092C54D00224854 /* cpHashSet.c */; };
-		1A8BFFBE20931A6300224854 /* cpHastySpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF402092C54D00224854 /* cpHastySpace.c */; };
-		1A8BFFBF20931A6300224854 /* cpMarch.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3B2092C54C00224854 /* cpMarch.c */; };
-		1A8BFFC020931A6300224854 /* cpPinJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF342092C54B00224854 /* cpPinJoint.c */; };
-		1A8BFFC120931A6300224854 /* cpPivotJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3E2092C54C00224854 /* cpPivotJoint.c */; };
-		1A8BFFC220931A6300224854 /* cpPolyline.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF362092C54B00224854 /* cpPolyline.c */; };
-		1A8BFFC320931A6300224854 /* cpPolyShape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF352092C54B00224854 /* cpPolyShape.c */; };
-		1A8BFFC420931A6300224854 /* cpRatchetJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF502092C54E00224854 /* cpRatchetJoint.c */; };
-		1A8BFFC520931A6300224854 /* cpRobust.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4B2092C54E00224854 /* cpRobust.c */; };
-		1A8BFFC620931A6300224854 /* cpRotaryLimitJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3C2092C54C00224854 /* cpRotaryLimitJoint.c */; };
-		1A8BFFC720931A6300224854 /* cpShape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4D2092C54E00224854 /* cpShape.c */; };
-		1A8BFFC820931A6300224854 /* cpSimpleMotor.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF472092C54D00224854 /* cpSimpleMotor.c */; };
-		1A8BFFC920931A6300224854 /* cpSlideJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF442092C54D00224854 /* cpSlideJoint.c */; };
-		1A8BFFCA20931A6300224854 /* cpSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3D2092C54C00224854 /* cpSpace.c */; };
-		1A8BFFCB20931A6300224854 /* cpSpaceComponent.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF422092C54D00224854 /* cpSpaceComponent.c */; };
-		1A8BFFCC20931A6300224854 /* cpSpaceDebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF392092C54C00224854 /* cpSpaceDebug.c */; };
-		1A8BFFCD20931A6300224854 /* cpSpaceHash.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF372092C54C00224854 /* cpSpaceHash.c */; };
-		1A8BFFCE20931A6300224854 /* cpSpaceQuery.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3F2092C54C00224854 /* cpSpaceQuery.c */; };
-		1A8BFFCF20931A6300224854 /* cpSpaceStep.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF482092C54D00224854 /* cpSpaceStep.c */; };
-		1A8BFFD020931A6300224854 /* cpSpatialIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF452092C54D00224854 /* cpSpatialIndex.c */; };
-		1A8BFFD120931A6300224854 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
 		1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFD4209335A200224854 /* GATileMap.cc */; };
 		1A8BFFD7209335A200224854 /* GATileMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8BFFD5209335A200224854 /* GATileMap.h */; };
-		1AAED9172068FC6900750DE8 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
+		1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEAAC209C2B3F004A8283 /* main.cpp */; };
+		1A9EEAB1209C2B4D004A8283 /* GAContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400920230A8C001FFB58 /* GAContext.cc */; };
+		1A9EEAB2209C2B4D004A8283 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
+		1A9EEAB3209C2B4D004A8283 /* GAShape.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401020231491001FFB58 /* GAShape.cc */; };
+		1A9EEAB4209C2B4D004A8283 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
+		1A9EEAB5209C2B4D004A8283 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
+		1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
+		1A9EEAB7209C2B4D004A8283 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
+		1A9EEAB8209C2B4D004A8283 /* GATileMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFD4209335A200224854 /* GATileMap.cc */; };
+		1A9EEAB9209C2B4D004A8283 /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
+		1A9EEABA209C2B4D004A8283 /* kk-string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF42022F3C3001FFB58 /* kk-string.cc */; };
+		1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFC2022F86D001FFB58 /* kk-event.cc */; };
+		1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFF2022FC4F001FFB58 /* kk-element.cc */; };
+		1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65582027F073008DA5A3 /* kk-script.cc */; };
+		1A9EEABE209C2B4D004A8283 /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
+		1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
+		1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
+		1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF492092C54D00224854 /* chipmunk.c */; };
+		1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4A2092C54E00224854 /* cpArbiter.c */; };
+		1A9EEAEB209C2BBE004A8283 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
+		1A9EEAEC209C2BBE004A8283 /* cpBBTree.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF332092C54B00224854 /* cpBBTree.c */; };
+		1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF432092C54D00224854 /* cpBody.c */; };
+		1A9EEAEE209C2BBE004A8283 /* cpCollision.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4C2092C54E00224854 /* cpCollision.c */; };
+		1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF322092C54B00224854 /* cpConstraint.c */; };
+		1A9EEAF0209C2BBE004A8283 /* cpDampedRotarySpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF382092C54C00224854 /* cpDampedRotarySpring.c */; };
+		1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4F2092C54E00224854 /* cpDampedSpring.c */; };
+		1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4E2092C54E00224854 /* cpGearJoint.c */; };
+		1A9EEAF3209C2BBE004A8283 /* cpGrooveJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3A2092C54C00224854 /* cpGrooveJoint.c */; };
+		1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF412092C54D00224854 /* cpHashSet.c */; };
+		1A9EEAF5209C2BBE004A8283 /* cpHastySpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF402092C54D00224854 /* cpHastySpace.c */; };
+		1A9EEAF6209C2BBE004A8283 /* cpMarch.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3B2092C54C00224854 /* cpMarch.c */; };
+		1A9EEAF7209C2BBE004A8283 /* cpPinJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF342092C54B00224854 /* cpPinJoint.c */; };
+		1A9EEAF8209C2BBE004A8283 /* cpPivotJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3E2092C54C00224854 /* cpPivotJoint.c */; };
+		1A9EEAF9209C2BBE004A8283 /* cpPolyline.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF362092C54B00224854 /* cpPolyline.c */; };
+		1A9EEAFA209C2BBE004A8283 /* cpPolyShape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF352092C54B00224854 /* cpPolyShape.c */; };
+		1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF502092C54E00224854 /* cpRatchetJoint.c */; };
+		1A9EEAFC209C2BBE004A8283 /* cpRobust.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4B2092C54E00224854 /* cpRobust.c */; };
+		1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3C2092C54C00224854 /* cpRotaryLimitJoint.c */; };
+		1A9EEAFE209C2BBE004A8283 /* cpShape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4D2092C54E00224854 /* cpShape.c */; };
+		1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF472092C54D00224854 /* cpSimpleMotor.c */; };
+		1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF442092C54D00224854 /* cpSlideJoint.c */; };
+		1A9EEB01209C2BBE004A8283 /* cpSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3D2092C54C00224854 /* cpSpace.c */; };
+		1A9EEB02209C2BBE004A8283 /* cpSpaceComponent.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF422092C54D00224854 /* cpSpaceComponent.c */; };
+		1A9EEB03209C2BBE004A8283 /* cpSpaceDebug.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF392092C54C00224854 /* cpSpaceDebug.c */; };
+		1A9EEB04209C2BBE004A8283 /* cpSpaceHash.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF372092C54C00224854 /* cpSpaceHash.c */; };
+		1A9EEB05209C2BBE004A8283 /* cpSpaceQuery.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3F2092C54C00224854 /* cpSpaceQuery.c */; };
+		1A9EEB06209C2BBE004A8283 /* cpSpaceStep.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF482092C54D00224854 /* cpSpaceStep.c */; };
+		1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF452092C54D00224854 /* cpSpatialIndex.c */; };
+		1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
+		1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
+		1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC5F4882090832200AB01D7 /* libz.tbd */; };
+		1A9EEB0E209C53BA004A8283 /* kk-lws.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9EEB0C209C53BA004A8283 /* kk-lws.h */; };
+		1A9EEB0F209C554A004A8283 /* kk-lws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB0B209C53BA004A8283 /* kk-lws.cc */; };
 		1AB084D820561C2400EF5783 /* KKApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084BE20561BFB00EF5783 /* KKApplication.framework */; };
 		1AB084D920561C2400EF5783 /* KKWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084C820561C0800EF5783 /* KKWebSocket.framework */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
@@ -376,7 +378,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1A0A6630202C0289008DA5A3 /* CopyFiles */ = {
+		1A9EEAA8209C2B3F004A8283 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -428,8 +430,6 @@
 		1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-crypto.cc"; sourceTree = "<group>"; };
 		1A0A6626202AA88A008DA5A3 /* kk-app.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-app.cc"; sourceTree = "<group>"; };
 		1A0A6627202AA88A008DA5A3 /* kk-app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kk-app.h"; sourceTree = "<group>"; };
-		1A0A6632202C0289008DA5A3 /* app */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A0A6634202C0289008DA5A3 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		1A0A6639202C035E008DA5A3 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libstdc++.tbd"; sourceTree = DEVELOPER_DIR; };
 		1A0A663B202C0363008DA5A3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libxml2.tbd; sourceTree = DEVELOPER_DIR; };
 		1A0A664F202C67DE008DA5A3 /* GAAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAAction.h; sourceTree = "<group>"; };
@@ -518,6 +518,10 @@
 		1A8BFFAF2092FACE00224854 /* GLShapeElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLShapeElement.h; sourceTree = "<group>"; };
 		1A8BFFD4209335A200224854 /* GATileMap.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GATileMap.cc; sourceTree = "<group>"; };
 		1A8BFFD5209335A200224854 /* GATileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GATileMap.h; sourceTree = "<group>"; };
+		1A9EEAAA209C2B3F004A8283 /* app */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A9EEAAC209C2B3F004A8283 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1A9EEB0B209C53BA004A8283 /* kk-lws.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-lws.cc"; sourceTree = "<group>"; };
+		1A9EEB0C209C53BA004A8283 /* kk-lws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-lws.h"; sourceTree = "<group>"; };
 		1AB084DA20561ED300EF5783 /* GLViewportElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLViewportElement.h; sourceTree = "<group>"; };
 		1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewportElement.cc; sourceTree = "<group>"; };
 		1AB084DD2056242200EF5783 /* GADocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADocument.h; sourceTree = "<group>"; };
@@ -656,12 +660,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1A0A662F202C0289008DA5A3 /* Frameworks */ = {
+		1A9EEAA7209C2B3F004A8283 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A0A663C202C0363008DA5A3 /* libxml2.tbd in Frameworks */,
-				1A0A663A202C035F008DA5A3 /* libstdc++.tbd in Frameworks */,
+				1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,14 +753,6 @@
 			path = ../../glsl;
 			sourceTree = "<group>";
 		};
-		1A0A6633202C0289008DA5A3 /* app */ = {
-			isa = PBXGroup;
-			children = (
-				1A0A6634202C0289008DA5A3 /* main.mm */,
-			);
-			path = app;
-			sourceTree = "<group>";
-		};
 		1A0A665D202D68C2008DA5A3 /* js */ = {
 			isa = PBXGroup;
 			children = (
@@ -836,6 +831,14 @@
 				1A8BFF462092C54D00224854 /* prime.h */,
 			);
 			name = Chipmunk2D;
+			sourceTree = "<group>";
+		};
+		1A9EEAAB209C2B3F004A8283 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				1A9EEAAC209C2B3F004A8283 /* main.cpp */,
+			);
+			path = app;
 			sourceTree = "<group>";
 		};
 		1AB084B720561BFB00EF5783 /* Products */ = {
@@ -984,7 +987,7 @@
 				E951BE742052470800358A85 /* KKApplication.xcodeproj */,
 				1AE23FE72022F361001FFB58 /* KKGame */,
 				1A0A656A2028283D008DA5A3 /* demo */,
-				1A0A6633202C0289008DA5A3 /* app */,
+				1A9EEAAB209C2B3F004A8283 /* app */,
 				1AE23FE62022F361001FFB58 /* Products */,
 				1A0A657F2028287E008DA5A3 /* Frameworks */,
 			);
@@ -995,7 +998,7 @@
 			children = (
 				1AE23FE52022F361001FFB58 /* KKGame.framework */,
 				1A0A65692028283D008DA5A3 /* demo.app */,
-				1A0A6632202C0289008DA5A3 /* app */,
+				1A9EEAAA209C2B3F004A8283 /* app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1049,6 +1052,8 @@
 				1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */,
 				1A0A6626202AA88A008DA5A3 /* kk-app.cc */,
 				1A0A6627202AA88A008DA5A3 /* kk-app.h */,
+				1A9EEB0C209C53BA004A8283 /* kk-lws.h */,
+				1A9EEB0B209C53BA004A8283 /* kk-lws.cc */,
 				1AD772EC20947DAC0091283D /* kk-y.h */,
 				1AD772EB20947DAC0091283D /* kk-y.cc */,
 			);
@@ -1119,6 +1124,7 @@
 				1AE24019202405F1001FFB58 /* duk_config.h in Headers */,
 				1AD7748A20998C060091283D /* PathAttachment.h in Headers */,
 				1AD7748B20998C060091283D /* PointAttachment.h in Headers */,
+				1A9EEB0E209C53BA004A8283 /* kk-lws.h in Headers */,
 				1AD774A320998C060091283D /* TransformConstraintData.h in Headers */,
 				1AE2401A202405F1001FFB58 /* duktape.h in Headers */,
 				1A8BFF922092C58A00224854 /* chipmunk_ffi.h in Headers */,
@@ -1227,13 +1233,13 @@
 			productReference = 1A0A65692028283D008DA5A3 /* demo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1A0A6631202C0289008DA5A3 /* app */ = {
+		1A9EEAA9209C2B3F004A8283 /* app */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A0A6636202C0289008DA5A3 /* Build configuration list for PBXNativeTarget "app" */;
+			buildConfigurationList = 1A9EEAAE209C2B3F004A8283 /* Build configuration list for PBXNativeTarget "app" */;
 			buildPhases = (
-				1A0A662E202C0289008DA5A3 /* Sources */,
-				1A0A662F202C0289008DA5A3 /* Frameworks */,
-				1A0A6630202C0289008DA5A3 /* CopyFiles */,
+				1A9EEAA6209C2B3F004A8283 /* Sources */,
+				1A9EEAA7209C2B3F004A8283 /* Frameworks */,
+				1A9EEAA8209C2B3F004A8283 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -1241,7 +1247,7 @@
 			);
 			name = app;
 			productName = app;
-			productReference = 1A0A6632202C0289008DA5A3 /* app */;
+			productReference = 1A9EEAAA209C2B3F004A8283 /* app */;
 			productType = "com.apple.product-type.tool";
 		};
 		1AE23FE42022F361001FFB58 /* KKGame */ = {
@@ -1277,12 +1283,12 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
-					1A0A6631202C0289008DA5A3 = {
+					1A289B9D205228CC00E407F2 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
-					1A289B9D205228CC00E407F2 = {
-						CreatedOnToolsVersion = 9.2;
+					1A9EEAA9209C2B3F004A8283 = {
+						CreatedOnToolsVersion = 9.3;
 						ProvisioningStyle = Automatic;
 					};
 					1AE23FE42022F361001FFB58 = {
@@ -1316,8 +1322,8 @@
 			targets = (
 				1AE23FE42022F361001FFB58 /* KKGame */,
 				1A0A65682028283D008DA5A3 /* demo */,
-				1A0A6631202C0289008DA5A3 /* app */,
 				1A289B9D205228CC00E407F2 /* KKGame.framework */,
+				1A9EEAA9209C2B3F004A8283 /* app */,
 			);
 		};
 /* End PBXProject section */
@@ -1402,58 +1408,61 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1A0A662E202C0289008DA5A3 /* Sources */ = {
+		1A9EEAA6209C2B3F004A8283 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A8BFFCD20931A6300224854 /* cpSpaceHash.c in Sources */,
-				1A0A6640202C03C8008DA5A3 /* kk-event.cc in Sources */,
-				1AAED9172068FC6900750DE8 /* GADocument.cc in Sources */,
-				1A8BFFC620931A6300224854 /* cpRotaryLimitJoint.c in Sources */,
-				1A8BFFB620931A6300224854 /* cpBody.c in Sources */,
-				1A8BFFB320931A6300224854 /* cpArbiter.c in Sources */,
-				1A8BFFBA20931A6300224854 /* cpDampedSpring.c in Sources */,
-				1A8BFFB220931A6300224854 /* chipmunk.c in Sources */,
-				1A44E716204D31D70091A106 /* GAAction.cc in Sources */,
-				1A8BFFC420931A6300224854 /* cpRatchetJoint.c in Sources */,
-				1A0A6645202C03CD008DA5A3 /* GAContext.cc in Sources */,
-				1A8BFFBD20931A6300224854 /* cpHashSet.c in Sources */,
-				1A8BFFBE20931A6300224854 /* cpHastySpace.c in Sources */,
-				1A8BFFC320931A6300224854 /* cpPolyShape.c in Sources */,
-				1A8BFFCC20931A6300224854 /* cpSpaceDebug.c in Sources */,
-				1A8BFFCB20931A6300224854 /* cpSpaceComponent.c in Sources */,
-				1A44E714204D318F0091A106 /* GAActionWalk.cc in Sources */,
-				1A8BFFCF20931A6300224854 /* cpSpaceStep.c in Sources */,
-				1A0A6644202C03C8008DA5A3 /* kk-app.cc in Sources */,
-				1A8BFFC720931A6300224854 /* cpShape.c in Sources */,
-				1A8BFFB420931A6300224854 /* cpArray.c in Sources */,
-				1A0A6648202C03CD008DA5A3 /* GABody.cc in Sources */,
-				1A0A663F202C03C8008DA5A3 /* kk-string.cc in Sources */,
-				1A8BFFCE20931A6300224854 /* cpSpaceQuery.c in Sources */,
-				1A0A6649202C03DA008DA5A3 /* duktape.c in Sources */,
-				1A8BFFB720931A6300224854 /* cpCollision.c in Sources */,
-				1A8BFFD120931A6300224854 /* cpSweep1D.c in Sources */,
-				1A8BFFD020931A6300224854 /* cpSpatialIndex.c in Sources */,
-				1A0A6642202C03C8008DA5A3 /* kk-script.cc in Sources */,
-				1A8BFFBC20931A6300224854 /* cpGrooveJoint.c in Sources */,
-				1A0A6643202C03C8008DA5A3 /* kk-crypto.cc in Sources */,
-				1A8BFFBF20931A6300224854 /* cpMarch.c in Sources */,
-				1A0A6646202C03CD008DA5A3 /* GAScene.cc in Sources */,
-				1A8BFFCA20931A6300224854 /* cpSpace.c in Sources */,
-				1A0A6641202C03C8008DA5A3 /* kk-element.cc in Sources */,
-				1A0A6647202C03CD008DA5A3 /* GAShape.cc in Sources */,
-				1A8BFFB920931A6300224854 /* cpDampedRotarySpring.c in Sources */,
-				1A8BFFC220931A6300224854 /* cpPolyline.c in Sources */,
-				1A8BFFC520931A6300224854 /* cpRobust.c in Sources */,
-				1A0A663E202C03BF008DA5A3 /* kk-object.cc in Sources */,
-				1A8BFFC020931A6300224854 /* cpPinJoint.c in Sources */,
-				1A0A6635202C0289008DA5A3 /* main.mm in Sources */,
-				1A8BFFB520931A6300224854 /* cpBBTree.c in Sources */,
-				1A8BFFC120931A6300224854 /* cpPivotJoint.c in Sources */,
-				1A8BFFBB20931A6300224854 /* cpGearJoint.c in Sources */,
-				1A8BFFC820931A6300224854 /* cpSimpleMotor.c in Sources */,
-				1A8BFFC920931A6300224854 /* cpSlideJoint.c in Sources */,
-				1A8BFFB820931A6300224854 /* cpConstraint.c in Sources */,
+				1A9EEB04209C2BBE004A8283 /* cpSpaceHash.c in Sources */,
+				1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */,
+				1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */,
+				1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */,
+				1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */,
+				1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */,
+				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
+				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
+				1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */,
+				1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */,
+				1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */,
+				1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */,
+				1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */,
+				1A9EEAF5209C2BBE004A8283 /* cpHastySpace.c in Sources */,
+				1A9EEAFA209C2BBE004A8283 /* cpPolyShape.c in Sources */,
+				1A9EEB03209C2BBE004A8283 /* cpSpaceDebug.c in Sources */,
+				1A9EEB02209C2BBE004A8283 /* cpSpaceComponent.c in Sources */,
+				1A9EEAB7209C2B4D004A8283 /* GADocument.cc in Sources */,
+				1A9EEB06209C2BBE004A8283 /* cpSpaceStep.c in Sources */,
+				1A9EEAB8209C2B4D004A8283 /* GATileMap.cc in Sources */,
+				1A9EEAFE209C2BBE004A8283 /* cpShape.c in Sources */,
+				1A9EEAEB209C2BBE004A8283 /* cpArray.c in Sources */,
+				1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */,
+				1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */,
+				1A9EEB05209C2BBE004A8283 /* cpSpaceQuery.c in Sources */,
+				1A9EEAB5209C2B4D004A8283 /* GAAction.cc in Sources */,
+				1A9EEAEE209C2BBE004A8283 /* cpCollision.c in Sources */,
+				1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */,
+				1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */,
+				1A9EEABE209C2B4D004A8283 /* kk-crypto.cc in Sources */,
+				1A9EEAB9209C2B4D004A8283 /* kk-object.cc in Sources */,
+				1A9EEAF3209C2BBE004A8283 /* cpGrooveJoint.c in Sources */,
+				1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */,
+				1A9EEAF6209C2BBE004A8283 /* cpMarch.c in Sources */,
+				1A9EEAB4209C2B4D004A8283 /* GABody.cc in Sources */,
+				1A9EEB01209C2BBE004A8283 /* cpSpace.c in Sources */,
+				1A9EEAB1209C2B4D004A8283 /* GAContext.cc in Sources */,
+				1A9EEAB2209C2B4D004A8283 /* GAScene.cc in Sources */,
+				1A9EEAF0209C2BBE004A8283 /* cpDampedRotarySpring.c in Sources */,
+				1A9EEAF9209C2BBE004A8283 /* cpPolyline.c in Sources */,
+				1A9EEAFC209C2BBE004A8283 /* cpRobust.c in Sources */,
+				1A9EEABA209C2B4D004A8283 /* kk-string.cc in Sources */,
+				1A9EEAF7209C2BBE004A8283 /* cpPinJoint.c in Sources */,
+				1A9EEAB3209C2B4D004A8283 /* GAShape.cc in Sources */,
+				1A9EEAEC209C2BBE004A8283 /* cpBBTree.c in Sources */,
+				1A9EEAF8209C2BBE004A8283 /* cpPivotJoint.c in Sources */,
+				1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */,
+				1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */,
+				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
+				1A9EEB0F209C554A004A8283 /* kk-lws.cc in Sources */,
+				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1506,7 +1515,6 @@
 				1A0A65AC20285788008DA5A3 /* KKStrong.mm in Sources */,
 				1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */,
 				1AD774CA20998C060091283D /* Atlas.c in Sources */,
-				1A44E7132046B4F80091A106 /* kk-app.cc in Sources */,
 				1A0A65592027F073008DA5A3 /* kk-script.cc in Sources */,
 				1A8BFF702092C54E00224854 /* cpDampedSpring.c in Sources */,
 				1AD774D420998C060091283D /* Triangulator.c in Sources */,
@@ -1671,42 +1679,6 @@
 			};
 			name = Release;
 		};
-		1A0A6637202C0289008DA5A3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					../lib/duktape/src,
-					../lib/Chipmunk2D/include,
-				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		1A0A6638202C0289008DA5A3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				HEADER_SEARCH_PATHS = (
-					../lib,
-					../lib/duktape/src,
-					../lib/Chipmunk2D/include,
-				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
 		1A289B9E205228CC00E407F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1720,6 +1692,62 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1A9EEAAF209C2B3F004A8283 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					../lib/Chipmunk2D/include,
+					/usr/local/opt/openssl/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/opt/openssl/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_LDFLAGS = (
+					"-luv",
+					"-lwebsockets",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1A9EEAB0209C2B3F004A8283 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
+				HEADER_SEARCH_PATHS = (
+					/usr/local/include,
+					../lib/Chipmunk2D/include,
+					/usr/local/opt/openssl/include,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/opt/openssl/lib,
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_LDFLAGS = (
+					"-luv",
+					"-lwebsockets",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
@@ -1845,7 +1873,6 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
-					/usr/include/libxml2,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1876,7 +1903,6 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
-					/usr/include/libxml2,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1908,20 +1934,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A0A6636202C0289008DA5A3 /* Build configuration list for PBXNativeTarget "app" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1A0A6637202C0289008DA5A3 /* Debug */,
-				1A0A6638202C0289008DA5A3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		1A289BA4205228CC00E407F2 /* Build configuration list for PBXAggregateTarget "KKGame.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A289B9E205228CC00E407F2 /* Debug */,
 				1A289B9F205228CC00E407F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A9EEAAE209C2B3F004A8283 /* Build configuration list for PBXNativeTarget "app" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A9EEAAF209C2B3F004A8283 /* Debug */,
+				1A9EEAB0209C2B3F004A8283 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

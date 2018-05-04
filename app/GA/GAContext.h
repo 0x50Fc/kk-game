@@ -87,6 +87,8 @@ namespace kk {
             virtual duk_ret_t duk_difference(duk_context * ctx);
             virtual duk_ret_t duk_setDifference(duk_context * ctx);
             virtual duk_ret_t duk_on(duk_context * ctx);
+            virtual duk_ret_t duk_frames(duk_context * ctx);
+            virtual duk_ret_t duk_setFrames(duk_context * ctx);
             
         protected:
             virtual void on(Function * func);

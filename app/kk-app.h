@@ -8,37 +8,39 @@
 #ifndef _KK_APP_H
 #define _KK_APP_H
 
-#include "duktape.h"
+#include "kk-object.h"
+#include <uv.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "kk-script.h"
+#include "kk-object.h"
+#include "GAContext.h"
 
-#define KKApplicationKernel 1.0
-    
-    struct KKApplication;
-    
-	struct KKApplication {
-		duk_context * jsContext;
-        void * object;
-	};
+struct uv_loop_s;
 
-	struct KKApplication * KKApplicationCreate(void);
-
-	void KKApplicationRun(struct KKApplication * app,const char * basePath);
-
-	void KKApplicationExit(struct KKApplication * app);
-
-	void KKApplicationExec(struct KKApplication * app);
+namespace kk {
     
-    struct KKApplication * KKApplicationGet(duk_context * jsContext);
+    extern kk::Float Kernel;
     
-    void duk_push_string_ptr(duk_context * ctx, void * ptr);
+    class Application : public Object {
+    public:
+        Application(CString basePath);
+        virtual ~Application();
+        virtual kk::GA::Context * GAContext();
+        virtual kk::script::Context * jsContext();
+        virtual kk::GA::Element * GAElement();
+        virtual duk_context * dukContext();
+        virtual uv_loop_t * loop();
+        virtual void run();
+        virtual void stop();
+    protected:
+        Strong _jsContext;
+        Strong _GAContext;
+        Strong _GAElement;
+        uv_loop_t _loop;
+    };
     
-    void KKApplicationError(struct KKApplication * app, duk_idx_t idx);
     
-#ifdef __cplusplus
 }
-#endif
+
 
 #endif

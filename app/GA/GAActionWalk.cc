@@ -42,7 +42,7 @@ namespace kk {
                             
                             Point p = body->position();
                             
-                            cpVect v = cpvclamp({this->x - p.x,this->y - p.y}, speed);
+                            cpVect v = cpvmult(cpvnormalize({this->x - p.x,this->y - p.y}), speed);
                             
                             cpBodySetVelocity(cpBody, v);
                             
