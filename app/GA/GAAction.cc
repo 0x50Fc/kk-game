@@ -20,7 +20,7 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        Action::Action(){
+        Action::Action() {
             
         }
         

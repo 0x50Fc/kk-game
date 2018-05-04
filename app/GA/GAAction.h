@@ -23,7 +23,7 @@ namespace kk {
         public:
             Action();
             virtual Body * body();
-
+        
             DEF_SCRIPT_CLASS
         };
         

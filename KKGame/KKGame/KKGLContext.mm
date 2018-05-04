@@ -13,7 +13,7 @@
 #include "GAScene.h"
 #include "GAShape.h"
 #include "GABody.h"
-#include "GAActionMove.h"
+#include "GAActionWalk.h"
 #include "require_js.h"
 #include "GLAnimation.h"
 #include "GLShapeElement.h"
@@ -574,7 +574,7 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
             kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::ActionMove::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);

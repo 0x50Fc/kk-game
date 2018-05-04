@@ -188,6 +188,14 @@ namespace kk {
                         }
                     }
                     
+                    {
+                        kk::String & v = get("group");       //组
+                        if(&v != &kk::Element::NotFound) {
+                            Int vv = intValue(v);
+                            cpShapeSetFilter(_cpShape, cpShapeFilterNew(vv, CP_ALL_CATEGORIES, CP_ALL_CATEGORIES));
+                        }
+                    }
+                    
                     if(scene != nullptr) {
                         cpSpaceAddShape(scene->cpSpace(), _cpShape);
                     }

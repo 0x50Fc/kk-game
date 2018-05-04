@@ -156,6 +156,7 @@ namespace kk {
                 _GLSLTextureProgramUniform.projection = program->uniform("projection");
                 _GLSLTextureProgramUniform.view = program->uniform("view");
                 _GLSLTextureProgramUniform.texture = program->uniform("texture");
+                _GLSLTextureProgramUniform.opacity = program->uniform("opacity");
                 _programs["texture"] = program;
             }
             
@@ -356,6 +357,8 @@ namespace kk {
                 program->setUniform(_GLSLTextureProgramUniform.projection, state.projection );
             
                 program->setUniform(_GLSLTextureProgramUniform.view, state.view );
+                
+                program->setUniform(_GLSLTextureProgramUniform.opacity, state.opacity);
              
                 program->setAttrib(_GLSLTextureProgramUniform.position, 3, points, sizeof(TextureVertex));
                 

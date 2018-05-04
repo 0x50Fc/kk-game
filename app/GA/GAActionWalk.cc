@@ -1,5 +1,5 @@
 //
-//  GAActionMove.cpp
+//  GAActionWalk.cpp
 //  KKGame
 //
 //  Created by zhanghailong on 2018/2/9.
@@ -7,7 +7,7 @@
 //
 
 #include "kk-config.h"
-#include "GAActionMove.h"
+#include "GAActionWalk.h"
 #include "GABody.h"
 #include "GAShape.h"
 #include <chipmunk/chipmunk.h>
@@ -16,16 +16,16 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Action::ScriptClass, ActionMove, GAActionMove)
+        IMP_SCRIPT_CLASS_BEGIN(&Action::ScriptClass, ActionWalk, GAActionWalk)
         
         IMP_SCRIPT_CLASS_END
         
-        ActionMove::ActionMove()
-            :move(),speed(0),angle(0),_hasUpdate(false),_landing(true) {
+        ActionWalk::ActionWalk()
+            :x(0),y(0),speed(0),angle(0),_hasUpdate(false),_landing(true),_enabled(true) {
             
         }
 
-        void ActionMove::exec(Context * context) {
+        void ActionWalk::exec(Context * context) {
             Action::exec(context);
             
             if(_hasUpdate) {
@@ -38,18 +38,24 @@ namespace kk {
                     
                     if(cpBody) {
                         
-                        Point p = body->position();
-                        
-                        cpVect v = cpvclamp({move.x - p.x,move.y - p.y}, speed);
-                    
-                        cpBodySetVelocity(cpBody, v);
+                        if(_enabled) {
+                            
+                            Point p = body->position();
+                            
+                            cpVect v = cpvclamp({this->x - p.x,this->y - p.y}, speed);
+                            
+                            cpBodySetVelocity(cpBody, v);
+                            
+                        } else {
+                            cpBodySetVelocity(cpBody, {0,0});
+                        }
                         
                         _hasUpdate = false;
                     }
                 }
             }
             
-            if(!_landing) {
+            if(!_landing && speed > 0.0f && _enabled) {
                 
                 Body * body = this->body();
                 
@@ -57,7 +63,7 @@ namespace kk {
                     
                     Point p = body->position();
                     
-                    Float v = cpvlength({move.x - p.x,move.y - p.y});
+                    Float v = cpvlength({this->x - p.x,this->y - p.y});
                     
                     if(v > _distance) {
                         
@@ -77,20 +83,22 @@ namespace kk {
         
         }
         
-        void ActionMove::changedKey(String& key) {
+        void ActionWalk::changedKey(String& key) {
             Action::changedKey(key);
             
             if(key == "speed") {
                 speed = floatValue(get(key));
-            } else if(key == "move-x") {
-                move.x = floatValue(get(key));
-            } else if(key == "move-y") {
-                move.y = floatValue(get(key));
+            } else if(key == "x") {
+                this->x = floatValue(get(key));
+            } else if(key == "y") {
+                this->y = floatValue(get(key));
+            } else if(key == "enabled") {
+                _enabled = booleanValue(get(key));
             }
             
             _hasUpdate = true;
             _landing = false;
-            _distance = INFINITY;
+            _distance = MAXFLOAT;
         }
         
     }

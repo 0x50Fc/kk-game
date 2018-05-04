@@ -77,7 +77,7 @@
 		1A0A6648202C03CD008DA5A3 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
 		1A0A6649202C03DA008DA5A3 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
-		1A0A665C202D4124008DA5A3 /* GAActionMove.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionMove.cc */; };
+		1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A0A665F202D698D008DA5A3 /* require_js.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A665E202D698D008DA5A3 /* require_js.h */; };
 		1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */; };
 		1A0A6696202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6694202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm */; };
@@ -85,7 +85,7 @@
 		1A195631207DA99C001C9B0B /* KKGamepadElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A19562F207DA99B001C9B0B /* KKGamepadElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A195632207DA99C001C9B0B /* KKGamepadElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A195630207DA99C001C9B0B /* KKGamepadElement.m */; };
 		1A44E7132046B4F80091A106 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
-		1A44E714204D318F0091A106 /* GAActionMove.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionMove.cc */; };
+		1A44E714204D318F0091A106 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A44E716204D31D70091A106 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
 		1A65A9FE20417BDE0001B38A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */; };
@@ -434,8 +434,8 @@
 		1A0A663B202C0363008DA5A3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libxml2.tbd; sourceTree = DEVELOPER_DIR; };
 		1A0A664F202C67DE008DA5A3 /* GAAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAAction.h; sourceTree = "<group>"; };
 		1A0A6650202C6824008DA5A3 /* GAAction.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAAction.cc; sourceTree = "<group>"; };
-		1A0A665A202D4104008DA5A3 /* GAActionMove.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAActionMove.h; sourceTree = "<group>"; };
-		1A0A665B202D4124008DA5A3 /* GAActionMove.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAActionMove.cc; sourceTree = "<group>"; };
+		1A0A665A202D4104008DA5A3 /* GAActionWalk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAActionWalk.h; sourceTree = "<group>"; };
+		1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAActionWalk.cc; sourceTree = "<group>"; };
 		1A0A665E202D698D008DA5A3 /* require_js.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = require_js.h; sourceTree = "<group>"; };
 		1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KKWebSocket+JSContext.h"; sourceTree = "<group>"; };
 		1A0A6694202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "KKWebSocket+JSContext.mm"; sourceTree = "<group>"; };
@@ -1069,8 +1069,8 @@
 				1AE2401320231F19001FFB58 /* GABody.cc */,
 				1A0A664F202C67DE008DA5A3 /* GAAction.h */,
 				1A0A6650202C6824008DA5A3 /* GAAction.cc */,
-				1A0A665A202D4104008DA5A3 /* GAActionMove.h */,
-				1A0A665B202D4124008DA5A3 /* GAActionMove.cc */,
+				1A0A665A202D4104008DA5A3 /* GAActionWalk.h */,
+				1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */,
 				1AB084DD2056242200EF5783 /* GADocument.h */,
 				1AB084DE2056242F00EF5783 /* GADocument.cc */,
 				1A8BFFD5209335A200224854 /* GATileMap.h */,
@@ -1422,7 +1422,7 @@
 				1A8BFFC320931A6300224854 /* cpPolyShape.c in Sources */,
 				1A8BFFCC20931A6300224854 /* cpSpaceDebug.c in Sources */,
 				1A8BFFCB20931A6300224854 /* cpSpaceComponent.c in Sources */,
-				1A44E714204D318F0091A106 /* GAActionMove.cc in Sources */,
+				1A44E714204D318F0091A106 /* GAActionWalk.cc in Sources */,
 				1A8BFFCF20931A6300224854 /* cpSpaceStep.c in Sources */,
 				1A0A6644202C03C8008DA5A3 /* kk-app.cc in Sources */,
 				1A8BFFC720931A6300224854 /* cpShape.c in Sources */,
@@ -1487,7 +1487,7 @@
 				1A8BFF662092C54E00224854 /* cpSpatialIndex.c in Sources */,
 				1A8BFF552092C54E00224854 /* cpPinJoint.c in Sources */,
 				1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */,
-				1A0A665C202D4124008DA5A3 /* GAActionMove.cc in Sources */,
+				1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */,
 				1A8BFF692092C54E00224854 /* cpSpaceStep.c in Sources */,
 				1AD774CF20998C060091283D /* SkeletonJson.c in Sources */,
 				1A8BFF5E2092C54E00224854 /* cpSpace.c in Sources */,

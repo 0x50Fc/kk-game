@@ -101,7 +101,7 @@
     
     glBindRenderbuffer(GL_RENDERBUFFER, _data.render);
     
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE , GL_ONE_MINUS_SRC_ALPHA);

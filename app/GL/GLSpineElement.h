@@ -17,6 +17,7 @@ struct spSkeleton;
 struct spAnimationStateData;
 struct spAnimationState;
 struct spSkeletonClipping;
+struct spTrackEntry;
 
 namespace kk {
     
@@ -39,6 +40,7 @@ namespace kk {
             struct spAnimationStateData * _spAnimationStateData;
             struct spAnimationState * _spAnimationState;
             struct spSkeletonClipping * _spClipping;
+            struct spTrackEntry * _spTrackEntry;
             Context * _context;
             std::map<kk::String,kk::Strong> _images;
             kk::GA::TimeInterval _prevTimeInterval;

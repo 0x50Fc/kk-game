@@ -126,10 +126,18 @@ namespace kk {
                     case BodyTypeMovable:
                     {
                         cpFloat mass = floatValue(get("mass"));
+                        
                         if(mass <= 0) {
                             mass = 1;
                         }
-                        _cpBody = cpBodyNew(mass, cpMomentForCircle(mass, 0, 5, {0,0}));
+                        
+                        cpFloat r = floatValue(get("radius"));
+                        
+                        if(r <=0 ){
+                            r = 5;
+                        }
+                        
+                        _cpBody = cpBodyNew(mass, cpMomentForCircle(mass, 0, r, {0,0}));
 
                         {
                             Scene * v = scene();

@@ -161,6 +161,7 @@ namespace kk {
                 kk::Int projection;
                 kk::Int view;
                 kk::Int texture;
+                kk::Int opacity;
             } _GLSLTextureProgramUniform;
             struct {
                 kk::Int position;

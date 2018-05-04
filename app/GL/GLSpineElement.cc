@@ -67,7 +67,7 @@ namespace kk {
             :_loaded(false),_spAtlas(nullptr),_spSkeletonData(nullptr)
             ,_spSkeleton(nullptr),_spAnimationStateData(nullptr)
             ,_spAnimationState(nullptr),_context(nullptr),_prevTimeInterval(0)
-            ,_updatting(false) {
+            ,_updatting(false),_spTrackEntry(nullptr),_spClipping(nullptr) {
 
         }
         
@@ -109,7 +109,7 @@ namespace kk {
         static float worldVerticesPositions[MAX_VERTICES_PER_ATTACHMENT];
         static TextureVertex vertices[MAX_VERTICES_PER_ATTACHMENT];
         
-        static void addVertex(float x, float y, float u, float v, float r, float g, float b, float a, int* index) {
+        static void addVertex(float x, float y, float u, float v, int* index) {
             TextureVertex* vertex = &vertices[*index];
             vertex->position.x = x;
             vertex->position.y = - y;
@@ -208,7 +208,17 @@ namespace kk {
                     kk::String name = get("animation");
                     
                     if(!name.empty()) {
-                        spAnimationState_setAnimationByName(_spAnimationState, 0, name.c_str(), kk::GA::booleanValue(get("loop")) ? 1 : 0);
+                        
+                        spAnimation * anim = spSkeletonData_findAnimation(_spSkeletonData, name.c_str());
+                        
+                        if(anim) {
+                            if(_spTrackEntry == nullptr || _spTrackEntry->animation != anim) {
+                                _spTrackEntry = spAnimationState_setAnimation(_spAnimationState, 0, anim, kk::GA::booleanValue(get("loop")) ? 1 : 0);
+                            }
+                        
+                        } else {
+                            kk::Log("Spine Not Found Animation %s",name.c_str());
+                        }
                     }
                     
                     _updatting = false;
@@ -264,27 +274,27 @@ namespace kk {
                         
                         addVertex(worldVerticesPositions[0], worldVerticesPositions[1],
                                   regionAttachment->uvs[0], regionAttachment->uvs[1],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                         
                         addVertex(worldVerticesPositions[2], worldVerticesPositions[3],
                                   regionAttachment->uvs[2], regionAttachment->uvs[3],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                         
                         addVertex(worldVerticesPositions[4], worldVerticesPositions[5],
                                   regionAttachment->uvs[4], regionAttachment->uvs[5],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                         
                         addVertex(worldVerticesPositions[4], worldVerticesPositions[5],
                                   regionAttachment->uvs[4], regionAttachment->uvs[5],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                         
                         addVertex(worldVerticesPositions[6], worldVerticesPositions[7],
                                   regionAttachment->uvs[6], regionAttachment->uvs[7],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                         
                         addVertex(worldVerticesPositions[0], worldVerticesPositions[1],
                                   regionAttachment->uvs[0], regionAttachment->uvs[1],
-                                  tintR, tintG, tintB, tintA, &vertexIndex);
+                                   &vertexIndex);
                     } else if (attachment->type == SP_ATTACHMENT_MESH) {
                         
                         spMeshAttachment* mesh = (spMeshAttachment*)attachment;
@@ -303,12 +313,20 @@ namespace kk {
                             int index = mesh->triangles[i] << 1;
                             addVertex(worldVerticesPositions[index], worldVerticesPositions[index + 1],
                                       mesh->uvs[index], mesh->uvs[index + 1],
-                                      tintR, tintG, tintB, tintA, &vertexIndex);
+                                       &vertexIndex);
                         }
                         
                     }
                     
+                    context->store();
+                    
+                    ContextState & state = context->state();
+                    
+                    state.opacity = tintR * tintG * tintB * tintA;
+                    
                     context->drawTexture(texture, GL_TRIANGLES, vertices, vertexIndex);
+                    
+                    context->restore();
                 }
                     
             }

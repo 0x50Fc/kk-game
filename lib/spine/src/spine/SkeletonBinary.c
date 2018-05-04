@@ -871,6 +871,11 @@ spSkeletonData* spSkeletonBinary_readSkeletonData (spSkeletonBinary* self, const
 	}
 
 	skeletonData->version = readString(input);
+    
+    if(skeletonData->version == NULL) {
+        MALLOC_STR(skeletonData->version, "3.3");
+    }
+    
 	if (!strlen(skeletonData->version)) {
 		FREE(skeletonData->version);
 		skeletonData->version = 0;

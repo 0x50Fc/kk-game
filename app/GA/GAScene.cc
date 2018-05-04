@@ -276,51 +276,95 @@ namespace kk {
         
         duk_ret_t Scene::duk_nearby(duk_context * ctx) {
         
-            kk::String type;
-            
             int top = duk_get_top(ctx);
             
-            if(top > 0 && duk_is_string(ctx, -top )) {
-                type = duk_to_string(ctx, -top);
+            Float x = 0;
+            Float y = 0;
+            Float r = 0;
+            
+            if(top > 0 && duk_is_number(ctx, -top )) {
+                x = duk_to_number(ctx, -top);
             }
             
-            if(type == "around") {
+            if(top > 1 && duk_is_number(ctx, -top + 1 )) {
+                y = duk_to_number(ctx, -top + 1);
+            }
+            
+            if(top > 2 && duk_is_number(ctx, -top + 2)) {
+                r = duk_to_number(ctx, -top + 2);
+            }
+            
+            duk_push_array(ctx);
+            
+            if(r > 0) {
                 
-                if(top > 3 && duk_is_number(ctx, -top +1)
-                   && duk_is_number(ctx, -top +2)
-                   && duk_is_number(ctx, -top +3)) {
-                    Float x = duk_to_number(ctx, -top +1);
-                    Float y = duk_to_number(ctx, -top +2);
-                    Float radius = duk_to_number(ctx, -top +3);
+                std::vector<NearbyBody> nearbyBodys;
+                
+                NearbyBody nearbyBody = {nullptr,MAXFLOAT};
+                
+                kk::Element * e = firstChild();
+                
+                while(e) {
                     
-                    std::vector<NearbyBody> nearbyBodys;
-                    
-                    NearbyBody nearbyBody = {nullptr,MAXFLOAT};
-                    
-                    
-                    
-                    std::sort(nearbyBodys.begin(),nearbyBodys.end(),NearbyBodyLesser);
-                    
-                    std::vector<NearbyBody>::iterator i = nearbyBodys.begin();
-                    
-                    int idx = 0;
-                    
-                    duk_push_array(ctx);
-                    
-                    while(i != nearbyBodys.end()) {
+                    {
+                        nearbyBody.body = dynamic_cast<Body *>(e);
                         
-                        kk::script::PushObject(ctx, (*i).body);
-                        duk_put_prop_index(ctx, -2, idx);
-                        
-                        i ++;
-                        idx ++;
+                        if(nearbyBody.body != nullptr && nearbyBody.body->bodyType == BodyTypeMovable) {
+                            
+                            nearbyBody.distance = MAXFLOAT;
+                            
+                            kk::Element * p = e->firstChild();
+                            
+                            while(p) {
+                                
+                                Shape * shape = dynamic_cast<Shape *>(p);
+                                
+                                if(shape != nullptr && shape->cpShape()) {
+                                    
+                                    cpBB bb = cpShapeGetBB(shape->cpShape());
+                                    cpVect p = cpBBCenter(bb);
+                                    Float dx = x - p.x;
+                                    Float dy = y - p.y;
+                                    Float distance = sqrt(dx * dx + dy * dy) - MAX((bb.r - bb.l) * 0.5f,(bb.b - bb.t) * 0.5f);
+                                    
+                                    if(distance <= r && distance < nearbyBody.distance) {
+                                        nearbyBody.distance = distance;
+                                    }
+                                    
+                                }
+                                
+                                p = p->nextSibling();
+                            }
+                            
+                            if(nearbyBody.distance <= r) {
+                                nearbyBodys.push_back(nearbyBody);
+                            }
+                            
+                        }
                     }
                     
-                    return 1;
+                    e = e->nextSibling();
                 }
+                
+                std::sort(nearbyBodys.begin(),nearbyBodys.end(),NearbyBodyLesser);
+                
+                std::vector<NearbyBody>::iterator i = nearbyBodys.begin();
+                
+                int idx = 0;
+                
+                while(i != nearbyBodys.end()) {
+                    
+                    kk::script::PushObject(ctx, (*i).body);
+                    duk_put_prop_index(ctx, -2, idx);
+                    
+                    i ++;
+                    idx ++;
+                }
+                
             }
             
-            return 0;
+        
+            return 1;
             
         }
         

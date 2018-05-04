@@ -14,7 +14,7 @@
 #include "GAScene.h"
 #include "GAShape.h"
 #include "require_js.h"
-#include "GAActionMove.h"
+#include "GAActionWalk.h"
 #include "GADocument.h"
 
 #include <sstream>
@@ -159,7 +159,7 @@ struct KKApplication * KKApplicationCreate() {
         kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::ActionMove::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
         

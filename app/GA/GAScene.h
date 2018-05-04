@@ -45,9 +45,7 @@ namespace kk {
             virtual duk_ret_t duk_convert(duk_context * ctx);
             /**
              * 附近物体
-             * scene.nearby(type,...) -> []
-             * scene.nearby('around',x,y,radius) -> []              // 周围圆形区域
-             * scene.nearby('forward',x,y,toX,toY,degree) -> []     // 前方扇形区域
+             * scene.nearby(x,y,r) -> []
              */
             virtual duk_ret_t duk_nearby(duk_context * ctx);
             
