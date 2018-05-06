@@ -11,7 +11,8 @@
 
 int main(int argc, const char * argv[]) {
     
-    kk::Strong v = new kk::Application("/Users/hailong11/Documents/src/git.sc.weibo.com/kk/fruit/srv/");
+    
+    kk::Strong v = new kk::Application("/Users/zhanghailong/Documents/src/git.sc.weibo.com/kk/fruit/srv/");
     
     kk::Application * app = v.as<kk::Application>();
     

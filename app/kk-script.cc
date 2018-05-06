@@ -90,6 +90,25 @@ namespace kk {
             return _jsContext;
         }
         
+        kk::Object * Context::object(kk::CString key) {
+            std::map<kk::String,kk::Strong>::iterator i = _objects.find(key);
+            if(i != _objects.end()){
+                return i->second.get();
+            }
+            return nullptr;
+        }
+        
+        void Context::setObject(kk::CString key,kk::Object * object) {
+            if(object == nullptr) {
+                std::map<kk::String,kk::Strong>::iterator i = _objects.find(key);
+                if(i != _objects.end()){
+                    _objects.erase(i);
+                }
+            } else {
+                _objects[key] = object;
+            }
+        }
+        
         Object::Object(Context * context,duk_idx_t idx){
             duk_context * ctx = context->jsContext();
             _context = context;
@@ -237,15 +256,15 @@ namespace kk {
             duk_push_string(ctx, isa->name);
             duk_push_object(ctx);
             
-            if(isa->prototype) {
-                (*isa->prototype)(ctx);
-            }
-            
             duk_push_string(ctx, "alloc");
             duk_push_c_function(ctx, isa->alloc, 0);
             duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE |
                          DUK_DEFPROP_HAVE_WRITABLE | DUK_DEFPROP_CLEAR_WRITABLE |
-                         DUK_DEFPROP_HAVE_ENUMERABLE);
+                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_SET_CONFIGURABLE);
+            
+            if(isa->prototype) {
+                (*isa->prototype)(ctx);
+            }
             
             if(isa->isa) {
                 if(GetPrototype(ctx, isa->isa)) {
@@ -279,15 +298,15 @@ namespace kk {
             
             duk_push_object(ctx);
             
-            if(isa->prototype) {
-                (*isa->prototype)(ctx);
-            }
-            
             duk_push_string(ctx, "alloc");
             duk_push_c_function(ctx, isa->alloc, 0);
             duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE |
                          DUK_DEFPROP_HAVE_WRITABLE | DUK_DEFPROP_CLEAR_WRITABLE |
                          DUK_DEFPROP_HAVE_ENUMERABLE);
+            
+            if(isa->prototype) {
+                (*isa->prototype)(ctx);
+            }
             
             if(isa->isa) {
                 if(GetPrototype(ctx, isa->isa)) {

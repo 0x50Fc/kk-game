@@ -192,8 +192,6 @@
 		1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
 		1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC5F4882090832200AB01D7 /* libz.tbd */; };
-		1A9EEB0E209C53BA004A8283 /* kk-lws.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9EEB0C209C53BA004A8283 /* kk-lws.h */; };
-		1A9EEB0F209C554A004A8283 /* kk-lws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB0B209C53BA004A8283 /* kk-lws.cc */; };
 		1AB084D820561C2400EF5783 /* KKApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084BE20561BFB00EF5783 /* KKApplication.framework */; };
 		1AB084D920561C2400EF5783 /* KKWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084C820561C0800EF5783 /* KKWebSocket.framework */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
@@ -299,6 +297,10 @@
 		1AE24019202405F1001FFB58 /* duk_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24016202405F1001FFB58 /* duk_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401A202405F1001FFB58 /* duktape.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24017202405F1001FFB58 /* duktape.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401B202405F1001FFB58 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
+		AC43E0AB209D21E900B3C493 /* kk-uv.h in Headers */ = {isa = PBXBuildFile; fileRef = AC43E0A9209D21E900B3C493 /* kk-uv.h */; };
+		AC43E0B0209D239600B3C493 /* kk-uv.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0A8209D21E900B3C493 /* kk-uv.cc */; };
+		AC43E0B3209DD6FF00B3C493 /* kk-websocket.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0B1209DD6FF00B3C493 /* kk-websocket.cc */; };
+		AC43E0B8209E783B00B3C493 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0B4209E717D00B3C493 /* kk-http.cc */; };
 		E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE992052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E951BE972052605200358A85 /* GLMinimapElement.h */; };
@@ -520,8 +522,6 @@
 		1A8BFFD5209335A200224854 /* GATileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GATileMap.h; sourceTree = "<group>"; };
 		1A9EEAAA209C2B3F004A8283 /* app */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9EEAAC209C2B3F004A8283 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		1A9EEB0B209C53BA004A8283 /* kk-lws.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-lws.cc"; sourceTree = "<group>"; };
-		1A9EEB0C209C53BA004A8283 /* kk-lws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-lws.h"; sourceTree = "<group>"; };
 		1AB084DA20561ED300EF5783 /* GLViewportElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLViewportElement.h; sourceTree = "<group>"; };
 		1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewportElement.cc; sourceTree = "<group>"; };
 		1AB084DD2056242200EF5783 /* GADocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADocument.h; sourceTree = "<group>"; };
@@ -638,6 +638,12 @@
 		1AE24016202405F1001FFB58 /* duk_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duk_config.h; path = ../../lib/duktape/src/duk_config.h; sourceTree = "<group>"; };
 		1AE24017202405F1001FFB58 /* duktape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duktape.h; path = ../../lib/duktape/src/duktape.h; sourceTree = "<group>"; };
 		1AE24018202405F1001FFB58 /* duktape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = duktape.c; path = ../../lib/duktape/src/duktape.c; sourceTree = "<group>"; };
+		AC43E0A8209D21E900B3C493 /* kk-uv.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-uv.cc"; sourceTree = "<group>"; };
+		AC43E0A9209D21E900B3C493 /* kk-uv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-uv.h"; sourceTree = "<group>"; };
+		AC43E0B1209DD6FF00B3C493 /* kk-websocket.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-websocket.cc"; sourceTree = "<group>"; };
+		AC43E0B2209DD6FF00B3C493 /* kk-websocket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-websocket.h"; sourceTree = "<group>"; };
+		AC43E0B4209E717D00B3C493 /* kk-http.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-http.cc"; sourceTree = "<group>"; };
+		AC43E0B5209E717D00B3C493 /* kk-http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-http.h"; sourceTree = "<group>"; };
 		E951BE742052470800358A85 /* KKApplication.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKApplication.xcodeproj; path = ../../../../github.com/hailongz/KKApplication/KKApplication/KKApplication.xcodeproj; sourceTree = "<group>"; };
 		E951BE842052471500358A85 /* KKWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKWebSocket.xcodeproj; path = ../../../../github.com/hailongz/KKWebSocket/KKWebSocket/KKWebSocket.xcodeproj; sourceTree = "<group>"; };
 		E951BE962052605200358A85 /* GLMinimapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMinimapElement.cc; sourceTree = "<group>"; };
@@ -1052,10 +1058,14 @@
 				1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */,
 				1A0A6626202AA88A008DA5A3 /* kk-app.cc */,
 				1A0A6627202AA88A008DA5A3 /* kk-app.h */,
-				1A9EEB0C209C53BA004A8283 /* kk-lws.h */,
-				1A9EEB0B209C53BA004A8283 /* kk-lws.cc */,
+				AC43E0A9209D21E900B3C493 /* kk-uv.h */,
+				AC43E0A8209D21E900B3C493 /* kk-uv.cc */,
 				1AD772EC20947DAC0091283D /* kk-y.h */,
 				1AD772EB20947DAC0091283D /* kk-y.cc */,
+				AC43E0B2209DD6FF00B3C493 /* kk-websocket.h */,
+				AC43E0B1209DD6FF00B3C493 /* kk-websocket.cc */,
+				AC43E0B5209E717D00B3C493 /* kk-http.h */,
+				AC43E0B4209E717D00B3C493 /* kk-http.cc */,
 			);
 			name = app;
 			path = ../../app;
@@ -1124,7 +1134,6 @@
 				1AE24019202405F1001FFB58 /* duk_config.h in Headers */,
 				1AD7748A20998C060091283D /* PathAttachment.h in Headers */,
 				1AD7748B20998C060091283D /* PointAttachment.h in Headers */,
-				1A9EEB0E209C53BA004A8283 /* kk-lws.h in Headers */,
 				1AD774A320998C060091283D /* TransformConstraintData.h in Headers */,
 				1AE2401A202405F1001FFB58 /* duktape.h in Headers */,
 				1A8BFF922092C58A00224854 /* chipmunk_ffi.h in Headers */,
@@ -1135,6 +1144,7 @@
 				1A8BFFD7209335A200224854 /* GATileMap.h in Headers */,
 				1A0A658F202828E1008DA5A3 /* kk-element.h in Headers */,
 				1AD774A620998C060091283D /* IkConstraint.h in Headers */,
+				AC43E0AB209D21E900B3C493 /* kk-uv.h in Headers */,
 				1AD7748720998C060091283D /* EventData.h in Headers */,
 				1A8BFF972092C58A00224854 /* cpBB.h in Headers */,
 				1A8BFF9E2092C58A00224854 /* cpArbiter.h in Headers */,
@@ -1418,10 +1428,12 @@
 				1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */,
 				1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */,
 				1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */,
+				AC43E0B3209DD6FF00B3C493 /* kk-websocket.cc in Sources */,
 				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
 				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
 				1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */,
 				1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */,
+				AC43E0B0209D239600B3C493 /* kk-uv.cc in Sources */,
 				1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */,
 				1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */,
 				1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */,
@@ -1461,7 +1473,7 @@
 				1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */,
 				1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */,
 				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
-				1A9EEB0F209C554A004A8283 /* kk-lws.cc in Sources */,
+				AC43E0B8209E783B00B3C493 /* kk-http.cc in Sources */,
 				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

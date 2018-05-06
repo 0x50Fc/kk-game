@@ -9,7 +9,7 @@
 #include "kk-config.h"
 #include "kk-app.h"
 #include "kk-string.h"
-#include "kk-lws.h"
+#include "kk-websocket.h"
 #include "require_js.h"
 #include "GAScene.h"
 #include "GABody.h"
@@ -166,7 +166,7 @@ namespace kk {
                 v->app = app;
                 v->heapptr = heapptr;
                 
-                uv_timer_init(app->loop(), v);
+                uv_timer_init(uv_get_loop(ctx), v);
                 
                 uv_timer_start(v, Application_setTimeout_cb, tv, 0);
                 
@@ -305,7 +305,7 @@ namespace kk {
                 v->app = app;
                 v->heapptr = heapptr;
                 
-                uv_timer_init(app->loop(), v);
+                uv_timer_init(uv_get_loop(ctx), v);
                 
                 uv_timer_start(v, Application_setInterval_cb, tv, tv);
                 
@@ -328,8 +328,6 @@ namespace kk {
     kk::Float Kernel = 1.0;
     
     Application::Application(CString basePath) {
-        
-        uv_loop_init(&_loop);
         
         _jsContext = new kk::script::Context();
         _GAContext = new kk::GA::Context();
@@ -428,12 +426,11 @@ namespace kk {
             duk_pop(ctx);
         }
         
-        lws_openlibs(ctx, &_loop);
         
     }
     
     Application::~Application() {
-        uv_loop_close(&_loop);
+        
     }
     
     kk::GA::Context * Application::GAContext() {
@@ -461,25 +458,24 @@ namespace kk {
             GAContext->exec(GAElement);
         }
     }
-    
-    static void Application_uv_signal_cb(uv_signal_t* handle, int signum) {
-        Application * app = (Application *) handle->data;
-        app->stop();
-    }
-    
-    void Application::stop() {
-        uv_stop(&_loop);
-    }
-    
-    void Application::run() {
+
+    void Application::run(uv_loop_t * loop) {
         
+        duk_context * ctx = dukContext();
+        
+        uv_openlibs(ctx, loop);
+        
+        kk::Strong wsContext = new kk::WebSocketContext(loop);
+
+        wsContext.as<kk::WebSocketContext>()->openlibs(jsContext());
+        
+        kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
+
         kk::GA::Context * GAContext = this->GAContext();
         
         kk::String v = GAContext->getString("main.js");
         
         kk::String evalCode = "(function(element) {" + v + "} )";
-        
-        duk_context * ctx = dukContext();
         
         duk_eval_string(ctx, evalCode.c_str());
         
@@ -497,27 +493,37 @@ namespace kk {
             duk_pop(ctx);
         }
         
-        uv_timer_t timer;
-        uv_timer_init(&_loop, &timer);
-        timer.data = this;
+        uv_timer_init(loop, &_timer);
+        
+        _timer.data = this;
         
         uint64_t tv = 1000 / GAContext->frames();
         
-        uv_timer_start(&timer, Application_uv_timer_cb, tv, tv);
+        uv_timer_start(&_timer, Application_uv_timer_cb, tv, tv);
+        
+    }
+    
+    
+    static void Application_exit_cb(uv_signal_t* handle, int signum) {
+        uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) handle);
+        uv_stop(loop);
+    }
+    
+    void Application::run()  {
+        
+        uv_loop_t loop;
+        
+        uv_loop_init(&loop);
         
         uv_signal_t sigint;
-        uv_signal_init(&_loop, &sigint);
-        sigint.data = this;
+        uv_signal_init(&loop, &sigint);
         
-        uv_signal_start(&sigint, Application_uv_signal_cb, SIGINT);
+        uv_signal_start(&sigint, Application_exit_cb, SIGINT);
         
-        uv_run(&_loop, UV_RUN_DEFAULT);
+        run(&loop);
+        
+        uv_run(&loop, UV_RUN_DEFAULT);
         
     }
     
-    uv_loop_t * Application::loop() {
-        return &_loop;
-    }
-    
-   
 }
