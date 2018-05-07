@@ -102,6 +102,18 @@ namespace kk {
             return s.str();
         }
         
+        kk::String Context::relativePath(CString path) {
+            CString basePath = this->basePath();
+            if(basePath && path && kk::CStringHasPrefix(path, basePath)) {
+                char * p = (char *) path + strlen(basePath);
+                while(*p == '/' && *p !=0) {
+                    p ++;
+                }
+                return p;
+            }
+            return path;
+        }
+        
         kk::String Context::getString(CString path) {
             kk::String v;
             

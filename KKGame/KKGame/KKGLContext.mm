@@ -24,6 +24,7 @@
 #include "GLViewportElement.h"
 #include "GLTileMapElement.h"
 #include "GLSpineElement.h"
+#include "GLMetaElement.h"
 
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
@@ -587,6 +588,7 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
             kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
             
             [KKWebSocket openlib:ctx];
             

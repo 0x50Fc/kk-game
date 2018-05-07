@@ -192,6 +192,8 @@
 		1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
 		1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC5F4882090832200AB01D7 /* libz.tbd */; };
+		1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9EEB1620A065FE004A8283 /* GLMetaElement.h */; };
+		1A9EEB1920A065FE004A8283 /* GLMetaElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */; };
 		1AB084D820561C2400EF5783 /* KKApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084BE20561BFB00EF5783 /* KKApplication.framework */; };
 		1AB084D920561C2400EF5783 /* KKWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084C820561C0800EF5783 /* KKWebSocket.framework */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
@@ -521,6 +523,8 @@
 		1A8BFFD5209335A200224854 /* GATileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GATileMap.h; sourceTree = "<group>"; };
 		1A9EEAAA209C2B3F004A8283 /* app */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9EEAAC209C2B3F004A8283 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		1A9EEB1620A065FE004A8283 /* GLMetaElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMetaElement.h; sourceTree = "<group>"; };
+		1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMetaElement.cc; sourceTree = "<group>"; };
 		1AB084DA20561ED300EF5783 /* GLViewportElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLViewportElement.h; sourceTree = "<group>"; };
 		1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewportElement.cc; sourceTree = "<group>"; };
 		1AB084DD2056242200EF5783 /* GADocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADocument.h; sourceTree = "<group>"; };
@@ -738,6 +742,8 @@
 				1A8BFFAE2092FACE00224854 /* GLShapeElement.cc */,
 				1AD7734B20996EBF0091283D /* GLSpineElement.h */,
 				1AD7734A20996EBF0091283D /* GLSpineElement.cc */,
+				1A9EEB1620A065FE004A8283 /* GLMetaElement.h */,
+				1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */,
 			);
 			path = GL;
 			sourceTree = "<group>";
@@ -1195,6 +1201,7 @@
 				1AD774A820998C060091283D /* SkeletonBounds.h in Headers */,
 				1AD7748F20998C060091283D /* VertexAttachment.h in Headers */,
 				1A8BFFA62092C58A00224854 /* chipmunk_private.h in Headers */,
+				1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */,
 				1A0A6587202828D8008DA5A3 /* GAShape.h in Headers */,
 				1A8BFF982092C58A00224854 /* chipmunk_unsafe.h in Headers */,
 				1A8BFF952092C58A00224854 /* cpGrooveJoint.h in Headers */,
@@ -1537,6 +1544,7 @@
 				1AD774BA20998C060091283D /* IkConstraint.c in Sources */,
 				1A0A6625202A96D4008DA5A3 /* kk-crypto.cc in Sources */,
 				1A0A65B0202857C3008DA5A3 /* KKWeak.mm in Sources */,
+				1A9EEB1920A065FE004A8283 /* GLMetaElement.cc in Sources */,
 				1AD774D120998C060091283D /* IkConstraintData.c in Sources */,
 				1AE240002022FC4F001FFB58 /* kk-element.cc in Sources */,
 				1A8BFF602092C54E00224854 /* cpSpaceQuery.c in Sources */,

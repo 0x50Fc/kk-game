@@ -318,15 +318,19 @@ namespace kk {
                         
                     }
                     
-                    context->store();
-                    
-                    ContextState & state = context->state();
-                    
-                    state.opacity = tintR * tintG * tintB * tintA;
-                    
-                    context->drawTexture(texture, GL_TRIANGLES, vertices, vertexIndex);
-                    
-                    context->restore();
+                    if(texture != nullptr && texture->status() == ImageStatusLoaded) {
+                        
+                        context->store();
+                        
+                        ContextState & state = context->state();
+                        
+                        state.opacity = tintR * tintG * tintB * tintA;
+                        
+                        context->drawTexture(texture, GL_TRIANGLES, vertices, vertexIndex);
+                        
+                        context->restore();
+                        
+                    } 
                 }
                     
             }
@@ -348,7 +352,9 @@ namespace kk {
             
             if(_context != nullptr) {
                 
-                kk::Strong v = _context->image(path);
+                kk::String p = _context->relativePath(path);
+                
+                kk::Strong v = _context->image(p.c_str());
                 
                 Image * image = v.as<Image>();
                 
