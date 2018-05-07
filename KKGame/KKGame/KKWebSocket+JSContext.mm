@@ -61,6 +61,10 @@ static duk_ret_t KKWebSocketAllocFunc(duk_context * ctx) {
             
             v.queue = KKGLContextGetDispatchQueue(ctx);
             
+            dispatch_async(KKGLContextGetDispatchQueue(ctx), ^{
+                [v connect];
+            });
+            
             ref = (__bridge CFTypeRef) v;
             
             CFRetain(ref);
@@ -79,30 +83,6 @@ static duk_ret_t KKWebSocketAllocFunc(duk_context * ctx) {
         duk_set_finalizer(ctx, -2);
         
         return 1;
-    }
-    
-    return 0;
-}
-
-static duk_ret_t KKWebSocketConnectFunc(duk_context * ctx) {
-    
-    KKWebSocket * v = nil;
-    
-    duk_push_this(ctx);
-    
-    duk_push_string(ctx, "__object");
-    duk_get_prop(ctx, -2);
-    
-    if(duk_is_pointer(ctx, -1)) {
-        v = (__bridge KKWebSocket *) duk_to_pointer(ctx, -1);
-    }
-    
-    duk_pop_2(ctx);
-    
-    @autoreleasepool {
-        
-        [v connect];
-        
     }
     
     return 0;
@@ -164,7 +144,7 @@ static duk_ret_t KKWebSocketOnFunc(duk_context * ctx) {
         
         if(v) {
             
-            if(strcmp(name, "connected") == 0) {
+            if(strcmp(name, "open") == 0) {
                 
                 if(heapptr) {
                     v.onconnected = ^{
@@ -242,7 +222,7 @@ static duk_ret_t KKWebSocketOnFunc(duk_context * ctx) {
                     v.ontext = nil;
                 }
                 
-            } else if(strcmp(name, "disconnected") == 0) {
+            } else if(strcmp(name, "close") == 0) {
                 
                 if(heapptr) {
                     v.ondisconnected = ^(NSError * error){
@@ -358,11 +338,7 @@ static duk_ret_t KKWebSocketStateFunc(duk_context * ctx) {
     duk_push_c_function(ctx, KKWebSocketAllocFunc, 1);
     duk_put_prop(ctx, -3);
     
-    duk_push_string(ctx, "connect");
-    duk_push_c_function(ctx, KKWebSocketConnectFunc, 0);
-    duk_put_prop(ctx, -3);
-    
-    duk_push_string(ctx, "disconnect");
+    duk_push_string(ctx, "close");
     duk_push_c_function(ctx, KKWebSocketDisconnectFunc, 0);
     duk_put_prop(ctx, -3);
     
@@ -370,7 +346,7 @@ static duk_ret_t KKWebSocketStateFunc(duk_context * ctx) {
     duk_push_c_function(ctx, KKWebSocketOnFunc, 2);
     duk_put_prop(ctx, -3);
     
-    duk_push_string(ctx, "write");
+    duk_push_string(ctx, "send");
     duk_push_c_function(ctx, KKWebSocketWriteFunc, 1);
     duk_put_prop(ctx, -3);
     

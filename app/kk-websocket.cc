@@ -89,7 +89,7 @@ namespace kk {
     
     static void WebSocketContext_idle_cb(uv_idle_t* handle){
         WebSocketContext * ctx = (WebSocketContext *) handle->data;
-        lws_service(ctx->lwsContext(), 0);
+        lws_service(ctx->lwsContext(), 30);
     }
     
     WebSocketContext::WebSocketContext(uv_loop_t * loop):_lwsContext(nullptr) {

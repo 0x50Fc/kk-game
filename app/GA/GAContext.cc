@@ -328,8 +328,6 @@ namespace kk {
             return value == "true" || value == "1" || value == "yes";
         }
         
-        
-        
         Float zIndexAutoY = 0x1.fffffep+127f;
     }
     
