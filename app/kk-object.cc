@@ -171,7 +171,7 @@ namespace kk {
 #else
 
     void LogV(const char * format, va_list va) {
-        
+
         time_t now = time(NULL);
         
         struct tm * p = localtime(&now);

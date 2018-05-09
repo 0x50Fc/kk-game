@@ -50,6 +50,59 @@ namespace kk {
         return 0;
     }
     
+    static duk_ret_t Application_compile(duk_context * ctx) {
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "__object");
+        
+        Application * app = (Application *)(duk_to_pointer(ctx, -1));
+        
+        duk_pop_2(ctx);
+        
+        if(app) {
+            
+            kk::CString path = nullptr;
+            kk::CString prefix = nullptr;
+            kk::CString suffix = nullptr;
+            
+            int top = duk_get_top(ctx);
+            
+            if(top > 0  && duk_is_string(ctx, - top)) {
+                path = duk_to_string(ctx, -top);
+            }
+            
+            if(top > 1  && duk_is_string(ctx, - top + 1)) {
+                prefix = duk_to_string(ctx, -top + 1);
+            }
+            
+            if(top > 2  && duk_is_string(ctx, - top + 2)) {
+                suffix = duk_to_string(ctx, -top + 2);
+            }
+            
+            kk::String code;
+            
+            if(prefix) {
+                code.append(prefix);
+            }
+            
+            kk::String v = app->GAContext()->getString(path);
+            
+            code.append(v);
+            
+            if(suffix) {
+                code.append(suffix);
+            }
+            
+            duk_push_string(ctx, path);
+            duk_compile_string_filename(ctx, 0, code.c_str());
+            
+            return 1;
+        }
+        
+        return 0;
+    }
+    
     struct Timer : uv_timer_t{
         Application * app;
         void * heapptr;
@@ -354,6 +407,13 @@ namespace kk {
             
             duk_push_string(ctx, "getString");
             duk_push_c_function(ctx, Application_getString, 1);
+                duk_push_string(ctx, "__object");
+                duk_push_pointer(ctx, this);
+                duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "compile");
+            duk_push_c_function(ctx, Application_compile, 3);
                 duk_push_string(ctx, "__object");
                 duk_push_pointer(ctx, this);
                 duk_put_prop(ctx, -3);

@@ -117,8 +117,8 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         
         NSString * path = [self get:@"path"];
         
-        if(basePath != nil) {
-            path = [basePath stringByAppendingPathComponent:path];
+        if(basePath == nil) {
+            basePath = @"";
         }
         
         if(path) {
@@ -131,9 +131,9 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                     
                     KKGLContext * GLContext = element.GLContext;
                     
-                    GLContext.GLContext->setBasePath([path UTF8String]);
+                    GLContext.GLContext->setBasePath([[basePath stringByAppendingPathComponent:path] UTF8String]);
                     
-                    NSString * code = [NSString stringWithContentsOfFile:[path stringByAppendingPathComponent:@"main.js"] encoding:NSUTF8StringEncoding error:nil];
+                    NSString * code = [NSString stringWithContentsOfFile:[[basePath stringByAppendingPathComponent:path] stringByAppendingPathComponent:@"main.js"] encoding:NSUTF8StringEncoding error:nil];
                     
                     if(code != nil) {
                         
@@ -141,21 +141,30 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                         
                         duk_context * ctx = GLContext.JSContext->jsContext();
                         
-                        duk_eval_string(ctx, [evelCode UTF8String]);
+                        duk_push_string(ctx, [[path stringByAppendingPathComponent:@"main.js"] UTF8String]);
+                        
+                        duk_compile_string_filename(ctx, 0, [evelCode UTF8String]);
                         
                         if(duk_is_function(ctx, -1)) {
                             
-                            kk::script::PushObject(ctx, element.element);
-                            
-                            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
+                            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+                                
                                 kk::script::Error(ctx, -1);
+                                duk_pop(ctx);
+                                
+                            } else {
+                                kk::script::PushObject(ctx, element.element);
+                                
+                                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
+                                    kk::script::Error(ctx, -1);
+                                }
+                                
+                                duk_pop(ctx);
                             }
-                            
-                            duk_pop(ctx);
-                            
                         } else {
                             duk_pop(ctx);
                         }
+                    
                     }
                     
                 }

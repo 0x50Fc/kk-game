@@ -221,6 +221,70 @@ static duk_ret_t KKGLContext_getString(duk_context * ctx) {
     return 0;
 }
 
+static duk_ret_t KKGLContext_compile(duk_context * ctx) {
+    
+    kk::CString path = nullptr;
+    kk::CString prefix = nullptr;
+    kk::CString suffix = nullptr;
+    kk::GL::Context * GLContext = nullptr;
+    
+    int top = duk_get_top(ctx);
+    
+    if(top > 0  && duk_is_string(ctx, - top)) {
+        path = duk_to_string(ctx, -top);
+    }
+    
+    if(top > 1  && duk_is_string(ctx, - top + 1)) {
+        prefix = duk_to_string(ctx, -top + 1);
+    }
+    
+    if(top > 2  && duk_is_string(ctx, - top + 2)) {
+        suffix = duk_to_string(ctx, -top + 2);
+    }
+    
+    if(path) {
+        
+        duk_push_current_function(ctx);
+        
+        duk_push_string(ctx, "_GLContext");
+        duk_get_prop(ctx, -2);
+        
+        if(duk_is_pointer(ctx, -1)) {
+            GLContext = (kk::GL::Context *) duk_to_pointer(ctx, -1);
+        }
+        
+        duk_pop_n(ctx, 2);
+        
+        if(GLContext) {
+            
+            @autoreleasepool {
+                
+                kk::String v = GLContext->getString(path);
+                
+                kk::String code;
+                
+                if(prefix) {
+                    code.append(prefix);
+                }
+                
+                code.append(v);
+                
+                if(suffix) {
+                    code.append(suffix);
+                }
+                
+                duk_push_string(ctx, path);
+                duk_compile_string_filename(ctx, 0, code.c_str());
+                
+                return 1;
+            }
+        }
+        
+    }
+    
+    return 0;
+}
+
 @implementation KKGLContext
 
 @synthesize http = _http;
@@ -638,6 +702,16 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
             
             duk_push_string(ctx, "getString");
             duk_push_c_function(ctx, KKGLContext_getString, 1);
+            
+            duk_push_string(ctx, "_GLContext");
+            duk_push_pointer(ctx, _GLContext);
+            duk_put_prop(ctx, -3);
+            
+            duk_put_prop(ctx, -3);
+            
+            
+            duk_push_string(ctx, "compile");
+            duk_push_c_function(ctx, KKGLContext_compile, 3);
             
             duk_push_string(ctx, "_GLContext");
             duk_push_pointer(ctx, _GLContext);
