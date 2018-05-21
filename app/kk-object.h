@@ -60,7 +60,7 @@ namespace kk {
         virtual Object * get();
         virtual void set(Object * object) = 0;
         template<class T>
-        T * as() { return static_cast<T *>(get());}
+        T * as() { return dynamic_cast<T *>(get());}
     protected:
         Object * _object;
     };
