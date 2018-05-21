@@ -10,6 +10,7 @@
 #include "kk-app.h"
 #include "kk-string.h"
 #include "kk-websocket.h"
+#include "kk-http.h"
 #include "require_js.h"
 #include "GAScene.h"
 #include "GABody.h"
@@ -531,20 +532,31 @@ namespace kk {
         
         kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
 
+        kk::Strong http = new kk::Http(loop,"127.0.0.1:8888");
+        
+        http.as<kk::Http>()->openlibs(jsContext());
+        
         kk::GA::Context * GAContext = this->GAContext();
         
         kk::String v = GAContext->getString("main.js");
-        
+    
         kk::String evalCode = "(function(element) {" + v + "} )";
         
-        duk_eval_string(ctx, evalCode.c_str());
+        duk_push_string(ctx, "main.js");
+        
+        duk_compile_string_filename(ctx, 0, evalCode.c_str());
         
         if(duk_is_function(ctx, -1)) {
             
-            kk::script::PushObject(ctx, GAElement());
-            
-            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
+            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
                 kk::script::Error(ctx, -1);
+            } else if(duk_is_function(ctx, -1)) {
+
+                kk::script::PushObject(ctx, GAElement());
+                
+                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
+                    kk::script::Error(ctx, -1);
+                }
             }
             
             duk_pop(ctx);

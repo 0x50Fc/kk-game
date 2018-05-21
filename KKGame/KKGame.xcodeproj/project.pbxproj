@@ -299,6 +299,7 @@
 		1AE24019202405F1001FFB58 /* duk_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24016202405F1001FFB58 /* duk_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401A202405F1001FFB58 /* duktape.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24017202405F1001FFB58 /* duktape.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401B202405F1001FFB58 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
+		AC1C21AF20AFA0C700307C61 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0B4209E717D00B3C493 /* kk-http.cc */; };
 		AC43E0AB209D21E900B3C493 /* kk-uv.h in Headers */ = {isa = PBXBuildFile; fileRef = AC43E0A9209D21E900B3C493 /* kk-uv.h */; };
 		AC43E0B0209D239600B3C493 /* kk-uv.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0A8209D21E900B3C493 /* kk-uv.cc */; };
 		AC43E0B3209DD6FF00B3C493 /* kk-websocket.cc in Sources */ = {isa = PBXBuildFile; fileRef = AC43E0B1209DD6FF00B3C493 /* kk-websocket.cc */; };
@@ -1479,6 +1480,7 @@
 				1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */,
 				1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */,
 				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
+				AC1C21AF20AFA0C700307C61 /* kk-http.cc in Sources */,
 				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,7 +16,7 @@
 
 namespace kk {
     
-    class IHttpTask : public Object {
+    class IHttpTask : public Object , public kk::script::IObject {
     public:
         virtual void cancel() = 0;
     };
@@ -24,13 +24,23 @@ namespace kk {
     class HttpResponse : public Object {
     public:
         HttpResponse(kk::Int status);
+        virtual ~HttpResponse();
+        virtual kk::CString get(kk::CString key);
+        virtual void set(kk::CString key,kk::CString value);
+        virtual std::map<kk::String,kk::String> & headers();
+        virtual void * body(size_t * size);
+        virtual void setBody(void * body,size_t size);
     protected:
         kk::Int _status;
+        std::map<kk::String,kk::String> _headers;
+        void * _body;
+        size_t _size;
     };
     
     class HttpOptions : public EventEmitter {
     public:
         HttpOptions();
+        virtual ~HttpOptions();
         virtual kk::CString url();
         virtual void setUrl(kk::CString url);
         virtual kk::CString method();
@@ -42,18 +52,21 @@ namespace kk {
         virtual void setBody(void * body,size_t size);
         virtual HttpResponse * response();
         virtual void setResponse(HttpResponse * response);
+        virtual kk::CString errmsg();
+        virtual void setErrmsg(kk::CString errmsg);
     protected:
         kk::Strong _response;
         kk::String _url;
         kk::String _method;
+        kk::String _errmsg;
         std::map<kk::String,kk::String> _headers;
         unsigned char * _body;
         size_t _size;
     };
     
-    class Http :  public Object {
+    class Http :  public Object ,public kk::script::IObject {
     public:
-        Http(uv_loop_t * loop);
+        Http(uv_loop_t * loop,kk::CString proxy);
         virtual ~Http();
         virtual struct lws_context * lwsContext();
         virtual kk::Strong send(HttpOptions * options);
@@ -61,6 +74,12 @@ namespace kk {
         static Http * GetContext(kk::script::Context * ctx);
         
         DEF_SCRIPT_CLASS
+        
+        virtual duk_ret_t duk_send(duk_context * ctx);
+        
+        static CString userAgent();
+        static void setUserAgent(CString userAgent);
+        
     protected:
         Http();
         struct lws_context * _lwsContext;
