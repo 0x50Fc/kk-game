@@ -438,6 +438,7 @@ namespace kk {
                     }
 
                     if(kk::CStringEqual(options->method(), "POST")) {
+                        lws_client_http_body_pending(wsi, 1);
                         lws_callback_on_writable(wsi);
                     }
                 }
@@ -453,7 +454,8 @@ namespace kk {
             {
                 size_t n;
                 void * b = options->body(&n);
-                lws_write(wsi, (uint8_t *) b, n, LWS_WRITE_HTTP);
+                lws_write_http(wsi, (uint8_t *) b, n);
+                lws_client_http_body_pending(wsi, 0);
             }
                 return 0;
                 
@@ -887,6 +889,12 @@ namespace kk {
             memcpy(_body, body, size);
             
             _size =  size;
+            
+            char len[255];
+            
+            snprintf(len, sizeof(len), "%llu",_size);
+        
+            set("Content-Length", len);
             
         } else if(_body) {
             delete [] _body;

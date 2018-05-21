@@ -22,6 +22,59 @@
 
 namespace kk {
 
+    static duk_ret_t Application_print(duk_context * ctx) {
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "__object");
+        
+        Application * app = (Application *)(duk_to_pointer(ctx, -1));
+        
+        duk_pop_2(ctx);
+        
+        kk::Uint64 appid = app != nullptr ? app->appid() : 0;
+        
+        int top = duk_get_top(ctx);
+        
+        for(int i=0;i<top;i++) {
+            
+            if(duk_is_string(ctx, - top + i)) {
+                kk::Log("[%lld] %s",appid,duk_to_string(ctx, - top + i));
+            } else if(duk_is_number(ctx, - top + i)) {
+                kk::Log("[%lld] %g",appid,duk_to_number(ctx, - top + i));
+            } else if(duk_is_boolean(ctx, - top + i)) {
+                kk::Log("[%lld] %s",appid,duk_to_boolean(ctx, - top + i) ? "true":"false");
+            } else if(duk_is_buffer_data(ctx, - top + i)) {
+                kk::Log("[%lld] [bytes]:",appid);
+                {
+                    size_t n;
+                    unsigned char * bytes = (unsigned char *) duk_get_buffer_data(ctx, - top + i, &n);
+                    while(n >0) {
+                        printf("%u",*bytes);
+                        bytes ++;
+                        n --;
+                        if(n != 0) {
+                            printf(",");
+                        }
+                    }
+                    printf("\n");
+                }
+            } else if(duk_is_function(ctx, - top + i)) {
+                kk::Log("[%lld] [function]",appid);
+            } else if(duk_is_undefined(ctx, - top + i)) {
+                kk::Log("[%lld] [undefined]",appid);
+            } else if(duk_is_null(ctx, - top + i)) {
+                kk::Log("[%lld] [null]",appid);
+            } else {
+                kk::Log("[%lld] %s",appid,duk_json_encode(ctx, - top + i));
+                duk_pop(ctx);
+            }
+            
+        }
+        
+        return 0;
+    }
+    
     static duk_ret_t Application_getString(duk_context * ctx) {
         
         duk_push_current_function(ctx);
@@ -379,9 +432,27 @@ namespace kk {
         return Application_clearTimeout(ctx);
     }
     
+    static duk_ret_t Application_exit(duk_context * ctx) {
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "__object");
+        
+        Application * app = (Application *)(duk_to_pointer(ctx, -1));
+        
+        duk_pop_2(ctx);
+        
+        if(app) {
+            app->exit();
+        }
+        
+        return 0;
+    }
+    
     kk::Float Kernel = 1.0;
     
-    Application::Application(CString basePath) {
+    Application::Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb)
+        :_running(false),_appid(appid),_cb(cb) {
         
         _jsContext = new kk::script::Context();
         _GAContext = new kk::GA::Context();
@@ -394,6 +465,13 @@ namespace kk {
         {
             
             duk_push_global_object(ctx);
+            
+            duk_push_string(ctx, "print");
+            duk_push_c_function(ctx, Application_print, DUK_VARARGS);
+                duk_push_string(ctx, "__object");
+                duk_push_pointer(ctx, this);
+                duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
             
             duk_push_string(ctx, "kk");
             duk_push_object(ctx);
@@ -451,6 +529,15 @@ namespace kk {
                 duk_put_prop(ctx, -3);
             duk_put_prop(ctx, -3);
             
+            duk_push_string(ctx, "exit");
+            duk_push_c_function(ctx, Application_exit, 1);
+            {
+                duk_push_string(ctx, "__object");
+                duk_push_pointer(ctx, this);
+                duk_put_prop(ctx, -3);
+            }
+            duk_put_prop(ctx, -3);
+            
             duk_pop(ctx);
         }
         
@@ -491,7 +578,19 @@ namespace kk {
     }
     
     Application::~Application() {
-        
+        if(_running) {
+            uv_timer_stop(&_timer);
+        }
+    }
+    
+    void Application::exit() {
+        if(_running) {
+            _running = false;
+            uv_timer_stop(&_timer);
+            if(_cb) {
+                (*_cb)(this);
+            }
+        }
     }
     
     kk::GA::Context * Application::GAContext() {
@@ -522,6 +621,12 @@ namespace kk {
 
     void Application::run(uv_loop_t * loop) {
         
+        if(_running) {
+            return ;
+        }
+        
+        _running = true;
+        
         duk_context * ctx = dukContext();
         
         uv_openlibs(ctx, loop);
@@ -532,7 +637,7 @@ namespace kk {
         
         kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
 
-        kk::Strong http = new kk::Http(loop,"127.0.0.1:8888");
+        kk::Strong http = new kk::Http(loop,nullptr);
         
         http.as<kk::Http>()->openlibs(jsContext());
         
@@ -596,6 +701,14 @@ namespace kk {
         
         uv_run(&loop, UV_RUN_DEFAULT);
         
+    }
+    
+    kk::Boolean Application::isRunning() {
+        return this->_running;
+    }
+    
+    kk::Uint64 Application::appid() {
+        return _appid;
     }
     
 }

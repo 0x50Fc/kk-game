@@ -20,9 +20,13 @@ namespace kk {
     
     extern kk::Float Kernel;
     
+    class Application;
+    
+    typedef void (*ApplicationExitCB)(Application * app);
+    
     class Application : public Object {
     public:
-        Application(CString basePath);
+        Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb);
         virtual ~Application();
         virtual kk::GA::Context * GAContext();
         virtual kk::script::Context * jsContext();
@@ -30,11 +34,17 @@ namespace kk {
         virtual duk_context * dukContext();
         virtual void run(uv_loop_t * loop);
         virtual void run();
+        virtual void exit();
+        virtual kk::Boolean isRunning();
+        virtual kk::Uint64 appid();
     protected:
         Strong _jsContext;
         Strong _GAContext;
         Strong _GAElement;
         uv_timer_t _timer;
+        kk::Boolean _running;
+        kk::Uint64 _appid;
+        ApplicationExitCB _cb;
     };
     
     

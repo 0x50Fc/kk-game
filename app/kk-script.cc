@@ -81,7 +81,11 @@ namespace kk {
         Context::~Context() {
             
             if(_jsContext) {
-                duk_destroy_heap(_jsContext);
+                
+                duk_context * ctx = _jsContext;
+                _jsContext = nullptr;
+                
+                duk_destroy_heap(ctx);
             }
             
         }
@@ -128,10 +132,12 @@ namespace kk {
             
             if(context && _heapptr) {
                 duk_context * ctx = context->jsContext();
-                duk_push_global_object(ctx);
-                duk_push_sprintf(ctx, "0x%x",_heapptr);
-                duk_del_prop(ctx, -2);
-                duk_pop(ctx);
+                if(ctx) {
+                    duk_push_global_object(ctx);
+                    duk_push_sprintf(ctx, "0x%x",_heapptr);
+                    duk_del_prop(ctx, -2);
+                    duk_pop(ctx);
+                }
             }
 
         }
@@ -258,9 +264,7 @@ namespace kk {
             
             duk_push_string(ctx, "alloc");
             duk_push_c_function(ctx, isa->alloc, 0);
-            duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE |
-                         DUK_DEFPROP_HAVE_WRITABLE | DUK_DEFPROP_CLEAR_WRITABLE |
-                         DUK_DEFPROP_HAVE_ENUMERABLE | DUK_DEFPROP_SET_CONFIGURABLE);
+            duk_put_prop(ctx, -3);
             
             if(isa->prototype) {
                 (*isa->prototype)(ctx);
@@ -300,9 +304,7 @@ namespace kk {
             
             duk_push_string(ctx, "alloc");
             duk_push_c_function(ctx, isa->alloc, 0);
-            duk_def_prop(ctx, -3, DUK_DEFPROP_HAVE_VALUE |
-                         DUK_DEFPROP_HAVE_WRITABLE | DUK_DEFPROP_CLEAR_WRITABLE |
-                         DUK_DEFPROP_HAVE_ENUMERABLE);
+            duk_put_prop(ctx, -3);
             
             if(isa->prototype) {
                 (*isa->prototype)(ctx);

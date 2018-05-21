@@ -545,7 +545,6 @@ namespace kk {
             
         }
         
-        
         return !_datas.empty();
     }
     
