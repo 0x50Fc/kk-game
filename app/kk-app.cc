@@ -578,9 +578,7 @@ namespace kk {
     }
     
     Application::~Application() {
-        if(_running) {
-            uv_timer_stop(&_timer);
-        }
+
     }
     
     void Application::exit() {
@@ -619,6 +617,32 @@ namespace kk {
         }
     }
 
+    void Application::runCommand(kk::CString command) {
+        
+        duk_context * ctx = dukContext();
+        
+        duk_push_global_object(ctx);
+        
+        duk_get_prop_string(ctx, -1, "app");
+        
+        if(duk_is_object(ctx, -1)) {
+            
+            duk_get_prop_string(ctx, -1, "runCommand");
+            
+            if(duk_is_function(ctx, -1)) {
+                
+                duk_push_string(ctx, command);
+                
+                if(duk_pcall(ctx, 1) != DUK_EXEC_SUCCESS) {
+                    kk::script::Error(ctx, -1);
+                }
+            }
+        }
+        
+        duk_pop_n(ctx, 3);
+        
+    }
+    
     void Application::run(uv_loop_t * loop) {
         
         if(_running) {
@@ -680,12 +704,41 @@ namespace kk {
         
     }
     
-    
     static void Application_exit_cb(uv_signal_t* handle, int signum) {
+        Application * app = (Application *) handle->data;
         uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) handle);
+        app->exit();
         uv_stop(loop);
     }
     
+    static char data[65536];
+    
+    static void Application_alloc_cb(uv_handle_t* handle,size_t suggested_size,uv_buf_t* buf) {
+        buf->base = data;
+        buf->len = sizeof(data);
+    }
+    
+    static void Application_read_cb(uv_stream_t* stream,
+                                    ssize_t nread,
+                                    const uv_buf_t* buf) {
+        
+        Application * app = (Application *) stream->data;
+        uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) stream);
+        
+        if(nread > 1) {
+            
+            buf->base[nread - 1] = 0;
+            
+            app->runCommand(buf->base);
+            
+            if(kk::CStringEqual(buf->base, "exit")) {
+                app->exit();
+                uv_stop(loop);
+            }
+        }
+        
+    }
+  
     void Application::run()  {
         
         uv_loop_t loop;
@@ -695,7 +748,20 @@ namespace kk {
         uv_signal_t sigint;
         uv_signal_init(&loop, &sigint);
         
+        sigint.data = this;
+        
         uv_signal_start(&sigint, Application_exit_cb, SIGINT);
+        
+        {
+            uv_tty_t tty;
+            uv_tty_init(&loop, &tty, STDIN_FILENO, 1);
+            uv_tty_set_mode(&tty, UV_TTY_MODE_NORMAL);
+            
+            tty.data = this;
+        
+            uv_read_start((uv_stream_t *)&tty, Application_alloc_cb, Application_read_cb);
+            
+        }
         
         run(&loop);
         

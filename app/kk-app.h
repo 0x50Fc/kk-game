@@ -32,6 +32,7 @@ namespace kk {
         virtual kk::script::Context * jsContext();
         virtual kk::GA::Element * GAElement();
         virtual duk_context * dukContext();
+        virtual void runCommand(kk::CString command);
         virtual void run(uv_loop_t * loop);
         virtual void run();
         virtual void exit();

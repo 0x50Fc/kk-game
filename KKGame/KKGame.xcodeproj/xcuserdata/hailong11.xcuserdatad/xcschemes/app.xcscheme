@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1A9EEAA9209C2B3F004A8283"
-               BuildableName = "app"
+               BuildableName = "kk-app"
                BlueprintName = "app"
                ReferencedContainer = "container:KKGame.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A9EEAA9209C2B3F004A8283"
-            BuildableName = "app"
+            BuildableName = "kk-app"
             BlueprintName = "app"
             ReferencedContainer = "container:KKGame.xcodeproj">
          </BuildableReference>
@@ -47,7 +47,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/hailong11/Documents/src/git.sc.weibo.com/kk/fruit/srv"
+      customWorkingDirectory = "/Users/hailong11/Documents/src/github.com/hailongz/kk-room/demo"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -57,11 +57,17 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A9EEAA9209C2B3F004A8283"
-            BuildableName = "app"
+            BuildableName = "kk-app"
             BlueprintName = "app"
             ReferencedContainer = "container:KKGame.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-id 1 -roomId 123 -path ./demo"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -76,7 +82,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1A9EEAA9209C2B3F004A8283"
-            BuildableName = "app"
+            BuildableName = "kk-app"
             BlueprintName = "app"
             ReferencedContainer = "container:KKGame.xcodeproj">
          </BuildableReference>

@@ -21,14 +21,14 @@ int main(int argc, const char * argv[]) {
     
     kk::Uint64 appid = 0;
     kk::CString path = nullptr;
-    kk::CString query = "";
+    std::map<kk::String,kk::String> query;
 
     for(int i=1;i<argc;i++ ){
         if(kk::CStringEqual(argv[i], "-id") && i + 1 < argc) {
             appid = atoll(argv[i + 1]);
             i ++;
-        } else if(kk::CStringEqual(argv[i], "-q") && i + 1 < argc) {
-            query = argv[i + 1];
+        } else if(kk::CStringHasPrefix(argv[i], "-") && i + 1 < argc) {
+            query[argv[i] + 1] = argv[i + 1];
             i ++;
         } else if(path == nullptr){
             path = argv[i];
@@ -49,7 +49,14 @@ int main(int argc, const char * argv[]) {
     
     duk_get_prop_string(ctx, -1, "app");
     
-    duk_push_string(ctx, query);
+    duk_push_object(ctx);
+    std::map<kk::String,kk::String>::iterator i = query.begin();
+    while(i != query.end()) {
+        duk_push_string(ctx, i->first.c_str());
+        duk_push_string(ctx, i->second.c_str());
+        duk_put_prop(ctx, -3);
+        i ++;
+    }
     duk_put_prop_string(ctx, -2, "query");
     
     duk_pop_2(ctx);
