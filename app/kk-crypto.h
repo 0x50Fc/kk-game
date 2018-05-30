@@ -15,6 +15,8 @@ namespace kk {
     
     String Crypto_MD5(CString string);
     
+    void Crypto_openlibs(duk_context * ctx);
+    
 }
 
 #endif /* kk_crypto_h */

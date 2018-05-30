@@ -17,6 +17,7 @@ static void main_lws_log_emit(int level, const char * line) {
 
 int main(int argc, const char * argv[]) {
     
+    
     lws_set_log_level(~0, main_lws_log_emit);
     
     kk::Uint64 appid = 0;
@@ -39,9 +40,7 @@ int main(int argc, const char * argv[]) {
         path = ".";
     }
     
-    kk::Strong v = new kk::Application(path,appid,nullptr);
-    
-    kk::Application * app = v.as<kk::Application>();
+    kk::Application * app = new kk::Application(path,appid,nullptr);
     
     duk_context * ctx = app->dukContext();
     
@@ -62,6 +61,8 @@ int main(int argc, const char * argv[]) {
     duk_pop_2(ctx);
     
     app->run();
+    
+    delete app;
     
     return 0;
 }

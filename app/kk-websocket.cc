@@ -268,7 +268,9 @@ namespace kk {
                 {
                     duk_push_heapptr(ctx, fn->heapptr());
             
-                    if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+                    duk_push_string(ctx, v->errmsg());
+                    
+                    if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
                         kk::script::Error(ctx, -1);
                     }
                     

@@ -703,6 +703,7 @@ namespace kk {
                         
                         duk_pop_n(ctx,3);
                         
+                        i ++;
                     }
                     
                     duk_pop(ctx);
@@ -746,6 +747,7 @@ namespace kk {
                         
                         duk_pop_n(ctx,3);
                         
+                        i ++;
                     }
                     
                     duk_pop(ctx);

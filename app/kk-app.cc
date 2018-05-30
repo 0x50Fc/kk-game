@@ -11,6 +11,7 @@
 #include "kk-string.h"
 #include "kk-websocket.h"
 #include "kk-http.h"
+#include "kk-crypto.h"
 #include "require_js.h"
 #include "GAScene.h"
 #include "GABody.h"
@@ -162,11 +163,6 @@ namespace kk {
         void * heapptr;
     };
     
-    static void Timer_uv_close_cb(uv_handle_t* handle) {
-        Timer * v = (Timer *) handle;
-        delete v;
-    }
-    
     static duk_ret_t Timer_duk_dealloc(duk_context * ctx) {
 
         int top = duk_get_top(ctx);
@@ -177,9 +173,7 @@ namespace kk {
             
             if(duk_is_pointer(ctx, -1)) {
                 Timer * v = (Timer *) duk_to_pointer(ctx, -1);
-                if(!uv_is_closing((uv_handle_t *)v)) {
-                    uv_close((uv_handle_t *) v, Timer_uv_close_cb);
-                }
+                delete v;
             }
             
             duk_pop(ctx);
@@ -307,9 +301,7 @@ namespace kk {
                 if(duk_is_pointer(ctx, -1)) {
                     
                     Timer * v = (Timer *) duk_to_pointer(ctx, -1);
-                    if(!uv_is_closing((uv_handle_t *)v)) {
-                        uv_close((uv_handle_t *) v, Timer_uv_close_cb);
-                    }
+                    uv_timer_stop((uv_timer_t *) v);
                 }
                 
                 duk_pop(ctx);
@@ -543,6 +535,7 @@ namespace kk {
         
         {
             duk_eval_lstring_noresult(ctx, (char *) require_js, sizeof(require_js));
+            kk::Crypto_openlibs(ctx);
         }
         
         {
@@ -573,7 +566,6 @@ namespace kk {
             
             duk_pop(ctx);
         }
-        
         
     }
     

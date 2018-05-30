@@ -101,4 +101,31 @@ namespace kk {
 
 #endif
     
+    static duk_ret_t Crypto_MD5_func(duk_context * ctx) {
+        int top = duk_get_top(ctx);
+        
+        if(top >0) {
+            if(duk_is_string(ctx, -top)) {
+                String v = Crypto_MD5(duk_to_string(ctx, -top));
+                duk_push_string(ctx, v.c_str());
+                return 1;
+            }
+        }
+        
+        return 0;
+    }
+    
+    void Crypto_openlibs(duk_context * ctx) {
+        
+        duk_push_global_object(ctx);
+        
+        duk_push_object(ctx);
+        
+        duk_push_c_function(ctx, Crypto_MD5_func, 1);
+        duk_put_prop_string(ctx, -2, "md5");
+        
+        duk_put_prop_string(ctx, -2, "crypto");
+        
+        duk_pop(ctx);
+    }
 }

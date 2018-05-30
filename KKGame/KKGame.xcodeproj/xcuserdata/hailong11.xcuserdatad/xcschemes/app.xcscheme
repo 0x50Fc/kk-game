@@ -47,7 +47,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/hailong11/Documents/src/github.com/hailongz/kk-room/demo"
+      customWorkingDirectory = "/Users/hailong11/Documents/src/git.sc.weibo.com/kk/fruit"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
@@ -64,7 +64,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-id 1 -roomId 123 -path ./demo"
+            argument = "-id 1  -roomId 1 -broadcast 10.13.131.115:8080 ./srv"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
