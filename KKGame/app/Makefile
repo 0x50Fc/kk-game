@@ -1,8 +1,8 @@
 
 LIBRARY = -L/usr/lib -L/usr/local/lib -lchipmunk -luv -lwebsockets -lz  -lstdc++ -lcrypto -lssl -lm -lpthread -lrt
 INCLUDE = -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape/src -I/usr/local/include -I/usr/local/opt/openssl/include -I../../lib/Chipmunk2D/include
-CFLAGS = 
-CCFLAGS = -std=gnu++11
+CFLAGS = -g
+CCFLAGS = -std=gnu++11 -g
 
 DUKTAPE = ../../lib/duktape/src
 SRC = ../../app

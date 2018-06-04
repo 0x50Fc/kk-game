@@ -39,7 +39,7 @@ namespace kk {
                     if(!src.empty()) {
                         kk::Strong v = context->image(src.c_str());
                         _image = v.get();
-                        kk::Log("MEAT %s",src.c_str());
+                        kk::Log("[MEAT] %s",src.c_str());
                     }
                 }
                 _loaded = true;

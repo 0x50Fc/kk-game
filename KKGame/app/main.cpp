@@ -62,7 +62,5 @@ int main(int argc, const char * argv[]) {
     
     app->run();
     
-    delete app;
-    
     return 0;
 }

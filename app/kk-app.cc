@@ -719,14 +719,32 @@ namespace kk {
         
         if(nread > 1) {
             
-            buf->base[nread - 1] = 0;
+            char * p = buf->base;
+            char * end = buf->base + nread;
+            char * v = p;
             
-            app->runCommand(buf->base);
-            
-            if(kk::CStringEqual(buf->base, "exit")) {
-                app->exit();
-                uv_stop(loop);
+            while(v < end) {
+                
+                if(* v == '\n') {
+                    
+                    *v = 0;
+                    
+                    app->runCommand(p);
+                    
+                    if(kk::CStringEqual(p, "exit")) {
+                        app->exit();
+                        uv_stop(loop);
+                        break;
+                    }
+                    
+                    v ++ ;
+                    p = v;
+                    continue;
+                }
+                
+                v ++;
             }
+            
         }
         
     }
