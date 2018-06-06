@@ -186,6 +186,8 @@ namespace kk {
         Timer * v = (Timer *) handle;
         duk_context * ctx = v->app->dukContext();
         
+        uv_timer_stop((uv_timer_t *) v);
+        
         duk_push_global_object(ctx);
         
         duk_push_sprintf(ctx, "0x%x", (unsigned long) v->heapptr);
@@ -443,13 +445,13 @@ namespace kk {
     
     kk::Float Kernel = 1.0;
     
-    Application::Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb)
+    Application::Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb,kk::script::Context * jsContext)
         :_running(false),_appid(appid),_cb(cb) {
         
-        _jsContext = new kk::script::Context();
+        _jsContext = jsContext;
         _GAContext = new kk::GA::Context();
         _GAElement = new kk::GA::Element();
-        
+ 
         GAContext()->setBasePath(basePath);
         
         duk_context * ctx = dukContext();
@@ -601,6 +603,7 @@ namespace kk {
     
     static void Application_uv_timer_cb(uv_timer_t* handle) {
         Application * app = (Application *) handle->data;
+        kk::Strong v = app;
         kk::GA::Context * GAContext = app->GAContext();
         kk::GA::Element * GAElement = app->GAElement();
         if(GAContext && GAElement) {
@@ -698,6 +701,7 @@ namespace kk {
     
     static void Application_exit_cb(uv_signal_t* handle, int signum) {
         Application * app = (Application *) handle->data;
+        kk::Strong v = app;
         uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) handle);
         app->exit();
         uv_stop(loop);
@@ -715,6 +719,7 @@ namespace kk {
                                     const uv_buf_t* buf) {
         
         Application * app = (Application *) stream->data;
+        kk::Strong v = app;
         uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) stream);
         
         if(nread > 1) {

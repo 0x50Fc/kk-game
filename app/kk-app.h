@@ -26,7 +26,7 @@ namespace kk {
     
     class Application : public Object {
     public:
-        Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb);
+        Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb,kk::script::Context * jsContext);
         virtual ~Application();
         virtual kk::GA::Context * GAContext();
         virtual kk::script::Context * jsContext();

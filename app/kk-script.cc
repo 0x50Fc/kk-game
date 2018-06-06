@@ -80,13 +80,14 @@ namespace kk {
         
         Context::~Context() {
             
-            if(_jsContext) {
-                
-                duk_context * ctx = _jsContext;
-                _jsContext = nullptr;
-                
-                duk_destroy_heap(ctx);
+            std::map<kk::String,kk::Object *>::iterator i = _objects.begin();
+            
+            while(i != _objects.end()) {
+                i->second->release();
+                i ++;
             }
+            
+            duk_destroy_heap(_jsContext);
             
         }
         
@@ -95,20 +96,29 @@ namespace kk {
         }
         
         kk::Object * Context::object(kk::CString key) {
-            std::map<kk::String,kk::Strong>::iterator i = _objects.find(key);
+            std::map<kk::String,kk::Object *>::iterator i = _objects.find(key);
             if(i != _objects.end()){
-                return i->second.get();
+                return i->second;
             }
             return nullptr;
         }
         
         void Context::setObject(kk::CString key,kk::Object * object) {
             if(object == nullptr) {
-                std::map<kk::String,kk::Strong>::iterator i = _objects.find(key);
+                std::map<kk::String,kk::Object *>::iterator i = _objects.find(key);
                 if(i != _objects.end()){
+                    i->second->release();
                     _objects.erase(i);
                 }
             } else {
+                
+                object->retain();
+                
+                std::map<kk::String,kk::Object *>::iterator i = _objects.find(key);
+                
+                if(i != _objects.end()){
+                    i->second->release();
+                }
                 _objects[key] = object;
             }
         }

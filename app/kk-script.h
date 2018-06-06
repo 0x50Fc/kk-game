@@ -36,7 +36,7 @@ namespace kk {
             virtual void setObject(kk::CString key,kk::Object * object);
         private:
             duk_context * _jsContext;
-            std::map<kk::String,kk::Strong> _objects;
+            std::map<kk::String,kk::Object *> _objects;
         };
         
         class Object : public kk::Object {

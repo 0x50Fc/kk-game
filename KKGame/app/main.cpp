@@ -40,7 +40,13 @@ int main(int argc, const char * argv[]) {
         path = ".";
     }
     
-    kk::Application * app = new kk::Application(path,appid,nullptr);
+    kk::script::Context * jsContext = new kk::script::Context();
+    
+    jsContext->retain();
+    
+    kk::Application * app = new kk::Application(path,appid,nullptr,jsContext);
+    
+    app->retain();
     
     duk_context * ctx = app->dukContext();
     
@@ -61,6 +67,10 @@ int main(int argc, const char * argv[]) {
     duk_pop_2(ctx);
     
     app->run();
+    
+    app->release();
+    
+    jsContext->release();
     
     return 0;
 }

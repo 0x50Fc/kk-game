@@ -64,7 +64,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-id 1  -roomId 101000 -broadcast 10.13.131.115:8080 ./srv"
+            argument = "-id 1 -roomId 101049 -broadcast 10.13.131.115:8080 -expires 10 ./srv"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

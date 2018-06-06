@@ -243,6 +243,10 @@ namespace kk {
             kk::script::Object * fn = _fn.as<kk::script::Object>();
             duk_context * ctx = fn->jsContext();
             
+            if(ctx == nullptr) {
+                return;
+            }
+            
             switch (_type) {
                     
                 case WebSocketOnTypeData:
