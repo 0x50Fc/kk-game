@@ -11,10 +11,7 @@
 #include "kk-object.h"
 #include "kk-script.h"
 #include "kk-object.h"
-#include "kk-uv.h"
 #include "GAContext.h"
-
-struct uv_loop_s;
 
 namespace kk {
     
@@ -22,30 +19,23 @@ namespace kk {
     
     class Application;
     
-    typedef void (*ApplicationExitCB)(Application * app);
-    
     class Application : public Object {
     public:
-        Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb,kk::script::Context * jsContext);
+        Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext);
         virtual ~Application();
         virtual kk::GA::Context * GAContext();
         virtual kk::script::Context * jsContext();
         virtual kk::GA::Element * GAElement();
         virtual duk_context * dukContext();
-        virtual void runCommand(kk::CString command);
-        virtual void run(uv_loop_t * loop);
+        virtual void exec();
         virtual void run();
-        virtual void exit();
-        virtual kk::Boolean isRunning();
+        virtual void runCommand(kk::CString command);
         virtual kk::Uint64 appid();
     protected:
         Strong _jsContext;
         Strong _GAContext;
         Strong _GAElement;
-        uv_timer_t _timer;
-        kk::Boolean _running;
         kk::Uint64 _appid;
-        ApplicationExitCB _cb;
     };
     
     

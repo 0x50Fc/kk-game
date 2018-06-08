@@ -9,16 +9,68 @@
 #include "kk-config.h"
 #include "kk-app.h"
 #include "kk-string.h"
-#include <libwebsockets.h>
+#include "kk-ev.h"
+#include "kk-ws.h"
+#include <event.h>
+#include <unistd.h>
 
-static void main_lws_log_emit(int level, const char * line) {
+static void main_stdin_bufferevent_data_cb(struct bufferevent *bev, void *ctx) {
     
+    kk::Application * app = (kk::Application *) ctx;
+    
+    evbuffer * input = bufferevent_get_input(bev);
+    
+    size_t nread = EVBUFFER_LENGTH(input);
+    char * p = (char *) EVBUFFER_DATA(input);
+    char * end = p + nread;
+    char * v = p;
+    
+    while(v < end) {
+        
+        if(* v == '\n') {
+            
+            *v = 0;
+            
+            app->runCommand(p);
+            
+            if(kk::CStringEqual(p, "exit")) {
+                
+                v ++ ;
+                p = v;
+                
+                event_base_loopbreak(bufferevent_get_base(bev));
+                break;
+            }
+            
+            v ++ ;
+            p = v;
+            continue;
+        }
+        
+        v ++;
+    }
+    
+    evbuffer_drain(input, ( p - (char *) EVBUFFER_DATA(input)));
+    
+    bufferevent_enable(bev, EV_READ);
 }
+
+static event * app_ev_exec;
+
+static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
+    
+    kk::Application * app = (kk::Application *) ctx;
+    
+    app->exec();
+    
+    kk::Uint frames = app->GAContext()->frames();
+    timeval tv = {0, (int) (1000000 / frames)};
+    evtimer_add(app_ev_exec, &tv);
+}
+
 
 int main(int argc, const char * argv[]) {
     
-    
-    lws_set_log_level(~0, main_lws_log_emit);
     
     kk::Uint64 appid = 0;
     kk::CString path = nullptr;
@@ -44,7 +96,7 @@ int main(int argc, const char * argv[]) {
     
     jsContext->retain();
     
-    kk::Application * app = new kk::Application(path,appid,nullptr,jsContext);
+    kk::Application * app = new kk::Application(path,appid,jsContext);
     
     app->retain();
     
@@ -66,11 +118,41 @@ int main(int argc, const char * argv[]) {
     
     duk_pop_2(ctx);
     
+    event_base * base = event_init();
+    
+    kk::ev_openlibs(jsContext->jsContext(), base);
+    
+    {
+        
+        kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
+        
+    }
+    
     app->run();
+    
+    bufferevent * ev_stdin = bufferevent_new(STDIN_FILENO, main_stdin_bufferevent_data_cb, NULL, NULL, app);
+    
+    bufferevent_base_set(base, ev_stdin);
+    
+    bufferevent_enable(ev_stdin, EV_READ);
+    
+    app_ev_exec =  evtimer_new(base, app_ev_exec_cb, app);
+    
+    kk::Uint frames = app->GAContext()->frames();
+    
+    timeval tv = {0, (int) (1000000 / frames)};
+    
+    evtimer_add(app_ev_exec, &tv);
+
+    event_base_loop(base, 0);
+    
+    evtimer_del(app_ev_exec);
     
     app->release();
     
     jsContext->release();
+    
+    bufferevent_free(ev_stdin);
     
     return 0;
 }

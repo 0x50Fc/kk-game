@@ -9,8 +9,6 @@
 #include "kk-config.h"
 #include "kk-app.h"
 #include "kk-string.h"
-#include "kk-websocket.h"
-#include "kk-http.h"
 #include "kk-crypto.h"
 #include "require_js.h"
 #include "GAScene.h"
@@ -157,296 +155,11 @@ namespace kk {
         
         return 0;
     }
-    
-    struct Timer : uv_timer_t{
-        Application * app;
-        void * heapptr;
-    };
-    
-    static duk_ret_t Timer_duk_dealloc(duk_context * ctx) {
 
-        int top = duk_get_top(ctx);
-        
-        if(top > 0 && duk_is_object(ctx, -top)) {
-            
-            duk_get_prop_string(ctx, -top, "timer");
-            
-            if(duk_is_pointer(ctx, -1)) {
-                Timer * v = (Timer *) duk_to_pointer(ctx, -1);
-                delete v;
-            }
-            
-            duk_pop(ctx);
-        }
-        
-        return 0;
-    }
-    
-    static void Application_setTimeout_cb(uv_timer_t* handle) {
-        Timer * v = (Timer *) handle;
-        duk_context * ctx = v->app->dukContext();
-        
-        uv_timer_stop((uv_timer_t *) v);
-        
-        duk_push_global_object(ctx);
-        
-        duk_push_sprintf(ctx, "0x%x", (unsigned long) v->heapptr);
-        
-        duk_get_prop(ctx, -2);
-        
-        if(duk_is_object(ctx, -1)) {
-            
-            duk_get_prop_string(ctx, -1, "fn");
-            
-            if(duk_is_function(ctx, -1)) {
-                
-                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                    kk::script::Error(ctx, -1);
-                }
-                
-            }
-            
-            duk_pop(ctx);
-            
-        }
-        
-        duk_pop(ctx);
-        
-        duk_push_sprintf(ctx, "0x%x", (unsigned long) v->heapptr);
-        
-        duk_del_prop(ctx, -2);
-        
-        duk_pop(ctx);
-        
-    }
-    
-    static duk_ret_t Application_setTimeout(duk_context * ctx) {
-        
-        duk_push_current_function(ctx);
-        
-        duk_get_prop_string(ctx, -1, "__object");
-        
-        Application * app = (Application *)(duk_to_pointer(ctx, -1));
-        
-        duk_pop_2(ctx);
-        
-        if(app) {
-            
-            int top = duk_get_top(ctx);
-            
-            if(top >1 && duk_is_function(ctx, -top) && duk_is_number(ctx, -top + 1)) {
-                
-                void * fn = duk_get_heapptr(ctx, -top);
-                uint64_t tv = duk_to_uint(ctx, -top + 1);
-                
-                duk_push_global_object(ctx);
-                
-                duk_push_object(ctx);
-                
-                duk_push_c_function(ctx, Timer_duk_dealloc, 1);
-                duk_set_finalizer(ctx, -2);
-                
-                void * heapptr = duk_get_heapptr(ctx, -1);
-
-                duk_push_sprintf(ctx, "0x%x", (unsigned long) heapptr);
-                
-                duk_dup(ctx, -2);
-                duk_remove(ctx, -3);
-                
-                duk_push_string(ctx, "fn");
-                duk_push_heapptr(ctx, fn);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "timer");
-                Timer * v = new Timer();
-                duk_push_pointer(ctx, v);
-                duk_put_prop(ctx, -3);
-                
-                duk_put_prop(ctx, -3);
-                
-                duk_pop(ctx);
-                
-                v->app = app;
-                v->heapptr = heapptr;
-                
-                uv_timer_init(uv_get_loop(ctx), v);
-                
-                uv_timer_start(v, Application_setTimeout_cb, tv, 0);
-                
-                duk_push_sprintf(ctx, "0x%x", (unsigned long) heapptr);
-                
-                return 1;
-                
-            }
-            
-        }
-        
-        return 0;
-    }
-    
-    static duk_ret_t Application_clearTimeout(duk_context * ctx) {
-        
-        int top = duk_get_top(ctx);
-        
-        if(top >0 && duk_is_string(ctx, -top) ) {
-            
-            duk_push_global_object(ctx);
-            
-            duk_dup(ctx, -top - 1);
-            
-            duk_get_prop(ctx, -2);
-            
-            if(duk_is_object(ctx, -1)) {
-                
-                duk_get_prop_string(ctx, -1, "timer");
-                
-                if(duk_is_pointer(ctx, -1)) {
-                    
-                    Timer * v = (Timer *) duk_to_pointer(ctx, -1);
-                    uv_timer_stop((uv_timer_t *) v);
-                }
-                
-                duk_pop(ctx);
-                
-                duk_get_prop_string(ctx, -1, "timer");
-                duk_del_prop(ctx, -2);
-                
-            }
-            
-            duk_pop(ctx);
-            
-            duk_dup(ctx, -top - 1);
-            
-            duk_del_prop(ctx, -2);
-            
-            duk_pop(ctx);
-            
-        }
-        
-        return 0;
-    }
-    
-    static void Application_setInterval_cb(uv_timer_t* handle) {
-        
-        Timer * v = (Timer *) handle;
-        
-        duk_context * ctx = v->app->dukContext();
-        
-        duk_push_global_object(ctx);
-        
-        duk_push_sprintf(ctx, "0x%x", (unsigned long) v->heapptr);
-        
-        duk_get_prop(ctx, -2);
-        
-        if(duk_is_object(ctx, -1)) {
-            
-            duk_get_prop_string(ctx, -1, "fn");
-            
-            if(duk_is_function(ctx, -1)) {
-                
-                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                    kk::script::Error(ctx, -1);
-                }
-                
-            }
-            
-            duk_pop(ctx);
-        }
-        
-        duk_pop_2(ctx);
-        
-    }
-    
-    static duk_ret_t Application_setInterval(duk_context * ctx) {
-        
-        duk_push_current_function(ctx);
-        
-        duk_get_prop_string(ctx, -1, "__object");
-        
-        Application * app = (Application *)(duk_to_pointer(ctx, -1));
-        
-        duk_pop_2(ctx);
-        
-        if(app) {
-            
-            int top = duk_get_top(ctx);
-            
-            if(top >1 && duk_is_function(ctx, -top) && duk_is_number(ctx, -top + 1)) {
-                
-                void * fn = duk_get_heapptr(ctx, -top);
-                uint64_t tv = duk_to_uint(ctx, -top + 1);
-                
-                duk_push_global_object(ctx);
-                
-                duk_push_object(ctx);
-                
-                duk_push_c_function(ctx, Timer_duk_dealloc, 1);
-                duk_set_finalizer(ctx, -2);
-                
-                void * heapptr = duk_get_heapptr(ctx, -1);
-                
-                duk_push_sprintf(ctx, "0x%x", (unsigned long) heapptr);
-                
-                duk_dup(ctx, -2);
-                duk_remove(ctx, -3);
-                
-                duk_push_string(ctx, "fn");
-                duk_push_heapptr(ctx, fn);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "timer");
-                Timer * v = new Timer();
-                duk_push_pointer(ctx, v);
-                duk_put_prop(ctx, -3);
-                
-                duk_put_prop(ctx, -3);
-                
-                duk_pop(ctx);
-                
-                v->app = app;
-                v->heapptr = heapptr;
-                
-                uv_timer_init(uv_get_loop(ctx), v);
-                
-                uv_timer_start(v, Application_setInterval_cb, tv, tv);
-                
-                duk_push_sprintf(ctx, "0x%x", (unsigned long) heapptr);
-                
-                return 1;
-                
-            }
-            
-        }
-        
-    
-        return 0;
-    }
-    
-    static duk_ret_t Application_clearInterval(duk_context * ctx) {
-        return Application_clearTimeout(ctx);
-    }
-    
-    static duk_ret_t Application_exit(duk_context * ctx) {
-        
-        duk_push_current_function(ctx);
-        
-        duk_get_prop_string(ctx, -1, "__object");
-        
-        Application * app = (Application *)(duk_to_pointer(ctx, -1));
-        
-        duk_pop_2(ctx);
-        
-        if(app) {
-            app->exit();
-        }
-        
-        return 0;
-    }
-    
     kk::Float Kernel = 1.0;
     
-    Application::Application(CString basePath,kk::Uint64 appid,ApplicationExitCB cb,kk::script::Context * jsContext)
-        :_running(false),_appid(appid),_cb(cb) {
+    Application::Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext)
+        :_appid(appid) {
         
         _jsContext = jsContext;
         _GAContext = new kk::GA::Context();
@@ -493,44 +206,7 @@ namespace kk {
             duk_put_prop(ctx, -3);
             
             duk_put_prop(ctx, -3);
-            
-            
-            duk_push_string(ctx, "setTimeout");
-            duk_push_c_function(ctx, Application_setTimeout, 2);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "clearTimeout");
-            duk_push_c_function(ctx, Application_clearTimeout, 1);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "setInterval");
-            duk_push_c_function(ctx, Application_setInterval, 2);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "clearInterval");
-            duk_push_c_function(ctx, Application_clearInterval, 1);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "exit");
-            duk_push_c_function(ctx, Application_exit, 1);
-            {
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            }
-            duk_put_prop(ctx, -3);
+ 
             
             duk_pop(ctx);
         }
@@ -575,16 +251,6 @@ namespace kk {
 
     }
     
-    void Application::exit() {
-        if(_running) {
-            _running = false;
-            uv_timer_stop(&_timer);
-            if(_cb) {
-                (*_cb)(this);
-            }
-        }
-    }
-    
     kk::GA::Context * Application::GAContext() {
         return _GAContext.as<kk::GA::Context>();
     }
@@ -601,17 +267,15 @@ namespace kk {
         return _GAElement.as<kk::GA::Element>();
     }
     
-    static void Application_uv_timer_cb(uv_timer_t* handle) {
-        Application * app = (Application *) handle->data;
-        kk::Strong v = app;
-        kk::GA::Context * GAContext = app->GAContext();
-        kk::GA::Element * GAElement = app->GAElement();
+    void Application::exec() {
+        kk::GA::Context * GAContext = this->GAContext();
+        kk::GA::Element * GAElement = this->GAElement();
         if(GAContext && GAElement) {
             GAContext->tick();
             GAContext->exec(GAElement);
         }
     }
-
+    
     void Application::runCommand(kk::CString command) {
         
         duk_context * ctx = dukContext();
@@ -638,27 +302,9 @@ namespace kk {
         
     }
     
-    void Application::run(uv_loop_t * loop) {
-        
-        if(_running) {
-            return ;
-        }
-        
-        _running = true;
+    void Application::run() {
         
         duk_context * ctx = dukContext();
-        
-        uv_openlibs(ctx, loop);
-        
-        kk::Strong wsContext = new kk::WebSocketContext(loop);
-
-        wsContext.as<kk::WebSocketContext>()->openlibs(jsContext());
-        
-        kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
-
-        kk::Strong http = new kk::Http(loop,nullptr);
-        
-        http.as<kk::Http>()->openlibs(jsContext());
         
         kk::GA::Context * GAContext = this->GAContext();
         
@@ -689,103 +335,6 @@ namespace kk {
             duk_pop(ctx);
         }
         
-        uv_timer_init(loop, &_timer);
-        
-        _timer.data = this;
-        
-        uint64_t tv = 1000 / GAContext->frames();
-        
-        uv_timer_start(&_timer, Application_uv_timer_cb, tv, tv);
-        
-    }
-    
-    static void Application_exit_cb(uv_signal_t* handle, int signum) {
-        Application * app = (Application *) handle->data;
-        kk::Strong v = app;
-        uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) handle);
-        app->exit();
-        uv_stop(loop);
-    }
-    
-    static char data[65536];
-    
-    static void Application_alloc_cb(uv_handle_t* handle,size_t suggested_size,uv_buf_t* buf) {
-        buf->base = data;
-        buf->len = sizeof(data);
-    }
-    
-    static void Application_read_cb(uv_stream_t* stream,
-                                    ssize_t nread,
-                                    const uv_buf_t* buf) {
-        
-        Application * app = (Application *) stream->data;
-        kk::Strong v = app;
-        uv_loop_t * loop = uv_handle_get_loop((uv_handle_t *) stream);
-        
-        if(nread > 1) {
-            
-            char * p = buf->base;
-            char * end = buf->base + nread;
-            char * v = p;
-            
-            while(v < end) {
-                
-                if(* v == '\n') {
-                    
-                    *v = 0;
-                    
-                    app->runCommand(p);
-                    
-                    if(kk::CStringEqual(p, "exit")) {
-                        app->exit();
-                        uv_stop(loop);
-                        break;
-                    }
-                    
-                    v ++ ;
-                    p = v;
-                    continue;
-                }
-                
-                v ++;
-            }
-            
-        }
-        
-    }
-  
-    void Application::run()  {
-        
-        uv_loop_t loop;
-        
-        uv_loop_init(&loop);
-        
-        uv_signal_t sigint;
-        uv_signal_init(&loop, &sigint);
-        
-        sigint.data = this;
-        
-        uv_signal_start(&sigint, Application_exit_cb, SIGINT);
-        
-        {
-            uv_tty_t tty;
-            uv_tty_init(&loop, &tty, STDIN_FILENO, 1);
-            uv_tty_set_mode(&tty, UV_TTY_MODE_NORMAL);
-            
-            tty.data = this;
-        
-            uv_read_start((uv_stream_t *)&tty, Application_alloc_cb, Application_read_cb);
-            
-        }
-        
-        run(&loop);
-        
-        uv_run(&loop, UV_RUN_DEFAULT);
-        
-    }
-    
-    kk::Boolean Application::isRunning() {
-        return this->_running;
     }
     
     kk::Uint64 Application::appid() {
