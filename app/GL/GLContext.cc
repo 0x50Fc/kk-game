@@ -769,6 +769,8 @@ namespace kk {
                 
             } else if(key == "transform") {
                 transform = TransformForString(get(key));
+            } else if(key == "opacity") {
+                opacity = kk::GA::floatValue(get(key));
             }
             
         }

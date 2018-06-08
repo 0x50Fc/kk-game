@@ -109,7 +109,7 @@ namespace kk {
             virtual void exec(Context * context);
             virtual void setRemoved();
             
-            virtual duk_ret_t duk_setRemoved(duk_context * ctx);
+            virtual duk_ret_t duk_remove(duk_context * ctx);
             
             DEF_SCRIPT_CLASS
         protected:

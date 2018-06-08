@@ -288,7 +288,7 @@ namespace kk {
         IMP_SCRIPT_CLASS_BEGIN(&kk::Element::ScriptClass, Element, GAElement)
         
         static kk::script::Method methods[] = {
-            {"setRemoved",(kk::script::Function) &Element::duk_setRemoved},
+            {"remove",(kk::script::Function) &Element::duk_remove},
         };
         
         kk::script::SetMethod(ctx, -1, methods, sizeof(methods) / sizeof(kk::script::Method));
@@ -323,7 +323,7 @@ namespace kk {
             _removed = true;
         }
         
-        duk_ret_t Element::duk_setRemoved(duk_context * ctx) {
+        duk_ret_t Element::duk_remove(duk_context * ctx) {
             _removed = true;
             return 0;
         }

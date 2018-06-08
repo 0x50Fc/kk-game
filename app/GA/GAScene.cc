@@ -55,7 +55,7 @@ namespace kk {
                 scene->setObject("b", (kk::Object *) cpShapeGetUserData(b));
             }
             
-            scene->emit("runin", e);
+            scene->emit(name, e);
             
             scene->setObject("a", nullptr);
             scene->setObject("b", nullptr);
