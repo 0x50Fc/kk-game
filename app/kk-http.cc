@@ -17,7 +17,7 @@ namespace kk {
         HttpBodyTypeString,HttpBodyTypeBytes,HttpBodyTypeJSON
     };
     
-    class HttpTask : public kk::script::HeapObject ,public kk::script::IObject {
+    class HttpTask : public kk::Object ,public kk::script::IObject {
     public:
         virtual void dealloc();
         virtual void cancel();
@@ -25,6 +25,10 @@ namespace kk {
         virtual kk::Uint64 id();
         
         virtual duk_ret_t duk_cancel(duk_context * ctx);
+        
+        kk::Strong onload;
+        kk::Strong onfail;
+        
         DEF_SCRIPT_CLASS
     protected:
         kk::String _host;
@@ -35,14 +39,12 @@ namespace kk {
         HttpBodyType _bodyType;
         
         virtual void onFail(kk::CString errmsg);
-        virtual void onLoad(void * data, size_t n);
+        virtual void onLoad();
         
         virtual void remove();
-        virtual void removeConnection();
         
         friend void HttpTask_error_cb(enum evhttp_request_error err, void * data);
-        friend void HttpTask_complete_cb(struct evhttp_request * req, void * data);
-        friend void HttpTask_conn_cb(struct evhttp_connection * conn, void * data);
+        friend void HttpRequest_cb(struct evhttp_request * req, void * data);
     };
     
     IMP_SCRIPT_CLASS_BEGIN(nullptr, HttpTask, HttpTask)
@@ -57,6 +59,7 @@ namespace kk {
     duk_del_prop(ctx, -2);
     
     IMP_SCRIPT_CLASS_END
+    
     
     kk::Uint64 HttpTask::id() {
         return _id;
@@ -75,9 +78,6 @@ namespace kk {
         {
             Http * http = _http.as<Http>();
             if(http) {
-                if(_conn) {
-                    http->keepliveConnection(_conn, _host.c_str());
-                }
                 http->remove(this);
             }
         }
@@ -87,10 +87,6 @@ namespace kk {
         
     }
     
-    void HttpTask::removeConnection() {
-        _conn = nullptr;
-    }
-
     void HttpTask::cancel() {
         
         if(_req != nullptr) {
@@ -106,22 +102,6 @@ namespace kk {
             
         }
         
-    }
-    
-    void HttpTask_complete_cb(struct evhttp_request * req, void * data) {
-        
-        HttpTask * httpTask = (HttpTask *) data;
-        
-        evbuffer * v = evhttp_request_get_input_buffer(req);
-        
-        httpTask->onLoad(EVBUFFER_DATA(v), EVBUFFER_LENGTH(v));
-        
-    }
-    
-    void HttpTask_conn_cb(struct evhttp_connection * conn, void * data) {
-        HttpTask * httpTask = (HttpTask *) data;
-        httpTask->removeConnection();
-        evhttp_connection_free(conn);
     }
     
     void HttpTask_error_cb(enum evhttp_request_error err, void * data) {
@@ -153,39 +133,41 @@ namespace kk {
         
         char fmt[128];
         
-        if(evhttp_uri_get_port(uri) != 0) {
+        if(evhttp_uri_get_port(uri) != -1) {
             _host.append(":");
             snprintf(fmt, sizeof(fmt), "%d",evhttp_uri_get_port(uri));
             _host.append(fmt);
         }
         
-        _conn = http->getConnection(_host.c_str());
+        int port = evhttp_uri_get_port(uri);
+        
+        if(port == -1) {
+            port = 80;
+        }
+        
+        _conn = evhttp_connection_base_new(http->base(), http->dns(), evhttp_uri_get_host(uri), port);
     
+        evhttp_connection_set_max_body_size(_conn, INT32_MAX);
         evhttp_connection_set_timeout(_conn, timeout_in_secs);
-        evhttp_connection_set_closecb(_conn, HttpTask_conn_cb, this);
+        evhttp_connection_free_on_completion(_conn);
         
         evhttp_request_set_error_cb(_req, HttpTask_error_cb);
-        evhttp_request_set_on_complete_cb(_req, HttpTask_complete_cb, this);
         
         evhttp_make_request(_conn, req, method, url);
-        
+    
         evhttp_uri_free(uri);
     }
     
     void HttpTask::onFail(kk::CString errmsg) {
         
         {
+            kk::script::Object * fn = onfail.as<kk::script::Object>();
             
-            std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
-            
-            while(i != _heapptrs.end()) {
+            if(fn && fn->jsContext()) {
                 
-                duk_context * ctx = i->first;
+                duk_context * ctx = fn->jsContext();
                 
-                duk_push_heapptr(ctx, i->second);
-                
-                duk_push_sprintf(ctx, "onfail");
-                duk_get_prop(ctx, -2);
+                duk_push_heapptr(ctx, fn->heapptr());
                 
                 if(duk_is_function(ctx, -1)) {
                     
@@ -197,9 +179,7 @@ namespace kk {
                     
                 }
                 
-                duk_pop_n(ctx, 2);
-                
-                i ++;
+                duk_pop_n(ctx, 1);
             }
             
         }
@@ -207,49 +187,58 @@ namespace kk {
         remove();
     }
     
-    void HttpTask::onLoad(void * data, size_t n) {
-        {
+    void HttpTask::onLoad() {
+        
+        if(evhttp_request_get_response_code(_req) == 200) {
+        
+            evbuffer * input = evhttp_request_get_input_buffer(_req);
             
-            std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
+            void * data = EVBUFFER_DATA(input);
+            size_t n = EVBUFFER_LENGTH(input);
             
-            while(i != _heapptrs.end()) {
+            {
                 
-                duk_context * ctx = i->first;
+                kk::script::Object * fn = onload.as<kk::script::Object>();
                 
-                duk_push_heapptr(ctx, i->second);
-                
-                duk_push_sprintf(ctx, "onload");
-                duk_get_prop(ctx, -2);
-                
-                if(duk_is_function(ctx, -1)) {
+                if(fn && fn->jsContext()) {
                     
-                    if(_bodyType == HttpBodyTypeJSON) {
-                        duk_push_lstring(ctx, (const char *) data, n);
-                        duk_json_decode(ctx, -1);
-                    } else if(_bodyType == HttpBodyTypeBytes) {
-                        void * d = duk_push_fixed_buffer(ctx, n);
-                        memcpy(d, data, n);
-                        duk_push_buffer_object(ctx, -1, 0, n, DUK_BUFOBJ_UINT8ARRAY);
-                        duk_remove(ctx, -2);
+                    duk_context * ctx = fn->jsContext();
+
+                    duk_push_heapptr(ctx, fn->heapptr());
+                    
+                    if(duk_is_function(ctx, -1)) {
                         
-                    } else {
-                        duk_push_lstring(ctx, (const char *) data, n);
+                        if(_bodyType == HttpBodyTypeJSON) {
+                            duk_push_lstring(ctx, (const char *) data, n);
+                            duk_json_decode(ctx, -1);
+                        } else if(_bodyType == HttpBodyTypeBytes) {
+                            void * d = duk_push_fixed_buffer(ctx, n);
+                            memcpy(d, data, n);
+                            duk_push_buffer_object(ctx, -1, 0, n, DUK_BUFOBJ_UINT8ARRAY);
+                            duk_remove(ctx, -2);
+                            
+                        } else {
+                            duk_push_lstring(ctx, (const char *) data, n);
+                        }
+                        
+                        if(duk_pcall(ctx, 1) != DUK_EXEC_SUCCESS) {
+                            kk::script::Error(ctx, -1);
+                        }
+                        
                     }
                     
-                    if(duk_pcall(ctx, 1) != DUK_EXEC_SUCCESS) {
-                        kk::script::Error(ctx, -1);
-                    }
+                    duk_pop_n(ctx, 1);
                     
                 }
                 
-                duk_pop_n(ctx, 2);
-                
-                i ++;
             }
             
+            remove();
+            
+        } else {
+            onFail(evhttp_request_get_response_code_line(_req));
         }
         
-        remove();
     }
     
     duk_ret_t HttpTask::duk_cancel(duk_context * ctx) {
@@ -291,23 +280,11 @@ namespace kk {
             }
         }
         
-        {
-            std::map<kk::String,std::list<evhttp_connection *>>::iterator i = _conns.begin();
-            
-            while(i != _conns.end()) {
-                std::list<evhttp_connection *> &ls = i->second;
-                std::list<evhttp_connection *>::iterator n = ls.begin();
-                while(n != ls.end()) {
-                    evhttp_connection_free(*n);
-                    n ++;
-                }
-                i ++;
-            }
-        }
     }
     
-    static void HttpRequest_cb(struct evhttp_request * req, void * data) {
-        
+    void HttpRequest_cb(struct evhttp_request * req, void * data) {
+        HttpTask * httpTask = (HttpTask *) data;
+        httpTask->onLoad();
     }
     
     duk_ret_t Http::duk_send(duk_context * ctx) {
@@ -513,7 +490,7 @@ namespace kk {
             duk_get_prop_string(ctx, -top -1, "onload");
             
             if(duk_is_function(ctx, -1)) {
-                duk_put_prop_string(ctx, -2, "onload");
+                httpTask->onload = new kk::script::Object(kk::script::GetContext(ctx),-1);
             }
             
             duk_pop(ctx);
@@ -521,7 +498,7 @@ namespace kk {
             duk_get_prop_string(ctx, -top -1, "onfail");
             
             if(duk_is_function(ctx, -1)) {
-                duk_put_prop_string(ctx, -2, "onfail");
+                httpTask->onfail = new kk::script::Object(kk::script::GetContext(ctx),-1);
             }
             
             duk_pop(ctx);
@@ -550,82 +527,12 @@ namespace kk {
         }
     }
     
-    void Http_conn_cb(struct evhttp_connection * conn, void * data) {
-        Http * http = (Http *) data;
-        http->removeConnection(conn);
-        evhttp_connection_free(conn);
+    event_base * Http::base(){
+        return _base;
     }
     
-    evhttp_connection * Http::getConnection(kk::CString host) {
-
-        std::map<kk::String,std::list<evhttp_connection *>>::iterator i = _conns.find(host);
-        
-        if(i != _conns.end()) {
-            std::list<evhttp_connection *> & ls = i->second;
-            std::list<evhttp_connection *>::iterator n = ls.begin();
-            if(n != ls.end()) {
-                evhttp_connection * conn = * n;
-                ls.pop_front();
-                return conn;
-            }
-        }
-        
-        std::vector<kk::String> vs;
-        
-        kk::CStringSplit(host, ":", vs);
-        
-        int port = 80;
-        
-        if(vs.size() > 1) {
-            port = atoi(vs[1].c_str());
-        }
-        
-        evhttp_connection * conn = evhttp_connection_base_new(_base, _dns, vs[0].c_str(), port);
-        
-        evhttp_connection_set_closecb(conn,Http_conn_cb , this);
-        
-        return conn;
-    }
-    
-    void Http::keepliveConnection(evhttp_connection * conn,kk::CString host) {
-        
-        evhttp_connection_set_closecb(conn,Http_conn_cb , this);
-        
-        std::map<kk::String,std::list<evhttp_connection *>>::iterator i = _conns.find(host);
-        
-        if(i != _conns.end()) {
-            std::list<evhttp_connection *> & ls = i->second;
-            ls.push_back(conn);
-        } else {
-            std::list<evhttp_connection *> ls;
-            ls.push_back(conn);
-            _conns[host] = ls;
-        }
-        
-    }
-    
-    void Http::removeConnection(evhttp_connection * conn) {
-        
-        std::map<kk::String,std::list<evhttp_connection *>>::iterator i = _conns.begin();
-        
-        while(i != _conns.end()) {
-            
-            std::list<evhttp_connection *> & ls = i->second;
-            std::list<evhttp_connection *>::iterator n = ls.begin();
-            
-            while(n != ls.end()) {
-                
-                if(conn == * n) {
-                    evhttp_connection_free(conn);
-                    n = ls.erase(n);
-                    return;
-                }
-                
-                n ++;
-            }
-            
-            i ++;
-        }
+    evdns_base * Http::dns() {
+        return _dns;
     }
     
 }

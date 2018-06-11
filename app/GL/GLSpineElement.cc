@@ -43,6 +43,8 @@ char* _spUtil_readFile (const char* path, int* length) {
     
     size_t n = fread(data, 1, (size_t) st.st_size, fd);
     
+    assert(n == st.st_size);
+    
     data[n]  = 0;
     
     *length = (int) n;

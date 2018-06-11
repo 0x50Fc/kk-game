@@ -25,22 +25,20 @@ namespace kk {
         Http(event_base * base,evdns_base * dns);
         virtual ~Http();
         virtual duk_ret_t duk_send(duk_context * ctx);
+        
+        virtual event_base * base();
+        virtual evdns_base * dns();
+        
         DEF_SCRIPT_CLASS
     protected:
         Http();
         event_base * _base;
         evdns_base * _dns;
-        std::map<kk::String,std::list<evhttp_connection *>> _conns;
         std::map<kk::Uint64,HttpTask *> _tasks;
         kk::Uint64 _autoId;
         
-        virtual evhttp_connection * getConnection(kk::CString host);
-        virtual void keepliveConnection(evhttp_connection * conn,kk::CString host);
-        virtual void removeConnection(evhttp_connection * conn);
-        
         virtual void remove(HttpTask * httpTask);
         friend class HttpTask;
-        friend void Http_conn_cb(struct evhttp_connection * conn, void * data);
     };
     
 }
