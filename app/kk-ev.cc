@@ -12,6 +12,21 @@
 
 namespace kk {
     
+    evdns_base * ev_dns(duk_context * ctx) {
+        
+        evdns_base * base = nullptr;
+        
+        duk_get_global_string(ctx, "__evdns_base");
+        
+        if(duk_is_pointer(ctx, -1)) {
+            base = (evdns_base *) duk_to_pointer(ctx, -1);
+        }
+        
+        duk_pop(ctx);
+        
+        return base;
+    }
+    
     event_base * ev_base(duk_context * ctx) {
         
         event_base * base = nullptr;
@@ -178,12 +193,16 @@ namespace kk {
     }
     
     
-    void ev_openlibs(duk_context * ctx,event_base * base) {
+    void ev_openlibs(duk_context * ctx,event_base * base, evdns_base * dns) {
         
         duk_push_global_object(ctx);
         
         duk_push_string(ctx, "__event_base");
         duk_push_pointer(ctx, base);
+        duk_put_prop(ctx, -3);
+        
+        duk_push_string(ctx, "__evdns_base");
+        duk_push_pointer(ctx, dns);
         duk_put_prop(ctx, -3);
         
         duk_push_string(ctx, "setTimeout");

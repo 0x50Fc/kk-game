@@ -11,12 +11,14 @@
 
 #include "kk-object.h"
 #include <event.h>
+#include <evdns.h>
 
 namespace kk {
     
     event_base * ev_base(duk_context * ctx);
+    evdns_base * ev_dns(duk_context * ctx);
     
-    void ev_openlibs(duk_context * ctx,event_base * base);
+    void ev_openlibs(duk_context * ctx,event_base * base, evdns_base * dns);
     
 }
 

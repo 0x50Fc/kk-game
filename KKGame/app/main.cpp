@@ -119,8 +119,9 @@ int main(int argc, const char * argv[]) {
     duk_pop_2(ctx);
     
     event_base * base = event_init();
+    evdns_base * dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
     
-    kk::ev_openlibs(jsContext->jsContext(), base);
+    kk::ev_openlibs(jsContext->jsContext(), base,dns);
     
     {
         
@@ -147,6 +148,8 @@ int main(int argc, const char * argv[]) {
     event_base_loop(base, 0);
     
     evtimer_del(app_ev_exec);
+    
+    evdns_base_free(dns, 0);
     
     app->release();
     
