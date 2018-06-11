@@ -11,6 +11,7 @@
 #include "kk-string.h"
 #include "kk-ev.h"
 #include "kk-ws.h"
+#include "kk-http.h"
 #include <event.h>
 #include <unistd.h>
 
@@ -126,7 +127,12 @@ int main(int argc, const char * argv[]) {
     {
         
         kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::Http::ScriptClass);
         
+        kk::Strong v = new kk::Http(base,dns);
+        
+        kk::script::PushObject(ctx, v.get());
+        duk_put_global_string(ctx, "http");
     }
     
     app->run();

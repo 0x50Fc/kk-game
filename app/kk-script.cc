@@ -170,6 +170,26 @@ namespace kk {
             return _heapptr;
         }
         
+        
+        void HeapObject::setHeapptr(void * heapptr,duk_context * ctx) {
+            _heapptrs[ctx] = heapptr;
+        }
+        
+        void * HeapObject::heapptr(duk_context * ctx) {
+            std::map<duk_context *, void *>::iterator i = _heapptrs.find(ctx);
+            if(i != _heapptrs.end()) {
+                return i->second;
+            }
+            return nullptr;
+        }
+        
+        void HeapObject::removeHeapptr(duk_context * ctx) {
+            std::map<duk_context *, void *>::iterator i = _heapptrs.find(ctx);
+            if(i != _heapptrs.end()) {
+                _heapptrs.erase(i);
+            }
+        }
+        
         Context * GetContext(duk_context * jsContext) {
             
             Context * v = nullptr;
@@ -195,6 +215,12 @@ namespace kk {
             
             if(duk_is_pointer(ctx, -1)) {
                 kk::Object * v = (kk::Object *) duk_to_pointer(ctx, -1);
+                {
+                    IHeapObject * vv = dynamic_cast<IHeapObject *>(v);
+                    if(vv) {
+                        vv->removeHeapptr(ctx);
+                    }
+                }
                 v->release();
             }
             
@@ -214,6 +240,22 @@ namespace kk {
                 Object * v = dynamic_cast<Object *>(object);
                 if(v) {
                     duk_push_heapptr(ctx, v->heapptr());
+                    return;
+                }
+            }
+            
+            {
+                IHeapObject * v = dynamic_cast<IHeapObject *>(object);
+                if(v) {
+                    void * heapptr = v->heapptr(ctx);
+                    if(heapptr == nullptr) {
+                        duk_push_object(ctx);
+                        heapptr = duk_get_heapptr(ctx, -1);
+                        InitObject(ctx, -1, object);
+                        v->setHeapptr(heapptr, ctx);
+                    } else {
+                        duk_push_heapptr(ctx, heapptr);
+                    }
                     return;
                 }
             }

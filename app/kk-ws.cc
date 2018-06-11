@@ -10,12 +10,29 @@
 #include "kk-ws.h"
 #include "kk-ev.h"
 #include <sys/queue.h>
+#include <arpa/inet.h>
 
 #define Sec_WebSocket_Key "RCfYMqhgCo4N4E+cIZ0iPg=="
 #define MAX_BUF_SIZE 204800
 
+#define KKFinMask           0x80
+#define KKOpCodeMask        0x0F
+#define KKRSVMask           0x70
+#define KKMaskMask          0x80
+#define KKPayloadLenMask    0x7F
+#define KKMaxFrameSize      32
+
 namespace kk {
     
+
+    enum WebSocketOpCode {
+        WebSocketOpCodeContinueFrame = 0x0,
+        WebSocketOpCodeTextFrame = 0x1,
+        WebSocketOpCodeBinaryFrame = 0x2,
+        WebSocketOpCodeConnectionClose = 0x8,
+        WebSocketOpCodePing = 0x9,
+        WebSocketOpCodePong = 0xA,
+    };
     
     static duk_ret_t WebSocketAlloc(duk_context * ctx) {
         int top = duk_get_top(ctx);
@@ -49,18 +66,34 @@ namespace kk {
     
     IMP_SCRIPT_CLASS_BEGIN(nullptr, WebSocket, WebSocket)
     
+    static kk::script::Method methods[] = {
+        {"on",(kk::script::Function) &WebSocket::duk_on},
+        {"close",(kk::script::Function) &WebSocket::duk_close},
+        {"send",(kk::script::Function) &WebSocket::duk_send},
+    };
+    
+    kk::script::SetMethod(ctx, -1, methods, sizeof(methods) / sizeof(kk::script::Method));
+    
     duk_push_string(ctx, "alloc");
     duk_push_c_function(ctx, WebSocketAlloc, 2);
     duk_put_prop(ctx, -3);
    
     IMP_SCRIPT_CLASS_END
     
-    WebSocket::WebSocket():_bev(nullptr) {
-        
+    WebSocket::WebSocket():_bev(nullptr),_bodyType(WebSocketTypeNone),_state(WebSocketStateNone) {
+        _body = evbuffer_new();
     }
     
     WebSocket::~WebSocket() {
-        
+        if(_bev != nullptr) {
+            int fd = bufferevent_getfd(_bev);
+            if(fd != -1) {
+                evutil_closesocket(fd);
+            }
+            bufferevent_free(_bev);
+            _bev = nullptr;
+        }
+        evbuffer_free(_body);
     }
     
     void WebSocket::close() {
@@ -87,7 +120,7 @@ namespace kk {
     void WebSocket_event_cb(struct bufferevent *bev, short what, void *ctx) {
         WebSocket * v = (WebSocket *) ctx;
         if(what & BEV_EVENT_CONNECTED) {
-            bufferevent_enable(bev, EV_WRITE);
+            v->onConnected();
         } else {
             v->onClose(nullptr);
         }
@@ -122,8 +155,63 @@ namespace kk {
     }
     
     void WebSocket::onWritting() {
-        if(_state == WebSocketStateOpened) {
+        if(_state == WebSocketStateConnected) {
+            bufferevent_enable(_bev, EV_READ);
+        }
+    }
+    
+    void WebSocket::onData(WebSocketType type,void * data,size_t length) {
+        if(type == WebSocketTypePing) {
+        
             
+        } else {
+            {
+                
+                std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
+                
+                while(i != _heapptrs.end()) {
+                    
+                    duk_context * ctx = i->first;
+                    
+                    duk_push_heapptr(ctx, i->second);
+                    
+                    duk_push_sprintf(ctx, "_ondata");
+                    duk_get_prop(ctx, -2);
+                    
+                    if(duk_is_function(ctx, -1)) {
+                        
+                        if(type == WebSocketTypeText) {
+                            
+                            duk_push_lstring(ctx, (const char *) data,length);
+                            
+                            if(duk_pcall(ctx, 1) != DUK_EXEC_SUCCESS) {
+                                kk::script::Error(ctx, -1);
+                            }
+                            
+                        } else {
+                            
+                            void * d = duk_push_fixed_buffer(ctx, length);
+                            
+                            memcpy(d, data, length);
+                            
+                            duk_push_buffer_object(ctx, -1, 0, length, DUK_BUFOBJ_UINT8ARRAY);
+                            
+                            duk_remove(ctx, -2);
+                            
+                            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
+                                kk::script::Error(ctx, -1);
+                            }
+                            
+                        }
+
+                    }
+                    
+                    duk_pop_n(ctx, 2);
+                    
+                    i ++;
+                }
+                
+            }
         }
     }
     
@@ -156,8 +244,9 @@ namespace kk {
             if(n == 2) {
                 
                 int code = 0;
+                char status[128];
                 
-                sscanf(s, "HTTP/1.1 %d",&code);
+                sscanf(s, "HTTP/1.1 %d %[^\r\n]\r\n",&code,status);
                 
                 evbuffer_drain(data, p - s);
                 
@@ -165,7 +254,8 @@ namespace kk {
                     onOpen();
                     return;
                 } else {
-                    onClose("服务错误");
+                    onClose(status);
+                    this->close();
                     return ;
                 }
 
@@ -175,6 +265,107 @@ namespace kk {
             
         } else if(_state == WebSocketStateOpened) {
             
+            evbuffer * data = bufferevent_get_input(_bev);
+            uint8_t * p = EVBUFFER_DATA(data);
+            size_t n = EVBUFFER_LENGTH(data);
+            
+            if(n >= 2) {
+                
+                bool isFin = (KKFinMask & p[0]);
+                uint8_t receivedOpcode = KKOpCodeMask & p[0];
+                bool isMasked = (KKMaskMask & p[1]);
+                uint8_t payloadLen = (KKPayloadLenMask & p[1]);
+                int offset = 2;
+                
+                if((isMasked  || (KKRSVMask & p[0])) && receivedOpcode != WebSocketOpCodePong) {
+                    this->onClose("不支持的协议");
+                    this->close();
+                    return;
+                }
+                
+                bool isControlFrame = (receivedOpcode == WebSocketOpCodeConnectionClose || receivedOpcode == WebSocketOpCodePing);
+                
+                if(!isControlFrame && (receivedOpcode != WebSocketOpCodeBinaryFrame && receivedOpcode != WebSocketOpCodeContinueFrame && receivedOpcode != WebSocketOpCodeTextFrame && receivedOpcode != WebSocketOpCodePong)) {
+                    this->onClose("不支持的协议");
+                    this->close();
+                    return;
+                }
+                
+                if(isControlFrame && !isFin) {
+                    this->onClose("不支持的协议");
+                    this->close();
+                    return;
+                }
+                
+                if(receivedOpcode == WebSocketOpCodeConnectionClose) {
+                    this->onClose(nullptr);
+                    this->close();
+                    return;
+                }
+                
+                if(isControlFrame && payloadLen > 125) {
+                    this->onClose("不支持的协议");
+                    this->close();
+                    return;
+                }
+                
+                uint64_t dataLength = payloadLen;
+                if(payloadLen == 127) {
+                    dataLength =  ntohll((*(uint64_t *)(p+offset)));
+                    offset += sizeof(uint64_t);
+                } else if(payloadLen == 126) {
+                    dataLength = ntohs(*(uint16_t *)(p+offset));
+                    offset += sizeof(uint16_t);
+                }
+                
+                if(n < offset) { // we cannot process this yet, nead more header data
+                    bufferevent_enable(_bev, EV_READ);
+                    return;
+                }
+                
+                uint64_t len = dataLength;
+                
+                if(dataLength > (n-offset) || (n - offset) < dataLength) {
+                    len = n-offset;
+                }
+
+                if(receivedOpcode == WebSocketOpCodePong) {
+                    evbuffer_drain(data, offset + len);
+                    onReading();
+                    return;
+                }
+                
+                if(receivedOpcode == WebSocketOpCodeContinueFrame) {
+                    evbuffer_add(_body, p + offset, len);
+                    evbuffer_drain(data, offset + len);
+                } else if(receivedOpcode == WebSocketOpCodeTextFrame) {
+                    _bodyType = WebSocketTypeText;
+                    evbuffer_add(_body, p + offset, len);
+                    evbuffer_drain(data, offset + len);
+                } else if(receivedOpcode == WebSocketOpCodeBinaryFrame) {
+                    _bodyType = WebSocketTypeBinary;
+                    evbuffer_add(_body, p + offset, len);
+                    evbuffer_drain(data, offset + len);
+                } else if(receivedOpcode == WebSocketOpCodePing) {
+                    _bodyType = WebSocketTypePing;
+                    evbuffer_add(_body, p + offset, len);
+                    evbuffer_drain(data, offset + len);
+                } else {
+                    this->onClose("不支持的协议");
+                    this->close();
+                    return;
+                }
+                
+                if(isFin && EVBUFFER_LENGTH(_body) == dataLength) {
+                    onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
+                    evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
+                    _bodyType = WebSocketTypeNone;
+                }
+                
+                onReading();
+                
+                return;
+            }
             
             bufferevent_enable(_bev, EV_READ);
         }
@@ -184,6 +375,35 @@ namespace kk {
     void WebSocket::onOpen() {
         if(_state == WebSocketStateConnected) {
             _state = WebSocketStateOpened;
+            
+            {
+                
+                std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
+                
+                while(i != _heapptrs.end()) {
+                    
+                    duk_context * ctx = i->first;
+                    
+                    duk_push_heapptr(ctx, i->second);
+                    
+                    duk_push_sprintf(ctx, "_onopen");
+                    duk_get_prop(ctx, -2);
+                    
+                    if(duk_is_function(ctx, -1)) {
+                        
+                        if(duk_pcall(ctx, 0) != DUK_EXEC_SUCCESS) {
+                            kk::script::Error(ctx, -1);
+                        }
+                        
+                    }
+                    
+                    duk_pop_n(ctx, 2);
+                    
+                    i ++;
+                }
+                
+            }
+            
             onReading();
             if(EVBUFFER_LENGTH(bufferevent_get_output(_bev)) > 0) {
                 bufferevent_enable(_bev, EV_WRITE);
@@ -194,6 +414,37 @@ namespace kk {
     void WebSocket::onClose(kk::CString errmsg) {
         if(_state != WebSocketStateClosed) {
             _state = WebSocketStateClosed;
+            
+            {
+                
+                std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
+                
+                while(i != _heapptrs.end()) {
+                    
+                    duk_context * ctx = i->first;
+                    
+                    duk_push_heapptr(ctx, i->second);
+                    
+                    duk_push_sprintf(ctx, "_onclose");
+                    duk_get_prop(ctx, -2);
+                    
+                    if(duk_is_function(ctx, -1)) {
+                        
+                        duk_push_string(ctx, errmsg);
+                        
+                        if(duk_pcall(ctx, 1) != DUK_EXEC_SUCCESS) {
+                            kk::script::Error(ctx, -1);
+                        }
+                        
+                    }
+                    
+                    duk_pop_n(ctx, 2);
+                    
+                    i ++;
+                }
+                
+            }
+            
             if(_bev != nullptr) {
                 int fd = bufferevent_getfd(_bev);
                 if(fd != -1) {
@@ -207,48 +458,67 @@ namespace kk {
     
  
     void WebSocket::send(void * data,size_t n) {
-        
-        /*
-        uint64_t offset = 2; //how many bytes do we need to skip for the header
-        uint8_t *bytes = (uint8_t*)[data bytes];
-        uint64_t dataLength = data.length;
-        NSMutableData *frame = [[NSMutableData alloc] initWithLength:(NSInteger)(dataLength + KKMaxFrameSize)];
-        uint8_t *buffer = (uint8_t*)[frame mutableBytes];
-        buffer[0] = KKFinMask | code;
-        if(dataLength < 126) {
-            buffer[1] |= dataLength;
-        } else if(dataLength <= UINT16_MAX) {
-            buffer[1] |= 126;
-            *((uint16_t *)(buffer + offset)) = CFSwapInt16BigToHost((uint16_t)dataLength);
-            offset += sizeof(uint16_t);
-        } else {
-            buffer[1] |= 127;
-            *((uint64_t *)(buffer + offset)) = CFSwapInt64BigToHost((uint64_t)dataLength);
-            offset += sizeof(uint64_t);
-        }
-        BOOL isMask = YES;
-        if(isMask) {
-            buffer[1] |= KKMaskMask;
-            uint8_t *mask_key = (buffer + offset);
-            (void)SecRandomCopyBytes(kSecRandomDefault, sizeof(uint32_t), (uint8_t *)mask_key);
-            offset += sizeof(uint32_t);
-            
-            for (size_t i = 0; i < dataLength; i++) {
-                buffer[offset] = bytes[i] ^ mask_key[i % sizeof(uint32_t)];
-                offset += 1;
-            }
-        } else {
-            for(size_t i = 0; i < dataLength; i++) {
-                buffer[offset] = bytes[i];
-                offset += 1;
-            }
-        }
-        */
-        
+        send(data,n,WebSocketTypeBinary);
     }
     
     void WebSocket::send(kk::CString text) {
+        send((void *) text, (size_t) strlen(text),WebSocketTypeText);
+    }
+    
+    void WebSocket::send(void * data,size_t n,WebSocketType type) {
         
+        if(_bev == nullptr) {
+            return;
+        }
+        
+        uint8_t frame[KKMaxFrameSize];
+        switch (type) {
+            case WebSocketTypePing:
+                frame[0] = KKFinMask | WebSocketOpCodePing;
+                break;
+            case WebSocketTypeText:
+                frame[0] = KKFinMask | WebSocketOpCodeTextFrame;
+                break;
+            case WebSocketTypeBinary:
+                frame[0] = KKFinMask | WebSocketOpCodeBinaryFrame;
+                break;
+            default:
+                return;
+        }
+        
+        uint64_t offset = 2;
+        
+        if(n < 126) {
+            frame[1] |= n;
+        } else if(n <= UINT16_MAX) {
+            frame[1] |= 126;
+            *((uint16_t *)(frame + offset)) = htons((uint16_t)n);
+            offset += sizeof(uint16_t);
+        } else {
+            frame[1] |= 127;
+            *((uint64_t *)(frame + offset)) = htonll((uint64_t)n);
+            offset += sizeof(uint64_t);
+        }
+        
+        frame[1] |= KKMaskMask;
+        uint8_t *mask_key = (frame + offset);
+        for(int i=0;i<sizeof(uint32_t);i++) {
+            mask_key[i] = rand();
+        }
+        offset += sizeof(uint32_t);
+        
+        evbuffer * output = bufferevent_get_output(_bev);
+        evbuffer_add(output, frame, offset);
+        
+        uint8_t * p = (uint8_t *) data;
+        uint8_t u;
+        
+        for(int i=0;i<n;i++) {
+            u = p[i] ^ mask_key[i % sizeof(uint32_t)];
+            evbuffer_add(output, &u, 1);
+        }
+        
+        bufferevent_enable(_bev, EV_WRITE);
     }
     
     kk::Boolean WebSocket::open(event_base * base,evdns_base * dns, kk::CString url,kk::CString protocol) {
@@ -321,19 +591,73 @@ namespace kk {
         evbuffer_add_printf(data, "Sec-WebSocket-Version: %s\r\n","13");
         evbuffer_add_printf(data, "\r\n");
     
-        evdns_base_resolve_ipv4(dns, evhttp_uri_get_host(uri), 0, WebSocket_evdns_cb, this);
+        struct in_addr addr;
+        
+        addr.s_addr = inet_addr(evhttp_uri_get_host(uri));
+        
+        if(addr.s_addr == INADDR_NONE) {
+            evdns_base_resolve_ipv4(dns, evhttp_uri_get_host(uri), 0, WebSocket_evdns_cb, this);
+        } else {
+            onResolve(&addr);
+        }
         
         return true;
     }
     
     duk_ret_t WebSocket::duk_on(duk_context * ctx) {
         
+        void *heapptr = this->heapptr(ctx);
+        
+        if(heapptr) {
+            
+            int top = duk_get_top(ctx);
+            
+            if(top > 0 && duk_is_string(ctx, -top) ) {
+                
+                const char *name = duk_to_string(ctx, -top);
+                
+                if(top > 1 && duk_is_function(ctx, -top + 1)) {
+                    duk_push_heapptr(ctx, heapptr);
+                    duk_push_sprintf(ctx, "_on%s",name);
+                    duk_dup(ctx, - top + 1 - 2);
+                    duk_put_prop(ctx, -3);
+                    duk_pop(ctx);
+                } else {
+                    duk_push_heapptr(ctx, heapptr);
+                    duk_push_sprintf(ctx, "_on%s",name);
+                    duk_del_prop(ctx, -2);
+                    duk_pop(ctx);
+                }
+                
+            }
+        }
+        
         return 0;
     }
     
     duk_ret_t WebSocket::duk_close(duk_context * ctx) {
         
+        close();
+        
         return 0;
+    }
+    
+    duk_ret_t WebSocket::duk_send(duk_context * ctx) {
+        
+        int top = duk_get_top(ctx);
+        
+        if(top >0 ) {
+            if(duk_is_string(ctx, - top)) {
+                send(duk_to_string(ctx, -top));
+            } else if(duk_is_buffer_data(ctx, -top)) {
+                duk_size_t n;
+                void * bytes = duk_get_buffer_data(ctx, - top, &n);
+                send(bytes, n);
+            }
+        }
+        
+        return 0;
+        
     }
     
 }

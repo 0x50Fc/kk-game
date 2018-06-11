@@ -39,6 +39,22 @@ namespace kk {
             std::map<kk::String,kk::Object *> _objects;
         };
         
+        class IHeapObject {
+        public:
+            virtual void setHeapptr(void * heapptr,duk_context * ctx) = 0;
+            virtual void * heapptr(duk_context * ctx) = 0;
+            virtual void removeHeapptr(duk_context * ctx) = 0;
+        };
+        
+        class HeapObject: public kk::Object, public IHeapObject {
+        public:
+            virtual void setHeapptr(void * heapptr,duk_context * ctx);
+            virtual void * heapptr(duk_context * ctx);
+            virtual void removeHeapptr(duk_context * ctx);
+        protected:
+            std::map<duk_context *,void *> _heapptrs;
+        };
+        
         class Object : public kk::Object {
         public:
             Object(Context * context,duk_idx_t idx);

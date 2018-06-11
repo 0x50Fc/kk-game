@@ -21,21 +21,23 @@ namespace kk {
     };
     
     enum WebSocketType {
-        WebSocketType
+        WebSocketTypeNone,WebSocketTypeText,WebSocketTypeBinary,WebSocketTypePing
     };
     
-    class WebSocket : public Object {
+    class WebSocket : public kk::script::HeapObject, public kk::script::IObject {
     public:
         WebSocket();
         virtual ~WebSocket();
         
         virtual kk::Boolean open(event_base * base,evdns_base * dns, kk::CString url,kk::CString protocol);
         virtual void close();
+        virtual void send(void * data,size_t n,WebSocketType type);
         virtual void send(void * data,size_t n);
         virtual void send(kk::CString text);
         
         virtual duk_ret_t duk_on(duk_context * ctx);
         virtual duk_ret_t duk_close(duk_context * ctx);
+        virtual duk_ret_t duk_send(duk_context * ctx);
         
         DEF_SCRIPT_CLASS
         
@@ -43,6 +45,8 @@ namespace kk {
         kk::String _errmsg;
         bufferevent * _bev;
         WebSocketState _state;
+        evbuffer * _body;
+        WebSocketType _bodyType;
         struct sockaddr_in _addr;
         
         virtual void onClose(kk::CString errmsg);
@@ -51,6 +55,7 @@ namespace kk {
         virtual void onWritting();
         virtual void onReading();
         virtual void onOpen();
+        virtual void onData(WebSocketType type,void * data,size_t length);
         
         friend void WebSocket_data_rd(struct bufferevent *bev, void *ctx);
         friend void WebSocket_data_wd(struct bufferevent *bev, void *ctx);

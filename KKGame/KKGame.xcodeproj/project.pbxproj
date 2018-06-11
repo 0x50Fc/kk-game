@@ -71,6 +71,7 @@
 		1A195632207DA99C001C9B0B /* KKGamepadElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A195630207DA99C001C9B0B /* KKGamepadElement.m */; };
 		1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
 		1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
+		1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
 		1A65A9FE20417BDE0001B38A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */; };
 		1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65AA1920440F130001B38A /* GLSLFillColor.h */; };
@@ -450,6 +451,8 @@
 		1A32EC5120CA934A00C4B091 /* kk-ev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ev.h"; sourceTree = "<group>"; };
 		1A32EC6F20CA9F9600C4B091 /* kk-ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ws.h"; sourceTree = "<group>"; };
 		1A32EC7020CA9F9600C4B091 /* kk-ws.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-ws.cc"; sourceTree = "<group>"; };
+		1A32EC7D20CE31FD00C4B091 /* kk-http.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-http.cc"; sourceTree = "<group>"; };
+		1A32EC7E20CE31FD00C4B091 /* kk-http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-http.h"; sourceTree = "<group>"; };
 		1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLSliceMapElement.h; sourceTree = "<group>"; };
 		1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLSliceMapElement.cc; sourceTree = "<group>"; };
 		1A65AA1620440E7E0001B38A /* GLSLFillColor.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = GLSLFillColor.vsh; sourceTree = "<group>"; };
@@ -1066,6 +1069,8 @@
 				1A32EC5120CA934A00C4B091 /* kk-ev.h */,
 				1A32EC6F20CA9F9600C4B091 /* kk-ws.h */,
 				1A32EC7020CA9F9600C4B091 /* kk-ws.cc */,
+				1A32EC7E20CE31FD00C4B091 /* kk-http.h */,
+				1A32EC7D20CE31FD00C4B091 /* kk-http.cc */,
 			);
 			name = app;
 			path = ../../app;
@@ -1474,6 +1479,7 @@
 				1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */,
 				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
 				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
+				1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
