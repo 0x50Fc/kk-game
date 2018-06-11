@@ -151,7 +151,7 @@ namespace kk {
                         spSkeletonJson* json = spSkeletonJson_create(_spAtlas);
                         
                         json->scale = 1.0f;
-                        
+                   
                         _spSkeletonData = spSkeletonJson_readSkeletonDataFile(json, path.c_str());
                     
                         if (_spSkeletonData == nullptr) {
@@ -237,6 +237,11 @@ namespace kk {
                 for (int i = 0; i < _spSkeleton->slotsCount; ++i) {
                     
                     spSlot* slot = _spSkeleton->drawOrder[i];
+                    
+                    if(slot == nullptr) {
+                        continue;
+                    }
+                    
                     spAttachment* attachment = slot->attachment;
                     
                     if (!attachment) continue;

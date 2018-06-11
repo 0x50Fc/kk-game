@@ -223,6 +223,7 @@ namespace kk {
         class AnimationTarget {
         public:
             virtual void setAnimationTransform(mat4 transform) = 0;
+            virtual void setAnimationOpacity(Float opacity) = 0;
             virtual void setAnimationImage(Image * image) = 0;
         };
         
@@ -231,6 +232,7 @@ namespace kk {
             Element();
             virtual void draw(Context * context);
             virtual void changedKey(String& key);
+            virtual void setAnimationOpacity(Float opacity);
             virtual void setAnimationTransform(mat4 transform);
             virtual void setAnimationImage(Image * image);
             vec3 position;

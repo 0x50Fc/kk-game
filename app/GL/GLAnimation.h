@@ -55,6 +55,7 @@ namespace kk {
         public:
             mat4 transform;
             Float value;
+            Float opacity;
         private:
             kk::Strong _image;
         };

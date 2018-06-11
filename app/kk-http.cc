@@ -145,6 +145,10 @@ namespace kk {
             port = 80;
         }
         
+        struct evkeyvalq * headers = evhttp_request_get_output_headers(req);
+        
+        evhttp_add_header(headers, "Host", _host.c_str());
+        
         _conn = evhttp_connection_base_new(http->base(), http->dns(), evhttp_uri_get_host(uri), port);
     
         evhttp_connection_set_max_body_size(_conn, INT32_MAX);

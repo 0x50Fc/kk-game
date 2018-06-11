@@ -16,7 +16,7 @@ RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/gcc /usr/bin/gcc
 RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/c++ /usr/bin/c++
 RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/g++ /usr/bin/g++
 
-RUN yum install -y openssl-static glibc-static libstdc++-static zlib-static
+RUN yum install -y openssl-static glibc-static libstdc++-static zlib-static libevent-static
 
 RUN yum install -y make 
 RUN yum install -y cmake 

@@ -783,6 +783,10 @@ namespace kk {
             
         }
         
+        void Element::setAnimationOpacity(Float opacity) {
+            this->opacity = opacity;
+        }
+        
         mat4 TransformForString(kk::String & value) {
             mat4 v(1.0f);
             std::vector<kk::String> items;

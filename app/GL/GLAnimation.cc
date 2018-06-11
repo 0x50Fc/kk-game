@@ -142,16 +142,19 @@ namespace kk {
             }
             
             if(prev == nullptr) {
+                e->setAnimationOpacity(n->opacity);
                 e->setAnimationTransform(n->transform);
                 e->setAnimationImage(n->image(context));
             } else {
                 Float bv = prev->value;
                 Float ev = cur;
                 if(ev - bv == 0) {
+                    e->setAnimationOpacity(n->opacity);
                     e->setAnimationTransform(n->transform);
                     e->setAnimationImage(n->image(context));
                 } else {
                     Float v = (idx - bv) / (ev - bv);
+                    e->setAnimationOpacity(prev->opacity + (n->opacity - prev->opacity) * v);
                     e->setAnimationTransform(prev->transform + (n->transform - prev->transform) * v);
                     if(v >= 1.0f) {
                         e->setAnimationImage(n->image(context));
@@ -195,7 +198,7 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        AnimationItem::AnimationItem():transform(1.0f),value(0) {
+        AnimationItem::AnimationItem():transform(1.0f),value(0),opacity(1) {
             
         }
         
@@ -208,6 +211,8 @@ namespace kk {
                 value = kk::GA::floatValue(get(key));
             } else if(key == "image") {
                 _image = (kk::Object *) nullptr;
+            } else if(key == "opacity") {
+                opacity = kk::GA::floatValue(get(key));
             }
         }
         

@@ -122,6 +122,8 @@ int main(int argc, const char * argv[]) {
     event_base * base = event_init();
     evdns_base * dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
     
+    evdns_base_load_hosts(dns, "/etc/hosts");
+    
     kk::ev_openlibs(jsContext->jsContext(), base,dns);
     
     {
