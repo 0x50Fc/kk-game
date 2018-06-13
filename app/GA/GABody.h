@@ -41,6 +41,7 @@ namespace kk {
             virtual void exec(Context * context);
     
             BodyType bodyType;
+            Float angle;    //方向弧度
             
             virtual duk_ret_t duk_position(duk_context * ctx);
             virtual duk_ret_t duk_setPosition(duk_context * ctx);

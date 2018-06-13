@@ -11,6 +11,10 @@
 #include "GAScene.h"
 #include "GABody.h"
 #include <iostream>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
+
 using namespace std;
 namespace kk {
     
@@ -91,11 +95,21 @@ namespace kk {
                             }
                             
                             if(image != nullptr && image->status() == ImageStatusLoaded) {
-                                vec4 dest(x + size.x * 0.5f - image->width() *0.5f,
-                                          y + size.y * 0.5f - image->height() *0.5f,
+                                
+                                context->store();
+                                
+                                ContextState & state = context->state();
+                                
+                                state.view = glm::rotate(glm::translate(state.view, vec3(x + size.x * 0.5f,y + size.y * 0.5f,0)), v->angle, vec3(0,0,-1));
+                                
+                                vec4 dest( - image->width() *0.5f,
+                                           - image->height() *0.5f,
                                           image->width(),image->height());
                                 vec4 src(0,0,image->width(),image->height());
                                 context->drawTexture(image, dest, src,0);
+                                
+                                context->restore();
+                                
                             }
                         }
                     }

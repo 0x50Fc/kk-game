@@ -30,7 +30,7 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        Body::Body():bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr) {
+        Body::Body():bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr),angle(0) {
         }
         
         Body::~Body() {
@@ -109,6 +109,8 @@ namespace kk {
                 if(_cpBody != nullptr) {
                     cpBodySetMass(_cpBody, floatValue(get(key))); //质量
                 }
+            } else if(key == "angle") {
+                angle = floatValue(get(key));
             }
     
         }
