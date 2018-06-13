@@ -27,7 +27,9 @@ char* _spUtil_readFile (const char* path, int* length) {
     
     if( stat(path, &st) == -1) {
         kk::Log("Not Open %s",path);
-        * length = 0;
+        if(length) {
+            * length = 0;
+        }
         return nullptr;
     }
     
@@ -47,7 +49,9 @@ char* _spUtil_readFile (const char* path, int* length) {
     
     data[n]  = 0;
     
-    *length = (int) n;
+    if(length) {
+        *length = (int) n;
+    }
     
     fclose(fd);
     

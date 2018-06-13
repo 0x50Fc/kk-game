@@ -15,7 +15,6 @@ namespace kk {
     
     namespace GA {
         
-        
         class ActionWalk : public Action {
         public:
             ActionWalk();
@@ -26,6 +25,11 @@ namespace kk {
             Float speed;    //速度
             Float angle;    //移动方向
             
+            Float duration;    //持续时间
+            kk::Weak target;   //跟随目标
+            
+            virtual duk_ret_t duk_target(duk_context * ctx);
+            virtual duk_ret_t duk_setTarget(duk_context * ctx);
             
             DEF_SCRIPT_CLASS
         protected:
@@ -33,6 +37,7 @@ namespace kk {
             kk::Boolean _landing;
             kk::Boolean _enabled;
             Float _distance;
+            TimeInterval _startTimeInterval;
         };
     }
     

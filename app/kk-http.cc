@@ -158,6 +158,8 @@ namespace kk {
         evhttp_request_set_error_cb(_req, HttpTask_error_cb);
         
         evhttp_make_request(_conn, req, method, url);
+        
+        this->retain();
     
         evhttp_uri_free(uri);
     }
@@ -289,6 +291,7 @@ namespace kk {
     void HttpRequest_cb(struct evhttp_request * req, void * data) {
         HttpTask * httpTask = (HttpTask *) data;
         httpTask->onLoad();
+        httpTask->release();
     }
     
     duk_ret_t Http::duk_send(duk_context * ctx) {

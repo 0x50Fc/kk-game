@@ -121,17 +121,16 @@ namespace kk {
         }
         
         void Scene::exec(Context * context) {
-            Element::exec(context);
             _viewport = context->viewport();
-            
             if(_prevTimeInterval == 0) {
                 cpSpaceStep(_cpSpace,0);
             } else {
                 cpFloat dt = (cpFloat) (context->current() - _prevTimeInterval) * 0.001f;
                 cpSpaceStep(_cpSpace,dt);
             }
-            
             _prevTimeInterval = context->current();
+            
+            Element::exec(context);
         }
         
         void Scene::changedKey(String &key){
@@ -294,6 +293,8 @@ namespace kk {
                 r = duk_to_number(ctx, -top + 2);
             }
             
+            kk::Log("[SCENE] [NEARBY] %g,%g %g",x,y,r);
+            
             duk_push_array(ctx);
             
             if(r > 0) {
@@ -311,30 +312,14 @@ namespace kk {
                         
                         if(nearbyBody.body != nullptr && nearbyBody.body->bodyType == BodyTypeMovable) {
                             
-                            nearbyBody.distance = MAXFLOAT;
+                            kk::GA::Point p = nearbyBody.body->position();
                             
-                            kk::Element * p = e->firstChild();
+                            Float dx = x - p.x;
+                            Float dy = y - p.y;
                             
-                            while(p) {
-                                
-                                Shape * shape = dynamic_cast<Shape *>(p);
-                                
-                                if(shape != nullptr && shape->cpShape()) {
-                                    
-                                    cpBB bb = cpShapeGetBB(shape->cpShape());
-                                    cpVect p = cpBBCenter(bb);
-                                    Float dx = x - p.x;
-                                    Float dy = y - p.y;
-                                    Float distance = sqrt(dx * dx + dy * dy) - MAX((bb.r - bb.l) * 0.5f,(bb.b - bb.t) * 0.5f);
-                                    
-                                    if(distance <= r && distance < nearbyBody.distance) {
-                                        nearbyBody.distance = distance;
-                                    }
-                                    
-                                }
-                                
-                                p = p->nextSibling();
-                            }
+                            nearbyBody.distance = sqrt(dx * dx + dy * dy) ;
+                            
+                            kk::Log("[SCENE] [NEARBY] [BODY] %g,%g %g",p.x,p.y,nearbyBody.distance);
                             
                             if(nearbyBody.distance <= r) {
                                 nearbyBodys.push_back(nearbyBody);

@@ -200,6 +200,7 @@ namespace kk {
                 if(_cpBody != nullptr) {
                     cpVect p = {_position.x,_position.y};
                     cpBodySetPosition(_cpBody, p);
+                    cpBodySetVelocity(_cpBody, {0,0});
                 }
             }
 
@@ -214,7 +215,9 @@ namespace kk {
                 
                 ::cpSpace * cpSpace = v->cpSpace();
                 
-                cpSpaceRemoveBody(cpSpace, _cpBody);
+                if(cpBodyGetSpace(_cpBody) == cpSpace) {
+                    cpSpaceRemoveBody(cpSpace, _cpBody);
+                }
                 
                 kk::Element * e = firstChild();
                 
@@ -223,7 +226,12 @@ namespace kk {
                     Shape * shape = dynamic_cast<Shape * >(e);
                     
                     if(shape && shape->cpShape()) {
-                        cpSpaceRemoveShape(cpSpace, shape->cpShape());
+                        ::cpShape * cpShape = shape->cpShape();
+                    
+                        if(cpShapeGetSpace(cpShape) == cpSpace) {
+                            cpSpaceRemoveShape(cpSpace, cpShape);
+                        }
+                        
                     }
                     
                     e = e->nextSibling();

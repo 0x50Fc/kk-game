@@ -18,6 +18,12 @@
         GLuint depth;
     } _data;
     CGSize _resize;
+    struct {
+        CGFloat r;
+        CGFloat g;
+        CGFloat b;
+        CGFloat a;
+    } _backgroundColor;
 }
 
 @end
@@ -132,9 +138,7 @@
     
     [EAGLContext setCurrentContext:GLContext];
     
-    CGFloat r = 0.0,g = 0.0,b = 0.0,a = 0.0;
-    
-    glClearColor(r, g, b, a);
+    glClearColor(_backgroundColor.r, _backgroundColor.g, _backgroundColor.b, _backgroundColor.a);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -143,6 +147,11 @@
     GLContext.GLContext->draw(element);
     [GLContext presentRenderbuffer:GL_RENDERBUFFER]; // 渲染到设备
     
+}
+
+-(void) setBackgroundColor:(UIColor *)backgroundColor {
+    [super setBackgroundColor:backgroundColor];
+    [backgroundColor getRed:&_backgroundColor.r green:&_backgroundColor.g blue:&_backgroundColor.b alpha:&_backgroundColor.a];
 }
 
 -(BOOL) isVisible {

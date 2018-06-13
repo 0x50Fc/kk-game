@@ -437,7 +437,7 @@
 		1A0A663B202C0363008DA5A3 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libxml2.tbd; sourceTree = DEVELOPER_DIR; };
 		1A0A664F202C67DE008DA5A3 /* GAAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAAction.h; sourceTree = "<group>"; };
 		1A0A6650202C6824008DA5A3 /* GAAction.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAAction.cc; sourceTree = "<group>"; };
-		1A0A665A202D4104008DA5A3 /* GAActionWalk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAActionWalk.h; sourceTree = "<group>"; };
+		1A0A665A202D4104008DA5A3 /* GAActionWalk.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; path = GAActionWalk.h; sourceTree = "<group>"; };
 		1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAActionWalk.cc; sourceTree = "<group>"; };
 		1A0A665E202D698D008DA5A3 /* require_js.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = require_js.h; sourceTree = "<group>"; };
 		1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KKWebSocket+JSContext.h"; sourceTree = "<group>"; };
@@ -1732,6 +1732,7 @@
 					/usr/local/opt/openssl/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
@@ -1757,6 +1758,7 @@
 					/usr/local/opt/openssl/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
