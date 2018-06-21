@@ -6,20 +6,23 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
+#include <event.h>
+#include <evdns.h>
+
 #include "kk-config.h"
 #include "kk-ev.h"
 #include "kk-script.h"
 
 namespace kk {
     
-    evdns_base * ev_dns(duk_context * ctx) {
+    struct evdns_base * ev_dns(duk_context * ctx) {
         
-        evdns_base * base = nullptr;
+        struct evdns_base * base = nullptr;
         
         duk_get_global_string(ctx, "__evdns_base");
         
         if(duk_is_pointer(ctx, -1)) {
-            base = (evdns_base *) duk_to_pointer(ctx, -1);
+            base = (struct evdns_base *) duk_to_pointer(ctx, -1);
         }
         
         duk_pop(ctx);
@@ -27,14 +30,14 @@ namespace kk {
         return base;
     }
     
-    event_base * ev_base(duk_context * ctx) {
+    struct event_base * ev_base(duk_context * ctx) {
         
-        event_base * base = nullptr;
+        struct event_base * base = nullptr;
         
         duk_get_global_string(ctx, "__event_base");
         
         if(duk_is_pointer(ctx, -1)) {
-            base = (event_base *) duk_to_pointer(ctx, -1);
+            base = (struct event_base *) duk_to_pointer(ctx, -1);
         }
         
         duk_pop(ctx);
@@ -44,8 +47,8 @@ namespace kk {
     
     struct Timer {
         duk_context * ctx;
-        event * event;
-        timeval tv;
+        struct event * event;
+        struct timeval tv;
     };
     
     static void ev_Timeout_cb(evutil_socket_t fd, short ev, void * data) {
@@ -139,7 +142,7 @@ namespace kk {
         
         duk_pop(ctx);
         
-        timeval tvv = {tv / 1000, (tv % 1000) * 1000};
+        struct timeval tvv = {tv / 1000, (tv % 1000) * 1000};
         
         evtimer_add(v->event, &tvv);
         

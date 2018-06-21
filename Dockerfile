@@ -20,7 +20,7 @@ RUN yum install -y openssl-static
 RUN yum install -y glibc-static 
 RUN yum install -y libstdc++-devel 
 RUN yum install -y zlib-static 
-RUN yum install -y libevent-devel
+RUN yum install -y libevent2-devel
 
 RUN yum install -y make 
 RUN yum install -y cmake 

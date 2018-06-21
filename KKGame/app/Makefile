@@ -1,6 +1,6 @@
 
-LIBRARY = -L/usr/lib -L/usr/local/lib -lchipmunk -levent -lz  -lstdc++ -lcrypto -lssl -lm -lpthread -lrt
-INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape/src  -I/usr/local/opt/openssl/include -I../../lib/Chipmunk2D/include
+LIBRARY = -L/usr/lib -L/usr/lib -lchipmunk -levent -lz -lstdc++ -lm -lrt
+INCLUDE = -I/usr/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape/src  -I../../lib/Chipmunk2D/include
 CFLAGS = -g
 CCFLAGS = -std=gnu++11 -g
 

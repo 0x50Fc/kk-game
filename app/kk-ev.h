@@ -10,15 +10,16 @@
 #define kk_ev_h
 
 #include "kk-object.h"
-#include <event.h>
-#include <evdns.h>
+
+struct event_base;
+struct evdns_base;
 
 namespace kk {
     
-    event_base * ev_base(duk_context * ctx);
-    evdns_base * ev_dns(duk_context * ctx);
+    struct event_base * ev_base(duk_context * ctx);
+    struct evdns_base * ev_dns(duk_context * ctx);
     
-    void ev_openlibs(duk_context * ctx,event_base * base, evdns_base * dns);
+    void ev_openlibs(duk_context * ctx,struct event_base * base, struct evdns_base * dns);
     
 }
 
