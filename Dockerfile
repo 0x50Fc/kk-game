@@ -25,6 +25,7 @@ RUN yum install -y make
 RUN yum install -y cmake 
 RUN yum install -y automake
 RUN yum install -y golang
+RUN yum install -y libtool
 
 COPY ./lib/Chipmunk2D /root/Chipmunk2D
 WORKDIR /root/Chipmunk2D
