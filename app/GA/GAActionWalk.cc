@@ -202,7 +202,7 @@ namespace kk {
         
         duk_ret_t ActionWalk::duk_navigate(duk_context * ctx) {
             
-            if(_navigateState) {
+            if(_navigateState == ActionWalkNavigateStateNone) {
                 
                 int top = duk_get_top(ctx);
                 
