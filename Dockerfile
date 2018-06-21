@@ -37,11 +37,13 @@ RUN make install
 WORKDIR /root
 RUN rm -rf Chipmunk2D
 
+ENV OPENSSL_ROOT_DIR /usr/local/opt/openssl
 COPY ./lib/libevent /root/libevent
 WORKDIR /root/libevent
-RUN mkdir build 
-RUN cd build
-RUN cmake ..
+RUN rm -rf CMakeFiles
+RUN rm -rf CMakeCache.txt
+RUN cmake CMakeLists.txt
+RUN make clean
 RUN make
 RUN make install
 WORKDIR /root
