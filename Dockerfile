@@ -10,12 +10,6 @@ RUN curl -Lks https://people.centos.org/tru/devtools-2/devtools-2.repo > /etc/yu
 
 RUN yum update -y
 
-RUN yum install -y devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ devtoolset-2-libtool
-
-RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/gcc /usr/bin/gcc
-RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/c++ /usr/bin/c++
-RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/g++ /usr/bin/g++
-
 RUN yum install -y openssl-static 
 RUN yum install -y glibc-static 
 RUN yum install -y libstdc++-devel 
@@ -26,6 +20,16 @@ RUN yum install -y cmake
 RUN yum install -y automake
 RUN yum install -y golang
 RUN yum install -y libtool
+
+RUN yum install -y devtoolset-2-gcc devtoolset-2-binutils devtoolset-2-gcc-c++ devtoolset-2-libtool
+
+RUN rm -f /usr/bin/gcc
+RUN rm -f /usr/bin/c++
+RUN rm -f /usr/bin/g++
+
+RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/gcc /usr/bin/gcc
+RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/c++ /usr/bin/c++
+RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/g++ /usr/bin/g++
 
 COPY ./lib/Chipmunk2D /root/Chipmunk2D
 WORKDIR /root/Chipmunk2D
