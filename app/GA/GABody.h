@@ -39,7 +39,7 @@ namespace kk {
             virtual void onWillRemoveFromParent(kk::Element * element);
             
             virtual void exec(Context * context);
-    
+
             BodyType bodyType;
             Float angle;    //方向弧度
             

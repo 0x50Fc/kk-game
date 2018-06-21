@@ -67,7 +67,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 @synthesize element = _element;
 
 +(void) initialize {
-    [super initialize];
+    
     [KKViewContext setDefaultElementClass:[KKGLViewElement class] name:@"gl:view"];
 }
 

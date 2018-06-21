@@ -15,6 +15,11 @@ namespace kk {
     
     namespace GA {
         
+        enum ActionWalkNavigateState {
+            ActionWalkNavigateStateNone,
+            ActionWalkNavigateStateNavigating
+        };
+        
         class ActionWalk : public Action {
         public:
             ActionWalk();
@@ -30,6 +35,7 @@ namespace kk {
             
             virtual duk_ret_t duk_target(duk_context * ctx);
             virtual duk_ret_t duk_setTarget(duk_context * ctx);
+            virtual duk_ret_t duk_navigate(duk_context * ctx);  //碰撞寻路
             
             DEF_SCRIPT_CLASS
         protected:
@@ -38,6 +44,9 @@ namespace kk {
             kk::Boolean _enabled;
             Float _distance;
             TimeInterval _startTimeInterval;
+            ActionWalkNavigateState _navigateState;
+            TimeInterval _navigateStartTimeInterval;
+            TimeInterval _navigateDuration;
         };
     }
     

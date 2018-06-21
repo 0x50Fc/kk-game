@@ -18,6 +18,12 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_BEGIN(&Action::ScriptClass, ActionWalk, GAActionWalk)
         
+        static kk::script::Method methods[] = {
+            {"navigate",(kk::script::Function) &ActionWalk::duk_navigate},
+        };
+        
+        kk::script::SetMethod(ctx, -1, methods, sizeof(methods) / sizeof(kk::script::Method));
+        
         static kk::script::Property propertys[] = {
             {"target",(kk::script::Function) &ActionWalk::duk_target,(kk::script::Function) &ActionWalk::duk_setTarget},
         };
@@ -26,14 +32,33 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
+        ActionWalkNavigateState _navigateState;
+        TimeInterval _navigateStartTimeInterval;
+        TimeInterval _navigateDuration;
+        
         ActionWalk::ActionWalk()
             :x(0),y(0),speed(0),angle(0),_hasUpdate(false)
-            ,_landing(true),_enabled(true),duration(0),_startTimeInterval(0){
+            ,_landing(true),_enabled(true),duration(0),_startTimeInterval(0)
+            ,_navigateState(ActionWalkNavigateStateNone),_navigateStartTimeInterval(0),_navigateDuration(0){
             
         }
 
         void ActionWalk::exec(Context * context) {
             Action::exec(context);
+            
+            if(_navigateState == ActionWalkNavigateStateNavigating) {
+                
+                if(_navigateStartTimeInterval == 0) {
+                    _navigateStartTimeInterval = context->current();
+                }
+                
+                if(context->current() > _navigateStartTimeInterval + _navigateDuration) {
+                    _navigateState = ActionWalkNavigateStateNone;
+                } else {
+                    return;
+                }
+            
+            }
             
             Body * tBody = target.as<Body>();
             
@@ -172,6 +197,24 @@ namespace kk {
                 }
             }
             
+            return 0;
+        }
+        
+        duk_ret_t ActionWalk::duk_navigate(duk_context * ctx) {
+            
+            if(_navigateState) {
+                
+                int top = duk_get_top(ctx);
+                
+                if(top >0 && duk_is_number(ctx, -top)) {
+                    _navigateDuration = duk_to_int(ctx, -top);
+                } else {
+                    _navigateDuration = 120;
+                }
+                
+                _navigateStartTimeInterval = 0;
+                _navigateState = ActionWalkNavigateStateNavigating;
+            }
             return 0;
         }
         

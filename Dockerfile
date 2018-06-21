@@ -16,32 +16,16 @@ RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/gcc /usr/bin/gcc
 RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/c++ /usr/bin/c++
 RUN ln -s /opt/rh/devtoolset-2/root/usr/bin/g++ /usr/bin/g++
 
-RUN yum install -y openssl-static glibc-static libstdc++-static zlib-static libevent-static
+RUN yum install -y openssl-static 
+RUN yum install -y glibc-static 
+RUN yum install -y libstdc++-devel 
+RUN yum install -y zlib-static 
+RUN yum install -y libevent-devel
 
 RUN yum install -y make 
 RUN yum install -y cmake 
 RUN yum install -y automake
 RUN yum install -y golang
-
-COPY ./lib/libuv /root/libuv
-WORKDIR /root/libuv
-RUN ./autogen.sh
-RUN ./configure --enable-shared=no --enable-static=yes
-RUN make
-RUN make install
-WORKDIR /root
-RUN rm -rf libuv
-
-COPY ./lib/libwebsockets /root/libwebsockets
-WORKDIR /root/libwebsockets
-RUN rm -rf CMakeFiles
-RUN rm -rf CMakeCache.txt
-RUN cmake CMakeLists.txt
-RUN make clean
-RUN make
-RUN make install
-WORKDIR /root
-RUN rm -rf libwebsockets
 
 COPY ./lib/Chipmunk2D /root/Chipmunk2D
 WORKDIR /root/Chipmunk2D

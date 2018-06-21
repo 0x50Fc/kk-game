@@ -17,7 +17,7 @@
 @implementation AppDelegate
 
 +(void) initialize {
-    [super initialize];
+    
     
     [KKGLViewElement class];
     [KKGamepadElement class];

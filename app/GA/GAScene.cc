@@ -81,16 +81,17 @@ namespace kk {
         }
         
         static cpBool Scene_cpCollisionPreSolve(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
-            //kk::Log("Scene_cpCollisionPreSolve");
+            
             return cpTrue;
         }
         
         static void Scene_cpCollisionPostSolve(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
-            //kk::Log("Scene_cpCollisionPostSolve");
+
         }
         
         static void Scene_cpCollisionSeparate(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
             
+    
             Scene * scene = (Scene *) userData;
             
             if(scene->has("runout")) {

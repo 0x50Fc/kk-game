@@ -1,6 +1,6 @@
 
-LIBRARY = -L/usr/lib -L/usr/local/lib -lchipmunk -luv -lwebsockets -lz  -lstdc++ -lcrypto -lssl -lm -lpthread -lrt
-INCLUDE = -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape/src -I/usr/local/include -I/usr/local/opt/openssl/include -I../../lib/Chipmunk2D/include
+LIBRARY = -L/usr/lib -L/usr/local/lib -lchipmunk -levent -lz  -lstdc++ -lcrypto -lssl -lm -lpthread -lrt
+INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape/src  -I/usr/local/opt/openssl/include -I../../lib/Chipmunk2D/include
 CFLAGS = -g
 CCFLAGS = -std=gnu++11 -g
 
@@ -15,7 +15,7 @@ OBJOUTPUT = ./objs
 
 OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-element.o $(OBJOUTPUT)/kk-string.o \
 	$(OBJOUTPUT)/kk-script.o $(OBJOUTPUT)/kk-crypto.o $(OBJOUTPUT)/kk-app.o \
-	$(OBJOUTPUT)/kk-uv.o $(OBJOUTPUT)/kk-y.o $(OBJOUTPUT)/kk-websocket.o $(OBJOUTPUT)/kk-http.o  \
+	$(OBJOUTPUT)/kk-ev.o $(OBJOUTPUT)/kk-y.o $(OBJOUTPUT)/kk-ws.o $(OBJOUTPUT)/kk-http.o  \
 	$(OBJOUTPUT)/GAContext.o $(OBJOUTPUT)/GAScene.o $(OBJOUTPUT)/GABody.o $(OBJOUTPUT)/GAShape.o \
 	$(OBJOUTPUT)/GAAction.o $(OBJOUTPUT)/GAActionWalk.o $(OBJOUTPUT)/GATileMap.o $(OBJOUTPUT)/GADocument.o \
 	$(OBJOUTPUT)/duktape.o  \
@@ -48,14 +48,14 @@ $(OBJOUTPUT)/kk-crypto.o:$(SRC)/kk-crypto.cc
 $(OBJOUTPUT)/kk-app.o:$(SRC)/kk-app.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-app.cc -o $(OBJOUTPUT)/kk-app.o
 
-$(OBJOUTPUT)/kk-uv.o:$(SRC)/kk-uv.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-uv.cc -o $(OBJOUTPUT)/kk-uv.o
+$(OBJOUTPUT)/kk-ev.o:$(SRC)/kk-ev.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-ev.cc -o $(OBJOUTPUT)/kk-ev.o
 
 $(OBJOUTPUT)/kk-y.o:$(SRC)/kk-y.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-y.cc -o $(OBJOUTPUT)/kk-y.o
 
-$(OBJOUTPUT)/kk-websocket.o:$(SRC)/kk-websocket.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-websocket.cc -o $(OBJOUTPUT)/kk-websocket.o
+$(OBJOUTPUT)/kk-ws.o:$(SRC)/kk-ws.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-ws.cc -o $(OBJOUTPUT)/kk-ws.o
 
 $(OBJOUTPUT)/kk-http.o:$(SRC)/kk-http.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-http.cc -o $(OBJOUTPUT)/kk-http.o

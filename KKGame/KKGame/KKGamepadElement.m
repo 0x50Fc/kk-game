@@ -174,7 +174,7 @@
 @implementation KKGamepadElement
 
 +(void) initialize{
-    [super initialize];
+    
     [KKViewContext setDefaultElementClass:[KKGamepadElement class] name:@"gamepad"];
 }
 
