@@ -40,9 +40,8 @@ RUN rm -rf Chipmunk2D
 ENV OPENSSL_ROOT_DIR /usr/local/opt/openssl
 COPY ./lib/libevent /root/libevent
 WORKDIR /root/libevent
-RUN rm -rf CMakeFiles
-RUN rm -rf CMakeCache.txt
-RUN cmake CMakeLists.txt
+RUN ./autogen.sh
+RUN ./configure --disable-shared
 RUN make clean
 RUN make
 RUN make install
