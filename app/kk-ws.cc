@@ -12,6 +12,22 @@
 #include <sys/queue.h>
 #include <arpa/inet.h>
 
+#ifndef ntohll
+
+#define ntohll(x) \
+((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | \
+(((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | \
+(((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | \
+(((__uint64_t)(x) & 0x000000ff00000000ULL) >>  8) | \
+(((__uint64_t)(x) & 0x00000000ff000000ULL) <<  8) | \
+(((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | \
+(((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | \
+(((__uint64_t)(x) & 0x00000000000000ffULL) << 56)))
+
+#define htonll(x) ntohll(x)
+
+#endif
+
 #define Sec_WebSocket_Key "RCfYMqhgCo4N4E+cIZ0iPg=="
 #define MAX_BUF_SIZE 204800
 
@@ -22,13 +38,6 @@
 #define KKPayloadLenMask    0x7F
 #define KKMaxFrameSize      32
 
-#ifndef ntohll
-#define ntohll(a) ntohl(a)
-#endif
-
-#ifndef htonll
-#define htonll(a) htonl(a)
-#endif
 
 namespace kk {
     
@@ -480,6 +489,9 @@ namespace kk {
         }
         
         uint8_t frame[KKMaxFrameSize];
+        
+        memset(frame, 0, sizeof(frame));
+        
         switch (type) {
             case WebSocketTypePing:
                 frame[0] = KKFinMask | WebSocketOpCodePing;
