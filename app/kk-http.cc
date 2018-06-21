@@ -6,6 +6,9 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
+#include <event.h>
+#include <evhttp.h>
+#include <evdns.h>
 
 #include "kk-config.h"
 #include "kk-http.h"
@@ -268,7 +271,7 @@ namespace kk {
     Http::Http():Http(nullptr,nullptr) {
     }
     
-    Http::Http(event_base * base,evdns_base * dns):_base(base),_dns(dns),_autoId(0) {
+    Http::Http(struct event_base * base,struct evdns_base * dns):_base(base),_dns(dns),_autoId(0) {
         
     }
     
@@ -534,11 +537,11 @@ namespace kk {
         }
     }
     
-    event_base * Http::base(){
+    struct event_base * Http::base(){
         return _base;
     }
     
-    evdns_base * Http::dns() {
+    struct evdns_base * Http::dns() {
         return _dns;
     }
     

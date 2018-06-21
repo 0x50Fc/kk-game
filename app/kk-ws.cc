@@ -22,6 +22,14 @@
 #define KKPayloadLenMask    0x7F
 #define KKMaxFrameSize      32
 
+#ifndef ntohll
+#define ntohll(a) ntohl(a)
+#endif
+
+#ifndef htonll
+#define htonll(a) htonl(a)
+#endif
+
 namespace kk {
     
 

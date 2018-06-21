@@ -20,10 +20,10 @@ RUN yum install -y openssl-static
 RUN yum install -y glibc-static 
 RUN yum install -y libstdc++-devel 
 RUN yum install -y zlib-static 
-RUN yum install -y libevent2-devel
 
 RUN yum install -y make 
 RUN yum install -y cmake 
+RUN yum install -y automake
 RUN yum install -y golang
 
 COPY ./lib/Chipmunk2D /root/Chipmunk2D
@@ -36,6 +36,16 @@ RUN make
 RUN make install
 WORKDIR /root
 RUN rm -rf Chipmunk2D
+
+COPY ./lib/libevent /root/libevent
+WORKDIR /root/libevent
+RUN mkdir build 
+RUN cd build
+RUN cmake ..
+RUN make
+RUN make install
+WORKDIR /root
+RUN rm -rf libevent
 
 RUN mkdir /go
 
