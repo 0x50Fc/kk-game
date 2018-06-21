@@ -24,7 +24,6 @@ RUN yum install -y libevent2-devel
 
 RUN yum install -y make 
 RUN yum install -y cmake 
-RUN yum install -y automake
 RUN yum install -y golang
 
 COPY ./lib/Chipmunk2D /root/Chipmunk2D
