@@ -39,4 +39,5 @@ dependencies {
     compile project(':kk-duktape')
     compile project(':kk-script')
     compile project(':kk-websocket')
+    compile project(':kk-app')
 }

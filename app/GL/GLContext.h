@@ -23,10 +23,10 @@
 
 #elif defined(__ANDROID_API__)
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
+#include <GLES2/gl2.h>
+#include <GLES2/gl2ext.h>
 
 extern GLvoid glBindVertexArrayOES(GLuint array);
 extern GLvoid glDeleteVertexArraysOES(GLsizei n, const GLuint *arrays);

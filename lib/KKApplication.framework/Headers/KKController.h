@@ -9,12 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <KKApplication/KKApp.h>
 #import <KKHttp/KKHttp.h>
+#import <KKApplication/KKAsyncCaller.h>
 
 @interface KKController : NSObject
 
 @property(nonatomic,strong) KKApplication * application;
 @property(nonatomic,strong,readonly) KKObserver * observer;
+@property(nonatomic,strong,readonly) KKJSObserver * jsObserver;
+@property(nonatomic,strong,readonly) KKJSObserver * jsApp;
 @property(nonatomic,strong,readonly) KKJSHttp * http;
+@property(nonatomic,strong,readonly) KKAsyncCaller * asyncCaller;
+@property(nonatomic,strong,readonly) JSValue * jsWebSocket;
 @property(nonatomic,strong) NSDictionary * query;
 @property(nonatomic,strong) NSString * path;
 
@@ -42,5 +47,6 @@
 @property(nonatomic,strong) UIImage * kk_topbarBackgroundImage;
 @property(nonatomic,strong) UIColor * kk_topbarBackgroundColor;
 
+-(BOOL) kk_navigationShouldPopViewController;
 @end
 

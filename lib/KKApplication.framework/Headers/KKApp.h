@@ -8,11 +8,19 @@
 
 #import <KKObserver/KKObserver.h>
 #import <KKView/KKView.h>
+#import <KKApplication/KKAsyncCaller.h>
+#import <KKWebSocket/KKWebSocket.h>
 
 #define KKApplicationKernel 1.0
 
 @class KKWindowPageController;
 @class KKApplication;
+
+@protocol KKObjectRecycle
+
+-(void) recycle;
+
+@end
 
 @protocol KKViewController
 
@@ -28,7 +36,7 @@
 
 @optional
 
--(BOOL) KKApplication:(KKApplication *) application openViewController:(UIViewController *) viewController;
+-(BOOL) KKApplication:(KKApplication *) application openViewController:(UIViewController *) viewController action:(NSDictionary *) action;
 
 -(BOOL) KKApplication:(KKApplication *) application openAction:(NSDictionary *) action;
 
@@ -49,15 +57,21 @@
 @property(nonatomic,weak) id<KKApplicationDelegate> delegate;
 @property(nonatomic,strong,readonly) JSContext * jsContext;
 @property(nonatomic,strong,readonly) KKObserver * observer;
+@property(nonatomic,strong,readonly) KKJSObserver * jsObserver;
 @property(nonatomic,strong,readonly) KKViewContext * viewContext;
 @property(nonatomic,strong,readonly) NSBundle * bundle;
 @property(nonatomic,strong,readonly) NSString * path;
+@property(nonatomic,strong) id<KKHttp> http;
+@property(nonatomic,strong) KKJSHttp * jsHttp;
+@property(nonatomic,strong) JSValue * jsWebSocket;
+
+@property(nonatomic,strong,readonly) KKAsyncCaller * asyncCaller;
 
 -(instancetype) initWithBundle:(NSBundle *) bundle;
 
 -(instancetype) initWithBundle:(NSBundle *) bundle jsContext:(JSContext *) jsContext;
 
--(KKElement *) elementWithPath:(NSString *) path observer:(KKObserver *) observer;
+-(KKElement *) elementWithPath:(NSString *) path data:(KKJSObserver *) data;
 
 -(void) openlib:(NSString *) path;
 
@@ -79,9 +93,21 @@
 
 -(KKWindowPageController *) openWindowPageController:(NSDictionary *) action;
 
+-(void) recycle;
+
 +(UIViewController *) topViewController:(UIViewController *) viewController ;
 
-+(instancetype) main;
++(JSVirtualMachine *) jsVirtualMachine;
+
+-(void) addObjectRecycle:(id<KKObjectRecycle>) object;
+
+-(void) removeObjectRecycle:(id<KKObjectRecycle>) object;
+
+-(id<KKObjectRecycle>) objectRecycleForKey:(NSString *) key;
+
+-(void) setObjectRecycle:(id<KKObjectRecycle>) object forKey:(NSString *) key;
+
+-(void) removeObjectRecycleForKey:(NSString *) key;
 
 @end
 

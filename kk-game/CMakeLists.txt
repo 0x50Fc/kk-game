@@ -110,7 +110,7 @@ add_library(kk-game
             src/main/jni/app/GA/GAShape.cc
             src/main/jni/app/GA/GADocument.cc
             src/main/jni/app/GA/GAAction.cc
-            src/main/jni/app/GA/GAActionMove.cc
+            src/main/jni/app/GA/GAActionWalk.cc
             src/main/jni/app/GA/GATileMap.cc
             src/main/jni/app/GL/GLContext.cc
             src/main/jni/app/GL/GLImageElement.cc

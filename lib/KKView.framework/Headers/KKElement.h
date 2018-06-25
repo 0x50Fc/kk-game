@@ -65,4 +65,8 @@
 
 -(NSMutableDictionary *) data;
 
+-(BOOL) hasEventBubble:(NSString *) name;
+
+-(void) recycle;
+
 @end

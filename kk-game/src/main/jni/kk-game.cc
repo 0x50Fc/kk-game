@@ -1,14 +1,14 @@
 #include <jni.h>
+#include "kk-config.h"
 #include "kk.h"
 #include "duktape.h"
-#include "kk-config.h"
 #include "kk-script.h"
 #include "GLSliceMapElement.h"
 #include "GLImageElement.h"
 #include "GAScene.h"
 #include "GAShape.h"
 #include "GABody.h"
-#include "GAActionMove.h"
+#include "GAActionWalk.h"
 #include "require_js.h"
 #include "GLAnimation.h"
 #include "GADocument.h"
@@ -20,9 +20,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 
-
+extern "C"
 JNIEXPORT jlong JNICALL
-Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type) {
+Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type, jstring basePath_) {
+    const char *basePath = env->GetStringUTFChars(basePath_, 0);
+
+
+    kk::GL::Context * GLContext;
 
     kk::script::Context * v = new kk::script::Context();
 
@@ -37,7 +41,7 @@ Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type) {
         kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::ActionMove::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
@@ -71,6 +75,10 @@ Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type) {
         {
             kk::Strong v = new kk::GL::Context();
 
+            GLContext = v.as<kk::GL::Context>();
+
+            GLContext->setBasePath(basePath);
+
             duk_push_string(ctx,"context");
             kk::script::PushObject(ctx,v.get());
             duk_put_prop(ctx,-3);
@@ -91,10 +99,72 @@ Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type) {
         duk_eval_lstring_noresult(ctx, (char *)require_js, sizeof(require_js));
     }
 
-    return (jlong) (long) v->jsContext();
+
+    jlong ret = (jlong) (long) v->jsContext();
+
+    env->ReleaseStringUTFChars(basePath_, basePath);
+
+    return ret;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_Context_run(JNIEnv *env, jclass type, jlong ptr) {
+
+    duk_context * ctx = (duk_context *) ptr;
+
+    kk::GL::Context * context = nullptr;
+
+    duk_push_global_object(ctx);
+
+    duk_push_string(ctx,"context");
+    duk_get_prop(ctx,-2);
+
+    if(duk_is_object(ctx,-1)) {
+        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
+    }
+
+    duk_pop(ctx);
+
+    duk_pop(ctx);
+
+    if(context ) {
+
+        kk::String code = context->getString("main.js");
+        kk::String evelCode ;
+
+        evelCode.append("(function(){");
+        evelCode.append(code);
+        evelCode.append("})");
+
+        duk_push_string(ctx,"main.js");
+        duk_compile_string_filename(ctx,0,evelCode.c_str());
+
+        if(duk_is_function(ctx, -1)) {
+
+            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+
+                kk::script::Error(ctx, -1);
+                duk_pop(ctx);
+
+            } else {
+
+                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+                    kk::script::Error(ctx, -1);
+                }
+
+                duk_pop(ctx);
+            }
+        } else {
+            duk_pop(ctx);
+        }
+
+    }
+
 }
 
 
+extern "C"
 JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_dealloc(JNIEnv *env, jclass type, jlong ptr) {
 
@@ -105,6 +175,7 @@ Java_cn_kkmofang_game_Context_dealloc(JNIEnv *env, jclass type, jlong ptr) {
     v->release();
 }
 
+extern "C"
 JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_exec(JNIEnv *env, jclass type, jlong ptr) {
 
@@ -143,7 +214,7 @@ Java_cn_kkmofang_game_Context_exec(JNIEnv *env, jclass type, jlong ptr) {
 
 }
 
-
+extern "C"
 JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_setViewport(JNIEnv *env, jclass type, jlong ptr, jfloat width,
                                           jfloat height) {
@@ -177,6 +248,96 @@ Java_cn_kkmofang_game_Context_setViewport(JNIEnv *env, jclass type, jlong ptr, j
 
 }
 
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_cn_kkmofang_game_Weak_alloc(JNIEnv *env, jclass type) {
+    kk::Weak * v = new kk::Weak();
+    return (jlong) (long) v;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_Weak_dealloc(JNIEnv *env, jclass type, jlong ptr) {
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    delete v;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_Weak_set__JJ(JNIEnv *env, jclass type, jlong ptr, jlong object) {
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    v->set((kk::Object *) (long) object);
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_cn_kkmofang_game_Weak_get__J(JNIEnv *env, jclass type, jlong ptr) {
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    return (jlong) (long) v->get();
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_cn_kkmofang_game_WeakTexture_getId__J(JNIEnv *env, jclass type, jlong ptr) {
+
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    kk::GL::Texture * texture = v->as<kk::GL::Texture>();
+
+    if(texture != nullptr) {
+
+        return texture->texture();
+    }
+
+    return 0;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_WeakImage_setStatus__JILjava_lang_String_2(JNIEnv *env, jclass type,
+                                                                 jlong ptr, jint status,
+                                                                 jstring errmsg_) {
+    const char *errmsg = env->GetStringUTFChars(errmsg_, 0);
+
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    kk::GL::Image * image = v->as<kk::GL::Image>();
+
+    if(image != nullptr) {
+        image->setStatus((kk::GL::ImageStatus)status);
+        image->setError(errmsg);
+    }
+
+    env->ReleaseStringUTFChars(errmsg_, errmsg);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_WeakImage_setSize__JII(JNIEnv *env, jclass type, jlong ptr, jint width,
+                                             jint height) {
+
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    kk::GL::Image * image = v->as<kk::GL::Image>();
+
+    if(image != nullptr) {
+        image->setSize(width,height);
+    }
+
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_cn_kkmofang_game_WeakImage_url__J(JNIEnv *env, jclass type, jlong ptr) {
+
+    // TODO
+
+    kk::Weak * v = (kk::Weak *) (long) ptr;
+    kk::GL::Image * image = v->as<kk::GL::Image>();
+
+    if(image != nullptr) {
+        return env->NewStringUTF(image->uri());
+    }
+
+    return NULL;
+}
 
 namespace kk {
 
@@ -184,6 +345,22 @@ namespace kk {
 
         void ContextGetImage(Context * context, Image * image) {
 
+            jboolean isAttach = false;
+
+            JNIEnv * env =  kk_env(&isAttach);
+
+            jclass clazz = env->FindClass("cn/kkmofang/game/Context");
+
+            if(clazz != nullptr) {
+                jmethodID method = env->GetMethodID(clazz,"ContextGetImage","(J)V");
+                if(method != nullptr) {
+                    env->CallStaticVoidMethod(clazz,method,(jlong) (long) image);
+                }
+            }
+
+            if(isAttach) {
+                gJavaVm->DetachCurrentThread();
+            }
         }
 
         void ContextGetStringTexture(Context * context,Texture * texture ,kk::CString text, Paint & paint) {
@@ -192,4 +369,3 @@ namespace kk {
 
     }
 }
-
