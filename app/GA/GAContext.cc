@@ -85,21 +85,21 @@ namespace kk {
             
             CString basePath = this->basePath();
             
-            std::ostringstream s;
+            kk::String s;
             
             if(basePath) {
                 
-                s << basePath;
+                s.append(basePath);
                 
                 if(!kk::CStringHasSuffix(basePath, "/")) {
-                    s << "/";
+                    s.append("/");
                 }
                 
             }
             
-            s << path << std::ends;
+            s.append(path);
             
-            return s.str();
+            return s;
         }
         
         kk::String Context::relativePath(CString path) {

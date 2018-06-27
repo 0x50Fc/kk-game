@@ -27,6 +27,8 @@
 #include <EGL/eglext.h>
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <GLES3/gl3.h>
+#include <GLES3/gl3ext.h>
 
 extern GLvoid glBindVertexArrayOES(GLuint array);
 extern GLvoid glDeleteVertexArraysOES(GLsizei n, const GLuint *arrays);

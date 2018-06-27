@@ -3,17 +3,14 @@ package cn.kkmofang.game;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.opengl.GLUtils;
-import android.os.Handler;
-
 import java.lang.ref.WeakReference;
-
-import javax.microedition.khronos.opengles.GL10;
-
+import cn.kkmofang.app.AsyncCaller;
+import cn.kkmofang.app.ILooper;
 import cn.kkmofang.app.IRecycle;
 import cn.kkmofang.app.JSWebSocket;
 import cn.kkmofang.image.Image;
 import cn.kkmofang.image.ImageStyle;
+import cn.kkmofang.script.IScriptFunction;
 import cn.kkmofang.script.ScriptContext;
 import cn.kkmofang.view.IViewContext;
 import cn.kkmofang.view.ImageCallback;
@@ -22,7 +19,7 @@ import cn.kkmofang.view.ImageCallback;
  * Created by hailong11 on 2018/4/10.
  */
 
-public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
+public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycle {
 
     public final static String TAG = "kk";
 
@@ -30,66 +27,82 @@ public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
     public final String basePath;
 
     public final JSWebSocket jsWebSocket;
-    private final GL10 _gl10;
-    private final Handler _handler;
+    public final AsyncCaller asyncCaller;
+    private final ILooper _looper;
 
     static {
         System.loadLibrary("kk-game");
     }
 
-    public Context(IViewContext viewContext,String basePath,GL10 gl10) {
-        super(alloc(basePath));
+    public Context(ILooper looper, IViewContext viewContext,String basePath) {
+        super(alloc(viewContext.getAbsolutePath(basePath)));
+        _looper = looper;
         this.viewContext = viewContext;
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
-        _gl10 = gl10;
-        _handler =  new Handler();
-        jsWebSocket = new JSWebSocket();
+        jsWebSocket = new JSWebSocket(_looper);
+        asyncCaller = new AsyncCaller(_looper);
 
         {
             pushGlobalObject();
+
             push("WebSocket");
             pushObject(jsWebSocket);
             putProp(-3);
+
+            push("setTimeout");
+            pushFunction(asyncCaller.SetTimeoutFunc);
+            putProp(-3);
+
+            push("clearTimeout");
+            pushFunction(asyncCaller.ClearTimeoutFunc);
+            putProp(-3);
+
+            push("setInterval");
+            pushFunction(asyncCaller.SetIntervalFunc);
+            putProp(-3);
+
+            push("clearInterval");
+            pushFunction(asyncCaller.ClearIntervalFunc);
+            putProp(-3);
+
             pop();
         }
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        dealloc(_ptr);
-        super.finalize();
-    }
-
     public void post(final Runnable run) {
-        final  WeakReference<Context> v= new WeakReference<Context>(this);
-
-        _handler.post(new Runnable() {
+        final WeakReference<Context> v= new WeakReference<>(this);
+        _looper.post(new Runnable() {
             @Override
             public void run() {
                 Context ctx = v.get();
-                if(ctx != null) {
+                if (ctx != null) {
                     ScriptContext.pushContext(ctx);
                     run.run();
                     ScriptContext.popContext();
                 }
             }
         });
+
     }
 
     public void exec() {
+        ScriptContext.pushContext(this);
         exec(_ptr);
+        ScriptContext.popContext();
     }
 
     public void run() {
         run(_ptr);
     }
 
-    public void setViewport(float width,float height) {
-        setViewport(_ptr,width,height);
+    public void setViewport(float width,float height,float scale) {
+        setViewport(_ptr,width,height,scale);
     }
 
     public void recycle() {
         jsWebSocket.recycle();
+        asyncCaller.recycle();
+        dealloc(_ptr);
     }
 
     protected void GLImageGen(WeakImage image,Drawable drawable) {
@@ -102,17 +115,9 @@ public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
             v =  ((Image)(drawable)).getBitmap();
         }
 
-
         if(v != null && !v.isRecycled()) {
 
-            int id = image.getId();
-
-            if(id !=0 ){
-                _gl10.glBindTexture(GL10.GL_TEXTURE_2D,id);
-                GLUtils.texImage2D(GL10.GL_TEXTURE_2D,0,v,0);
-            }
-
-            image.setSize(v.getWidth(),v.getHeight());
+            image.setBitmap(v);
             image.setStatus(WeakImage.STATUS_LOADED,"");
 
         } else {
@@ -121,7 +126,7 @@ public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
 
     }
 
-    public final static void ContextGetImage(long object) {
+    public static void ContextGetImage(long object) {
 
         Context context = (Context) ScriptContext.currentContext();
 
@@ -172,6 +177,50 @@ public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
 
     }
 
+    public void emit(final String name,final Object data) {
+        final WeakReference<Context> v= new WeakReference<>(this);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                Context ctx = v.get();
+                if(ctx != null) {
+                    ctx.push(name);
+                    ctx.pushValue(data);
+                    ctx.emit(ctx.ptr());
+                }
+            }
+        });
+    }
+
+    public void on(final String name,final IScriptFunction fn) {
+        final WeakReference<Context> v= new WeakReference<>(this);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                Context ctx = v.get();
+                if(ctx != null) {
+                    ctx.push(name);
+                    ctx.pushObject(fn);
+                    ctx.on(ctx.ptr());
+                }
+            }
+        });
+    }
+
+    public void off(final String name) {
+        final WeakReference<Context> v= new WeakReference<>(this);
+        post(new Runnable() {
+            @Override
+            public void run() {
+                Context ctx = v.get();
+                if(ctx != null) {
+                    ctx.push(name);
+                    ctx.off(ctx.ptr());
+                }
+            }
+        });
+    }
+
     public final static void ContextGetStringTexture(long texture) {
 
     }
@@ -179,8 +228,10 @@ public class Context extends cn.kkmofang.duktape.Context implements IRecycle {
     private final static native long alloc(String basePath);
     private final static native void dealloc(long ptr);
     private final static native void exec(long ptr);
-    private final static native void setViewport(long ptr, float width,float height);
+    private final static native void setViewport(long ptr, float width,float height,float scale);
     private final static native void run(long ptr);
-
+    private final static native void emit(long ptr);
+    private final static native void on(long ptr);
+    private final static native void off(long ptr);
 
 }

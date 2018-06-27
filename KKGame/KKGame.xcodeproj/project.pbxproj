@@ -272,7 +272,6 @@
 		1AD774C320998C060091283D /* kvec.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7747220998C060091283D /* kvec.h */; };
 		1AD774C420998C060091283D /* SlotData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747320998C060091283D /* SlotData.c */; };
 		1AD774C520998C060091283D /* Animation.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747420998C060091283D /* Animation.c */; };
-		1AD774C620998C060091283D /* Json.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7747520998C060091283D /* Json.h */; };
 		1AD774C720998C060091283D /* Event.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747620998C060091283D /* Event.c */; };
 		1AD774C820998C060091283D /* PointAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747720998C060091283D /* PointAttachment.c */; };
 		1AD774C920998C060091283D /* Bone.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747820998C060091283D /* Bone.c */; };
@@ -281,7 +280,6 @@
 		1AD774CC20998C060091283D /* SkeletonClipping.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747B20998C060091283D /* SkeletonClipping.c */; };
 		1AD774CD20998C060091283D /* ClippingAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747C20998C060091283D /* ClippingAttachment.c */; };
 		1AD774CE20998C060091283D /* VertexAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747D20998C060091283D /* VertexAttachment.c */; };
-		1AD774CF20998C060091283D /* SkeletonJson.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747E20998C060091283D /* SkeletonJson.c */; };
 		1AD774D020998C060091283D /* AnimationStateData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747F20998C060091283D /* AnimationStateData.c */; };
 		1AD774D120998C060091283D /* IkConstraintData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748020998C060091283D /* IkConstraintData.c */; };
 		1AD774D220998C060091283D /* TransformConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748120998C060091283D /* TransformConstraint.c */; };
@@ -1171,7 +1169,6 @@
 				1A8BFFAB2092C58A00224854 /* cpSimpleMotor.h in Headers */,
 				1AD7749520998C060091283D /* Attachment.h in Headers */,
 				1A0A65A82028547E008DA5A3 /* GLContext.h in Headers */,
-				1AD774C620998C060091283D /* Json.h in Headers */,
 				1AD7749C20998C060091283D /* AttachmentLoader.h in Headers */,
 				1A0A65AB20285788008DA5A3 /* KKStrong.h in Headers */,
 				1AD772EE20947DAC0091283D /* kk-y.h in Headers */,
@@ -1515,7 +1512,6 @@
 				1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */,
 				1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */,
 				1A8BFF692092C54E00224854 /* cpSpaceStep.c in Sources */,
-				1AD774CF20998C060091283D /* SkeletonJson.c in Sources */,
 				1A8BFF5E2092C54E00224854 /* cpSpace.c in Sources */,
 				1AD774AE20998C060091283D /* AttachmentLoader.c in Sources */,
 				1AD774D220998C060091283D /* TransformConstraint.c in Sources */,

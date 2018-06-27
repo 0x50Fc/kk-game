@@ -1,5 +1,9 @@
 package cn.kkmofang.game;
 
+import android.graphics.Bitmap;
+
+import java.nio.ByteBuffer;
+
 /**
  * Created by hailong11 on 2018/6/25.
  */
@@ -16,8 +20,31 @@ public class WeakImage extends WeakTexture {
         setStatus(_ptr,status,errmsg);
     }
 
-    public void setSize(int width,int height) {
+    public void setTexture(int width,int height,byte[] data) {
+        super.setTexture(width,height,data);
         setSize(_ptr,width,height);
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        ByteBuffer data = ByteBuffer.allocate(width * height * 4);
+        Bitmap b = bitmap;
+
+        if(bitmap.getConfig() != Bitmap.Config.ARGB_8888) {
+            b = bitmap.copy(Bitmap.Config.ARGB_8888,true);
+        }
+
+        b.copyPixelsToBuffer(data);
+
+        if(b != bitmap) {
+            b.recycle();
+        }
+
+        setTexture(width,height,data.array());
+
     }
 
     public String url() {

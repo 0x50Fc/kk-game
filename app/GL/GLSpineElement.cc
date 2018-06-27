@@ -149,26 +149,26 @@ namespace kk {
                         _loaded = true;
                         return;
                     }
-                    
-                    if(kk::CStringHasSuffix(path.c_str(), ".json")) {
-                        
-                        spSkeletonJson* json = spSkeletonJson_create(_spAtlas);
-                        
-                        json->scale = 1.0f;
-                   
-                        _spSkeletonData = spSkeletonJson_readSkeletonDataFile(json, path.c_str());
-                    
-                        if (_spSkeletonData == nullptr) {
-                            kk::Log("Not Open %s",path.c_str());
-                            _loaded = true;
-                            spSkeletonJson_dispose(json);
-                            return;
-                        }
-                    
-                        spSkeletonJson_dispose(json);
-                        
-                    } else {
-                        
+//
+//                    if(kk::CStringHasSuffix(path.c_str(), ".json")) {
+//
+//                        spSkeletonJson* json = spSkeletonJson_create(_spAtlas);
+//
+//                        json->scale = 1.0f;
+//
+//                        _spSkeletonData = spSkeletonJson_readSkeletonDataFile(json, path.c_str());
+//
+//                        if (_spSkeletonData == nullptr) {
+//                            kk::Log("Not Open %s",path.c_str());
+//                            _loaded = true;
+//                            spSkeletonJson_dispose(json);
+//                            return;
+//                        }
+//
+//                        spSkeletonJson_dispose(json);
+//
+//                    } else {
+//
                         spSkeletonBinary* binary = spSkeletonBinary_create(_spAtlas);
                         
                         binary->scale = 1.0f;
@@ -183,7 +183,7 @@ namespace kk {
                         }
                         
                         spSkeletonBinary_dispose(binary);
-                    }
+//                    }
                     
                     _spClipping = spSkeletonClipping_create();
                     
