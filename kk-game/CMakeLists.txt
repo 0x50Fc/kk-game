@@ -11,7 +11,7 @@ set_target_properties(duktape
 
 
 add_library(chipmunk
-        SHARED
+        STATIC
         src/main/jni/Chipmunk2D/src/chipmunk.c
         src/main/jni/Chipmunk2D/src/cpArbiter.c
         src/main/jni/Chipmunk2D/src/cpArray.c
@@ -46,10 +46,7 @@ add_library(chipmunk
         src/main/jni/Chipmunk2D/src/cpSweep1D.c
         )
 
-target_link_libraries(
-                    chipmunk
-                    log
-                    )
+
 
 add_library(spine
         STATIC
@@ -160,4 +157,5 @@ target_link_libraries(
                     z
                     GLESv2
                     EGL
+                    log
                     )
