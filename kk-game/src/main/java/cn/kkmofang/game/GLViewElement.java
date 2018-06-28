@@ -2,6 +2,7 @@ package cn.kkmofang.game;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.PixelFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import cn.kkmofang.script.IScriptFunction;
 import cn.kkmofang.script.ScriptContext;
 import cn.kkmofang.view.Element;
 import cn.kkmofang.view.ViewElement;
+import cn.kkmofang.view.value.Color;
 import cn.kkmofang.view.value.Pixel;
 import cn.kkmofang.view.value.V;
 
@@ -37,6 +39,7 @@ public class GLViewElement extends ViewElement {
 
     private Context _context;
     private String _basePath;
+
     public final Handler handler;
 
     public GLViewElement() {
@@ -180,6 +183,7 @@ public class GLViewElement extends ViewElement {
 
             glView.setEGLContextClientVersion(2);
             glView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+
             glView.setRenderer(new GLSurfaceView.Renderer() {
 
                 @Override
@@ -248,6 +252,8 @@ public class GLViewElement extends ViewElement {
 
                     ctx.pop();
 
+                    Log.d("kk","[APP] [EVENT] " + name);
+
                     GLViewElement element = e.get();
 
                     if(element != null  && name != null && name.startsWith("app_")) {
@@ -262,9 +268,7 @@ public class GLViewElement extends ViewElement {
                                 GLViewElement element = e.get();
 
                                 if(element != null) {
-                                    ScriptContext.pushContext(ctx);
                                     element._emit(name.substring(4),ev);
-                                    ScriptContext.popContext();
                                 }
                             }
                         });
@@ -287,7 +291,7 @@ public class GLViewElement extends ViewElement {
 
     protected void onDrawFrame(GL10 gl10) {
 
-        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT );
 
         _context.exec();
 
