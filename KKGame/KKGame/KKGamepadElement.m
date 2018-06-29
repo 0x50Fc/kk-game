@@ -185,6 +185,10 @@
     return self;
 }
 
+-(Class) viewClass {
+    return [KKGamepadView class];
+}
+
 -(void) setView:(UIView *)view {
     [(KKGamepadView *) self.view setElement:nil];
     [super setView:view];

@@ -104,9 +104,12 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 
 -(instancetype) init {
     if((self = [super init])) {
-        [self set:@"view" value:NSStringFromClass([KKGLView class])];
     }
     return self;
+}
+
+-(Class) viewClass {
+    return [KKGLView class];
 }
 
 -(void) openGame {
@@ -226,12 +229,13 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     
     if(view ) {
         
+        __weak KKGLViewElement * element = self;
+        
         if([(KKGLView *) view isVisible]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self openGame];
+                [element openGame];
             });
         } else {
-            __weak KKGLViewElement * element = self;
             [(KKGLView *) view setOnVisible:^(BOOL visible) {
                 if(visible) {
                     [element openGame];
