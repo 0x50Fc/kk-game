@@ -38,7 +38,7 @@ namespace kk {
         TimeInterval GetTimeIntervalCurrent() {
             struct timeval tm;
             gettimeofday(&tm,NULL);
-            TimeInterval v = tm.tv_sec * 1000 + tm.tv_usec / 1000;
+            TimeInterval v = (TimeInterval) tm.tv_sec * 1000LL + (TimeInterval) tm.tv_usec / 1000LL;
             return v;
         }
         

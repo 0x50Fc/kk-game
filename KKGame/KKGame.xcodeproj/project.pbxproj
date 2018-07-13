@@ -1717,7 +1717,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
@@ -1727,7 +1727,7 @@
 					/usr/local/lib,
 					/usr/local/opt/openssl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";
@@ -1743,7 +1743,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8V7A9F9SCJ;
+				DEVELOPMENT_TEAM = BQQ2Y9B27K;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
@@ -1753,7 +1753,7 @@
 					/usr/local/lib,
 					/usr/local/opt/openssl/lib,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNDEBUG";
 				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";

@@ -41,7 +41,7 @@ namespace kk {
         
         Boolean booleanValue(String & value);
         
-        typedef long TimeInterval;
+        typedef long long TimeInterval;
         
         TimeInterval GetTimeIntervalCurrent();
         
