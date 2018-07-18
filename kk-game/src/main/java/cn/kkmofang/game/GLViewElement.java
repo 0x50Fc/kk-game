@@ -286,7 +286,7 @@ public class GLViewElement extends ViewElement {
     }
 
     protected void onSurfaceChanged(GL10 gl10, int width, int height) {
-        _context.setViewport(width ,height , 2.0f * Pixel.UnitRPX / Pixel.UnitPX);
+        _context.setViewport(width ,height , Pixel.UnitRPX);
     }
 
     protected void onDrawFrame(GL10 gl10) {
