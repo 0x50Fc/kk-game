@@ -29,7 +29,7 @@
 #endif
 
 #define Sec_WebSocket_Key "RCfYMqhgCo4N4E+cIZ0iPg=="
-#define MAX_BUF_SIZE 204800
+#define MAX_BUF_SIZE 2147483647
 
 #define KKFinMask           0x80
 #define KKOpCodeMask        0x0F
