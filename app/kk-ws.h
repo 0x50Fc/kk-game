@@ -47,6 +47,7 @@ namespace kk {
         WebSocketState _state;
         evbuffer * _body;
         WebSocketType _bodyType;
+        int64_t _bodyLength;
         struct sockaddr_in _addr;
         
         virtual void onClose(kk::CString errmsg);

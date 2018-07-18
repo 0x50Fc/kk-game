@@ -97,7 +97,9 @@ namespace kk {
    
     IMP_SCRIPT_CLASS_END
     
-    WebSocket::WebSocket():_bev(nullptr),_bodyType(WebSocketTypeNone),_state(WebSocketStateNone) {
+    WebSocket::WebSocket()
+        :_bev(nullptr),_bodyType(WebSocketTypeNone)
+            ,_state(WebSocketStateNone),_bodyLength(0) {
         _body = evbuffer_new();
     }
     
@@ -286,6 +288,28 @@ namespace kk {
             uint8_t * p = EVBUFFER_DATA(data);
             size_t n = EVBUFFER_LENGTH(data);
             
+            if(_bodyType != WebSocketTypeNone && _bodyLength > 0) {
+                
+                ssize_t v = _bodyLength - EVBUFFER_LENGTH(_body);
+                
+                if(v > 0) {
+                    evbuffer_add(_body, p, v);
+                    evbuffer_drain(data, v);
+                    p = EVBUFFER_DATA(data);
+                    n = EVBUFFER_LENGTH(data);
+                }
+                
+                if(EVBUFFER_LENGTH(_body) == _bodyLength){
+                    onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
+                    evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
+                    _bodyType = WebSocketTypeNone;
+                    _bodyLength = 0;
+                } else {
+                    bufferevent_enable(_bev, EV_READ);
+                    return;
+                }
+            }
+            
             if(n >= 2) {
                 
                 bool isFin = (KKFinMask & p[0]);
@@ -377,6 +401,9 @@ namespace kk {
                     onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
                     evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
                     _bodyType = WebSocketTypeNone;
+                    _bodyLength = 0;
+                } else {
+                    _bodyLength = dataLength;
                 }
                 
                 onReading();
