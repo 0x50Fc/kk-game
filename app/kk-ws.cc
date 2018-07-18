@@ -288,11 +288,11 @@ namespace kk {
             uint8_t * p = EVBUFFER_DATA(data);
             size_t n = EVBUFFER_LENGTH(data);
             
-            if(_bodyType != WebSocketTypeNone && _bodyLength > 0) {
+            if(_bodyType != WebSocketTypeNone && _bodyLength > 0 && n > 0) {
                 
                 ssize_t v = _bodyLength - EVBUFFER_LENGTH(_body);
                 
-                if(v > 0) {
+                if(v > 0 && n >= v) {
                     evbuffer_add(_body, p, v);
                     evbuffer_drain(data, v);
                     p = EVBUFFER_DATA(data);
