@@ -480,14 +480,6 @@ Java_cn_kkmofang_game_Weak_get__J(JNIEnv *env, jclass type, jlong ptr) {
     return (jlong) (long) v->get();
 }
 
-static void kk_glError(kk::CString tag) {
-    GLenum r = glGetError();
-
-    if(r !=0) {
-        kk::Log("[%s] [%s] 0x%x",tag,glGetString(GL_VERSION), r);
-    }
-}
-
 extern "C"
 JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_WeakTexture_setTexture__JII_3B(JNIEnv *env, jclass type, jlong ptr,
@@ -502,28 +494,17 @@ Java_cn_kkmofang_game_WeakTexture_setTexture__JII_3B(JNIEnv *env, jclass type, j
 
         glBindTexture(GL_TEXTURE_2D, texture->texture());
 
-        kk_glError("glBindTexture");
-
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-        kk_glError("GL_TEXTURE_MIN_FILTER");
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-        kk_glError("GL_TEXTURE_MAG_FILTER");
-
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-
-        kk_glError("GL_TEXTURE_WRAP_S");
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        kk_glError("GL_TEXTURE_WRAP_T");
-
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        kk_glError("glTexImage2D");
-
+        texture->setSize(width,height);
 
     }
 
@@ -546,20 +527,6 @@ Java_cn_kkmofang_game_WeakImage_setStatus__JILjava_lang_String_2(JNIEnv *env, jc
     }
 
     env->ReleaseStringUTFChars(errmsg_, errmsg);
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_cn_kkmofang_game_WeakImage_setSize__JII(JNIEnv *env, jclass type, jlong ptr, jint width,
-                                             jint height) {
-
-    kk::Weak * v = (kk::Weak *) (long) ptr;
-    kk::GL::Image * image = v->as<kk::GL::Image>();
-
-    if(image != nullptr) {
-        image->setSize(width,height);
-    }
-
 }
 
 extern "C"
@@ -604,7 +571,69 @@ namespace kk {
 
         }
 
+        static int ContextIntValueWithColor(vec4 color) {
+            return ((int)(color.a * 0x0ff) << 24) | ((int)(color.r * 0x0ff) << 16) | ((int)(color.g * 0x0ff) << 8) | ((int)(color.b * 0x0ff));
+        }
+
+        static jobject ContextNewTextPaint(JNIEnv * env,Paint & paint) {
+
+            jclass clazz = env->FindClass("cn/kkmofang/game/TextPaint");
+
+            if(clazz != nullptr) {
+
+                jmethodID method = env->GetMethodID(clazz,"<init>","()V");
+
+                if(method != nullptr) {
+
+                    jobject object = env->NewObject(clazz,method);
+
+                    method = env->GetMethodID(clazz,"set","(Ljava/lang/String;FZZIFIF)V");
+
+                    if(method != nullptr) {
+                        env->CallVoidMethod(object,method
+                                ,env->NewStringUTF(paint.fontFimlay.c_str())
+                                ,paint.fontSize
+                                            ,paint.fontStyle == FontStyleItalic
+                                            ,paint.fontWeight == FontWeightBold
+                                            ,ContextIntValueWithColor(paint.textColor)
+                                            ,paint.maxWidth
+                                            ,ContextIntValueWithColor(paint.textStroke.color)
+                                            ,paint.textStroke.size
+                                );
+                    }
+
+                    return object;
+                }
+
+                env->DeleteLocalRef(clazz);
+            }
+
+            return nullptr;
+        }
+
         void ContextGetStringTexture(Context * context,Texture * texture ,kk::CString text, Paint & paint) {
+
+            if(text == nullptr) {
+                text = "";
+            }
+
+            jboolean isAttach = false;
+
+            JNIEnv * env =  kk_env(&isAttach);
+
+            jclass clazz = env->FindClass("cn/kkmofang/game/Context");
+
+            if(clazz != nullptr) {
+                jmethodID method = env->GetStaticMethodID(clazz,"ContextGetStringTexture","(JLjava/lang/String;Lcn/kkmofang/game/TextPaint;)V");
+                if(method != nullptr) {
+                    env->CallStaticVoidMethod(clazz,method,(jlong) (long) texture,env->NewStringUTF(text),ContextNewTextPaint(env,paint));
+                }
+                env->DeleteLocalRef(clazz);
+            }
+
+            if(isAttach) {
+                gJavaVm->DetachCurrentThread();
+            }
 
         }
 

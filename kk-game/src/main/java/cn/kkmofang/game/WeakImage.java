@@ -20,11 +20,6 @@ public class WeakImage extends WeakTexture {
         setStatus(_ptr,status,errmsg);
     }
 
-    public void setTexture(int width,int height,byte[] data) {
-        super.setTexture(width,height,data);
-        setSize(_ptr,width,height);
-    }
-
     public void setBitmap(Bitmap bitmap) {
 
         int width = bitmap.getWidth();
@@ -52,7 +47,6 @@ public class WeakImage extends WeakTexture {
     }
 
     private static final native void setStatus(long ptr,int status,String errmsg);
-    private static final native void setSize(long ptr,int width,int height);
     private static final native String url(long ptr);
 
 }

@@ -1,9 +1,18 @@
 package cn.kkmofang.game;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
+import android.text.StaticLayout;
+
 import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+
 import cn.kkmofang.app.AsyncCaller;
 import cn.kkmofang.app.ILooper;
 import cn.kkmofang.app.IRecycle;
@@ -221,7 +230,71 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
         });
     }
 
-    public final static void ContextGetStringTexture(long texture) {
+    public final static void ContextGetStringTexture(long textureId,String text,TextPaint paint) {
+
+        if(text == null) {
+            text = "";
+        }
+
+        float maxWidth = paint.maxWidth;
+
+        if(maxWidth == 0) {
+            maxWidth = Integer.MAX_VALUE;
+        }
+
+        WeakTexture texture = new WeakTexture();
+        texture.set(textureId);
+
+        StaticLayout layout = new StaticLayout(
+                text,
+                0,
+                text.length(),
+                paint,
+                (int) Math.ceil(maxWidth),
+                Layout.Alignment.ALIGN_NORMAL,
+                1.0f,
+                0f,
+                false);
+
+        float width = 0;
+
+        for(int i=0;i<layout.getLineCount();i++) {
+            float v = layout.getLineWidth(i);
+            if(v > width) {
+                width = v;
+            }
+        }
+
+        int mWidth = (int) Math.ceil(width);
+        int mHeight = layout.getHeight();
+
+        Bitmap bitmap = Bitmap.createBitmap(mWidth,mHeight, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+
+        if(paint.strokeWidth > 0) {
+
+            paint.setStyle(Paint.Style.FILL_AND_STROKE);
+            paint.setStrokeWidth(paint.strokeWidth);
+            paint.setColor(paint.strokeColor & 0x0ffffff);
+            paint.setAlpha((paint.strokeColor >> 24) & 0x0ff);
+            layout.draw(canvas);
+
+            paint.setStrokeWidth(0);
+            paint.setColor(paint.color & 0x0ffffff);
+            paint.setAlpha((paint.color >> 24) & 0x0ff);
+
+        }
+
+        layout.draw(canvas);
+
+        ByteBuffer data = ByteBuffer.allocate(mWidth * mHeight * 4);
+
+        bitmap.copyPixelsToBuffer(data);
+
+        bitmap.recycle();
+
+        texture.setTexture(mWidth,mHeight,data.array());
 
     }
 
