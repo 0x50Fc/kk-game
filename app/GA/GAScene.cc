@@ -294,7 +294,7 @@ namespace kk {
                 r = duk_to_number(ctx, -top + 2);
             }
             
-            kk::Log("[SCENE] [NEARBY] %g,%g %g",x,y,r);
+//            kk::Log("[SCENE] [NEARBY] %g,%g %g",x,y,r);
             
             duk_push_array(ctx);
             
@@ -320,7 +320,7 @@ namespace kk {
                             
                             nearbyBody.distance = sqrt(dx * dx + dy * dy) ;
                             
-                            kk::Log("[SCENE] [NEARBY] [BODY] %g,%g %g",p.x,p.y,nearbyBody.distance);
+//                            kk::Log("[SCENE] [NEARBY] [BODY] %g,%g %g",p.x,p.y,nearbyBody.distance);
                             
                             if(nearbyBody.distance <= r) {
                                 nearbyBodys.push_back(nearbyBody);

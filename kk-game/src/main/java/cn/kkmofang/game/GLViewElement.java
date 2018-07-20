@@ -39,12 +39,13 @@ public class GLViewElement extends ViewElement {
 
     private Context _context;
     private String _basePath;
-
+    private boolean _loaded;
     public final Handler handler;
 
     public GLViewElement() {
         super();
         handler = new Handler();
+        _loaded = false;
     }
 
     public Class<?> viewClass() {
@@ -252,7 +253,7 @@ public class GLViewElement extends ViewElement {
 
                     ctx.pop();
 
-                    Log.d("kk","[APP] [EVENT] " + name);
+                    //Log.d("kk","[APP] [EVENT] " + name);
 
                     GLViewElement element = e.get();
 
@@ -286,7 +287,7 @@ public class GLViewElement extends ViewElement {
     }
 
     protected void onSurfaceChanged(GL10 gl10, int width, int height) {
-        _context.setViewport(width ,height , Pixel.UnitRPX);
+        _context.setViewport(width ,height , 1.0f / Pixel.UnitRPX);
     }
 
     protected void onDrawFrame(GL10 gl10) {
@@ -294,6 +295,48 @@ public class GLViewElement extends ViewElement {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT );
 
         _context.exec();
+
+
+        if(!_loaded && _context.loadingProgress() >= 1.0f) {
+            _loaded = true;
+
+            final WeakReference<GLViewElement> element = new WeakReference<>(this);
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    GLViewElement e = element.get();
+                    if(e != null) {
+                        Event ev = new Event(e);
+                        ev.setData(e.data());
+                        e._emit("load",ev);
+                    }
+                }
+            });
+        }
+
+    }
+
+    protected void reopen() {
+
+        GLSurfaceView view = (GLSurfaceView) this.view();
+
+        if(view != null) {
+
+            final WeakReference<GLViewElement> element = new WeakReference<>(this);
+
+            view.queueEvent(new Runnable() {
+                @Override
+                public void run() {
+                    GLViewElement e = element.get();
+                    if(e != null && e._context != null) {
+                        e._loaded = false;
+                        e._context.reopen();
+                    }
+                }
+            });
+
+        }
 
     }
 
@@ -306,6 +349,13 @@ public class GLViewElement extends ViewElement {
         super.emit(name, event);
 
         if(event instanceof Element.Event && _context != null) {
+
+            ((Element.Event) event).setCancelBubble(true);
+
+            if("reopen".equals(name)) {
+                reopen();
+                return;
+            }
 
             final Object data = ((Element.Event)event).data();
 

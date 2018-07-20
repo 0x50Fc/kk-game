@@ -230,6 +230,14 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
         });
     }
 
+    public float loadingProgress() {
+        return loadingProgress(_ptr);
+    }
+
+    public void reopen() {
+        reopen(_ptr);
+    }
+
     public final static void ContextGetStringTexture(long textureId,String text,TextPaint paint) {
 
         if(text == null) {
@@ -306,5 +314,6 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     private final static native void emit(long ptr);
     private final static native void on(long ptr);
     private final static native void off(long ptr);
-
+    private final static native float loadingProgress(long ptr);
+    private final static native void reopen(long ptr);
 }

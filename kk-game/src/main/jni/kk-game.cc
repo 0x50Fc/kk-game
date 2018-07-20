@@ -195,7 +195,7 @@ Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type, jstring basePath_)
             kk::Strong v = new kk::GA::Element();
             duk_push_string(ctx, "element");
             kk::script::PushObject(ctx, v.get());
-            duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_CLEAR_CONFIGURABLE | DUK_DEFPROP_HAVE_WRITABLE);
+            duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_SET_CONFIGURABLE | DUK_DEFPROP_HAVE_WRITABLE);
         }
 
 
@@ -448,6 +448,109 @@ Java_cn_kkmofang_game_Context_off(JNIEnv *env, jclass type, jlong ptr) {
 
     if(element && duk_is_string(ctx,-1)) {
         element->duk_off(ctx);
+    }
+
+}
+
+extern "C"
+JNIEXPORT jfloat JNICALL
+Java_cn_kkmofang_game_Context_loadingProgress(JNIEnv *env, jclass type, jlong ptr) {
+
+    duk_context * ctx = (duk_context *) ptr;
+
+    kk::GL::Context * context = nullptr;
+    kk::GA::Element * element = nullptr;
+
+    duk_push_global_object(ctx);
+
+    duk_push_string(ctx,"context");
+    duk_get_prop(ctx,-2);
+
+    if(duk_is_object(ctx,-1)) {
+        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
+    }
+
+    duk_pop(ctx);
+
+    duk_push_string(ctx,"element");
+    duk_get_prop(ctx,-2);
+
+    if(duk_is_object(ctx,-1)) {
+        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
+    }
+
+    duk_pop(ctx);
+
+    duk_pop(ctx);
+
+    if(context && element) {
+        return context->loadingProgress(element);
+    }
+
+    return 0;
+
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_cn_kkmofang_game_Context_reopen__J(JNIEnv *env, jclass type, jlong ptr) {
+
+    duk_context * ctx = (duk_context *) ptr;
+
+    kk::GL::Context * context = nullptr;
+
+    duk_push_global_object(ctx);
+
+    duk_push_string(ctx,"context");
+    duk_get_prop(ctx,-2);
+
+    if(duk_is_object(ctx,-1)) {
+        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
+    }
+
+    duk_pop(ctx);
+
+    {
+        kk::Strong v = new kk::GA::Element();
+        duk_push_string(ctx, "element");
+        kk::script::PushObject(ctx, v.get());
+        duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_SET_CONFIGURABLE | DUK_DEFPROP_HAVE_WRITABLE);
+
+    }
+
+    duk_pop(ctx);
+
+    if(context ) {
+
+        kk::String code = context->getString("main.js");
+        kk::String evelCode ;
+
+        evelCode.append("(function(){");
+        evelCode.append(code);
+        evelCode.append("})");
+
+        duk_push_string(ctx,"main.js");
+        duk_compile_string_filename(ctx,0,evelCode.c_str());
+
+        if(duk_is_function(ctx, -1)) {
+
+            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+
+                kk::script::Error(ctx, -1);
+                duk_pop(ctx);
+
+            } else {
+
+                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
+                    kk::script::Error(ctx, -1);
+                }
+
+                duk_pop(ctx);
+            }
+        } else {
+            duk_pop(ctx);
+        }
+
     }
 
 }

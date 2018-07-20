@@ -46,7 +46,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                 
                 duk_pop(ctx);
                 
-                KKGLViewElement * elem = (__bridge KKGLViewElement *) context;
+                __strong KKGLViewElement * elem = (__bridge KKGLViewElement *) context;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -201,6 +201,51 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     }
 }
 
+-(void) reopenGame {
+    
+    if(_element == nil) {
+        return;
+    }
+    
+    KKGLView * view = (KKGLView *) self.view;
+    
+    if(view == nil) {
+        return;
+    }
+
+    [EAGLContext setCurrentContext:_GLContext];
+    
+    [view setOnVisible:nil];
+    
+    if(_source) {
+        dispatch_source_cancel(_source);
+        _source = nil;
+    }
+    
+    if(_element != nil) {
+        _element->release();
+        _element = nullptr;
+    }
+    
+    _loaded = NO;
+    
+    __weak KKGLViewElement * element = self;
+    
+    if([view isVisible]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [element openGame];
+        });
+    } else {
+        [(KKGLView *) view setOnVisible:^(BOOL visible) {
+            if(visible) {
+                [element openGame];
+            }
+        }];
+    }
+
+    
+}
+
 -(void) setView:(UIView *)view {
     
     [EAGLContext setCurrentContext:_GLContext];
@@ -279,7 +324,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
             if(element) {
                 KKElementEvent * e = [[KKElementEvent alloc] initWithElement:element];
                 e.data = element.data;
-                [element emit:@"load" event:e];
+                [element _emit:@"load" event:e];
             }
             
         });
@@ -295,9 +340,17 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 -(void) emit:(NSString *)name event:(KKEvent *)event {
     [super emit:name event:event];
     
+    if([event isKindOfClass:[KKElementEvent class]] && [@"reopen" isEqualToString:name]) {
+        [(KKElementEvent *) event setCancelBubble:YES];
+        [self reopenGame];
+        return;
+    }
+    
     if([event isKindOfClass:[KKElementEvent class]]
        && _GLContext
        && _element) {
+        
+        [(KKElementEvent *) event setCancelBubble:YES];
         
         id data = [(KKElementEvent *) event data];
         
