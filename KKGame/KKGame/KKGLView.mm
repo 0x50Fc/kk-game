@@ -30,6 +30,7 @@
 
 @implementation KKGLView
 
+@synthesize delegate = _delegate;
 @synthesize width = _width;
 @synthesize height = _height;
 
@@ -163,6 +164,42 @@
     if(_onVisible) {
         _onVisible(self.window != nil);
     }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    if([_delegate respondsToSelector:@selector(KKGLView:touchesBegan:withEvent:)]) {
+        [_delegate KKGLView:self touchesBegan:touches withEvent:event];
+    }
+    
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+ 
+    if([_delegate respondsToSelector:@selector(KKGLView:touchesMoved:withEvent:)]) {
+        [_delegate KKGLView:self touchesMoved:touches withEvent:event];
+    }
+    
+    [super touchesMoved:touches withEvent:event];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    if([_delegate respondsToSelector:@selector(KKGLView:touchesEnded:withEvent:)]) {
+        [_delegate KKGLView:self touchesEnded:touches withEvent:event];
+    }
+    
+    [super touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+ 
+    if([_delegate respondsToSelector:@selector(KKGLView:touchesCancelled:withEvent:)]) {
+        [_delegate KKGLView:self touchesCancelled:touches withEvent:event];
+    }
+    
+    [super touchesCancelled:touches withEvent:event];
 }
 
 @end

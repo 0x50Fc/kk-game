@@ -67,8 +67,6 @@
 		1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */; };
 		1A0A6696202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6694202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm */; };
 		1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
-		1A195631207DA99C001C9B0B /* KKGamepadElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A19562F207DA99B001C9B0B /* KKGamepadElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A195632207DA99C001C9B0B /* KKGamepadElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A195630207DA99C001C9B0B /* KKGamepadElement.m */; };
 		1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
 		1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
 		1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
@@ -443,8 +441,6 @@
 		1A0A6697202FDD8A008DA5A3 /* require.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = require.js; sourceTree = "<group>"; };
 		1A0A6699203280A7008DA5A3 /* GLAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAnimation.h; sourceTree = "<group>"; };
 		1A0A669A203280BB008DA5A3 /* GLAnimation.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLAnimation.cc; sourceTree = "<group>"; };
-		1A19562F207DA99B001C9B0B /* KKGamepadElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKGamepadElement.h; sourceTree = "<group>"; };
-		1A195630207DA99C001C9B0B /* KKGamepadElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKGamepadElement.m; sourceTree = "<group>"; };
 		1A32EC5020CA934A00C4B091 /* kk-ev.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-ev.cc"; sourceTree = "<group>"; };
 		1A32EC5120CA934A00C4B091 /* kk-ev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ev.h"; sourceTree = "<group>"; };
 		1A32EC6F20CA9F9600C4B091 /* kk-ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ws.h"; sourceTree = "<group>"; };
@@ -1035,8 +1031,6 @@
 				1A0A65C520286C82008DA5A3 /* KKGLViewElement.mm */,
 				1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */,
 				1A0A6694202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm */,
-				1A19562F207DA99B001C9B0B /* KKGamepadElement.h */,
-				1A195630207DA99C001C9B0B /* KKGamepadElement.m */,
 			);
 			path = KKGame;
 			sourceTree = "<group>";
@@ -1187,7 +1181,6 @@
 				1AD7749820998C060091283D /* SkeletonJson.h in Headers */,
 				1A8BFF672092C54E00224854 /* prime.h in Headers */,
 				1AD774A420998C060091283D /* extension.h in Headers */,
-				1A195631207DA99C001C9B0B /* KKGamepadElement.h in Headers */,
 				1AD7749020998C060091283D /* spine.h in Headers */,
 				1A0A6586202828D8008DA5A3 /* GAScene.h in Headers */,
 				1AD774AD20998C060091283D /* AtlasAttachmentLoader.h in Headers */,
@@ -1484,7 +1477,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A195632207DA99C001C9B0B /* KKGamepadElement.m in Sources */,
 				1AD774C520998C060091283D /* Animation.c in Sources */,
 				1A8BFFB02092FACE00224854 /* GLShapeElement.cc in Sources */,
 				1A8BFF612092C54E00224854 /* cpHastySpace.c in Sources */,

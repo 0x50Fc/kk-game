@@ -12,6 +12,5 @@
 #import <KKGame/KKGLContext.h>
 #import <KKGame/KKGLView.h>
 #import <KKGame/KKGLViewElement.h>
-#import <KKGame/KKGamepadElement.h>
 
 

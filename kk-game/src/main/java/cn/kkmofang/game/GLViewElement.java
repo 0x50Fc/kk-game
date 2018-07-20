@@ -113,7 +113,7 @@ public class GLViewElement extends ViewElement {
             float y = event.getY(i);
 
             item.put("dx", x * 2.0f / width - 1.0f);
-            item.put("dx", y * 2.0f / height - 1.0f);
+            item.put("dy", y * 2.0f / height - 1.0f);
             item.put("x", x);
             item.put("y", y);
             item.put("id", String.valueOf(event.getPointerId(i)));

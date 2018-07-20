@@ -25,12 +25,26 @@ typedef void * KKElementRef;
 
 #endif
 
+@class KKGLView;
+
+@protocol KKGLViewDelegate<NSObject>
+
+@optional
+
+- (void) KKGLView:(KKGLView *) view touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void) KKGLView:(KKGLView *) view touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void) KKGLView:(KKGLView *) view touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void) KKGLView:(KKGLView *) view touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+
+@end
+
 @interface KKGLView : UIView
 
 @property(nonatomic,assign,readonly) GLsizei width;
 @property(nonatomic,assign,readonly) GLsizei height;
 @property(nonatomic,strong) void (^onVisible)(BOOL visible);
 @property(nonatomic,assign,readonly,getter=isVisible) BOOL visible;
+@property(nonatomic,weak) id<KKGLViewDelegate> delegate;
 
 -(void) installGLContext:(KKGLContext *) GLContext;
 

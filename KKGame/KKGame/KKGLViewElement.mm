@@ -12,7 +12,7 @@
 #include "GLContext.h"
 #include "kk-script.h"
 
-@interface KKGLViewElement() {
+@interface KKGLViewElement()<KKGLViewDelegate> {
     BOOL _loaded;
     dispatch_source_t _source;
 }
@@ -251,6 +251,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     [EAGLContext setCurrentContext:_GLContext];
     
     [(KKGLView *) view setOnVisible:nil];
+    [(KKGLView *) view setDelegate:nil];
     
     if(_source) {
         dispatch_source_cancel(_source);
@@ -287,7 +288,9 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                 }
             }];
         }
-
+        
+        [(KKGLView *) view setDelegate:self];
+        [view setMultipleTouchEnabled:YES];
     }
 }
 
@@ -356,6 +359,10 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         
         dispatch_async(self.GLContext.queue, ^{
             
+            if(_element == nullptr) {
+                return ;
+            }
+            
             kk::Strong v = new kk::ElementEvent();
             
             kk::ElementEvent * ev = v.as<kk::ElementEvent>();
@@ -373,6 +380,91 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         });
         
     }
+}
+
+-(void) KKGLView:(KKGLView *) view touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event name:(NSString *) name {
+    
+    if(_GLContext) {
+        
+        NSMutableDictionary * data = [NSMutableDictionary dictionaryWithCapacity:4];
+        
+        CGSize size = view.bounds.size;
+        
+        if(size.width <=0 || size.height <=0){
+            return;
+        }
+        
+        data[@"width"] = @(self.frame.size.width);
+        data[@"height"] = @(self.frame.size.height);
+        data[@"type"] = name;
+        
+        NSMutableArray * items = [NSMutableArray arrayWithCapacity:4];
+        
+        data[@"items"] = items;
+        
+        for(UITouch * touch in touches) {
+            
+            NSMutableDictionary * item = [NSMutableDictionary dictionaryWithCapacity:4];
+            
+            CGPoint p = [touch locationInView:view];
+            
+            item[@"dx"] = @(p.x * 2.0f / size.width -1.0f);
+            item[@"dy"] = @(p.y * 2.0f / size.height -1.0f);
+            item[@"x"] = @(p.x);
+            item[@"y"] = @(p.y);
+            item[@"id"] = [NSString stringWithFormat:@"0x%lx",(long) (__bridge void *) touch];
+            
+            [items addObject:item];
+            
+        }
+        
+        dispatch_async(_GLContext.queue, ^{
+           
+            if(_element == nullptr) {
+                return ;
+            }
+            
+            kk::Strong v = new kk::ElementEvent();
+            
+            kk::ElementEvent * ev = v.as<kk::ElementEvent>();
+            
+            duk_context * ctx = _GLContext.JSContext->jsContext();
+            
+            [KKGLContext JSContextPushObject:data ctx:ctx];
+            
+            ev->data = new kk::script::Object(_GLContext.JSContext,-1);
+            
+            duk_pop(ctx);
+            
+            _element->emit([name UTF8String], ev);
+            
+        });
+        
+    }
+    
+}
+
+- (void) KKGLView:(KKGLView *) view touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self KKGLView:view touches:touches withEvent:event name:@"touchstart"];
+    
+}
+
+- (void) KKGLView:(KKGLView *) view touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self KKGLView:view touches:touches withEvent:event name:@"touchmove"];
+}
+
+- (void) KKGLView:(KKGLView *) view touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self KKGLView:view touches:touches withEvent:event name:@"touchend"];
+    
+}
+
+- (void) KKGLView:(KKGLView *) view touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self KKGLView:view touches:touches withEvent:event name:@"touchcancel"];
+    
 }
 
 @end
