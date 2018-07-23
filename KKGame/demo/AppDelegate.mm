@@ -37,7 +37,7 @@
 
 -(BOOL) KKShell:(KKShell *) shell openApplication:(KKApplication *) application {
     
-    [application.observer set:@[@"auth"] value:@{@"uid":@"5870450982",@"gsid":@"_2A253y3NZDeRhGeNG7FIV9S7Fwz6IHXVVNB0RrDV_PUJbm9AKLWHQkW1NSz-eYoyuUV9IHezNPRKunAY8-wBjo4Wb"}];
+    [application.observer set:@[@"auth"] value:@{@"uid":@"2956325241",@"gsid":@"_2A252O38DDeRxGeRH7lQS8ivOzz2IHXVTUfXLrDV6PUJbkdANLXCmkWpNTbZTlpM2ryzbkmMLWusEljr3jjJ6UBnS"}];
     
     NSString * proxy = [[application.observer get:@[@"info",@"http",@"proxy"] defaultValue:nil] kk_stringValue];
     

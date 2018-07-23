@@ -195,8 +195,6 @@
 		1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC5F4882090832200AB01D7 /* libz.tbd */; };
 		1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9EEB1620A065FE004A8283 /* GLMetaElement.h */; };
 		1A9EEB1920A065FE004A8283 /* GLMetaElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */; };
-		1AB084D820561C2400EF5783 /* KKApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084BE20561BFB00EF5783 /* KKApplication.framework */; };
-		1AB084D920561C2400EF5783 /* KKWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AB084C820561C0800EF5783 /* KKWebSocket.framework */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
 		1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
@@ -301,6 +299,8 @@
 		E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE992052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E951BE972052605200358A85 /* GLMinimapElement.h */; };
+		E9F4A8B82105AFE200EAB83D /* KKWebSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F4A8A62105AF0700EAB83D /* KKWebSocket.framework */; };
+		E9F4A8B92105AFF200EAB83D /* KKApplication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F4A8B32105AF0D00EAB83D /* KKApplication.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -318,61 +318,33 @@
 			remoteGlobalIDString = 1AE23FE42022F361001FFB58;
 			remoteInfo = KKGame;
 		};
-		1A2F8A0E207CD53E000B0AE0 /* PBXContainerItemProxy */ = {
+		E9F4A8A52105AF0700EAB83D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E951BE842052471500358A85 /* KKWebSocket.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1A0A6674202D9529008DA5A3;
-			remoteInfo = KKWebSocket;
-		};
-		1A2F8A10207CD53E000B0AE0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1AE143301FF4956800D2DEAD;
-			remoteInfo = KKApplication;
-		};
-		1AB084BD20561BFB00EF5783 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1AE143311FF4956800D2DEAD;
-			remoteInfo = KKApplication;
-		};
-		1AB084BF20561BFB00EF5783 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1A9E3CA11FF878710023B627;
-			remoteInfo = KKApplicationDylib;
-		};
-		1AB084C120561BFB00EF5783 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AC8E5D8920043E4200343B83;
-			remoteInfo = demo;
-		};
-		1AB084C720561C0800EF5783 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE842052471500358A85 /* KKWebSocket.xcodeproj */;
+			containerPortal = E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1A0A6675202D9529008DA5A3;
 			remoteInfo = KKWebSocket;
 		};
-		1AB084CE20561C1D00EF5783 /* PBXContainerItemProxy */ = {
+		E9F4A8B22105AF0D00EAB83D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E951BE842052471500358A85 /* KKWebSocket.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1A0A6674202D9529008DA5A3;
-			remoteInfo = KKWebSocket;
-		};
-		1AB084D020561C1D00EF5783 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1AE143301FF4956800D2DEAD;
+			containerPortal = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AE143311FF4956800D2DEAD;
 			remoteInfo = KKApplication;
+		};
+		E9F4A8B42105AF0D00EAB83D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A9E3CA11FF878710023B627;
+			remoteInfo = KKApplicationDylib;
+		};
+		E9F4A8B62105AF0D00EAB83D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AC8E5D8920043E4200343B83;
+			remoteInfo = demo;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -453,7 +425,7 @@
 		1A65AA1720440ED60001B38A /* GLSLFillColor.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = GLSLFillColor.fsh; sourceTree = "<group>"; };
 		1A65AA1920440F130001B38A /* GLSLFillColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLFillColor.h; sourceTree = "<group>"; };
 		1A65AA1A20440F140001B38A /* GLSLFillColor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLSLFillColor.cc; sourceTree = "<group>"; };
-		1A8BFF242092C49500224854 /* main */ = {isa = PBXFileReference; lastKnownFileType = folder; name = main; path = ../../../../git.sc.weibo.com/kk/fruit/main; sourceTree = SOURCE_ROOT; };
+		1A8BFF242092C49500224854 /* main */ = {isa = PBXFileReference; lastKnownFileType = folder; name = main; path = ../../fruit/main; sourceTree = SOURCE_ROOT; };
 		1A8BFF302092C54B00224854 /* cpArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpArray.c; path = ../../lib/Chipmunk2D/src/cpArray.c; sourceTree = "<group>"; };
 		1A8BFF312092C54B00224854 /* cpSweep1D.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpSweep1D.c; path = ../../lib/Chipmunk2D/src/cpSweep1D.c; sourceTree = "<group>"; };
 		1A8BFF322092C54B00224854 /* cpConstraint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpConstraint.c; path = ../../lib/Chipmunk2D/src/cpConstraint.c; sourceTree = "<group>"; };
@@ -641,10 +613,10 @@
 		1AE24016202405F1001FFB58 /* duk_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duk_config.h; path = ../../lib/duktape/src/duk_config.h; sourceTree = "<group>"; };
 		1AE24017202405F1001FFB58 /* duktape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duktape.h; path = ../../lib/duktape/src/duktape.h; sourceTree = "<group>"; };
 		1AE24018202405F1001FFB58 /* duktape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = duktape.c; path = ../../lib/duktape/src/duktape.c; sourceTree = "<group>"; };
-		E951BE742052470800358A85 /* KKApplication.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKApplication.xcodeproj; path = ../../../../github.com/hailongz/KKApplication/KKApplication/KKApplication.xcodeproj; sourceTree = "<group>"; };
-		E951BE842052471500358A85 /* KKWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKWebSocket.xcodeproj; path = ../../../../github.com/hailongz/KKWebSocket/KKWebSocket/KKWebSocket.xcodeproj; sourceTree = "<group>"; };
 		E951BE962052605200358A85 /* GLMinimapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMinimapElement.cc; sourceTree = "<group>"; };
 		E951BE972052605200358A85 /* GLMinimapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMinimapElement.h; sourceTree = "<group>"; };
+		E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKWebSocket.xcodeproj; path = ../../KKWebSocket/KKWebSocket/KKWebSocket.xcodeproj; sourceTree = "<group>"; };
+		E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKApplication.xcodeproj; path = ../../KKApplication/KKApplication/KKApplication.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -652,9 +624,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9F4A8B92105AFF200EAB83D /* KKApplication.framework in Frameworks */,
+				E9F4A8B82105AFE200EAB83D /* KKWebSocket.framework in Frameworks */,
 				1AD772F02094918B0091283D /* libz.tbd in Frameworks */,
-				1AB084D820561C2400EF5783 /* KKApplication.framework in Frameworks */,
-				1AB084D920561C2400EF5783 /* KKWebSocket.framework in Frameworks */,
 				1A0A660420297311008DA5A3 /* KKGame.framework in Frameworks */,
 				1A0A6602202970A5008DA5A3 /* libstdc++.tbd in Frameworks */,
 				1A0A65F82029706C008DA5A3 /* KKHttp.framework in Frameworks */,
@@ -846,24 +818,6 @@
 			path = app;
 			sourceTree = "<group>";
 		};
-		1AB084B720561BFB00EF5783 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1AB084BE20561BFB00EF5783 /* KKApplication.framework */,
-				1AB084C020561BFB00EF5783 /* KKApplicationDylib.framework */,
-				1AB084C220561BFB00EF5783 /* demo.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		1AB084C320561C0800EF5783 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				1AB084C820561C0800EF5783 /* KKWebSocket.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1AD7743020998C060091283D /* spine */ = {
 			isa = PBXGroup;
 			children = (
@@ -988,8 +942,8 @@
 		1AE23FDB2022F361001FFB58 = {
 			isa = PBXGroup;
 			children = (
-				E951BE842052471500358A85 /* KKWebSocket.xcodeproj */,
-				E951BE742052470800358A85 /* KKApplication.xcodeproj */,
+				E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */,
+				E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */,
 				1AE23FE72022F361001FFB58 /* KKGame */,
 				1A0A656A2028283D008DA5A3 /* demo */,
 				1A9EEAAB209C2B3F004A8283 /* app */,
@@ -1099,6 +1053,24 @@
 				1AE24017202405F1001FFB58 /* duktape.h */,
 			);
 			name = duktape;
+			sourceTree = "<group>";
+		};
+		E9F4A8A12105AF0700EAB83D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9F4A8A62105AF0700EAB83D /* KKWebSocket.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9F4A8A82105AF0D00EAB83D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9F4A8B32105AF0D00EAB83D /* KKApplication.framework */,
+				E9F4A8B52105AF0D00EAB83D /* KKApplicationDylib.framework */,
+				E9F4A8B72105AF0D00EAB83D /* demo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1229,8 +1201,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1AB084CF20561C1D00EF5783 /* PBXTargetDependency */,
-				1AB084D120561C1D00EF5783 /* PBXTargetDependency */,
 				1A0A658220282881008DA5A3 /* PBXTargetDependency */,
 			);
 			name = demo;
@@ -1267,8 +1237,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1A2F8A0F207CD53E000B0AE0 /* PBXTargetDependency */,
-				1A2F8A11207CD53E000B0AE0 /* PBXTargetDependency */,
 			);
 			name = KKGame;
 			productName = KKGame;
@@ -1315,12 +1283,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 1AB084B720561BFB00EF5783 /* Products */;
-					ProjectRef = E951BE742052470800358A85 /* KKApplication.xcodeproj */;
+					ProductGroup = E9F4A8A82105AF0D00EAB83D /* Products */;
+					ProjectRef = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
 				},
 				{
-					ProductGroup = 1AB084C320561C0800EF5783 /* Products */;
-					ProjectRef = E951BE842052471500358A85 /* KKWebSocket.xcodeproj */;
+					ProductGroup = E9F4A8A12105AF0700EAB83D /* Products */;
+					ProjectRef = E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1334,32 +1302,32 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		1AB084BE20561BFB00EF5783 /* KKApplication.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KKApplication.framework;
-			remoteRef = 1AB084BD20561BFB00EF5783 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1AB084C020561BFB00EF5783 /* KKApplicationDylib.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = KKApplicationDylib.framework;
-			remoteRef = 1AB084BF20561BFB00EF5783 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1AB084C220561BFB00EF5783 /* demo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = demo.app;
-			remoteRef = 1AB084C120561BFB00EF5783 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		1AB084C820561C0800EF5783 /* KKWebSocket.framework */ = {
+		E9F4A8A62105AF0700EAB83D /* KKWebSocket.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = KKWebSocket.framework;
-			remoteRef = 1AB084C720561C0800EF5783 /* PBXContainerItemProxy */;
+			remoteRef = E9F4A8A52105AF0700EAB83D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9F4A8B32105AF0D00EAB83D /* KKApplication.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKApplication.framework;
+			remoteRef = E9F4A8B22105AF0D00EAB83D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9F4A8B52105AF0D00EAB83D /* KKApplicationDylib.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKApplicationDylib.framework;
+			remoteRef = E9F4A8B42105AF0D00EAB83D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9F4A8B72105AF0D00EAB83D /* demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = demo.app;
+			remoteRef = E9F4A8B62105AF0D00EAB83D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1597,26 +1565,6 @@
 			isa = PBXTargetDependency;
 			target = 1AE23FE42022F361001FFB58 /* KKGame */;
 			targetProxy = 1A289BA6205228F200E407F2 /* PBXContainerItemProxy */;
-		};
-		1A2F8A0F207CD53E000B0AE0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKWebSocket;
-			targetProxy = 1A2F8A0E207CD53E000B0AE0 /* PBXContainerItemProxy */;
-		};
-		1A2F8A11207CD53E000B0AE0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKApplication;
-			targetProxy = 1A2F8A10207CD53E000B0AE0 /* PBXContainerItemProxy */;
-		};
-		1AB084CF20561C1D00EF5783 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKWebSocket;
-			targetProxy = 1AB084CE20561C1D00EF5783 /* PBXContainerItemProxy */;
-		};
-		1AB084D120561C1D00EF5783 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKApplication;
-			targetProxy = 1AB084D020561C1D00EF5783 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
