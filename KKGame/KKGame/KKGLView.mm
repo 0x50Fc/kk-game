@@ -144,9 +144,9 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     GLContext.GLContext->tick();
-    glFlush();
     GLContext.GLContext->exec(element);
     GLContext.GLContext->draw(element);
+    glFlush();
     [GLContext presentRenderbuffer:GL_RENDERBUFFER]; // 渲染到设备
     
 }
