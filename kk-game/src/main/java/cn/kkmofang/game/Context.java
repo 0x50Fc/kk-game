@@ -101,7 +101,9 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     }
 
     public void run() {
+        ScriptContext.pushContext(this);
         run(_ptr);
+        ScriptContext.popContext();
     }
 
     public void setViewport(float width,float height,float scale) {
@@ -235,7 +237,9 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     }
 
     public void reopen() {
+        ScriptContext.pushContext(this);
         reopen(_ptr);
+        ScriptContext.popContext();
     }
 
     public final static void ContextGetStringTexture(long textureId,String text,TextPaint paint) {
