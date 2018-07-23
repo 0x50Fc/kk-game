@@ -20,7 +20,6 @@
     
     
     [KKGLViewElement class];
-    [KKGamepadElement class];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
