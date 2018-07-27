@@ -29,17 +29,9 @@
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
 #import "KKWebSocket+JSContext.h"
-
-dispatch_queue_t KKGLContextGetDispatchQueue(duk_context *ctx) {
-    dispatch_queue_t v = nil;
-    duk_push_global_object(ctx);
-    duk_get_prop_string(ctx, -1, "__dispatch_queue");
-    if(duk_is_pointer(ctx, -1)) {
-        v = (__bridge dispatch_queue_t) duk_to_pointer(ctx, -1);
-    }
-    duk_pop_2(ctx);
-    return v;
-}
+#import "KKJSContextAsync.h"
+#import "KKJSContextWorker.h"
+#import "KKJSContextWorker.h"
 
 @interface KKGLContext() {
     BOOL _recycle;
@@ -295,9 +287,9 @@ static duk_ret_t KKGLContext_compile(duk_context * ctx) {
     
     [_http cancel:self];
     
-    if(_GLContext) {
+    if(_JSContext) {
         
-        KKWeak * weak = [[KKWeak alloc] initWithObject:_GLContext];
+        KKWeak * weak = [[KKWeak alloc] initWithObject:_JSContext];
         
         dispatch_async(self.queue,^(){
             kk::Object * v = weak.object;
@@ -308,9 +300,9 @@ static duk_ret_t KKGLContext_compile(duk_context * ctx) {
         
     }
     
-    if(_JSContext) {
+    if(_GLContext) {
         
-        KKWeak * weak = [[KKWeak alloc] initWithObject:_JSContext];
+        KKWeak * weak = [[KKWeak alloc] initWithObject:_GLContext];
         
         dispatch_async(self.queue,^(){
             kk::Object * v = weak.object;
@@ -331,8 +323,307 @@ static duk_ret_t KKGLContext_compile(duk_context * ctx) {
     
     _recycle = YES;
     
+    dispatch_async(self.queue, ^{
+        [EAGLContext setCurrentContext:self];
+    });
+    
     [_http cancel:self];
     _http = nil;
+    
+    if(_JSContext) {
+        
+        KKWeak * weak = [[KKWeak alloc] initWithObject:_JSContext];
+        
+        dispatch_async(self.queue,^(){
+            kk::Object * v = weak.object;
+            if(v) {
+                v->release();
+            }
+        });
+        
+        _JSContext = nullptr;
+    }
+    
+    if(_GLContext) {
+        
+        KKWeak * weak = [[KKWeak alloc] initWithObject:_GLContext];
+        
+        dispatch_async(self.queue,^(){
+            kk::Object * v = weak.object;
+            if(v) {
+                v->release();
+            }
+        });
+        
+        _GLContext = nullptr;
+    }
+    
+    dispatch_async(self.queue, ^{
+        [EAGLContext setCurrentContext:nil];
+    });
+    
+    [EAGLContext setCurrentContext:nil];
+}
+
+-(KKHttp *) http {
+    if(_http == nil) {
+        _http = [KKHttp main];
+    }
+    return _http;
+}
+
+static void KKGLContextWorkerOnCreateContext (duk_context * ctx, duk_context * newContext,dispatch_queue_t queue) {
+    
+    [KKWebSocket openlib:newContext queue:queue];
+    [KKJSContextAsync openlib:newContext queue:queue];
+    
+    duk_push_global_object(ctx);
+    
+    duk_push_string(ctx,"context");
+    duk_get_prop(ctx, -2);
+    
+    kk::GL::Context * GLContext = (kk::GL::Context *) kk::script::GetObject(ctx, -1);
+    
+    duk_pop_2(ctx);
+    
+    if(GLContext) {
+        
+        duk_push_global_object(newContext);
+        
+        duk_push_string(newContext, "kk");
+        duk_push_object(newContext);
+        
+        duk_push_string(newContext, "kernel");
+        duk_push_number(newContext, KKApplicationKernel);
+        duk_put_prop(newContext, -3);
+        
+        duk_push_string(newContext, "platform");
+        duk_push_string(newContext, "ios");
+        duk_put_prop(newContext, -3);
+        
+        duk_push_string(newContext, "getString");
+        duk_push_c_function(newContext, KKGLContext_getString, 1);
+        
+        duk_push_string(newContext, "_GLContext");
+        duk_push_pointer(newContext, GLContext);
+        duk_put_prop(newContext, -3);
+        
+        duk_put_prop(newContext, -3);
+        
+        
+        duk_push_string(newContext, "compile");
+        duk_push_c_function(newContext, KKGLContext_compile, 3);
+        
+        duk_push_string(newContext, "_GLContext");
+        duk_push_pointer(newContext, GLContext);
+        duk_put_prop(newContext, -3);
+        
+        duk_put_prop(newContext, -3);
+        
+        
+        duk_put_prop(newContext, -3);
+        
+        duk_pop(newContext);
+        
+        duk_eval_lstring_noresult(newContext, (char *)require_js, sizeof(require_js));
+    }
+}
+
+
+-(void) openlibs {
+    
+    {
+        duk_context * ctx = _JSContext->jsContext();
+        
+        kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Context::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Scene::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::ImageElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::ShapeElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::Animation::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::AnimationItem::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::TextElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
+        kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
+        
+        [KKWebSocket openlib:ctx queue:_queue];
+        [KKJSContextAsync openlib:ctx queue:_queue];
+        [KKJSContextWorker openlib:ctx queue:_queue onCreateContext:KKGLContextWorkerOnCreateContext];
+        
+        duk_push_global_object(ctx);
+        
+        duk_push_string(ctx,"context");
+        kk::script::PushObject(ctx, _GLContext);
+        duk_put_prop(ctx, -3);
+        
+        duk_pop(ctx);
+    }
+    
+    {
+        duk_context * ctx = _JSContext->jsContext();
+        
+        duk_push_global_object(ctx);
+        
+        duk_push_string(ctx, "kk");
+        duk_push_object(ctx);
+        
+        duk_push_string(ctx, "kernel");
+        duk_push_number(ctx, KKApplicationKernel);
+        duk_put_prop(ctx, -3);
+        
+        duk_push_string(ctx, "platform");
+        duk_push_string(ctx, "ios");
+        duk_put_prop(ctx, -3);
+        
+        duk_push_string(ctx, "getString");
+        duk_push_c_function(ctx, KKGLContext_getString, 1);
+        
+        duk_push_string(ctx, "_GLContext");
+        duk_push_pointer(ctx, _GLContext);
+        duk_put_prop(ctx, -3);
+        
+        duk_put_prop(ctx, -3);
+        
+        
+        duk_push_string(ctx, "compile");
+        duk_push_c_function(ctx, KKGLContext_compile, 3);
+        
+        duk_push_string(ctx, "_GLContext");
+        duk_push_pointer(ctx, _GLContext);
+        duk_put_prop(ctx, -3);
+        
+        duk_put_prop(ctx, -3);
+        
+        
+        {
+            NSBundle * main = [NSBundle mainBundle];
+            
+            duk_push_string(ctx, "app");
+            duk_push_object(ctx);
+            
+            duk_push_string(ctx, "id");
+            duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleIdentifier"] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "version");
+            duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleShortVersionString"] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "build");
+            duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleVersion"] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "name");
+            duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleDisplayName"] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "lang");
+            duk_push_string(ctx, [[[NSLocale currentLocale] localeIdentifier] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_put_prop(ctx, -3);
+            
+        }
+        
+        {
+            
+            duk_push_string(ctx, "device");
+            duk_push_object(ctx);
+            
+            duk_push_string(ctx, "id");
+            
+            UIDevice * device = [UIDevice currentDevice];
+            
+            CC_MD5_CTX m;
+            
+            CC_MD5_Init(&m);
+            
+            NSData * data = [[[device identifierForVendor] UUIDString] dataUsingEncoding:NSUTF8StringEncoding];
+            
+            CC_MD5_Update(&m, [data bytes], (CC_LONG) [data length]);
+            
+            unsigned char md[16];
+            
+            CC_MD5_Final(md, &m);
+            
+            duk_push_string(ctx, [[NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
+                                   ,md[0],md[1],md[2],md[3],md[4],md[5],md[6],md[7]
+                                   ,md[8],md[9],md[10],md[11],md[12],md[13],md[14],md[15]] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "systemName");
+            duk_push_string(ctx, [[device systemName] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "systemVersion");
+            duk_push_string(ctx, [[device systemVersion] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "model");
+            duk_push_string(ctx, [[device model] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "name");
+            duk_push_string(ctx, [[device name] UTF8String]);
+            duk_put_prop(ctx, -3);
+            
+            duk_put_prop(ctx, -3);
+            
+        }
+        
+        duk_put_prop(ctx, -3);
+        
+        duk_push_string(ctx, "app");
+        duk_push_object(ctx);
+        duk_put_prop(ctx,-3);
+        
+        duk_pop(ctx);
+        
+        duk_eval_lstring_noresult(ctx, (char *)require_js, sizeof(require_js));
+    }
+    
+}
+
+-(void) reopen {
+    
+    if(_http) {
+        [_http cancel:self];
+        _http = nil;
+    }
+
+    dispatch_async(self.queue, ^{
+        
+        [EAGLContext setCurrentContext:self];
+        
+        if(_GLContext != nil) {
+            _GLContext->release();
+            _GLContext = nil;
+        }
+        
+        if(_JSContext != nil) {
+            _JSContext->release();
+            _JSContext = nil;
+        }
+        
+        _GLContext = new kk::GL::Context();
+        _GLContext->retain();
+        _JSContext = new kk::script::Context();
+        _JSContext->retain();
+        
+        [self openlibs];
+      
+        _GLContext->init();
+    });
     
     if(_GLContext) {
         
@@ -367,256 +658,7 @@ static duk_ret_t KKGLContext_compile(duk_context * ctx) {
     });
     
     [EAGLContext setCurrentContext:nil];
-}
-
--(KKHttp *) http {
-    if(_http == nil) {
-        _http = [KKHttp main];
-    }
-    return _http;
-}
-
-static duk_ret_t KKGLContext_setTimeout(duk_context * ctx) {
     
-    int top = duk_get_top(ctx);
-    
-    if(top > 1 && duk_is_function(ctx, -top) && duk_is_number(ctx, -top + 1)) {
-        
-        void * heapptr = duk_get_heapptr(ctx, -top);
-        int ms = duk_to_int(ctx, -top +1);
-        
-        duk_push_global_object(ctx);
-        
-        duk_push_sprintf(ctx, "0x%0x",(long) heapptr);
-        duk_push_heapptr(ctx, heapptr);
-        duk_put_prop(ctx, -3);
-        
-        duk_pop(ctx);
-        
-        kk::script::Context * context = kk::script::GetContext(ctx);
-        kk::script::Context ** pContext = (kk::script::Context **) malloc(sizeof(kk::script::Context *));
-        
-        * pContext = context;
-        
-        if(context) {
-            context->weak((kk::Object **) pContext);
-        }
-        
-        @autoreleasepool {
-            
-            dispatch_queue_t queue = KKGLContextGetDispatchQueue(ctx);
-            
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(ms * NSEC_PER_MSEC)), queue, ^{
-               
-                if(pContext && * pContext) {
-                    
-                    duk_context * ctx = (* pContext)->jsContext();
-                    
-                    duk_push_global_object(ctx);
-                    
-                    duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-                    duk_get_prop(ctx, -2);
-                    
-                    if(duk_is_function(ctx, -1)) {
-                        
-                        if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                            kk::script::Error(ctx, -1);
-                        }
-                        
-                        duk_pop(ctx);
-                        
-                        duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-                        duk_del_prop(ctx, -2);
-                        
-                    } else {
-                        duk_pop(ctx);
-                    }
-    
-                    
-                    duk_pop(ctx);
-                    
-                    context->unWeak((kk::Object **) &context);
-                }
-                
-                if(pContext && * pContext) {
-                    (* pContext)->unWeak((kk::Object **) pContext);
-                }
-                
-                if(pContext) {
-                    free(pContext);
-                }
-
-            });
-            
-        }
-        
-        duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-        
-        return 1;
-    }
-    
-    return 0;
-}
-
-static duk_ret_t KKGLContext_clearTimeout(duk_context * ctx) {
-    
-    int top = duk_get_top(ctx);
-    
-    if(top > 0 && duk_is_string(ctx, -top) ) {
-        
-        const char * iid = duk_to_string(ctx, -top);
-        
-        duk_push_global_object(ctx);
-        
-        duk_push_string(ctx, iid);
-        duk_del_prop(ctx, -2);
-        
-        duk_pop(ctx);
-    }
-    
-    return 0;
-}
-
-static duk_ret_t KKGLContext_Interval_dealloc(duk_context * ctx) {
-    
-    duk_push_string(ctx, "source");
-    duk_get_prop(ctx, -2);
-    
-    if(duk_is_pointer(ctx, -1)) {
-        @autoreleasepool {
-            CFTypeRef v = (CFTypeRef) duk_to_pointer(ctx, -1);
-            if(v) {
-                dispatch_source_t source = (__bridge dispatch_source_t) v;
-                dispatch_source_cancel(source);
-                CFRelease(v);
-            }
-        }
-    }
-    
-    duk_pop(ctx);
-    
-    return 0;
-}
-
-static duk_ret_t KKGLContext_setInterval(duk_context * ctx) {
-    
-    int top = duk_get_top(ctx);
-    
-    if(top > 1 && duk_is_function(ctx, -top) && duk_is_number(ctx, -top + 1)) {
-        
-        @autoreleasepool{
-            
-            void * heapptr = duk_get_heapptr(ctx, -top);
-            int ms = duk_to_int(ctx, -top +1);
-            dispatch_queue_t queue = KKGLContextGetDispatchQueue(ctx);
-            
-            duk_push_global_object(ctx);
-            
-            duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-            
-            duk_push_object(ctx);
-            
-            duk_push_string(ctx, "source");
-            
-            dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
-            
-            duk_push_pointer(ctx, (void *) CFBridgingRetain(source));
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "func");
-            duk_push_heapptr(ctx, heapptr);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_c_function(ctx, KKGLContext_Interval_dealloc, 1);
-            duk_set_finalizer(ctx, -2);
-            
-            duk_put_prop(ctx, -3);
-            
-            duk_pop(ctx);
-            
-            kk::script::Context * context = kk::script::GetContext(ctx);
-            kk::script::Context ** pContext = (kk::script::Context **) malloc(sizeof(kk::script::Context *));
-            
-            * pContext = context;
-            
-            if(context) {
-                context->weak((kk::Object **) pContext);
-            }
-            
-            dispatch_source_set_timer(source, dispatch_walltime(NULL, 0), (int64_t)(ms * NSEC_PER_MSEC), 0);
-            
-            dispatch_source_set_event_handler(source, ^{
-                
-                if(pContext && * pContext) {
-                    
-                    duk_context * ctx = (* pContext)->jsContext();
-                    
-                    duk_push_global_object(ctx);
-                    
-                    duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-                    duk_get_prop(ctx, -2);
-                    
-                    if(duk_is_object(ctx, -1)) {
-                        
-                        duk_push_string(ctx, "func");
-                        duk_get_prop(ctx, -2);
-                        
-                        if(duk_is_function(ctx, -1)) {
-                            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                                kk::script::Error(ctx, -1);
-                            }
-                        }
-                        
-                        duk_pop(ctx);
-                        
-                    }
-                    
-                    duk_pop_2(ctx);
-                }
-                
-            });
-            
-            dispatch_source_set_cancel_handler(source, ^{
-                if(pContext && * pContext) {
-                    (* pContext)->unWeak((kk::Object **) pContext);
-                }
-                if(pContext) {
-                    free(pContext);
-                }
-            });
-            
-            
-            dispatch_resume(source);
-            
-            duk_push_sprintf(ctx, "0x%x",(long) heapptr);
-            
-            return 1;
-            
-        }
-        
-    }
-    
-    return 0;
-}
-
-static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
-    
-    int top = duk_get_top(ctx);
-    
-    if(top > 0 && duk_is_string(ctx, -top) ) {
-        
-        const char * iid = duk_to_string(ctx, -top);
-        
-        duk_push_global_object(ctx);
-        
-        duk_push_string(ctx, iid);
-        duk_del_prop(ctx, -2);
-        
-        duk_pop(ctx);
-        
-    }
-    
-    return 0;
 }
 
 -(instancetype) initWithAPI:(EAGLRenderingAPI)api {
@@ -630,185 +672,9 @@ static duk_ret_t KKGLContext_clearInterval(duk_context * ctx) {
         _JSContext = new kk::script::Context();
         _JSContext->retain();
         
-        {
-            duk_context * ctx = _JSContext->jsContext();
-            
-            kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Context::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Scene::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ImageElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ShapeElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::Animation::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::AnimationItem::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::TextElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
-            
-            [KKWebSocket openlib:ctx];
-            
-            duk_push_global_object(ctx);
-            
-            duk_push_pointer(ctx, (__bridge void *) _queue);
-            duk_put_prop_string(ctx, -2, "__dispatch_queue");
-            
-            duk_push_string(ctx, "setTimeout");
-            duk_push_c_function(ctx, KKGLContext_setTimeout, 2);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "setInterval");
-            duk_push_c_function(ctx, KKGLContext_setInterval, 2);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "clearTimeout");
-            duk_push_c_function(ctx, KKGLContext_clearTimeout, 1);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "clearInterval");
-            duk_push_c_function(ctx, KKGLContext_clearInterval, 1);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx,"context");
-            kk::script::PushObject(ctx, _GLContext);
-            duk_put_prop(ctx, -3);
-            
-            duk_pop(ctx);
-        }
-        
-        {
-            duk_context * ctx = _JSContext->jsContext();
-            
-            duk_push_global_object(ctx);
-            
-            duk_push_string(ctx, "kk");
-            duk_push_object(ctx);
-            
-            duk_push_string(ctx, "kernel");
-            duk_push_number(ctx, KKApplicationKernel);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "platform");
-            duk_push_string(ctx, "ios");
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "getString");
-            duk_push_c_function(ctx, KKGLContext_getString, 1);
-            
-            duk_push_string(ctx, "_GLContext");
-            duk_push_pointer(ctx, _GLContext);
-            duk_put_prop(ctx, -3);
-            
-            duk_put_prop(ctx, -3);
-            
-            
-            duk_push_string(ctx, "compile");
-            duk_push_c_function(ctx, KKGLContext_compile, 3);
-            
-            duk_push_string(ctx, "_GLContext");
-            duk_push_pointer(ctx, _GLContext);
-            duk_put_prop(ctx, -3);
-            
-            duk_put_prop(ctx, -3);
-            
-            
-            {
-                NSBundle * main = [NSBundle mainBundle];
-                
-                duk_push_string(ctx, "app");
-                duk_push_object(ctx);
-                
-                duk_push_string(ctx, "id");
-                duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleIdentifier"] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "version");
-                duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleShortVersionString"] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "build");
-                duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleVersion"] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "name");
-                duk_push_string(ctx, [[[main infoDictionary] valueForKey:@"CFBundleDisplayName"] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "lang");
-                duk_push_string(ctx, [[[NSLocale currentLocale] localeIdentifier] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_put_prop(ctx, -3);
-                
-            }
-            
-            {
-                
-                duk_push_string(ctx, "device");
-                duk_push_object(ctx);
-                
-                duk_push_string(ctx, "id");
-                
-                UIDevice * device = [UIDevice currentDevice];
-                
-                CC_MD5_CTX m;
-                
-                CC_MD5_Init(&m);
-                
-                NSData * data = [[[device identifierForVendor] UUIDString] dataUsingEncoding:NSUTF8StringEncoding];
-                
-                CC_MD5_Update(&m, [data bytes], (CC_LONG) [data length]);
-                
-                unsigned char md[16];
-                
-                CC_MD5_Final(md, &m);
-                
-                duk_push_string(ctx, [[NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
-                                      ,md[0],md[1],md[2],md[3],md[4],md[5],md[6],md[7]
-                                       ,md[8],md[9],md[10],md[11],md[12],md[13],md[14],md[15]] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "systemName");
-                duk_push_string(ctx, [[device systemName] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "systemVersion");
-                duk_push_string(ctx, [[device systemVersion] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "model");
-                duk_push_string(ctx, [[device model] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_push_string(ctx, "name");
-                duk_push_string(ctx, [[device name] UTF8String]);
-                duk_put_prop(ctx, -3);
-                
-                duk_put_prop(ctx, -3);
-                
-            }
-            
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "app");
-            duk_push_object(ctx);
-            duk_put_prop(ctx,-3);
-            
-            duk_pop(ctx);
-            
-            duk_eval_lstring_noresult(ctx, (char *)require_js, sizeof(require_js));
-        }
+        [self openlibs];
         
         [EAGLContext setCurrentContext:self];
-        
         _GLContext->init();
         
     }

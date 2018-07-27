@@ -78,6 +78,10 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         _source = nil;
     }
     
+    if(_element != nil) {
+        _element->off("app_*", KKGLViewElement_event_cb, nullptr);
+    }
+    
     if(_GLContext) {
         KKGLContext * v = _GLContext;
         dispatch_async(v.queue, ^{
@@ -87,7 +91,6 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     }
     
     if(_element != nil) {
-        _element->off("app_*", KKGLViewElement_event_cb, nullptr);
         _element->release();
     }
     
@@ -177,7 +180,9 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         
         if(_source == nil) {
             
-            _source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,self.GLContext.queue);
+            KKGLContext * GLContext = self.GLContext;
+            
+            _source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,GLContext.queue);
             
             int64_t frames = [[self get:@"speed"] intValue];
             
@@ -185,7 +190,9 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                 frames = 30;
             }
             
-            self.GLContext.GLContext->setFrames((kk::Uint) frames);
+            dispatch_async(GLContext.queue, ^{
+                GLContext.GLContext->setFrames((kk::Uint) frames);
+            });
             
             dispatch_source_set_timer(_source, dispatch_walltime(NULL, 0), (int64_t)(NSEC_PER_SEC / frames), 0);
             
@@ -227,6 +234,8 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
         _element = nullptr;
     }
     
+    [_GLContext reopen];
+    
     _loaded = NO;
     
     __weak KKGLViewElement * element = self;
@@ -259,8 +268,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     }
     
     if(_element != nil) {
-        _element->release();
-        _element = nullptr;
+        _element->off("app_*", KKGLViewElement_event_cb, nullptr);
     }
     
     if(_GLContext) {
@@ -269,6 +277,11 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
             [v recycle];
         });
         _GLContext = nil;
+    }
+    
+    if(_element != nil) {
+        _element->release();
+        _element = nullptr;
     }
     
     [super setView:view];
@@ -313,6 +326,10 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 
 
 -(void) tick {
+    
+    if(_element == nil || _GLContext == nil) {
+        return;
+    }
     
     [(KKGLView *) self.view displayGLContext:self.GLContext element:self.element];
     

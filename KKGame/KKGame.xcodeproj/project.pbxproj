@@ -67,6 +67,10 @@
 		1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */; };
 		1A0A6696202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6694202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm */; };
 		1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
+		1A2866DD210B1DCB008A5B3B /* KKJSContextAsync.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2866DB210B1DCB008A5B3B /* KKJSContextAsync.h */; };
+		1A2866DE210B1DCB008A5B3B /* KKJSContextAsync.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866DC210B1DCB008A5B3B /* KKJSContextAsync.mm */; };
+		1A2866E1210B1DDB008A5B3B /* KKJSContextWorker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2866DF210B1DDB008A5B3B /* KKJSContextWorker.h */; };
+		1A2866E2210B1DDB008A5B3B /* KKJSContextWorker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E0210B1DDB008A5B3B /* KKJSContextWorker.mm */; };
 		1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
 		1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
 		1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
@@ -413,6 +417,10 @@
 		1A0A6697202FDD8A008DA5A3 /* require.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = require.js; sourceTree = "<group>"; };
 		1A0A6699203280A7008DA5A3 /* GLAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAnimation.h; sourceTree = "<group>"; };
 		1A0A669A203280BB008DA5A3 /* GLAnimation.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLAnimation.cc; sourceTree = "<group>"; };
+		1A2866DB210B1DCB008A5B3B /* KKJSContextAsync.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKJSContextAsync.h; sourceTree = "<group>"; };
+		1A2866DC210B1DCB008A5B3B /* KKJSContextAsync.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKJSContextAsync.mm; sourceTree = "<group>"; };
+		1A2866DF210B1DDB008A5B3B /* KKJSContextWorker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKJSContextWorker.h; sourceTree = "<group>"; };
+		1A2866E0210B1DDB008A5B3B /* KKJSContextWorker.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKJSContextWorker.mm; sourceTree = "<group>"; };
 		1A32EC5020CA934A00C4B091 /* kk-ev.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-ev.cc"; sourceTree = "<group>"; };
 		1A32EC5120CA934A00C4B091 /* kk-ev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ev.h"; sourceTree = "<group>"; };
 		1A32EC6F20CA9F9600C4B091 /* kk-ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ws.h"; sourceTree = "<group>"; };
@@ -977,6 +985,10 @@
 				1A0A659820284FF1008DA5A3 /* KKGLContext.mm */,
 				1A0A65A920285788008DA5A3 /* KKStrong.h */,
 				1A0A65AA20285788008DA5A3 /* KKStrong.mm */,
+				1A2866DF210B1DDB008A5B3B /* KKJSContextWorker.h */,
+				1A2866E0210B1DDB008A5B3B /* KKJSContextWorker.mm */,
+				1A2866DB210B1DCB008A5B3B /* KKJSContextAsync.h */,
+				1A2866DC210B1DCB008A5B3B /* KKJSContextAsync.mm */,
 				1A0A65AD202857C3008DA5A3 /* KKWeak.h */,
 				1A0A65AE202857C3008DA5A3 /* KKWeak.mm */,
 				1A0A65B120285DD5008DA5A3 /* KKGLView.h */,
@@ -1144,6 +1156,7 @@
 				1AD774AC20998C060091283D /* MeshAttachment.h in Headers */,
 				1A0A658C202828E1008DA5A3 /* kk-config.h in Headers */,
 				1AD774AB20998C060091283D /* AnimationState.h in Headers */,
+				1A2866E1210B1DDB008A5B3B /* KKJSContextWorker.h in Headers */,
 				1A8BFF932092C58A00224854 /* cpHastySpace.h in Headers */,
 				1A8BFF9C2092C58A00224854 /* cpPolyShape.h in Headers */,
 				1A0A659920284FF1008DA5A3 /* KKGLContext.h in Headers */,
@@ -1181,6 +1194,7 @@
 				1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */,
 				1A8BFFA32092C58A00224854 /* cpGearJoint.h in Headers */,
 				1AD7749120998C060091283D /* ClippingAttachment.h in Headers */,
+				1A2866DD210B1DCB008A5B3B /* KKJSContextAsync.h in Headers */,
 				1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */,
 				1A8BFF962092C58A00224854 /* cpBody.h in Headers */,
 				1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */,
@@ -1445,6 +1459,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2866E2210B1DDB008A5B3B /* KKJSContextWorker.mm in Sources */,
 				1AD774C520998C060091283D /* Animation.c in Sources */,
 				1A8BFFB02092FACE00224854 /* GLShapeElement.cc in Sources */,
 				1A8BFF612092C54E00224854 /* cpHastySpace.c in Sources */,
@@ -1546,6 +1561,7 @@
 				1A8BFF5C2092C54E00224854 /* cpMarch.c in Sources */,
 				1AD774BD20998C060091283D /* AnimationState.c in Sources */,
 				1A0A66192029B8EE008DA5A3 /* GLImageElement.cc in Sources */,
+				1A2866DE210B1DCB008A5B3B /* KKJSContextAsync.mm in Sources */,
 				1A0A659620284CCB008DA5A3 /* GLContext.cc in Sources */,
 				1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */,
 				1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */,
@@ -1848,6 +1864,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = ../lib;

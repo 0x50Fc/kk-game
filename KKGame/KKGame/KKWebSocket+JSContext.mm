@@ -10,7 +10,16 @@
 
 #include "kk-script.h"
 
-extern dispatch_queue_t KKGLContextGetDispatchQueue(duk_context *ctx);
+static dispatch_queue_t KKWebSocketGetDispatchQueue(duk_context *ctx) {
+    dispatch_queue_t v = nil;
+    duk_push_current_function(ctx);
+    duk_get_prop_string(ctx, -1, "__queue");
+    if(duk_is_pointer(ctx, -1)) {
+        v = (__bridge dispatch_queue_t) duk_to_pointer(ctx, -1);
+    }
+    duk_pop_2(ctx);
+    return v;
+}
 
 static duk_ret_t KKWebSocketDeallocFunc(duk_context * ctx) {
 
@@ -59,9 +68,9 @@ static duk_ret_t KKWebSocketAllocFunc(duk_context * ctx) {
             
             KKWebSocket * v = [[KKWebSocket alloc] initWithURL:[NSURL URLWithString:[NSString stringWithCString:url encoding:NSUTF8StringEncoding]]];
             
-            v.queue = KKGLContextGetDispatchQueue(ctx);
+            v.queue = KKWebSocketGetDispatchQueue(ctx);
             
-            dispatch_async(KKGLContextGetDispatchQueue(ctx), ^{
+            dispatch_async(KKWebSocketGetDispatchQueue(ctx), ^{
                 [v connect];
             });
             
@@ -326,7 +335,7 @@ static duk_ret_t KKWebSocketStateFunc(duk_context * ctx) {
 
 @implementation KKWebSocket (JSContext)
 
-+(void) openlib:(duk_context *) ctx {
++(void) openlib:(duk_context *) ctx queue:(dispatch_queue_t)queue {
     
     duk_push_global_object(ctx);
     
@@ -336,6 +345,9 @@ static duk_ret_t KKWebSocketStateFunc(duk_context * ctx) {
     
     duk_push_string(ctx, "alloc");
     duk_push_c_function(ctx, KKWebSocketAllocFunc, 1);
+    duk_push_string(ctx, "__queue");
+    duk_push_pointer(ctx, (__bridge void *) queue);
+    duk_put_prop(ctx, -3);
     duk_put_prop(ctx, -3);
     
     duk_push_string(ctx, "close");

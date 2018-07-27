@@ -46,6 +46,8 @@ typedef void * KKJSContextRef;
 
 -(void) recycle;
 
+-(void) reopen;
+
 +(void) JSContextPushObject:(id) object ctx:(duk_context * )ctx;
 
 +(id) JSContextToObject:(duk_idx_t) idx ctx:(duk_context * )ctx;

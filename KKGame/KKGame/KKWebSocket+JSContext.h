@@ -11,6 +11,6 @@
 
 @interface KKWebSocket (JSContext)
 
-+(void) openlib:(duk_context *) ctx;
++(void) openlib:(duk_context *) ctx queue:(dispatch_queue_t) queue;
 
 @end
