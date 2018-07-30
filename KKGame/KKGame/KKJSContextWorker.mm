@@ -8,6 +8,7 @@
 
 #import "KKJSContextWorker.h"
 #include "kk-script.h"
+#include "kk-binary.h"
 
 static duk_ret_t KKJSContextWorkerDeallocFunc(duk_context * ctx) {
     
@@ -47,15 +48,20 @@ static duk_ret_t KKJSContextWorkerDeallocFunc(duk_context * ctx) {
 static duk_ret_t KKJSContextWorkerThreadPostMessageFunc(duk_context * ctx) {
     
     
-    char * json = nil;
-    
+    kk::Binary * binary = nullptr;
+    kk::Binary * p = nullptr;
     int top = duk_get_top(ctx);
     
-    if(top > 0) {
-        const char * v = duk_json_encode(ctx, -top);
-        json = (char *) malloc(strlen(v) + 1);
-        strcpy(json, v);
-    } else {
+    for(int i=0;i<top;i++) {
+        if(p == nullptr) {
+            p = kk::BinaryAlloc(ctx, -top + i);
+            binary = p;
+        } else {
+            p = kk::BinaryAdd(p, kk::BinaryAlloc(ctx, -top + i));
+        }
+    }
+    
+    if(binary == nullptr) {
         return 0;
     }
     
@@ -105,21 +111,25 @@ static duk_ret_t KKJSContextWorkerThreadPostMessageFunc(duk_context * ctx) {
             
             if(duk_is_function(jsContext, -1)) {
                 
-                duk_push_string(jsContext, json);
-                duk_json_decode(jsContext, -1);
+                kk::Binary * p = binary;
                 
-                if(duk_pcall(jsContext, 1) != DUK_EXEC_SUCCESS) {
+                while(p) {
+                    p = kk::BinaryPushContext(jsContext, p);
+                }
+                
+                if(duk_pcall(jsContext, top) != DUK_EXEC_SUCCESS) {
                     kk::script::Error(jsContext, -1);
                 }
             }
             
             duk_pop_2(jsContext);
             
-            free(json);
+            kk::BinaryDealloc(binary);
+            
         });
         
     } else {
-        free(json);
+        kk::BinaryDealloc(binary);
     }
     
     return 0;
@@ -182,7 +192,7 @@ static duk_ret_t KKJSContextWorkerAllocFunc(duk_context * ctx) {
         duk_push_pointer(ctx, jsContext);
         duk_put_prop(ctx, -3);
         
-        dispatch_queue_t toQueue = dispatch_queue_create("KKJSContextWorker", nil);
+        dispatch_queue_t toQueue = dispatch_queue_create("KKJSContextWorker", DISPATCH_QUEUE_SERIAL);
         
         duk_push_string(ctx, "__queue");
         duk_push_pointer(ctx, (void *) CFBridgingRetain(toQueue));
@@ -200,7 +210,7 @@ static duk_ret_t KKJSContextWorkerAllocFunc(duk_context * ctx) {
             duk_push_global_object(dukContext);
             
             duk_push_string(dukContext, "postMessage");
-            duk_push_c_function(dukContext, KKJSContextWorkerThreadPostMessageFunc, 1);
+            duk_push_c_function(dukContext, KKJSContextWorkerThreadPostMessageFunc, DUK_VARARGS);
             duk_push_string(dukContext, "__jsContext");
             duk_push_pointer(dukContext, (void *) ctx);
             duk_put_prop(dukContext, -3);
@@ -242,15 +252,20 @@ static duk_ret_t KKJSContextWorkerAllocFunc(duk_context * ctx) {
 
 static duk_ret_t KKJSContextWorkerPostMessageFunc(duk_context * ctx) {
     
-    char * json = nil;
-    
+    kk::Binary * binary = nullptr;
+    kk::Binary * p = nullptr;
     int top = duk_get_top(ctx);
     
-    if(top > 0) {
-        const char * v = duk_json_encode(ctx, -top);
-        json = (char *) malloc(strlen(v) + 1);
-        strcpy(json, v);
-    } else {
+    for(int i=0;i<top;i++) {
+        if(p == nullptr) {
+            p = kk::BinaryAlloc(ctx, -top + i);
+            binary = p;
+        } else {
+            p = kk::BinaryAdd(p, kk::BinaryAlloc(ctx, -top + i));
+        }
+    }
+    
+    if(binary == nullptr) {
         return 0;
     }
     
@@ -293,10 +308,19 @@ static duk_ret_t KKJSContextWorkerPostMessageFunc(duk_context * ctx) {
             
             if(duk_is_function(dukContext, -1)) {
                 
-                duk_push_string(dukContext, json);
-                duk_json_decode(dukContext, -1);
+                kk::Binary * p = binary;
+                int n = 0;
+                while(p) {
+                    if(p->type == kk::BinaryTypeBinary ){
+                        kk::Log("");
+                    }
+                    p = kk::BinaryPushContext(dukContext, p);
+                    n ++;
+                }
                 
-                if(duk_pcall(dukContext, 1) != DUK_EXEC_SUCCESS) {
+                assert(n == top);
+                
+                if(duk_pcall(dukContext, top) != DUK_EXEC_SUCCESS) {
                     kk::script::Error(dukContext, -1);
                 }
                 
@@ -304,12 +328,12 @@ static duk_ret_t KKJSContextWorkerPostMessageFunc(duk_context * ctx) {
             
             duk_pop_2(dukContext);
             
-            free(json);
+            kk::BinaryDealloc(binary);
             
         });
         
     } else {
-        free(json);
+        kk::BinaryDealloc(binary);
     }
     
     
@@ -383,7 +407,7 @@ static duk_ret_t KKJSContextWorkerTerminateFunc(duk_context * ctx) {
     duk_put_prop(ctx, -3);
     
     duk_push_string(ctx, "postMessage");
-    duk_push_c_function(ctx, KKJSContextWorkerPostMessageFunc, 1);
+    duk_push_c_function(ctx, KKJSContextWorkerPostMessageFunc, DUK_VARARGS);
     duk_put_prop(ctx, -3);
     
     duk_push_string(ctx, "terminate");

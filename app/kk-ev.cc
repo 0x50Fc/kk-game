@@ -8,12 +8,15 @@
 
 #include <event.h>
 #include <evdns.h>
+#include <pthread.h>
 
 #include "kk-config.h"
 #include "kk-ev.h"
 #include "kk-script.h"
 
 namespace kk {
+    
+   
     
     struct evdns_base * ev_dns(duk_context * ctx) {
         
@@ -215,7 +218,6 @@ namespace kk {
         duk_push_string(ctx, "clearTimeout");
         duk_push_c_function(ctx, ev_clear, 1);
         duk_put_prop(ctx, -3);
-        
         
         duk_push_string(ctx, "setInterval");
         duk_push_c_function(ctx, ev_setInterval, 2);

@@ -31,6 +31,7 @@ namespace kk {
         virtual void run();
         virtual void runCommand(kk::CString command);
         virtual kk::Uint64 appid();
+        virtual void installContext(duk_context * ctx);
     protected:
         Strong _jsContext;
         Strong _GAContext;

@@ -666,7 +666,7 @@ static void KKGLContextWorkerOnCreateContext (duk_context * ctx, duk_context * n
         
         self.multiThreaded = YES;
         
-        _queue = dispatch_queue_create("KKGLContext", nil);
+        _queue = dispatch_queue_create("KKGLContext", DISPATCH_QUEUE_SERIAL);
         _GLContext = new kk::GL::Context();
         _GLContext->retain();
         _JSContext = new kk::script::Context();

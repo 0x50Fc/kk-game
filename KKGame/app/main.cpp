@@ -12,6 +12,7 @@
 #include "kk-ev.h"
 #include "kk-ws.h"
 #include "kk-http.h"
+#include "kk-wk.h"
 #include <event.h>
 #include <unistd.h>
 
@@ -69,6 +70,30 @@ static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
     evtimer_add(app_ev_exec, &tv);
 }
 
+static kk::Application * app;
+
+static void main_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * queue, duk_context * newContext) {
+    
+    evdns_base_load_hosts(kk::ev_dns(newContext), "/etc/hosts");
+    
+    app->installContext(newContext);
+    
+    event_base * base = kk::ev_base(newContext);
+    evdns_base * dns = kk::ev_dns(newContext);
+    
+    {
+        
+        kk::script::SetPrototype(newContext, &kk::WebSocket::ScriptClass);
+        kk::script::SetPrototype(newContext, &kk::Http::ScriptClass);
+        
+        kk::Strong v = new kk::Http(base,dns);
+        
+        kk::script::PushObject(newContext, v.get());
+        duk_put_global_string(newContext, "http");
+        
+    }
+}
+
 
 int main(int argc, const char * argv[]) {
     
@@ -97,7 +122,7 @@ int main(int argc, const char * argv[]) {
     
     jsContext->retain();
     
-    kk::Application * app = new kk::Application(path,appid,jsContext);
+    app = new kk::Application(path,appid,jsContext);
     
     app->retain();
     
@@ -121,10 +146,12 @@ int main(int argc, const char * argv[]) {
     
     event_base * base = event_init();
     evdns_base * dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
+    kk::DispatchQueue * queue = new kk::DispatchQueue(base);
     
     evdns_base_load_hosts(dns, "/etc/hosts");
     
     kk::ev_openlibs(jsContext->jsContext(), base,dns);
+    kk::wk_openlibs(jsContext->jsContext(), queue,main_EventOnCreateContext);
     
     {
         
@@ -162,6 +189,8 @@ int main(int argc, const char * argv[]) {
     app->release();
     
     jsContext->release();
+    
+    queue->release();
     
     bufferevent_free(ev_stdin);
     

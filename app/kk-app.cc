@@ -259,6 +259,58 @@ namespace kk {
         return _jsContext.as<kk::script::Context>();
     }
     
+    void Application::installContext(duk_context * ctx) {
+        
+        {
+            
+            duk_push_global_object(ctx);
+            
+            duk_push_string(ctx, "print");
+            duk_push_c_function(ctx, Application_print, DUK_VARARGS);
+            duk_push_string(ctx, "__object");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "kk");
+            duk_push_object(ctx);
+            
+            duk_push_string(ctx, "platform");
+            duk_push_string(ctx, "kk");
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "kernel");
+            duk_push_number(ctx, Kernel);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "getString");
+            duk_push_c_function(ctx, Application_getString, 1);
+            duk_push_string(ctx, "__object");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "compile");
+            duk_push_c_function(ctx, Application_compile, 3);
+            duk_push_string(ctx, "__object");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
+            
+            duk_put_prop(ctx, -3);
+            
+            
+            duk_pop(ctx);
+        }
+        
+        {
+            duk_eval_lstring_noresult(ctx, (char *) require_js, sizeof(require_js));
+            kk::Crypto_openlibs(ctx);
+        }
+        
+    }
+    
+    
     duk_context * Application::dukContext() {
         return jsContext()->jsContext();
     }
