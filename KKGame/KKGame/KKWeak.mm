@@ -6,6 +6,7 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
+#include "kk-object.h"
 #import "KKWeak.h"
 
 @implementation KKWeak

@@ -12,7 +12,9 @@
 #include "kk-object.h"
 #include "kk-chan.h"
 #include "kk-block.h"
+#include <event.h>
 #include <pthread.h>
+#include <typeinfo>
 
 struct event_base;
 struct event;
@@ -32,16 +34,18 @@ namespace kk {
         virtual void async(DispatchFunc func, BK_DEF_ARG);
         virtual void sync(DispatchFunc func, BK_DEF_ARG);
         virtual void loopbreak();
-        static DispatchQueue * main();
+        virtual void join();
     protected:
         virtual void run();
         kk::Chan * _chan;
         struct event_base * _base;
         struct event * _event;
+        bool _attach;
+        bool _joined;
         bool _loopbreak;
-        bool _main;
         pthread_t _pid;
         friend void DispatchQueueCB(evutil_socket_t fd, short ev, void * ctx);
+        friend void * DispatchQueueRun(void * data);
     };
     
 }

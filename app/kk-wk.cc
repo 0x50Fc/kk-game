@@ -37,6 +37,7 @@ namespace kk {
         pthread_t pid;
         
         virtual DispatchQueue * main();
+        virtual DispatchQueue * queue();
         
         virtual void postMessage(kk::Binary * binary,int top);
         
@@ -88,6 +89,7 @@ namespace kk {
                 duk_pop_2(ctx);
                 
                 kk::ev_openlibs(jsContext, v->base(), v->dns());
+                kk::wk_openlibs(jsContext, v->queue(), onCreate);
                 
                 if(onCreate) {
                     (*onCreate)(ctx,queue,jsContext);
@@ -234,12 +236,17 @@ namespace kk {
     }
     
     WebWorker::~WebWorker() {
-        _queue->release();
+        _queue->join();
         _jsContext->release();
+        _queue->release();
     }
     
     DispatchQueue * WebWorker::main() {
         return _main.as<DispatchQueue>();
+    }
+    
+    DispatchQueue * WebWorker::queue() {
+        return _queue;
     }
     
     event_base * WebWorker::base() {

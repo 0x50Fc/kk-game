@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <KKGame/kk-object.h>
 
 @interface KKStrong : NSObject
 

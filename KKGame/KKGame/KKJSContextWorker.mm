@@ -324,6 +324,8 @@ static duk_ret_t KKJSContextWorkerPostMessageFunc(duk_context * ctx) {
                     kk::script::Error(dukContext, -1);
                 }
                 
+            } else {
+                assert(0);
             }
             
             duk_pop_2(dukContext);

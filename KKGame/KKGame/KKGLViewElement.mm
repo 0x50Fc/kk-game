@@ -11,14 +11,29 @@
 
 #include "GLContext.h"
 #include "kk-script.h"
+#include "kk-app.h"
+#include "kk-dispatch.h"
+#include "kk-ev.h"
+#include "kk-ws.h"
+#include "kk-wk.h"
+#include "kk-http.h"
+
+#include <event.h>
+#include <evdns.h>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
 
 @interface KKGLViewElement()<KKGLViewDelegate> {
     BOOL _loaded;
-    dispatch_source_t _source;
+    NSLock * _lock;
+    struct event_base * _base;
+    struct evdns_base * _dns;
+    kk::DispatchQueue * _queue;
 }
 
-@property(nonatomic,strong) KKGLContext * GLContext;
-@property(nonatomic,assign,readonly) kk::GA::Element * element;
+@property(nonatomic,assign,readonly) kk::script::Context * jsContext;
+@property(nonatomic,assign,readonly) kk::Application * app;
 
 -(void) _emit:(NSString *)name event:(KKEvent *)event;
 
@@ -64,7 +79,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 
 @implementation KKGLViewElement
 
-@synthesize element = _element;
+@synthesize app = _app;
 
 +(void) initialize {
     
@@ -73,40 +88,36 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 
 -(void) dealloc {
     
-    if(_source) {
-        dispatch_source_cancel(_source);
-        _source = nil;
+    [_lock lock];
+    
+    if(_queue != nullptr) {
+        _queue->release();
     }
     
-    if(_element != nil) {
-        _element->off("app_*", KKGLViewElement_event_cb, nullptr);
+    if(_jsContext != nullptr) {
+        _jsContext->release();
     }
     
-    if(_GLContext) {
-        KKGLContext * v = _GLContext;
-        dispatch_async(v.queue, ^{
-            [v recycle];
-        });
-        _GLContext = nil;
+    if(_app != nullptr) {
+        _app->release();
     }
     
-    if(_element != nil) {
-        _element->release();
+    if(_dns != nullptr) {
+        evdns_base_free(_dns, 0);
     }
     
-}
-
--(kk::GA::Element *) element {
-    if(_element == nil) {
-        _element = new kk::GA::Element();
-        _element->retain();
-        _element->on("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+    if(_base != nullptr) {
+        event_base_free(_base);
     }
-    return _element;
+    
+    [_lock unlock];
+    
 }
 
 -(instancetype) init {
     if((self = [super init])) {
+        _lock = [[NSLock alloc] init];
+        [self setAttrs:@{@"keepalive" : @"true"}];
     }
     return self;
 }
@@ -115,246 +126,321 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     return [KKGLView class];
 }
 
--(void) openGame {
+-(NSString *) reuse {
+    return nil;
+}
+
+static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * queue, duk_context * newContext) {
+  
+    kk::Application * app = nullptr;
     
-    if(_element == nullptr) {
+    duk_get_global_string(ctx, "__app");
+    
+    if(duk_is_pointer(ctx, -1)) {
+        app = (kk::Application *) duk_to_pointer(ctx, -1);
+    }
+    
+    duk_pop(ctx);
+    
+    if(app != nullptr) {
+        app->installContext(newContext);
+        duk_push_pointer(newContext, app);
+        duk_put_global_string(newContext, "__app");
+    }
+    
+    event_base * base = kk::ev_base(newContext);
+    evdns_base * dns = kk::ev_dns(newContext);
+    
+    {
         
-        NSString * basePath = [self.viewContext basePath];
+        kk::script::SetPrototype(newContext, &kk::WebSocket::ScriptClass);
+        kk::script::SetPrototype(newContext, &kk::Http::ScriptClass);
         
-        NSString * path = [self get:@"path"];
+        kk::Strong v = new kk::Http(base,dns);
         
-        if(basePath == nil) {
-            basePath = @"";
-        }
-        
-        if(path) {
-            
-            __weak KKGLViewElement * element = self;
-            
-            dispatch_async(self.GLContext.queue, ^{
-                
-                if(element) {
-                    
-                    KKGLContext * GLContext = element.GLContext;
-                    
-                    GLContext.GLContext->setBasePath([[basePath stringByAppendingPathComponent:path] UTF8String]);
-                    
-                    NSString * code = [NSString stringWithContentsOfFile:[[basePath stringByAppendingPathComponent:path] stringByAppendingPathComponent:@"main.js"] encoding:NSUTF8StringEncoding error:nil];
-                    
-                    if(code != nil) {
-                        
-                        NSString * evelCode = [NSString stringWithFormat:@"(function(element) { %@ } )",code];
-                        
-                        duk_context * ctx = GLContext.JSContext->jsContext();
-                        
-                        duk_push_string(ctx, [[path stringByAppendingPathComponent:@"main.js"] UTF8String]);
-                        
-                        duk_compile_string_filename(ctx, 0, [evelCode UTF8String]);
-                        
-                        if(duk_is_function(ctx, -1)) {
-                            
-                            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                                
-                                kk::script::Error(ctx, -1);
-                                duk_pop(ctx);
-                                
-                            } else {
-                                kk::script::PushObject(ctx, element.element);
-                                
-                                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
-                                    kk::script::Error(ctx, -1);
-                                }
-                                
-                                duk_pop(ctx);
-                            }
-                        } else {
-                            duk_pop(ctx);
-                        }
-                    
-                    }
-                    
-                }
-            });
-            
-        }
-        
-        if(_source == nil) {
-            
-            KKGLContext * GLContext = self.GLContext;
-            
-            _source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,GLContext.queue);
-            
-            int64_t frames = [[self get:@"speed"] intValue];
-            
-            if(frames <=0){
-                frames = 30;
-            }
-            
-            dispatch_async(GLContext.queue, ^{
-                GLContext.GLContext->setFrames((kk::Uint) frames);
-            });
-            
-            dispatch_source_set_timer(_source, dispatch_walltime(NULL, 0), (int64_t)(NSEC_PER_SEC / frames), 0);
-            
-            __weak KKGLViewElement * element = self;
-            
-            dispatch_source_set_event_handler(_source, ^{
-                [element tick];
-            });
-            
-            dispatch_resume(_source);
-        }
+        kk::script::PushObject(newContext, v.get());
+        duk_put_global_string(newContext, "http");
         
     }
 }
 
--(void) reopenGame {
-    
-    if(_element == nil) {
-        return;
-    }
+
+-(void) install {
     
     KKGLView * view = (KKGLView *) self.view;
     
     if(view == nil) {
         return;
     }
+    
+    NSString * path = [self get:@"path"];
+    
+    if(path == nil) {
+        return;
+    }
+    
+    NSString * basePath = [self.viewContext basePath];
+    
+    if(basePath == nil) {
+        basePath = @"";
+    }
+    
+    path = [basePath stringByAppendingPathComponent:path];
+    
+    view.GLContext.basePath = path;
+    
+    [_lock lock];
+    
+    [EAGLContext setCurrentContext:view.GLContext];
+    
+    if(_dns != nullptr) {
+        evdns_base_free(_dns, 0);
+        _dns = nullptr;
+    }
+    
+    if(_base == nullptr) {
+        _base = event_base_new();
+    }
+    
+    if(_dns == nullptr) {
+        _dns = evdns_base_new(_base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
+    }
+    
+    if(_queue == nullptr) {
+        _queue = new kk::DispatchQueue(_base);
+        _queue->retain();
+    }
+    
+    if(_jsContext == nullptr) {
+        _jsContext = new kk::script::Context();
+        _jsContext->retain();
+        
+        duk_context * ctx = _jsContext->jsContext();
+        
+        kk::ev_openlibs(ctx, _base,_dns);
+        kk::wk_openlibs(ctx, _queue,KKGLViewElement_EventOnCreateContext);
+        
+        {
+            kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::Http::ScriptClass);
+            
+            kk::Strong v = new kk::Http(_base,_dns);
+            
+            kk::script::PushObject(ctx, v.get());
+            duk_put_global_string(ctx, "http");
+        }
+        
+    }
+    
+    if(_app == nullptr) {
+        _app = new kk::Application([path UTF8String],0,_jsContext);
+        _app->retain();
 
-    [EAGLContext setCurrentContext:_GLContext];
-    
-    [view setOnVisible:nil];
-    
-    if(_source) {
-        dispatch_source_cancel(_source);
-        _source = nil;
+        duk_context * ctx = _jsContext->jsContext();
+        duk_push_pointer(ctx, _app);
+        duk_put_global_string(ctx, "__app");
+        _app->GAElement()->on("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        _app->GAContext()->init();
+        
+        [self resizeGLContext:view.layer.contentsScale inWidth:view.width inHeight:view.height];
     }
     
-    if(_element != nil) {
-        _element->release();
-        _element = nullptr;
+    [EAGLContext setCurrentContext:nil];
+    
+    [_lock unlock];
+    
+}
+
+-(void) uninstall {
+    
+    KKGLView * view = (KKGLView *) self.view;
+    
+    [_lock lock];
+    
+    [EAGLContext setCurrentContext:view.GLContext];
+    
+    if(_queue != nullptr) {
+        _queue->join();
     }
     
-    [_GLContext reopen];
+    if(_jsContext != nullptr) {
+        _jsContext->release();
+        _jsContext = nullptr;
+    }
+    
+    if(_app != nullptr) {
+        _app->GAElement()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        _app->release();
+        _app = nullptr;
+    }
+    
+    if(_queue != nullptr) {
+        _queue->release();
+        _queue = nullptr;
+    }
+    
+    if(_dns != nullptr) {
+        evdns_base_free(_dns, 0);
+        _dns = nullptr;
+    }
+    
+    if(_base != nullptr) {
+        event_base_free(_base);
+        _base = nullptr;
+    }
     
     _loaded = NO;
     
-    __weak KKGLViewElement * element = self;
+    [EAGLContext setCurrentContext:nil];
     
-    if([view isVisible]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [element openGame];
-        });
-    } else {
-        [(KKGLView *) view setOnVisible:^(BOOL visible) {
-            if(visible) {
-                [element openGame];
-            }
-        }];
-    }
+    [_lock unlock];
 
-    
 }
 
 -(void) setView:(UIView *)view {
     
-    [EAGLContext setCurrentContext:_GLContext];
+    [(KKGLView *) self.view setDelegate:nil];
+    [(KKGLView *) self.view recycle];
     
-    [(KKGLView *) view setOnVisible:nil];
-    [(KKGLView *) view setDelegate:nil];
-    
-    if(_source) {
-        dispatch_source_cancel(_source);
-        _source = nil;
-    }
-    
-    if(_element != nil) {
-        _element->off("app_*", KKGLViewElement_event_cb, nullptr);
-    }
-    
-    if(_GLContext) {
-        KKGLContext * v = _GLContext;
-        dispatch_async(v.queue, ^{
-            [v recycle];
-        });
-        _GLContext = nil;
-    }
-    
-    if(_element != nil) {
-        _element->release();
-        _element = nullptr;
-    }
+    [self uninstall];
     
     [super setView:view];
     
-    if(view ) {
-        
-        __weak KKGLViewElement * element = self;
-        
-        if([(KKGLView *) view isVisible]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [element openGame];
-            });
-        } else {
-            [(KKGLView *) view setOnVisible:^(BOOL visible) {
-                if(visible) {
-                    [element openGame];
-                }
-            }];
-        }
-        
-        [(KKGLView *) view setDelegate:self];
-        [view setMultipleTouchEnabled:YES];
-    }
-}
-
--(void) obtainView:(UIView *)view {
-    [super obtainView:view];
+    [(KKGLView *) self.view setDelegate:self];
+    [self.view setMultipleTouchEnabled:YES];
     
+    [self install];
     
 }
 
--(KKGLContext *) GLContext {
-    if(_GLContext == nil){
-        _GLContext = [[KKGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    }
-    return _GLContext;
-}
 
 -(void) changedKey:(NSString *)key{
     [super changedKey:key];
 }
 
-
--(void) tick {
+-(void) resizeGLContext:(kk::GL::Float) scale inWidth:(GLsizei) inWidth inHeight:(GLsizei) inHeight {
     
-    if(_element == nil || _GLContext == nil) {
-        return;
+    if(_app != nullptr) {
+        
+        kk::GL::Context * GLContext = _app->GAContext();
+        
+        kk::GL::Float width =  inWidth * 2.0f / scale;
+        kk::GL::Float height =  inHeight * 2.0f / scale;
+        kk::GL::Float dp = 750.0f / MIN(width,height) ;
+        
+        kk::GL::ContextState & s = GLContext->state();
+        
+        GLContext->setViewport(dp * width, dp * height);
+        
+        s.projection = glm::scale(kk::GL::mat4(1),kk::GL::vec3(2.0f / (dp *width),-2.0f / (dp * height),-0.0001));
     }
     
-    [(KKGLView *) self.view displayGLContext:self.GLContext element:self.element];
-    
-    if(!_loaded && self.GLContext.GLContext->loadingProgress(self.element) >= 1.0f) {
-        
-        _loaded = YES;
-        
-        __weak KKGLViewElement * element = self;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            if(element) {
-                KKElementEvent * e = [[KKElementEvent alloc] initWithElement:element];
-                e.data = element.data;
-                [element _emit:@"load" event:e];
-            }
-            
-        });
-        
-        
-    }
 }
+
+-(void) KKGLView:(KKGLView *)view resizeGLContext:(EAGLContext *)GLContext {
+    
+    [_lock lock];
+    
+    [self resizeGLContext:view.layer.contentsScale inWidth:view.width inHeight:view.height];
+    
+    [_lock unlock];
+}
+
+-(void) KKGLView:(KKGLView *)view displayGLContext:(EAGLContext *)GLContext {
+    
+    [_lock lock];
+    
+    if(_base != nullptr) {
+        event_base_loop(_base, EVLOOP_ONCE | EVLOOP_NONBLOCK);
+    }
+    
+    if(_app != nullptr) {
+        
+        if(!_app->isRunning()) {
+            _app->run();
+        }
+        
+        _app->exec();
+   
+        kk::GL::Context * GLContext = _app->GAContext();
+        
+        if(!_loaded && GLContext->loadingProgress(_app->GAElement()) >= 1.0f) {
+            
+            _loaded = YES;
+            
+            __weak KKGLViewElement * element = self;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if(element) {
+                    KKElementEvent * e = [[KKElementEvent alloc] initWithElement:element];
+                    e.data = element.data;
+                    [element _emit:@"load" event:e];
+                }
+                
+            });
+            
+            
+        }
+        
+    }
+
+    [_lock unlock];
+    
+}
+
 
 -(void) _emit:(NSString *)name event:(KKEvent *)event {
     [super emit:name event:event];
+}
+
+-(void) postEvent:(NSString *) name data:(id) data {
+    
+    dispatch_queue_t queue = [(KKGLView *) self.view queue];
+    
+    if(queue != nil) {
+        
+        __weak KKGLViewElement * element = self;
+        
+        dispatch_async(queue, ^{
+            
+            KKGLViewElement * e = element;
+            
+            if(e == nullptr) {
+                return ;
+            }
+            
+            [EAGLContext setCurrentContext: [(KKGLView *)e.view GLContext]];
+            
+            kk::Strong v = new kk::ElementEvent();
+            
+            kk::ElementEvent * ev = v.as<kk::ElementEvent>();
+            
+            [e->_lock lock];
+            
+            if(e->_jsContext != nullptr){
+                
+                duk_context * ctx = e->_jsContext->jsContext();
+                
+                [KKGLContext JSContextPushObject:data ctx:ctx];
+                
+                ev->data = new kk::script::Object(e->_jsContext,-1);
+                
+                duk_pop(ctx);
+                
+                if(e->_app != nullptr) {
+                    e->_app->GAElement()->emit([name UTF8String], ev);
+                }
+            }
+            
+            [e->_lock unlock];
+            
+            [EAGLContext setCurrentContext:nil];
+            
+        });
+        
+    }
+    
 }
 
 -(void) emit:(NSString *)name event:(KKEvent *)event {
@@ -362,46 +448,25 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
     
     if([event isKindOfClass:[KKElementEvent class]] && [@"reopen" isEqualToString:name]) {
         [(KKElementEvent *) event setCancelBubble:YES];
-        [self reopenGame];
+        [self uninstall];
+        [self install];
         return;
     }
     
-    if([event isKindOfClass:[KKElementEvent class]]
-       && _GLContext
-       && _element) {
+    if([event isKindOfClass:[KKElementEvent class]]) {
         
         [(KKElementEvent *) event setCancelBubble:YES];
         
         id data = [(KKElementEvent *) event data];
-        
-        dispatch_async(self.GLContext.queue, ^{
-            
-            if(_element == nullptr) {
-                return ;
-            }
-            
-            kk::Strong v = new kk::ElementEvent();
-            
-            kk::ElementEvent * ev = v.as<kk::ElementEvent>();
-            
-            duk_context * ctx = _GLContext.JSContext->jsContext();
-            
-            [KKGLContext JSContextPushObject:data ctx:ctx];
-            
-            ev->data = new kk::script::Object(_GLContext.JSContext,-1);
-            
-            duk_pop(ctx);
-            
-            _element->emit([name UTF8String], ev);
-            
-        });
+
+        [self postEvent:name data:data];
         
     }
 }
 
 -(void) KKGLView:(KKGLView *) view touches:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event name:(NSString *) name {
     
-    if(_GLContext) {
+    if(_app != nullptr) {
         
         NSMutableDictionary * data = [NSMutableDictionary dictionaryWithCapacity:4];
         
@@ -435,27 +500,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
             
         }
         
-        dispatch_async(_GLContext.queue, ^{
-           
-            if(_element == nullptr) {
-                return ;
-            }
-            
-            kk::Strong v = new kk::ElementEvent();
-            
-            kk::ElementEvent * ev = v.as<kk::ElementEvent>();
-            
-            duk_context * ctx = _GLContext.JSContext->jsContext();
-            
-            [KKGLContext JSContextPushObject:data ctx:ctx];
-            
-            ev->data = new kk::script::Object(_GLContext.JSContext,-1);
-            
-            duk_pop(ctx);
-            
-            _element->emit([name UTF8String], ev);
-            
-        });
+        [self postEvent:name data:data];
         
     }
     
@@ -487,22 +532,5 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
 @end
 
 @implementation KKGLView (KKViewElement)
-
--(void) KKViewElementDidLayouted:(KKViewElement *)element {
-    [super KKViewElementDidLayouted:element];
-    
-    [self resizeGLContext:[(KKGLViewElement *) element GLContext]];
-}
-
--(void) KKElementObtainView:(KKViewElement *)element {
-    [super KKElementObtainView:element];
-    [self installGLContext:[(KKGLViewElement *) element GLContext]];
-    [self resizeGLContext:[(KKGLViewElement *) element GLContext]];
-}
-
--(void) KKElementRecycleView:(KKViewElement *)element {
-    [super KKElementRecycleView:element];
-    [self uninstallGLContext:[(KKGLViewElement *) element GLContext]];
-}
 
 @end

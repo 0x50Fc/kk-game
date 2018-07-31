@@ -210,21 +210,24 @@ namespace kk {
         
         static duk_ret_t ScriptObjectDeallocFunc(duk_context * ctx) {
             
+            kk::Object * v = nullptr;
+            
             duk_push_string(ctx, "__object");
             duk_get_prop(ctx, -2);
             
             if(duk_is_pointer(ctx, -1)) {
-                kk::Object * v = (kk::Object *) duk_to_pointer(ctx, -1);
-                {
-                    IHeapObject * vv = dynamic_cast<IHeapObject *>(v);
-                    if(vv) {
-                        vv->removeHeapptr(ctx);
-                    }
-                }
-                v->release();
+                v = (kk::Object *) duk_to_pointer(ctx, -1);
             }
             
             duk_pop(ctx);
+            
+            if(v != nullptr) {
+                IHeapObject * vv = dynamic_cast<IHeapObject *>(v);
+                if(vv) {
+                    vv->removeHeapptr(ctx);
+                }
+                v->release();
+            }
             
             return 0;
         }

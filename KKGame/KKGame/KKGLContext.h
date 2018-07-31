@@ -13,40 +13,13 @@
 #include <OpenGLES/EAGL.h>
 #include <KKGame/duktape.h>
 
-#ifdef __cplusplus
-
-namespace kk {
-    
-    namespace GL {
-        class Context;
-    }
-    
-    namespace script {
-        class Context;
-    }
-}
-
-typedef kk::GL::Context * KKGLContextRef;
-typedef kk::script::Context * KKJSContextRef;
-
-#else
-
-typedef void * KKGLContextRef;
-typedef void * KKJSContextRef;
-
-#endif
-
 @interface KKGLContext : EAGLContext
 
 @property(nonatomic,strong,readonly) dispatch_queue_t queue;
 @property(nonatomic,strong) id<KKHttp> http;
-@property(nonatomic,readonly,assign) KKGLContextRef GLContext;
-@property(nonatomic,readonly,assign) KKJSContextRef JSContext;
-@property(nonatomic,readonly,assign,getter=isRecycle) BOOL recycle;
+@property(nonatomic,strong) NSString * basePath;
 
 -(void) recycle;
-
--(void) reopen;
 
 +(void) JSContextPushObject:(id) object ctx:(duk_context * )ctx;
 

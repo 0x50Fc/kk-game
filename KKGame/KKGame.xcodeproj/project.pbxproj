@@ -48,7 +48,7 @@
 		1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A65AD202857C3008DA5A3 /* KKWeak.h */; };
 		1A0A65B0202857C3008DA5A3 /* KKWeak.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65AE202857C3008DA5A3 /* KKWeak.mm */; };
 		1A0A65B320285DD5008DA5A3 /* KKGLView.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A65B120285DD5008DA5A3 /* KKGLView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1A0A65B420285DD5008DA5A3 /* KKGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65B220285DD5008DA5A3 /* KKGLView.mm */; };
+		1A0A65B420285DD5008DA5A3 /* KKGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65B220285DD5008DA5A3 /* KKGLView.m */; };
 		1A0A65C620286C82008DA5A3 /* KKGLViewElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A65C420286C81008DA5A3 /* KKGLViewElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A0A65C720286C82008DA5A3 /* KKGLViewElement.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65C520286C82008DA5A3 /* KKGLViewElement.mm */; };
 		1A0A65F82029706C008DA5A3 /* KKHttp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A65FB2029706C008DA5A3 /* KKHttp.framework */; };
@@ -209,6 +209,13 @@
 		1AB72C98210F27B700187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
 		1AB72C99210F27C200187085 /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
 		1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
+		1AB72CAC211024E700187085 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
+		1AB72CAD211024EA00187085 /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
+		1AB72CAE211024ED00187085 /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
+		1AB72CB0211024F100187085 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
+		1AB72CB1211024F500187085 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
+		1AB72CB2211024F700187085 /* kk-wk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EE210EFC83008A5B3B /* kk-wk.cc */; };
+		1AB72CB3211024F900187085 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
 		1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */; };
 		1AD772ED20947DAC0091283D /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
@@ -216,46 +223,6 @@
 		1AD772F02094918B0091283D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD772EF2094918B0091283D /* libz.tbd */; };
 		1AD7734C20996EBF0091283D /* GLSpineElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7734A20996EBF0091283D /* GLSpineElement.cc */; };
 		1AD7734D20996EBF0091283D /* GLSpineElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7734B20996EBF0091283D /* GLSpineElement.h */; };
-		1AD7748620998C060091283D /* Animation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743320998C060091283D /* Animation.h */; };
-		1AD7748720998C060091283D /* EventData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743420998C060091283D /* EventData.h */; };
-		1AD7748820998C060091283D /* SlotData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743520998C060091283D /* SlotData.h */; };
-		1AD7748920998C060091283D /* SkeletonClipping.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743620998C060091283D /* SkeletonClipping.h */; };
-		1AD7748A20998C060091283D /* PathAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743720998C060091283D /* PathAttachment.h */; };
-		1AD7748B20998C060091283D /* PointAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743820998C060091283D /* PointAttachment.h */; };
-		1AD7748C20998C060091283D /* Event.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743920998C060091283D /* Event.h */; };
-		1AD7748D20998C060091283D /* Bone.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743A20998C060091283D /* Bone.h */; };
-		1AD7748E20998C060091283D /* Atlas.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743B20998C060091283D /* Atlas.h */; };
-		1AD7748F20998C060091283D /* VertexAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743C20998C060091283D /* VertexAttachment.h */; };
-		1AD7749020998C060091283D /* spine.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743D20998C060091283D /* spine.h */; };
-		1AD7749120998C060091283D /* ClippingAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743E20998C060091283D /* ClippingAttachment.h */; };
-		1AD7749220998C060091283D /* Color.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7743F20998C060091283D /* Color.h */; };
-		1AD7749320998C060091283D /* Triangulator.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744020998C060091283D /* Triangulator.h */; };
-		1AD7749420998C060091283D /* RegionAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744120998C060091283D /* RegionAttachment.h */; };
-		1AD7749520998C060091283D /* Attachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744220998C060091283D /* Attachment.h */; };
-		1AD7749620998C060091283D /* TransformConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744320998C060091283D /* TransformConstraint.h */; };
-		1AD7749720998C060091283D /* dll.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744420998C060091283D /* dll.h */; };
-		1AD7749820998C060091283D /* SkeletonJson.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744520998C060091283D /* SkeletonJson.h */; };
-		1AD7749920998C060091283D /* IkConstraintData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744620998C060091283D /* IkConstraintData.h */; };
-		1AD7749A20998C060091283D /* AnimationStateData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744720998C060091283D /* AnimationStateData.h */; };
-		1AD7749B20998C060091283D /* Skeleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744820998C060091283D /* Skeleton.h */; };
-		1AD7749C20998C060091283D /* AttachmentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744920998C060091283D /* AttachmentLoader.h */; };
-		1AD7749D20998C060091283D /* Skin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744A20998C060091283D /* Skin.h */; };
-		1AD7749E20998C060091283D /* VertexEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744B20998C060091283D /* VertexEffect.h */; };
-		1AD7749F20998C060091283D /* SkeletonBinary.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744C20998C060091283D /* SkeletonBinary.h */; };
-		1AD774A020998C060091283D /* SkeletonData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744D20998C060091283D /* SkeletonData.h */; };
-		1AD774A120998C060091283D /* Array.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744E20998C060091283D /* Array.h */; };
-		1AD774A220998C060091283D /* PathConstraintData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7744F20998C060091283D /* PathConstraintData.h */; };
-		1AD774A320998C060091283D /* TransformConstraintData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745020998C060091283D /* TransformConstraintData.h */; };
-		1AD774A420998C060091283D /* extension.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745120998C060091283D /* extension.h */; };
-		1AD774A520998C060091283D /* PathConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745220998C060091283D /* PathConstraint.h */; };
-		1AD774A620998C060091283D /* IkConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745320998C060091283D /* IkConstraint.h */; };
-		1AD774A720998C060091283D /* BoundingBoxAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745420998C060091283D /* BoundingBoxAttachment.h */; };
-		1AD774A820998C060091283D /* SkeletonBounds.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745520998C060091283D /* SkeletonBounds.h */; };
-		1AD774A920998C060091283D /* Slot.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745620998C060091283D /* Slot.h */; };
-		1AD774AA20998C060091283D /* BoneData.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745720998C060091283D /* BoneData.h */; };
-		1AD774AB20998C060091283D /* AnimationState.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745820998C060091283D /* AnimationState.h */; };
-		1AD774AC20998C060091283D /* MeshAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745920998C060091283D /* MeshAttachment.h */; };
-		1AD774AD20998C060091283D /* AtlasAttachmentLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD7745A20998C060091283D /* AtlasAttachmentLoader.h */; };
 		1AD774AE20998C060091283D /* AttachmentLoader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745D20998C060091283D /* AttachmentLoader.c */; };
 		1AD774AF20998C060091283D /* Json.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745E20998C060091283D /* Json.c */; };
 		1AD774B020998C060091283D /* Skeleton.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745F20998C060091283D /* Skeleton.c */; };
@@ -308,6 +275,7 @@
 		1AE24019202405F1001FFB58 /* duk_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24016202405F1001FFB58 /* duk_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401A202405F1001FFB58 /* duktape.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24017202405F1001FFB58 /* duktape.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1AE2401B202405F1001FFB58 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
+		1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
 		E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE992052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E951BE972052605200358A85 /* GLMinimapElement.h */; };
@@ -395,7 +363,7 @@
 		1A0A65AD202857C3008DA5A3 /* KKWeak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKWeak.h; sourceTree = "<group>"; };
 		1A0A65AE202857C3008DA5A3 /* KKWeak.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKWeak.mm; sourceTree = "<group>"; };
 		1A0A65B120285DD5008DA5A3 /* KKGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGLView.h; sourceTree = "<group>"; };
-		1A0A65B220285DD5008DA5A3 /* KKGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGLView.mm; sourceTree = "<group>"; };
+		1A0A65B220285DD5008DA5A3 /* KKGLView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKGLView.m; sourceTree = "<group>"; };
 		1A0A65C420286C81008DA5A3 /* KKGLViewElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGLViewElement.h; sourceTree = "<group>"; };
 		1A0A65C520286C82008DA5A3 /* KKGLViewElement.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = KKGLViewElement.mm; sourceTree = "<group>"; };
 		1A0A65FB2029706C008DA5A3 /* KKHttp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KKHttp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -535,46 +503,6 @@
 		1AD772EF2094918B0091283D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1AD7734A20996EBF0091283D /* GLSpineElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLSpineElement.cc; sourceTree = "<group>"; };
 		1AD7734B20996EBF0091283D /* GLSpineElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLSpineElement.h; sourceTree = "<group>"; };
-		1AD7743320998C060091283D /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
-		1AD7743420998C060091283D /* EventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventData.h; sourceTree = "<group>"; };
-		1AD7743520998C060091283D /* SlotData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlotData.h; sourceTree = "<group>"; };
-		1AD7743620998C060091283D /* SkeletonClipping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonClipping.h; sourceTree = "<group>"; };
-		1AD7743720998C060091283D /* PathAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathAttachment.h; sourceTree = "<group>"; };
-		1AD7743820998C060091283D /* PointAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAttachment.h; sourceTree = "<group>"; };
-		1AD7743920998C060091283D /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
-		1AD7743A20998C060091283D /* Bone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bone.h; sourceTree = "<group>"; };
-		1AD7743B20998C060091283D /* Atlas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Atlas.h; sourceTree = "<group>"; };
-		1AD7743C20998C060091283D /* VertexAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexAttachment.h; sourceTree = "<group>"; };
-		1AD7743D20998C060091283D /* spine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spine.h; sourceTree = "<group>"; };
-		1AD7743E20998C060091283D /* ClippingAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClippingAttachment.h; sourceTree = "<group>"; };
-		1AD7743F20998C060091283D /* Color.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Color.h; sourceTree = "<group>"; };
-		1AD7744020998C060091283D /* Triangulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangulator.h; sourceTree = "<group>"; };
-		1AD7744120998C060091283D /* RegionAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionAttachment.h; sourceTree = "<group>"; };
-		1AD7744220998C060091283D /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attachment.h; sourceTree = "<group>"; };
-		1AD7744320998C060091283D /* TransformConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformConstraint.h; sourceTree = "<group>"; };
-		1AD7744420998C060091283D /* dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dll.h; sourceTree = "<group>"; };
-		1AD7744520998C060091283D /* SkeletonJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonJson.h; sourceTree = "<group>"; };
-		1AD7744620998C060091283D /* IkConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IkConstraintData.h; sourceTree = "<group>"; };
-		1AD7744720998C060091283D /* AnimationStateData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationStateData.h; sourceTree = "<group>"; };
-		1AD7744820998C060091283D /* Skeleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skeleton.h; sourceTree = "<group>"; };
-		1AD7744920998C060091283D /* AttachmentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentLoader.h; sourceTree = "<group>"; };
-		1AD7744A20998C060091283D /* Skin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skin.h; sourceTree = "<group>"; };
-		1AD7744B20998C060091283D /* VertexEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VertexEffect.h; sourceTree = "<group>"; };
-		1AD7744C20998C060091283D /* SkeletonBinary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonBinary.h; sourceTree = "<group>"; };
-		1AD7744D20998C060091283D /* SkeletonData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonData.h; sourceTree = "<group>"; };
-		1AD7744E20998C060091283D /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
-		1AD7744F20998C060091283D /* PathConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathConstraintData.h; sourceTree = "<group>"; };
-		1AD7745020998C060091283D /* TransformConstraintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformConstraintData.h; sourceTree = "<group>"; };
-		1AD7745120998C060091283D /* extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = extension.h; sourceTree = "<group>"; };
-		1AD7745220998C060091283D /* PathConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathConstraint.h; sourceTree = "<group>"; };
-		1AD7745320998C060091283D /* IkConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IkConstraint.h; sourceTree = "<group>"; };
-		1AD7745420998C060091283D /* BoundingBoxAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoundingBoxAttachment.h; sourceTree = "<group>"; };
-		1AD7745520998C060091283D /* SkeletonBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkeletonBounds.h; sourceTree = "<group>"; };
-		1AD7745620998C060091283D /* Slot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slot.h; sourceTree = "<group>"; };
-		1AD7745720998C060091283D /* BoneData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoneData.h; sourceTree = "<group>"; };
-		1AD7745820998C060091283D /* AnimationState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationState.h; sourceTree = "<group>"; };
-		1AD7745920998C060091283D /* MeshAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeshAttachment.h; sourceTree = "<group>"; };
-		1AD7745A20998C060091283D /* AtlasAttachmentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AtlasAttachmentLoader.h; sourceTree = "<group>"; };
 		1AD7745D20998C060091283D /* AttachmentLoader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = AttachmentLoader.c; sourceTree = "<group>"; };
 		1AD7745E20998C060091283D /* Json.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Json.c; sourceTree = "<group>"; };
 		1AD7745F20998C060091283D /* Skeleton.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Skeleton.c; sourceTree = "<group>"; };
@@ -847,66 +775,10 @@
 		1AD7743020998C060091283D /* spine */ = {
 			isa = PBXGroup;
 			children = (
-				1AD7743120998C060091283D /* include */,
 				1AD7745B20998C060091283D /* src */,
 			);
 			name = spine;
 			path = ../../lib/spine;
-			sourceTree = "<group>";
-		};
-		1AD7743120998C060091283D /* include */ = {
-			isa = PBXGroup;
-			children = (
-				1AD7743220998C060091283D /* spine */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		1AD7743220998C060091283D /* spine */ = {
-			isa = PBXGroup;
-			children = (
-				1AD7743320998C060091283D /* Animation.h */,
-				1AD7743420998C060091283D /* EventData.h */,
-				1AD7743520998C060091283D /* SlotData.h */,
-				1AD7743620998C060091283D /* SkeletonClipping.h */,
-				1AD7743720998C060091283D /* PathAttachment.h */,
-				1AD7743820998C060091283D /* PointAttachment.h */,
-				1AD7743920998C060091283D /* Event.h */,
-				1AD7743A20998C060091283D /* Bone.h */,
-				1AD7743B20998C060091283D /* Atlas.h */,
-				1AD7743C20998C060091283D /* VertexAttachment.h */,
-				1AD7743D20998C060091283D /* spine.h */,
-				1AD7743E20998C060091283D /* ClippingAttachment.h */,
-				1AD7743F20998C060091283D /* Color.h */,
-				1AD7744020998C060091283D /* Triangulator.h */,
-				1AD7744120998C060091283D /* RegionAttachment.h */,
-				1AD7744220998C060091283D /* Attachment.h */,
-				1AD7744320998C060091283D /* TransformConstraint.h */,
-				1AD7744420998C060091283D /* dll.h */,
-				1AD7744520998C060091283D /* SkeletonJson.h */,
-				1AD7744620998C060091283D /* IkConstraintData.h */,
-				1AD7744720998C060091283D /* AnimationStateData.h */,
-				1AD7744820998C060091283D /* Skeleton.h */,
-				1AD7744920998C060091283D /* AttachmentLoader.h */,
-				1AD7744A20998C060091283D /* Skin.h */,
-				1AD7744B20998C060091283D /* VertexEffect.h */,
-				1AD7744C20998C060091283D /* SkeletonBinary.h */,
-				1AD7744D20998C060091283D /* SkeletonData.h */,
-				1AD7744E20998C060091283D /* Array.h */,
-				1AD7744F20998C060091283D /* PathConstraintData.h */,
-				1AD7745020998C060091283D /* TransformConstraintData.h */,
-				1AD7745120998C060091283D /* extension.h */,
-				1AD7745220998C060091283D /* PathConstraint.h */,
-				1AD7745320998C060091283D /* IkConstraint.h */,
-				1AD7745420998C060091283D /* BoundingBoxAttachment.h */,
-				1AD7745520998C060091283D /* SkeletonBounds.h */,
-				1AD7745620998C060091283D /* Slot.h */,
-				1AD7745720998C060091283D /* BoneData.h */,
-				1AD7745820998C060091283D /* AnimationState.h */,
-				1AD7745920998C060091283D /* MeshAttachment.h */,
-				1AD7745A20998C060091283D /* AtlasAttachmentLoader.h */,
-			);
-			path = spine;
 			sourceTree = "<group>";
 		};
 		1AD7745B20998C060091283D /* src */ = {
@@ -1010,7 +882,7 @@
 				1A0A65AD202857C3008DA5A3 /* KKWeak.h */,
 				1A0A65AE202857C3008DA5A3 /* KKWeak.mm */,
 				1A0A65B120285DD5008DA5A3 /* KKGLView.h */,
-				1A0A65B220285DD5008DA5A3 /* KKGLView.mm */,
+				1A0A65B220285DD5008DA5A3 /* KKGLView.m */,
 				1A0A65C420286C81008DA5A3 /* KKGLViewElement.h */,
 				1A0A65C520286C82008DA5A3 /* KKGLViewElement.mm */,
 				1A0A6693202DAAE4008DA5A3 /* KKWebSocket+JSContext.h */,
@@ -1121,10 +993,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */,
-				1AD774A020998C060091283D /* SkeletonData.h in Headers */,
-				1AD7748620998C060091283D /* Animation.h in Headers */,
 				1A0A665F202D698D008DA5A3 /* require_js.h in Headers */,
-				1AD7749720998C060091283D /* dll.h in Headers */,
 				1A2866E4210EC05B008A5B3B /* kk-binary.h in Headers */,
 				1A0A6629202AA88A008DA5A3 /* kk-app.h in Headers */,
 				1A8BFFA22092C58A00224854 /* chipmunk_structs.h in Headers */,
@@ -1132,98 +1001,61 @@
 				1A0A661520297D68008DA5A3 /* GLSLTexture.h in Headers */,
 				1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */,
 				1A8BFFA12092C58A00224854 /* cpPinJoint.h in Headers */,
-				1AD7749320998C060091283D /* Triangulator.h in Headers */,
 				1A8BFF9B2092C58A00224854 /* cpSpace.h in Headers */,
 				1AD774C320998C060091283D /* kvec.h in Headers */,
 				1A0A6590202828E1008DA5A3 /* kk-script.h in Headers */,
-				1AD774A720998C060091283D /* BoundingBoxAttachment.h in Headers */,
-				1AD7749620998C060091283D /* TransformConstraint.h in Headers */,
-				1AD7749920998C060091283D /* IkConstraintData.h in Headers */,
-				1AD7749B20998C060091283D /* Skeleton.h in Headers */,
-				1AD774AA20998C060091283D /* BoneData.h in Headers */,
 				1AE24019202405F1001FFB58 /* duk_config.h in Headers */,
-				1AD7748A20998C060091283D /* PathAttachment.h in Headers */,
-				1AD7748B20998C060091283D /* PointAttachment.h in Headers */,
-				1AD774A320998C060091283D /* TransformConstraintData.h in Headers */,
 				1AE2401A202405F1001FFB58 /* duktape.h in Headers */,
 				1A8BFF922092C58A00224854 /* chipmunk_ffi.h in Headers */,
-				1AD774A120998C060091283D /* Array.h in Headers */,
-				1AD7749420998C060091283D /* RegionAttachment.h in Headers */,
 				1A0A658E202828E1008DA5A3 /* kk-event.h in Headers */,
 				1A8BFF992092C58A00224854 /* cpRatchetJoint.h in Headers */,
 				1A8BFFD7209335A200224854 /* GATileMap.h in Headers */,
 				1A0A658F202828E1008DA5A3 /* kk-element.h in Headers */,
-				1AD774A620998C060091283D /* IkConstraint.h in Headers */,
-				1AD7748720998C060091283D /* EventData.h in Headers */,
 				1A8BFF972092C58A00224854 /* cpBB.h in Headers */,
 				1A8BFF9E2092C58A00224854 /* cpArbiter.h in Headers */,
 				1A8BFFB12092FACE00224854 /* GLShapeElement.h in Headers */,
 				1A8BFF912092C58A00224854 /* cpConstraint.h in Headers */,
-				1AD7749E20998C060091283D /* VertexEffect.h in Headers */,
 				1A0A6585202828D8008DA5A3 /* GAContext.h in Headers */,
 				1A8BFFA42092C58A00224854 /* cpMarch.h in Headers */,
 				1A8BFFAD2092C58A00224854 /* cpPivotJoint.h in Headers */,
-				1AD7749A20998C060091283D /* AnimationStateData.h in Headers */,
 				1A8BFFA52092C58A00224854 /* cpTransform.h in Headers */,
-				1AD774A520998C060091283D /* PathConstraint.h in Headers */,
 				1A0A658D202828E1008DA5A3 /* kk-object.h in Headers */,
-				1AD774A920998C060091283D /* Slot.h in Headers */,
-				1AD7749F20998C060091283D /* SkeletonBinary.h in Headers */,
 				1A0A6588202828D8008DA5A3 /* GABody.h in Headers */,
 				1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */,
 				1A8BFFA82092C58A00224854 /* cpShape.h in Headers */,
 				1A8BFF9A2092C58A00224854 /* cpDampedSpring.h in Headers */,
 				1A8BFFAB2092C58A00224854 /* cpSimpleMotor.h in Headers */,
-				1AD7749520998C060091283D /* Attachment.h in Headers */,
 				1A0A65A82028547E008DA5A3 /* GLContext.h in Headers */,
-				1AD7749C20998C060091283D /* AttachmentLoader.h in Headers */,
 				1A0A65AB20285788008DA5A3 /* KKStrong.h in Headers */,
 				1AD772EE20947DAC0091283D /* kk-y.h in Headers */,
 				1A8BFFA72092C58A00224854 /* cpRotaryLimitJoint.h in Headers */,
 				1AD7734D20996EBF0091283D /* GLSpineElement.h in Headers */,
 				1A8BFFA92092C58A00224854 /* cpRobust.h in Headers */,
-				1AD774AC20998C060091283D /* MeshAttachment.h in Headers */,
 				1A0A658C202828E1008DA5A3 /* kk-config.h in Headers */,
-				1AD774AB20998C060091283D /* AnimationState.h in Headers */,
 				1A2866E1210B1DDB008A5B3B /* KKJSContextWorker.h in Headers */,
 				1A8BFF932092C58A00224854 /* cpHastySpace.h in Headers */,
 				1A8BFF9C2092C58A00224854 /* cpPolyShape.h in Headers */,
 				1A0A659920284FF1008DA5A3 /* KKGLContext.h in Headers */,
 				1A0A65C620286C82008DA5A3 /* KKGLViewElement.h in Headers */,
-				1AD7748820998C060091283D /* SlotData.h in Headers */,
-				1AD7748C20998C060091283D /* Event.h in Headers */,
-				1AD7749820998C060091283D /* SkeletonJson.h in Headers */,
 				1A8BFF672092C54E00224854 /* prime.h in Headers */,
-				1AD774A420998C060091283D /* extension.h in Headers */,
-				1AD7749020998C060091283D /* spine.h in Headers */,
 				1A0A6586202828D8008DA5A3 /* GAScene.h in Headers */,
-				1AD774AD20998C060091283D /* AtlasAttachmentLoader.h in Headers */,
-				1AD774A220998C060091283D /* PathConstraintData.h in Headers */,
 				1A8BFF902092C58A00224854 /* chipmunk_types.h in Headers */,
 				1A8BFFAC2092C58A00224854 /* cpSlideJoint.h in Headers */,
-				1AD774A820998C060091283D /* SkeletonBounds.h in Headers */,
-				1AD7748F20998C060091283D /* VertexAttachment.h in Headers */,
 				1A8BFFA62092C58A00224854 /* chipmunk_private.h in Headers */,
 				1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */,
 				1A0A6587202828D8008DA5A3 /* GAShape.h in Headers */,
 				1A8BFF982092C58A00224854 /* chipmunk_unsafe.h in Headers */,
 				1A8BFF952092C58A00224854 /* cpGrooveJoint.h in Headers */,
-				1AD7749D20998C060091283D /* Skin.h in Headers */,
 				1A8BFF942092C58A00224854 /* cpDampedRotarySpring.h in Headers */,
-				1AD7749220998C060091283D /* Color.h in Headers */,
 				1A8BFF9F2092C58A00224854 /* cpSpatialIndex.h in Headers */,
 				1A8BFF9D2092C58A00224854 /* cpVect.h in Headers */,
 				1AE23FEA2022F361001FFB58 /* KKGame.h in Headers */,
 				1AE23FFA2022F3C3001FFB58 /* kk-string.h in Headers */,
-				1AD7748920998C060091283D /* SkeletonClipping.h in Headers */,
 				1A8BFFA02092C58A00224854 /* chipmunk.h in Headers */,
-				1AD7748D20998C060091283D /* Bone.h in Headers */,
 				1A0A65B320285DD5008DA5A3 /* KKGLView.h in Headers */,
-				1AD7748E20998C060091283D /* Atlas.h in Headers */,
 				1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */,
 				1A8BFFA32092C58A00224854 /* cpGearJoint.h in Headers */,
 				1A2866ED210EFC6D008A5B3B /* kk-wk.h in Headers */,
-				1AD7749120998C060091283D /* ClippingAttachment.h in Headers */,
 				1A2866DD210B1DCB008A5B3B /* KKJSContextAsync.h in Headers */,
 				1A0A6695202DAAE4008DA5A3 /* KKWebSocket+JSContext.h in Headers */,
 				1A8BFF962092C58A00224854 /* cpBody.h in Headers */,
@@ -1504,7 +1336,7 @@
 				1A8BFF512092C54E00224854 /* cpArray.c in Sources */,
 				1A8BFF542092C54E00224854 /* cpBBTree.c in Sources */,
 				1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */,
-				1A0A65B420285DD5008DA5A3 /* KKGLView.mm in Sources */,
+				1A0A65B420285DD5008DA5A3 /* KKGLView.m in Sources */,
 				1AD774D620998C060091283D /* RegionAttachment.c in Sources */,
 				1A0A659A20284FF1008DA5A3 /* KKGLContext.mm in Sources */,
 				1A8BFF6B2092C54E00224854 /* cpArbiter.c in Sources */,
@@ -1515,6 +1347,7 @@
 				1A8BFF6A2092C54E00224854 /* chipmunk.c in Sources */,
 				1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */,
 				1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */,
+				1AB72CB2211024F700187085 /* kk-wk.cc in Sources */,
 				1AD774B420998C060091283D /* TransformConstraintData.c in Sources */,
 				1A8BFF622092C54E00224854 /* cpHashSet.c in Sources */,
 				1A8BFF662092C54E00224854 /* cpSpatialIndex.c in Sources */,
@@ -1541,12 +1374,15 @@
 				1A0A65592027F073008DA5A3 /* kk-script.cc in Sources */,
 				1A8BFF702092C54E00224854 /* cpDampedSpring.c in Sources */,
 				1AD774D420998C060091283D /* Triangulator.c in Sources */,
+				1AB72CAD211024EA00187085 /* kk-chan.cc in Sources */,
 				1AD774B220998C060091283D /* PathConstraintData.c in Sources */,
+				1AB72CB0211024F100187085 /* kk-ev.cc in Sources */,
 				1AD774D020998C060091283D /* AnimationStateData.c in Sources */,
 				1A0A6696202DAAE4008DA5A3 /* KKWebSocket+JSContext.mm in Sources */,
 				1A8BFF652092C54E00224854 /* cpSlideJoint.c in Sources */,
 				E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */,
 				1A8BFF532092C54E00224854 /* cpConstraint.c in Sources */,
+				1AB72CB3211024F900187085 /* kk-http.cc in Sources */,
 				1AD774BA20998C060091283D /* IkConstraint.c in Sources */,
 				1A0A6625202A96D4008DA5A3 /* kk-crypto.cc in Sources */,
 				1A0A65B0202857C3008DA5A3 /* KKWeak.mm in Sources */,
@@ -1570,6 +1406,7 @@
 				1A8BFF682092C54E00224854 /* cpSimpleMotor.c in Sources */,
 				1AD774B620998C060091283D /* VertexEffect.c in Sources */,
 				1AE23FF72022F3C3001FFB58 /* kk-object.cc in Sources */,
+				1AB72CAC211024E700187085 /* kk-app.cc in Sources */,
 				1AD774CE20998C060091283D /* VertexAttachment.c in Sources */,
 				1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */,
 				1AD774D520998C060091283D /* Attachment.c in Sources */,
@@ -1586,6 +1423,7 @@
 				1A0A661320297D68008DA5A3 /* GLSLTexture.cc in Sources */,
 				1AD7734C20996EBF0091283D /* GLSpineElement.cc in Sources */,
 				1AD774C020998C060091283D /* SkeletonBounds.c in Sources */,
+				1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */,
 				1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */,
 				1A8BFF5F2092C54E00224854 /* cpPivotJoint.c in Sources */,
 				1AD774BE20998C060091283D /* AtlasAttachmentLoader.c in Sources */,
@@ -1595,9 +1433,11 @@
 				1AD774CB20998C060091283D /* PathAttachment.c in Sources */,
 				1A8BFF5A2092C54E00224854 /* cpSpaceDebug.c in Sources */,
 				1A8BFF5C2092C54E00224854 /* cpMarch.c in Sources */,
+				1AB72CAE211024ED00187085 /* kk-block.cc in Sources */,
 				1AD774BD20998C060091283D /* AnimationState.c in Sources */,
 				1A0A66192029B8EE008DA5A3 /* GLImageElement.cc in Sources */,
 				1A2866DE210B1DCB008A5B3B /* KKJSContextAsync.mm in Sources */,
+				1AB72CB1211024F500187085 /* kk-ws.cc in Sources */,
 				1A0A659620284CCB008DA5A3 /* GLContext.cc in Sources */,
 				1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */,
 				1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */,
@@ -1875,6 +1715,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
+					../lib/libevent/include,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1882,11 +1723,16 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = (
+					../lib,
+					../lib/libevent/lib,
+				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "";
+				OTHER_CFLAGS = "-DKK_APP_GL";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "-levent";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1906,6 +1752,7 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
+					../lib/libevent/include,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1913,11 +1760,19 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = ../lib;
+				LIBRARY_SEARCH_PATHS = (
+					../lib,
+					../lib/libevent/lib,
+				);
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-DNDEBUG";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DKK_APP_GL",
+				);
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "-levent";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

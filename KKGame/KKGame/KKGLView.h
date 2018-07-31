@@ -8,28 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <KKGame/KKGLContext.h>
-
-#ifdef __cplusplus
-
-namespace kk {
-    
-    class Element;
-    
-}
-
-typedef kk::Element * KKElementRef;
-
-#else
-
-typedef void * KKElementRef;
-
-#endif
-
 @class KKGLView;
 
 @protocol KKGLViewDelegate<NSObject>
 
 @optional
+
+- (void) KKGLView:(KKGLView *) view displayGLContext:(EAGLContext *) GLContext;
+
+- (void) KKGLView:(KKGLView *) view resizeGLContext:(EAGLContext *) GLContext;
 
 - (void) KKGLView:(KKGLView *) view touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
 - (void) KKGLView:(KKGLView *) view touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
@@ -42,16 +29,10 @@ typedef void * KKElementRef;
 
 @property(nonatomic,assign,readonly) GLsizei width;
 @property(nonatomic,assign,readonly) GLsizei height;
-@property(nonatomic,strong) void (^onVisible)(BOOL visible);
-@property(nonatomic,assign,readonly,getter=isVisible) BOOL visible;
-@property(nonatomic,weak) id<KKGLViewDelegate> delegate;
+@property(atomic,weak) id<KKGLViewDelegate> delegate;
+@property(nonatomic,strong,readonly) dispatch_queue_t queue;
+@property(nonatomic,strong,readonly) KKGLContext * GLContext;
 
--(void) installGLContext:(KKGLContext *) GLContext;
-
--(void) uninstallGLContext:(KKGLContext *) GLContext;
-
--(void) resizeGLContext:(KKGLContext *) GLContext;
-
--(void) displayGLContext:(KKGLContext *) GLContext element:(KKElementRef) element;
+-(void) recycle;
 
 @end

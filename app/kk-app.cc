@@ -19,15 +19,35 @@
 #include "GADocument.h"
 #include "GATileMap.h"
 
+#ifdef KK_APP_GL
+
+#include "GLContext.h"
+#include "GLAnimation.h"
+#include "GLShapeElement.h"
+#include "GLTextElement.h"
+#include "GLMinimapElement.h"
+#include "GLViewportElement.h"
+#include "GLTileMapElement.h"
+#include "GLSpineElement.h"
+#include "GLMetaElement.h"
+#include "GLSliceMapElement.h"
+#include "GLImageElement.h"
+
+#endif
+
 namespace kk {
 
     static duk_ret_t Application_print(duk_context * ctx) {
+        
+        Application * app = nullptr;
         
         duk_push_current_function(ctx);
         
         duk_get_prop_string(ctx, -1, "__object");
         
-        Application * app = (Application *)(duk_to_pointer(ctx, -1));
+        if(duk_is_pointer(ctx, -1)) {
+            app = (Application *)(duk_to_pointer(ctx, -1));
+        }
         
         duk_pop_2(ctx);
         
@@ -158,63 +178,21 @@ namespace kk {
 
     kk::Float Kernel = 1.0;
     
-    Application::Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext)
-        :_appid(appid) {
+    Application::Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext):_appid(appid),_running(false) {
         
         _jsContext = jsContext;
+#ifdef KK_APP_GL
+        _GAContext = new kk::GL::Context();
+#else
         _GAContext = new kk::GA::Context();
+#endif
         _GAElement = new kk::GA::Element();
  
         GAContext()->setBasePath(basePath);
         
         duk_context * ctx = dukContext();
         
-        {
-            
-            duk_push_global_object(ctx);
-            
-            duk_push_string(ctx, "print");
-            duk_push_c_function(ctx, Application_print, DUK_VARARGS);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "kk");
-            duk_push_object(ctx);
-            
-            duk_push_string(ctx, "platform");
-            duk_push_string(ctx, "kk");
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "kernel");
-            duk_push_number(ctx, Kernel);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "getString");
-            duk_push_c_function(ctx, Application_getString, 1);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_push_string(ctx, "compile");
-            duk_push_c_function(ctx, Application_compile, 3);
-                duk_push_string(ctx, "__object");
-                duk_push_pointer(ctx, this);
-                duk_put_prop(ctx, -3);
-            duk_put_prop(ctx, -3);
-            
-            duk_put_prop(ctx, -3);
- 
-            
-            duk_pop(ctx);
-        }
-        
-        {
-            duk_eval_lstring_noresult(ctx, (char *) require_js, sizeof(require_js));
-            kk::Crypto_openlibs(ctx);
-        }
+        installContext(ctx);
         
         {
            
@@ -229,6 +207,22 @@ namespace kk {
             kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
             
         }
+        
+#ifdef KK_APP_GL
+        {
+            kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::ImageElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::ShapeElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::Animation::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::AnimationItem::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::TextElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
+        }
+#endif
         
         {
             
@@ -251,8 +245,12 @@ namespace kk {
 
     }
     
-    kk::GA::Context * Application::GAContext() {
-        return _GAContext.as<kk::GA::Context>();
+    kk::Boolean Application::isRunning() {
+        return _running;
+    }
+    
+    KKGAContext * Application::GAContext() {
+        return _GAContext.as<KKGAContext>();
     }
     
     kk::script::Context * Application::jsContext() {
@@ -320,11 +318,14 @@ namespace kk {
     }
     
     void Application::exec() {
-        kk::GA::Context * GAContext = this->GAContext();
+        KKGAContext * GAContext = this->GAContext();
         kk::GA::Element * GAElement = this->GAElement();
         if(GAContext && GAElement) {
             GAContext->tick();
             GAContext->exec(GAElement);
+#ifdef KK_APP_GL
+            GAContext->draw(GAElement);
+#endif
         }
     }
     
@@ -387,6 +388,7 @@ namespace kk {
             duk_pop(ctx);
         }
         
+        _running = true;
     }
     
     kk::Uint64 Application::appid() {

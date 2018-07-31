@@ -65,10 +65,10 @@ namespace kk {
     }
     
 
-    static void * DispatchQueueRun(void * data) {
+    void * DispatchQueueRun(void * data) {
         DispatchQueue * queue = (DispatchQueue *) data;
         event_base_loop(queue->base(), 0);
-        if(queue != DispatchQueue::main()) {
+        if(queue->_pid != 0) {
             pthread_exit(nullptr);
         }
         return nullptr;
@@ -108,7 +108,8 @@ namespace kk {
     }
         
     DispatchQueue::DispatchQueue() {
-        _main = false;
+        _attach = false;
+        _joined = false;
         _loopbreak = false;
         _chan = new kk::Chan();
         _chan->retain();
@@ -119,7 +120,8 @@ namespace kk {
     }
     
     DispatchQueue::DispatchQueue(event_base * base) {
-        _main = true;
+        _attach = true;
+        _joined = false;
         _loopbreak = false;
         _chan = new kk::Chan();
         _chan->retain();
@@ -129,25 +131,33 @@ namespace kk {
         _pid = pthread_self();
     }
     
-    static DispatchQueue * g_main = nullptr;
-    
-    DispatchQueue * DispatchQueue::main() {
-        return g_main;
-    }
     
     DispatchQueue::~DispatchQueue() {
         
-        if(_main) {
+        if(_attach) {
             _chan->release();
             event_free(_event);
         } else {
-            async(DispatchQueueBreak, nullptr);
-            pthread_join(_pid, nullptr);
+            if(!_joined) {
+                _joined = true;
+                evtimer_del(_event);
+                async(DispatchQueueBreak, nullptr);
+                pthread_join(_pid, nullptr);
+            }
             _chan->release();
             event_free(_event);
             event_base_free(_base);
         }
         
+    }
+    
+    void DispatchQueue::join() {
+        if(!_attach && !_joined) {
+            _joined = true;
+            async(DispatchQueueBreak, nullptr);
+            pthread_join(_pid, nullptr);
+            evtimer_del(_event);
+        }
     }
     
     void DispatchQueue::loopbreak() {

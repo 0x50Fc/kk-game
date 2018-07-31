@@ -290,7 +290,7 @@ namespace kk {
             
             if(_bodyType != WebSocketTypeNone && _bodyLength > 0 && n > 0) {
                 
-                ssize_t v = _bodyLength - EVBUFFER_LENGTH(_body);
+                ssize_t v = (ssize_t) _bodyLength - (ssize_t) EVBUFFER_LENGTH(_body);
                 
                 if(v > 0 && n >= v) {
                     evbuffer_add(_body, p, v);
@@ -555,7 +555,7 @@ namespace kk {
         offset += sizeof(uint32_t);
         
         evbuffer * output = bufferevent_get_output(_bev);
-        evbuffer_add(output, frame, offset);
+        evbuffer_add(output, frame, (size_t) offset);
         
         uint8_t * p = (uint8_t *) data;
         uint8_t u;
@@ -623,7 +623,9 @@ namespace kk {
         _addr.sin_family = AF_INET;
         _addr.sin_port = htons(port);
         
-        _bev = bufferevent_new(-1, WebSocket_data_rd, WebSocket_data_wd, WebSocket_event_cb, this);
+        _bev = bufferevent_socket_new(base, -1, 0);
+        
+        bufferevent_setcb(_bev, WebSocket_data_rd, WebSocket_data_wd, WebSocket_event_cb, this);
         
         bufferevent_setwatermark(_bev, EV_READ, 0, MAX_BUF_SIZE);
         
@@ -647,6 +649,8 @@ namespace kk {
         } else {
             onResolve(&addr);
         }
+        
+        evhttp_uri_free(uri);
         
         return true;
     }

@@ -259,7 +259,6 @@ extern "C" {
 #define EV_INT32_MAX  INT32_MAX
 #define EV_INT32_MIN  INT32_MIN
 #define EV_UINT16_MAX UINT16_MAX
-#define EV_INT16_MIN  INT16_MIN
 #define EV_INT16_MAX  INT16_MAX
 #define EV_UINT8_MAX  UINT8_MAX
 #define EV_INT8_MAX   INT8_MAX
@@ -843,7 +842,6 @@ int evutil_secure_rng_init(void);
 EVENT2_EXPORT_SYMBOL
 int evutil_secure_rng_set_urandom_device_file(char *fname);
 
-#if !defined(EVENT__HAVE_ARC4RANDOM) || defined(EVENT__HAVE_ARC4RANDOM_ADDRANDOM)
 /** Seed the random number generator with extra random bytes.
 
     You should almost never need to call this function; it should be
@@ -860,7 +858,6 @@ int evutil_secure_rng_set_urandom_device_file(char *fname);
  */
 EVENT2_EXPORT_SYMBOL
 void evutil_secure_rng_add_bytes(const char *dat, size_t datlen);
-#endif
 
 #ifdef __cplusplus
 }
