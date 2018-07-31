@@ -64,13 +64,31 @@ namespace kk {
         delete v;
     }
     
+    static void DispatchQueueRunSIGPIPE(evutil_socket_t fd, short ev, void * ctx) {
+        
+        
+    }
 
     void * DispatchQueueRun(void * data) {
+        
         DispatchQueue * queue = (DispatchQueue *) data;
-        event_base_loop(queue->base(), 0);
+        
+        event_base * base = queue->base();
+        
+        struct event * s = evsignal_new(base, SIGPIPE, DispatchQueueRunSIGPIPE, NULL);
+        
+        evsignal_add(s, NULL);
+        
+        event_base_dispatch(base);
+        
+        evsignal_del(s);
+        
+        event_free(s);
+        
         if(queue->_pid != 0) {
             pthread_exit(nullptr);
         }
+        
         return nullptr;
     }
     

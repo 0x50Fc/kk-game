@@ -80,19 +80,16 @@ namespace kk {
             virtual void setViewport(Float width,Float height);
             virtual void setDifference(TimeInterval difference); //时差
             virtual TimeInterval difference();
-            virtual void on(TimeInterval timeInterval,CFunction func,void * userData);
             
             DEF_SCRIPT_CLASS
             
             virtual duk_ret_t duk_current(duk_context * ctx);
             virtual duk_ret_t duk_difference(duk_context * ctx);
             virtual duk_ret_t duk_setDifference(duk_context * ctx);
-            virtual duk_ret_t duk_on(duk_context * ctx);
             virtual duk_ret_t duk_frames(duk_context * ctx);
             virtual duk_ret_t duk_setFrames(duk_context * ctx);
             
         protected:
-            virtual void on(Function * func);
             TimeInterval _current;
             TimeInterval _startTimeInterval;
             TimeInterval _difference;
@@ -100,7 +97,6 @@ namespace kk {
             kk::Uint64 _count;
             kk::String _basePath;
             Size _viewport;
-            std::list<Strong> _funcs;
         };
         
         class Element : public kk::Element {

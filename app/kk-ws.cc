@@ -140,7 +140,7 @@ namespace kk {
         WebSocket * v = (WebSocket *) ctx;
         if(what & BEV_EVENT_CONNECTED) {
             v->onConnected();
-        } else {
+        } else if(what & (BEV_EVENT_ERROR | BEV_EVENT_TIMEOUT)){
             v->onClose(nullptr);
         }
     }
@@ -274,7 +274,6 @@ namespace kk {
                     return;
                 } else {
                     onClose(status);
-                    this->close();
                     return ;
                 }
 
@@ -459,11 +458,32 @@ namespace kk {
         if(_state != WebSocketStateClosed) {
             _state = WebSocketStateClosed;
             
+            retain();
+            
             {
+                
+                std::map<duk_context *,void *> m;
                 
                 std::map<duk_context *,void *>::iterator i = _heapptrs.begin();
                 
                 while(i != _heapptrs.end()) {
+                    
+                    duk_context * ctx = i->first;
+        
+                    duk_push_global_object(ctx);
+                    duk_push_sprintf(ctx, "0x%x",(long) i->second);
+                    duk_push_heapptr(ctx, i->second);
+                    duk_put_prop(ctx, -3);
+                    duk_pop(ctx);
+                    
+                    m[i->first] = i->second;
+                    
+                    i ++;
+                }
+                
+                i = m.begin();
+                
+                while(i != m.end()) {
                     
                     duk_context * ctx = i->first;
                     
@@ -484,6 +504,11 @@ namespace kk {
                     
                     duk_pop_n(ctx, 2);
                     
+                    duk_push_global_object(ctx);
+                    duk_push_sprintf(ctx, "0x%x",(long) i->second);
+                    duk_del_prop(ctx, -2);
+                    duk_pop(ctx);
+                    
                     i ++;
                 }
                 
@@ -497,6 +522,8 @@ namespace kk {
                 bufferevent_free(_bev);
                 _bev = nullptr;
             }
+            
+            release();
         }
     }
     
@@ -627,7 +654,7 @@ namespace kk {
         
         bufferevent_setcb(_bev, WebSocket_data_rd, WebSocket_data_wd, WebSocket_event_cb, this);
         
-        bufferevent_setwatermark(_bev, EV_READ, 0, MAX_BUF_SIZE);
+        bufferevent_setwatermark(_bev, EV_READ | EV_WRITE, 0, MAX_BUF_SIZE);
         
         evbuffer * data = bufferevent_get_output(_bev);
         

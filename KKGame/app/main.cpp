@@ -70,6 +70,11 @@ static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
     evtimer_add(app_ev_exec, &tv);
 }
 
+static void app_sigpipe(evutil_socket_t fd, short ev, void * ctx) {
+    
+    
+}
+
 static kk::Application * app;
 
 static void main_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * queue, duk_context * newContext) {
@@ -97,7 +102,7 @@ static void main_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * que
 
 int main(int argc, const char * argv[]) {
     
-    
+
     kk::Uint64 appid = 0;
     kk::CString path = nullptr;
     std::map<kk::String,kk::String> query;
@@ -180,9 +185,19 @@ int main(int argc, const char * argv[]) {
     
     evtimer_add(app_ev_exec, &tv);
 
-    event_base_loop(base, 0);
+    struct event *sigpipe = evsignal_new(base, SIGPIPE, app_sigpipe, NULL);
+    
+    evsignal_add(sigpipe, NULL);
+    
+    event_base_dispatch(base);
+    
+    evsignal_del(sigpipe);
+    
+    event_free(sigpipe);
     
     evtimer_del(app_ev_exec);
+    
+    event_free(app_ev_exec);
     
     evdns_base_free(dns, 0);
     

@@ -26,12 +26,6 @@ namespace kk {
         
         kk::script::SetProperty(ctx, -1, propertys, sizeof(propertys) / sizeof(kk::script::Property));
         
-        static kk::script::Method methods[] = {
-            {"on",(kk::script::Function) &Context::duk_on},
-        };
-        
-        kk::script::SetMethod(ctx, -1, methods, sizeof(methods) / sizeof(kk::script::Method));
-        
         
         IMP_SCRIPT_CLASS_END
         
@@ -145,18 +139,6 @@ namespace kk {
             } else {
                 _current = GetTimeIntervalCurrent() - _difference;
             }
-            {
-                std::list<Strong>::iterator i = _funcs.begin();
-                while(i != _funcs.end()) {
-                    Function * func = (*i).as<Function>();
-                    if(func && _current >= func->timeInterval) {
-                        func->call(this);
-                        i = _funcs.erase(i);
-                    } else {
-                        i ++;
-                    }
-                }
-            }
         }
         
         void Context::exec(kk::Element * element) {
@@ -190,15 +172,6 @@ namespace kk {
             return _difference;
         }
         
-        void Context::on(Function * func) {
-            _funcs.push_back(func);
-        }
-        
-        void Context::on(TimeInterval timeInterval,CFunction func,void * userData) {
-            kk::Strong fn = new Function(timeInterval,func,userData);
-            on(fn.as<Function>());
-        }
-        
         duk_ret_t Context::duk_difference(duk_context * ctx) {
             duk_push_number(ctx, _difference);
             return 1;
@@ -210,23 +183,6 @@ namespace kk {
             
             if(top >0  && duk_is_number(ctx, -top)) {
                 _difference = (TimeInterval) duk_to_number(ctx, -top);
-            }
-            
-            return 0;
-        }
-        
-        duk_ret_t Context::duk_on(duk_context * ctx) {
-            
-            int top = duk_get_top(ctx);
-            
-            if(top >1 && duk_is_number(ctx, -top) && duk_is_function(ctx, -top +1)) {
-                
-                TimeInterval timeInterval = duk_to_number(ctx, -top);
-                kk::Strong func = new kk::script::Object(kk::script::GetContext(ctx),-top + 1);
-                kk::Strong fn = new Function(timeInterval,func.as<kk::script::Object>());
-                
-                on(fn.as<Function>());
-                
             }
             
             return 0;
