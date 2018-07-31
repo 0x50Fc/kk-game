@@ -29,10 +29,6 @@
 
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
-#import "KKWebSocket+JSContext.h"
-#import "KKJSContextAsync.h"
-#import "KKJSContextWorker.h"
-#import "KKJSContextWorker.h"
 
 @interface KKGLContext() {
     BOOL _recycle;
