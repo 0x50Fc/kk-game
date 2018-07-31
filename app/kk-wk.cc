@@ -218,7 +218,7 @@ namespace kk {
     IMP_SCRIPT_CLASS_END
     
     
-    WebWorker::WebWorker():_jsContext(nullptr),_dns(nullptr),pid(nullptr),_ctx(nullptr),_heapptr(nullptr),_main(nullptr){
+    WebWorker::WebWorker():_jsContext(nullptr),_dns(nullptr),pid(0),_ctx(nullptr),_heapptr(nullptr),_main(nullptr){
         _queue = new DispatchQueue();
         _queue->retain();
         _dns = evdns_base_new(_queue->base(), EVDNS_BASE_INITIALIZE_NAMESERVERS);

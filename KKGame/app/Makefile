@@ -16,6 +16,7 @@ OBJOUTPUT = ./objs
 OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-element.o $(OBJOUTPUT)/kk-string.o \
 	$(OBJOUTPUT)/kk-script.o $(OBJOUTPUT)/kk-crypto.o $(OBJOUTPUT)/kk-app.o \
 	$(OBJOUTPUT)/kk-ev.o $(OBJOUTPUT)/kk-y.o $(OBJOUTPUT)/kk-ws.o $(OBJOUTPUT)/kk-http.o  \
+	$(OBJOUTPUT)/kk-block.o $(OBJOUTPUT)/kk-dispatch.o $(OBJOUTPUT)/kk-wk.o $(OBJOUTPUT)/kk-binary.o $(OBJOUTPUT)/kk-chan.o  \
 	$(OBJOUTPUT)/GAContext.o $(OBJOUTPUT)/GAScene.o $(OBJOUTPUT)/GABody.o $(OBJOUTPUT)/GAShape.o \
 	$(OBJOUTPUT)/GAAction.o $(OBJOUTPUT)/GAActionWalk.o $(OBJOUTPUT)/GATileMap.o $(OBJOUTPUT)/GADocument.o \
 	$(OBJOUTPUT)/duktape.o  \
@@ -59,6 +60,21 @@ $(OBJOUTPUT)/kk-ws.o:$(SRC)/kk-ws.cc
 
 $(OBJOUTPUT)/kk-http.o:$(SRC)/kk-http.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-http.cc -o $(OBJOUTPUT)/kk-http.o
+
+$(OBJOUTPUT)/kk-binary.o:$(SRC)/kk-binary.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-binary.cc -o $(OBJOUTPUT)/kk-binary.o
+
+$(OBJOUTPUT)/kk-block.o:$(SRC)/kk-block.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-block.cc -o $(OBJOUTPUT)/kk-block.o
+
+$(OBJOUTPUT)/kk-dispatch.o:$(SRC)/kk-dispatch.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-dispatch.cc -o $(OBJOUTPUT)/kk-dispatch.o
+
+$(OBJOUTPUT)/kk-wk.o:$(SRC)/kk-wk.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-wk.cc -o $(OBJOUTPUT)/kk-wk.o
+
+$(OBJOUTPUT)/kk-chan.o:$(SRC)/kk-chan.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-chan.cc -o $(OBJOUTPUT)/kk-chan.o
 
 $(OBJOUTPUT)/GAContext.o:$(GA)/GAContext.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(GA)/GAContext.cc -o $(OBJOUTPUT)/GAContext.o

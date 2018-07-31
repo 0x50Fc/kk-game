@@ -208,6 +208,7 @@
 		1AB72C95210F12BA00187085 /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
 		1AB72C98210F27B700187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
 		1AB72C99210F27C200187085 /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
+		1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
 		1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */; };
 		1AD772ED20947DAC0091283D /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
@@ -1585,6 +1586,7 @@
 				1A0A661320297D68008DA5A3 /* GLSLTexture.cc in Sources */,
 				1AD7734C20996EBF0091283D /* GLSpineElement.cc in Sources */,
 				1AD774C020998C060091283D /* SkeletonBounds.c in Sources */,
+				1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */,
 				1A8BFF5F2092C54E00224854 /* cpPivotJoint.c in Sources */,
 				1AD774BE20998C060091283D /* AtlasAttachmentLoader.c in Sources */,
 				1AD772ED20947DAC0091283D /* kk-y.cc in Sources */,

@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <math.h>
+#include <assert.h>
 
 #ifndef MAXFLOAT
 #define MAXFLOAT    0x1.fffffep+127f
