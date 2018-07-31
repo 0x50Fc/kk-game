@@ -125,6 +125,8 @@ namespace kk {
         
         if(_ctx != nullptr) {
             
+            kk::Binary * p = binary;
+            
             duk_push_heapptr(_ctx, _heapptr);
             
             if(duk_is_object(_ctx, -1)) {
@@ -135,7 +137,10 @@ namespace kk {
                 if(duk_is_function(_ctx, -1)) {
                     
                     duk_dup(_ctx, -2);
-                    kk::BinaryPushContext(_ctx, binary);
+                    
+                    while(p) {
+                        p = kk::BinaryPushContext(_ctx, p);
+                    }
                     
                     if(duk_pcall_method(_ctx, top) != DUK_EXEC_SUCCESS) {
                         kk::script::Error(_ctx, -1);
@@ -143,9 +148,11 @@ namespace kk {
                     
                 }
                 
+                duk_pop(_ctx);
+                
             }
             
-            duk_pop_2(_ctx);
+            duk_pop(_ctx);
             
         }
         
@@ -299,6 +306,8 @@ namespace kk {
         BK_GET(binary, kk::Binary)
         BK_GET(top,int)
         
+        kk::Binary * p = binary;
+        
         if(v != nullptr) {
             
             duk_context * ctx = v->dukContext();
@@ -310,7 +319,9 @@ namespace kk {
             
             if(duk_is_function(ctx, -1)) {
                 
-                kk::BinaryPushContext(ctx, binary);
+                while(p) {
+                    p = kk::BinaryPushContext(ctx, p);
+                }
                 
                 if(duk_pcall(ctx, * top) != DUK_EXEC_SUCCESS) {
                     kk::script::Error(ctx, -1);
