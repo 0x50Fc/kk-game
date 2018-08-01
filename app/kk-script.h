@@ -48,6 +48,8 @@ namespace kk {
         
         class HeapObject: public kk::Object, public IHeapObject {
         public:
+            HeapObject();
+            virtual ~HeapObject();
             virtual void setHeapptr(void * heapptr,duk_context * ctx);
             virtual void * heapptr(duk_context * ctx);
             virtual void removeHeapptr(duk_context * ctx);
@@ -118,7 +120,7 @@ namespace kk {
 #define IMP_SCRIPT_CLASS_BEGIN(isa,object,name) \
 kk::script::Class object::ScriptClass = {((kk::script::Class *) isa),(#name),(kk::script::ClassPrototypeFunc)&object::ScriptClassPrototype,(duk_c_function) &object::ScriptObjectAlloc} ;\
 duk_ret_t object::ScriptObjectAlloc(duk_context * ctx) { \
-    kk::script::PushObject(ctx,new object()); \
+    kk::script::PushObject(ctx, new object()); \
     return 1; \
 } \
 kk::script::Class * object::getScriptClass() { return &object::ScriptClass; }  \

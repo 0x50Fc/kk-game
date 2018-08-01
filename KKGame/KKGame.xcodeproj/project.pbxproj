@@ -1706,7 +1706,10 @@
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_CFLAGS = "-DKK_APP_GL";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DKK_APP_GL",
+				);
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "-levent";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;

@@ -1,0 +1,16 @@
+#libevent pkg-config source file
+
+prefix=/Users/hailong11/Downloads/libevent/android_build/out/armeabi
+exec_prefix=/Users/hailong11/Downloads/libevent/android_build/out/armeabi
+libdir=/Users/hailong11/Downloads/libevent/android_build/out/armeabi/lib
+includedir=/Users/hailong11/Downloads/libevent/android_build/out/armeabi/include
+
+Name: libevent
+Description: libevent is an asynchronous notification event loop library
+Version: 2.2.0
+Requires:
+Conflicts:
+Libs: -L${libdir} -levent
+Libs.private: 
+Cflags: -I${includedir}
+

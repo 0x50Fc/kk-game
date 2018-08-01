@@ -9,8 +9,6 @@
 #include "kk-config.h"
 #include "kk-ws.h"
 #include "kk-ev.h"
-#include <sys/queue.h>
-#include <arpa/inet.h>
 
 #ifndef ntohll
 
@@ -67,13 +65,13 @@ namespace kk {
         
         if(url) {
             
-            kk::Strong v = new WebSocket();
+            kk::Strong v = (kk::Object *) (new WebSocket());
             
             WebSocket * vv = v.as<WebSocket>();
             
             vv->open(ev_base(ctx),ev_dns(ctx),url,protocol);
             
-            kk::script::PushObject(ctx, vv);
+            kk::script::PushObject(ctx, (kk::Object *) vv);
             
             return 1;
         }
@@ -105,10 +103,6 @@ namespace kk {
     
     WebSocket::~WebSocket() {
         if(_bev != nullptr) {
-            int fd = bufferevent_getfd(_bev);
-            if(fd != -1) {
-                evutil_closesocket(fd);
-            }
             bufferevent_free(_bev);
             _bev = nullptr;
         }
@@ -117,10 +111,6 @@ namespace kk {
     
     void WebSocket::close() {
         if(_bev != nullptr) {
-            int fd = bufferevent_getfd(_bev);
-            if(fd != -1) {
-                evutil_closesocket(fd);
-            }
             bufferevent_free(_bev);
             _bev = nullptr;
         }
@@ -370,26 +360,26 @@ namespace kk {
                 }
 
                 if(receivedOpcode == WebSocketOpCodePong) {
-                    evbuffer_drain(data, offset + len);
+                    evbuffer_drain(data, (size_t) (offset + len));
                     onReading();
                     return;
                 }
                 
                 if(receivedOpcode == WebSocketOpCodeContinueFrame) {
-                    evbuffer_add(_body, p + offset, len);
-                    evbuffer_drain(data, offset + len);
+                    evbuffer_add(_body, p + offset, (size_t) len);
+                    evbuffer_drain(data, (size_t) (offset + len));
                 } else if(receivedOpcode == WebSocketOpCodeTextFrame) {
                     _bodyType = WebSocketTypeText;
-                    evbuffer_add(_body, p + offset, len);
-                    evbuffer_drain(data, offset + len);
+                    evbuffer_add(_body, p + offset, (size_t) len);
+                    evbuffer_drain(data, (size_t) (offset + len));
                 } else if(receivedOpcode == WebSocketOpCodeBinaryFrame) {
                     _bodyType = WebSocketTypeBinary;
-                    evbuffer_add(_body, p + offset, len);
-                    evbuffer_drain(data, offset + len);
+                    evbuffer_add(_body, p + offset, (size_t) len );
+                    evbuffer_drain(data, (size_t) (offset + len) );
                 } else if(receivedOpcode == WebSocketOpCodePing) {
                     _bodyType = WebSocketTypePing;
-                    evbuffer_add(_body, p + offset, len);
-                    evbuffer_drain(data, offset + len);
+                    evbuffer_add(_body, p + offset, (size_t) len);
+                    evbuffer_drain(data, (size_t) (offset + len) );
                 } else {
                     this->onClose("不支持的协议");
                     this->close();
@@ -457,7 +447,7 @@ namespace kk {
     void WebSocket::onClose(kk::CString errmsg) {
         if(_state != WebSocketStateClosed) {
             _state = WebSocketStateClosed;
-            
+
             retain();
             
             {
@@ -515,10 +505,6 @@ namespace kk {
             }
             
             if(_bev != nullptr) {
-                int fd = bufferevent_getfd(_bev);
-                if(fd != -1) {
-                    evutil_closesocket(fd);
-                }
                 bufferevent_free(_bev);
                 _bev = nullptr;
             }
@@ -650,7 +636,7 @@ namespace kk {
         _addr.sin_family = AF_INET;
         _addr.sin_port = htons(port);
         
-        _bev = bufferevent_socket_new(base, -1, 0);
+        _bev = bufferevent_socket_new(base, -1, BEV_OPT_CLOSE_ON_FREE);
         
         bufferevent_setcb(_bev, WebSocket_data_rd, WebSocket_data_wd, WebSocket_event_cb, this);
         

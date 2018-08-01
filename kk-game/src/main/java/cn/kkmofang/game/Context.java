@@ -35,11 +35,11 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     public final IViewContext viewContext;
     public final String basePath;
 
-    public final JSWebSocket jsWebSocket;
-    public final AsyncCaller asyncCaller;
     private final ILooper _looper;
 
     static {
+        System.loadLibrary("duktape");
+        System.loadLibrary("event");
         System.loadLibrary("kk-game");
     }
 
@@ -48,34 +48,6 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
         _looper = looper;
         this.viewContext = viewContext;
         this.basePath = basePath.endsWith("/") ? basePath : basePath + "/";
-        jsWebSocket = new JSWebSocket(_looper);
-        asyncCaller = new AsyncCaller(_looper);
-
-        {
-            pushGlobalObject();
-
-            push("WebSocket");
-            pushObject(jsWebSocket);
-            putProp(-3);
-
-            push("setTimeout");
-            pushFunction(asyncCaller.SetTimeoutFunc);
-            putProp(-3);
-
-            push("clearTimeout");
-            pushFunction(asyncCaller.ClearTimeoutFunc);
-            putProp(-3);
-
-            push("setInterval");
-            pushFunction(asyncCaller.SetIntervalFunc);
-            putProp(-3);
-
-            push("clearInterval");
-            pushFunction(asyncCaller.ClearIntervalFunc);
-            putProp(-3);
-
-            pop();
-        }
     }
 
     public void post(final Runnable run) {
@@ -111,8 +83,6 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     }
 
     public void recycle() {
-        jsWebSocket.recycle();
-        asyncCaller.recycle();
         dealloc(_ptr);
     }
 
@@ -236,12 +206,6 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
         return loadingProgress(_ptr);
     }
 
-    public void reopen() {
-        ScriptContext.pushContext(this);
-        reopen(_ptr);
-        ScriptContext.popContext();
-    }
-
     public final static void ContextGetStringTexture(long textureId,String text,TextPaint paint) {
 
         if(text == null) {
@@ -319,5 +283,4 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     private final static native void on(long ptr);
     private final static native void off(long ptr);
     private final static native float loadingProgress(long ptr);
-    private final static native void reopen(long ptr);
 }

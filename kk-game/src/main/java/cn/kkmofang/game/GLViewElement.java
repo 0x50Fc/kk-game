@@ -40,6 +40,9 @@ public class GLViewElement extends ViewElement {
     private Context _context;
     private String _basePath;
     private boolean _loaded;
+    private int _width = 0;
+    private int _height = 0;
+
     public final Handler handler;
 
     public GLViewElement() {
@@ -148,11 +151,7 @@ public class GLViewElement extends ViewElement {
 
     public void setView(View view) {
 
-        if( _context != null) {
-            _context.recycle();
-            _context = null;
-        }
-
+        uninstallGLContext();
 
         super.setView(view);
 
@@ -228,6 +227,47 @@ public class GLViewElement extends ViewElement {
 
         GLES20.glClearColor(0,0,0,0);
 
+        installGLContext();
+
+    }
+
+    protected void onSurfaceChanged(GL10 gl10, int width, int height) {
+        _width = width;
+        _height = height;
+        _context.setViewport(width, height, 1.0f / Pixel.UnitRPX);
+    }
+
+    protected void onDrawFrame(GL10 gl10) {
+
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT );
+
+        _context.exec();
+
+        if(!_loaded && _context.loadingProgress() >= 1.0f) {
+            _loaded = true;
+
+            final WeakReference<GLViewElement> element = new WeakReference<>(this);
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    GLViewElement e = element.get();
+                    if(e != null) {
+                        Event ev = new Event(e);
+                        ev.setData(e.data());
+                        e._emit("load",ev);
+                    }
+                }
+            });
+        }
+    }
+
+    protected void installGLContext() {
+
+        if(_context != null) {
+            return ;
+        }
+
         final WeakReference<GLViewElement> e = new WeakReference<GLViewElement>(this);
 
         _context = new Context(new GLSurfaceViewLooper((GLSurfaceView) this.view()), viewContext,_basePath);
@@ -282,63 +322,27 @@ public class GLViewElement extends ViewElement {
         });
 
         GAProtocol.openContext(_context,this);
+
         _context.run();
 
-    }
-
-    protected void onSurfaceChanged(GL10 gl10, int width, int height) {
-        _context.setViewport(width ,height , 1.0f / Pixel.UnitRPX);
-    }
-
-    protected void onDrawFrame(GL10 gl10) {
-
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT );
-
-        _context.exec();
-
-
-        if(!_loaded && _context.loadingProgress() >= 1.0f) {
-            _loaded = true;
-
-            final WeakReference<GLViewElement> element = new WeakReference<>(this);
-
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    GLViewElement e = element.get();
-                    if(e != null) {
-                        Event ev = new Event(e);
-                        ev.setData(e.data());
-                        e._emit("load",ev);
-                    }
-                }
-            });
+        if(_width !=0 && _height != 0) {
+            _context.setViewport(_width ,_height , 1.0f / Pixel.UnitRPX);
         }
 
     }
 
-    protected void reopen() {
+    protected void uninstallGLContext() {
 
-        GLSurfaceView view = (GLSurfaceView) this.view();
-
-        if(view != null) {
-
-            final WeakReference<GLViewElement> element = new WeakReference<>(this);
-
-            view.queueEvent(new Runnable() {
-                @Override
-                public void run() {
-                    GLViewElement e = element.get();
-                    if(e != null && e._context != null) {
-                        e._loaded = false;
-                        e._context.reopen();
-                    }
-                }
-            });
-
+        if(_context == null) {
+            return ;
         }
 
+        _context.recycle();
+        _context = null;
+        _loaded = false;
+
     }
+
 
     protected void _emit(String name, cn.kkmofang.view.event.Event event) {
         super.emit(name,event);
@@ -352,8 +356,26 @@ public class GLViewElement extends ViewElement {
 
             ((Element.Event) event).setCancelBubble(true);
 
+
             if("reopen".equals(name)) {
-                reopen();
+                GLSurfaceView view = (GLSurfaceView) this.view();
+
+                if(view != null) {
+
+                    final WeakReference<GLViewElement> element = new WeakReference<>(this);
+
+                    view.queueEvent(new Runnable() {
+                        @Override
+                        public void run() {
+                            GLViewElement e = element.get();
+                            if(e != null) {
+                                e.uninstallGLContext();
+                                e.installGLContext();
+                            }
+                        }
+                    });
+
+                }
                 return;
             }
 

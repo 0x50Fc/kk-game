@@ -2,36 +2,28 @@
 #include "kk-config.h"
 #include "kk.h"
 #include "duktape.h"
+#include "GLContext.h"
 #include "kk-script.h"
-#include "GLSliceMapElement.h"
-#include "GLImageElement.h"
-#include "GAScene.h"
-#include "GAShape.h"
-#include "GABody.h"
-#include "GAActionWalk.h"
-#include "require_js.h"
-#include "GLAnimation.h"
-#include "GADocument.h"
-#include "GLTextElement.h"
-#include "GLMinimapElement.h"
-#include "GLViewportElement.h"
-#include "GATileMap.h"
-#include "GLTileMapElement.h"
-#include "GLSpineElement.h"
-#include "GLMetaElement.h"
+#include "kk-app.h"
+#include "kk-dispatch.h"
+#include "kk-ev.h"
+#include "kk-ws.h"
+#include "kk-wk.h"
+#include "kk-http.h"
+#include <event.h>
+#include <evdns.h>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
-#include "GLShapeElement.h"
 
+static kk::Application * getApp(duk_context * ctx) {
 
-static kk::GL::Context * GetGLContext(duk_context * ctx) {
+    kk::Application * v = nullptr;
 
-    kk::GL::Context * v = nullptr;
+    duk_get_global_string(ctx,"__app");
 
-    duk_get_global_string(ctx,"context");
-
-    if(duk_is_object(ctx,-1)) {
-        v = (kk::GL::Context *) kk::script::GetObject(ctx,-1);
+    if(duk_is_pointer(ctx,-1)) {
+        v = (kk::Application *) duk_to_pointer(ctx,-1);
     }
 
     duk_pop(ctx);
@@ -39,75 +31,54 @@ static kk::GL::Context * GetGLContext(duk_context * ctx) {
     return v;
 }
 
-static duk_ret_t KKGLContext_getString(duk_context * ctx) {
+static kk::DispatchQueue * getQueue(duk_context * ctx) {
 
-    kk::CString path = nullptr;
-    kk::GL::Context * GLContext = GetGLContext(ctx);
+    kk::DispatchQueue * v = nullptr;
 
-    int top = duk_get_top(ctx);
+    duk_get_global_string(ctx,"__queue");
 
-    if(top >0  && duk_is_string(ctx, - top)) {
-        path = duk_to_string(ctx, -top);
+    if(duk_is_pointer(ctx,-1)) {
+        v = (kk::DispatchQueue *) duk_to_pointer(ctx,-1);
     }
 
-    if(path && GLContext) {
+    duk_pop(ctx);
 
-        kk::String code = GLContext->getString(path);
+    return v;
 
-        duk_push_string(ctx,code.c_str());
-
-        return 1;
-
-    }
-
-    return 0;
 }
 
-static duk_ret_t KKGLContext_compile(duk_context * ctx) {
+static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * queue, duk_context * newContext) {
 
-    kk::CString path = nullptr;
-    kk::CString prefix = nullptr;
-    kk::CString suffix = nullptr;
-    kk::GL::Context * GLContext = GetGLContext(ctx);
+    kk::Application * app = nullptr;
 
-    int top = duk_get_top(ctx);
+    duk_get_global_string(ctx, "__app");
 
-    if(top > 0  && duk_is_string(ctx, - top)) {
-        path = duk_to_string(ctx, -top);
+    if(duk_is_pointer(ctx, -1)) {
+        app = (kk::Application *) duk_to_pointer(ctx, -1);
     }
 
-    if(top > 1  && duk_is_string(ctx, - top + 1)) {
-        prefix = duk_to_string(ctx, -top + 1);
+    duk_pop(ctx);
+
+    if(app != nullptr) {
+        app->installContext(newContext);
+        duk_push_pointer(newContext, app);
+        duk_put_global_string(newContext, "__app");
     }
 
-    if(top > 2  && duk_is_string(ctx, - top + 2)) {
-        suffix = duk_to_string(ctx, -top + 2);
-    }
+    event_base * base = kk::ev_base(newContext);
+    evdns_base * dns = kk::ev_dns(newContext);
 
-    if(path && GLContext) {
+    {
 
-        kk::String v = GLContext->getString(path);
+        kk::script::SetPrototype(newContext, &kk::WebSocket::ScriptClass);
+        kk::script::SetPrototype(newContext, &kk::Http::ScriptClass);
 
-        kk::String code;
+        kk::Strong v = new kk::Http(base,dns);
 
-        if(prefix) {
-            code.append(prefix);
-        }
-
-        code.append(v);
-
-        if(suffix) {
-            code.append(suffix);
-        }
-
-        duk_push_string(ctx, path);
-        duk_compile_string_filename(ctx, 0, code.c_str());
-
-        return 1;
+        kk::script::PushObject(newContext, v.get());
+        duk_put_global_string(newContext, "http");
 
     }
-
-    return 0;
 }
 
 extern "C"
@@ -115,98 +86,45 @@ JNIEXPORT jlong JNICALL
 Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type, jstring basePath_) {
     const char *basePath = env->GetStringUTFChars(basePath_, 0);
 
-
-    kk::GL::Context * GLContext;
-
     kk::script::Context * v = new kk::script::Context();
 
     v->retain();
 
     {
-        duk_context * ctx = v->jsContext();
-
-        kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Context::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Scene::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::ImageElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::ShapeElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::Animation::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::AnimationItem::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::TextElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
-        kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
-
-
-    }
-
-    {
         duk_context *ctx = v->jsContext();
 
-        duk_push_global_object(ctx);
+        event_base *base = event_base_new();
+        evdns_base *dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
 
+        kk::DispatchQueue *queue = new kk::DispatchQueue(base);
 
-        {
-            duk_push_string(ctx, "kk");
-            duk_push_object(ctx);
+        queue->retain();
 
-            duk_push_string(ctx, "platform");
-            duk_push_string(ctx, "android");
-            duk_put_prop(ctx, -3);
-
-            duk_push_string(ctx, "getString");
-            duk_push_c_function(ctx, KKGLContext_getString, 1);
-            duk_put_prop(ctx, -3);
-
-
-            duk_push_string(ctx, "compile");
-            duk_push_c_function(ctx, KKGLContext_compile, 3);
-            duk_put_prop(ctx, -3);
-
-            duk_put_prop(ctx, -3);
-        }
-
+        kk::ev_openlibs(ctx, base, dns);
+        kk::wk_openlibs(ctx, queue, KKGLViewElement_EventOnCreateContext);
 
         {
-            kk::Strong v = new kk::GL::Context();
+            kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::Http::ScriptClass);
 
-            GLContext = v.as<kk::GL::Context>();
+            kk::Strong v = new kk::Http(base, dns);
 
-            GLContext->setBasePath(basePath);
-
-            GLContext->init();
-
-            duk_push_string(ctx, "context");
             kk::script::PushObject(ctx, v.get());
-            duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_CLEAR_CONFIGURABLE | DUK_DEFPROP_CLEAR_WRITABLE);
-
+            duk_put_global_string(ctx, "http");
         }
 
-        {
-            kk::Strong v = new kk::GA::Element();
-            duk_push_string(ctx, "element");
-            kk::script::PushObject(ctx, v.get());
-            duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_SET_CONFIGURABLE | DUK_DEFPROP_HAVE_WRITABLE);
-        }
+        kk::Application * app = new kk::Application(basePath,0,v);
 
+        app->retain();
 
-        duk_pop(ctx);
+        duk_push_pointer(ctx, app);
+        duk_put_global_string(ctx, "__app");
+
+        kk::GL::Context * GAContext = app->GAContext();
+
+        GAContext->init();
+
     }
-
-    {
-        duk_context * ctx = v->jsContext();
-        duk_eval_lstring_noresult(ctx, (char *)require_js, sizeof(require_js));
-    }
-
 
     jlong ret = (jlong) (long) v->jsContext();
 
@@ -221,52 +139,10 @@ Java_cn_kkmofang_game_Context_run(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
 
-    kk::GL::Context * context = nullptr;
+    kk::Application * app = getApp(ctx);
 
-    duk_push_global_object(ctx);
-
-    duk_push_string(ctx,"context");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(context ) {
-
-        kk::String code = context->getString("main.js");
-        kk::String evelCode ;
-
-        evelCode.append("(function(){");
-        evelCode.append(code);
-        evelCode.append("})");
-
-        duk_push_string(ctx,"main.js");
-        duk_compile_string_filename(ctx,0,evelCode.c_str());
-
-        if(duk_is_function(ctx, -1)) {
-
-            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-
-                kk::script::Error(ctx, -1);
-                duk_pop(ctx);
-
-            } else {
-
-                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                    kk::script::Error(ctx, -1);
-                }
-
-                duk_pop(ctx);
-            }
-        } else {
-            duk_pop(ctx);
-        }
-
+    if(app != nullptr && !app->isRunning()) {
+        app->run();
     }
 
 }
@@ -278,9 +154,37 @@ Java_cn_kkmofang_game_Context_dealloc(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
 
-    kk::script::Context * v = kk::script::GetContext(ctx);
+    kk::Application * app = getApp(ctx);
+    kk::DispatchQueue * queue = getQueue(ctx);
+    kk::script::Context * jsContext = kk::script::GetContext(ctx);
+    event_base * base = kk::ev_base(ctx);
+    evdns_base * dns = kk::ev_dns(ctx);
 
-    v->release();
+    if(queue) {
+        queue->join();
+    }
+
+    if(jsContext) {
+        jsContext->release();
+    }
+
+    if(app) {
+        app->GAElement()->off("", (kk::EventCFunction) nullptr, nullptr);
+        app->release();
+    }
+
+    if(queue) {
+        queue->release();
+    }
+
+    if(dns) {
+        evdns_base_free(dns,0);
+    }
+
+    if(base) {
+        event_base_free(base);
+    }
+
 }
 
 extern "C"
@@ -289,35 +193,16 @@ Java_cn_kkmofang_game_Context_exec(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
 
-    kk::GL::Context * context = nullptr;
-    kk::GA::Element * element = nullptr;
+    event_base * base = kk::ev_base(ctx);
 
-    duk_push_global_object(ctx);
+    kk::Application * app = getApp(ctx);
 
-    duk_push_string(ctx,"context");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
+    if(base) {
+        event_base_loop(base,EVLOOP_ONCE | EVLOOP_NONBLOCK);
     }
 
-    duk_pop(ctx);
-
-    duk_push_string(ctx,"element");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(context && element) {
-        context->tick();
-        context->exec(element);
-        context->draw(element);
+    if(app) {
+        app->exec();
     }
 
 }
@@ -329,22 +214,11 @@ Java_cn_kkmofang_game_Context_setViewport__JFFF(JNIEnv *env, jclass type, jlong 
 
     duk_context * ctx = (duk_context *) ptr;
 
-    kk::GL::Context * context = nullptr;
+    kk::Application * app = getApp(ctx);
 
-    duk_push_global_object(ctx);
+    if(app) {
 
-    duk_push_string(ctx,"context");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(context) {
+        kk::GL::Context * context = app->GAContext();
 
         kk::GL::ContextState & s = context->state();
 
@@ -371,22 +245,10 @@ JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_emit(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
-    kk::GA::Element * element = nullptr;
 
-    duk_push_global_object(ctx);
+    kk::Application * app = getApp(ctx);
 
-    duk_push_string(ctx,"element");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(element && duk_is_string(ctx,-2) && duk_is_object(ctx,-1)) {
+    if(app && duk_is_string(ctx,-2) && duk_is_object(ctx,-1)) {
 
         kk::CString name = duk_to_string(ctx,-2);
 
@@ -395,7 +257,7 @@ Java_cn_kkmofang_game_Context_emit(JNIEnv *env, jclass type, jlong ptr) {
         ev->data = new kk::script::Object(kk::script::GetContext(ctx),-1);
         duk_pop(ctx);
 
-        element->emit(name,ev);
+        app->GAElement()->emit(name,ev);
     }
 
 }
@@ -405,23 +267,11 @@ JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_on(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
-    kk::GA::Element * element = nullptr;
 
-    duk_push_global_object(ctx);
+    kk::Application * app = getApp(ctx);
 
-    duk_push_string(ctx,"element");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(element && duk_is_string(ctx,-2) && duk_is_function(ctx,-1)) {
-        element->duk_on(ctx);
+    if(app && duk_is_string(ctx,-2) && duk_is_function(ctx,-1)) {
+        app->GAElement()->duk_on(ctx);
     }
 
 }
@@ -431,23 +281,11 @@ JNIEXPORT void JNICALL
 Java_cn_kkmofang_game_Context_off(JNIEnv *env, jclass type, jlong ptr) {
 
     duk_context * ctx = (duk_context *) ptr;
-    kk::GA::Element * element = nullptr;
 
-    duk_push_global_object(ctx);
+    kk::Application * app = getApp(ctx);
 
-    duk_push_string(ctx,"element");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(element && duk_is_string(ctx,-1)) {
-        element->duk_off(ctx);
+    if(app && duk_is_string(ctx,-1)) {
+        app->GAElement()->duk_off(ctx);
     }
 
 }
@@ -458,100 +296,13 @@ Java_cn_kkmofang_game_Context_loadingProgress(JNIEnv *env, jclass type, jlong pt
 
     duk_context * ctx = (duk_context *) ptr;
 
-    kk::GL::Context * context = nullptr;
-    kk::GA::Element * element = nullptr;
+    kk::Application * app = getApp(ctx);
 
-    duk_push_global_object(ctx);
-
-    duk_push_string(ctx,"context");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_push_string(ctx,"element");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        element = dynamic_cast<kk::GA::Element *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    duk_pop(ctx);
-
-    if(context && element) {
-        return context->loadingProgress(element);
+    if(app) {
+        return app->GAContext()->loadingProgress(app->GAElement());
     }
 
     return 0;
-
-}
-
-extern "C"
-JNIEXPORT void JNICALL
-Java_cn_kkmofang_game_Context_reopen__J(JNIEnv *env, jclass type, jlong ptr) {
-
-    duk_context * ctx = (duk_context *) ptr;
-
-    kk::GL::Context * context = nullptr;
-
-    duk_push_global_object(ctx);
-
-    duk_push_string(ctx,"context");
-    duk_get_prop(ctx,-2);
-
-    if(duk_is_object(ctx,-1)) {
-        context = dynamic_cast<kk::GL::Context *>( kk::script::GetObject(ctx,-1) );
-    }
-
-    duk_pop(ctx);
-
-    {
-        kk::Strong v = new kk::GA::Element();
-        duk_push_string(ctx, "element");
-        kk::script::PushObject(ctx, v.get());
-        duk_def_prop(ctx,-3,DUK_DEFPROP_HAVE_VALUE | DUK_DEFPROP_SET_CONFIGURABLE | DUK_DEFPROP_HAVE_WRITABLE);
-
-    }
-
-    duk_pop(ctx);
-
-    if(context ) {
-
-        kk::String code = context->getString("main.js");
-        kk::String evelCode ;
-
-        evelCode.append("(function(){");
-        evelCode.append(code);
-        evelCode.append("})");
-
-        duk_push_string(ctx,"main.js");
-        duk_compile_string_filename(ctx,0,evelCode.c_str());
-
-        if(duk_is_function(ctx, -1)) {
-
-            if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-
-                kk::script::Error(ctx, -1);
-                duk_pop(ctx);
-
-            } else {
-
-                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
-                    kk::script::Error(ctx, -1);
-                }
-
-                duk_pop(ctx);
-            }
-        } else {
-            duk_pop(ctx);
-        }
-
-    }
 
 }
 

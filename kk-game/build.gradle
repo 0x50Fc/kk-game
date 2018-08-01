@@ -18,6 +18,13 @@ android {
             abiFilters "armeabi-v7a"
         }
 
+        externalNativeBuild {
+            cmake {
+                cFlags "-DHAVE_CONFIG_H","-DNDEBUG"
+                cppFlags "-DKK_APP_GL"
+            }
+        }
+
     }
     buildTypes {
         release {

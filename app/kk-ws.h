@@ -10,9 +10,22 @@
 #define kk_ws_h
 
 #include "kk-script.h"
+
+#ifdef  __cplusplus
+extern "C" {
+#endif
+    
 #include <event.h>
 #include <evhttp.h>
 #include <evdns.h>
+#include <sys/queue.h>
+#include <arpa/inet.h>
+
+#ifdef  __cplusplus
+}
+#endif
+
+
 
 namespace kk {
     

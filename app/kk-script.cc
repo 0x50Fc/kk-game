@@ -169,8 +169,16 @@ namespace kk {
         void * Object::heapptr() {
             return _heapptr;
         }
-        
-        
+
+
+        HeapObject::HeapObject() {
+
+        }
+
+        HeapObject::~HeapObject() {
+
+        }
+
         void HeapObject::setHeapptr(void * heapptr,duk_context * ctx) {
             _heapptrs[ctx] = heapptr;
         }
