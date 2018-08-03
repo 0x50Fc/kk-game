@@ -6,13 +6,10 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
-#include <event.h>
-#include <evhttp.h>
-#include <evdns.h>
-
 #include "kk-config.h"
 #include "kk-http.h"
 #include "kk-string.h"
+#include "kk-ev.h"
 
 namespace kk {
     

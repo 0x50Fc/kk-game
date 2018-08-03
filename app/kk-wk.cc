@@ -6,8 +6,6 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
-#include <event.h>
-#include <evdns.h>
 #include <pthread.h>
 #include "kk-config.h"
 #include "kk-wk.h"
@@ -33,8 +31,6 @@ namespace kk {
         virtual duk_ret_t duk_postMessage(duk_context * ctx);
         virtual duk_ret_t duk_terminate(duk_context * ctx);
         DEF_SCRIPT_CLASS
-        
-        pthread_t pid;
         
         virtual DispatchQueue * main();
         virtual DispatchQueue * queue();
@@ -227,8 +223,8 @@ namespace kk {
     IMP_SCRIPT_CLASS_END
     
     
-    WebWorker::WebWorker():_jsContext(nullptr),_dns(nullptr),pid(0),_ctx(nullptr),_heapptr(nullptr),_main(nullptr){
-        _queue = new DispatchQueue();
+    WebWorker::WebWorker():_jsContext(nullptr),_dns(nullptr),_ctx(nullptr),_heapptr(nullptr),_main(nullptr){
+        _queue = new DispatchQueue("kk::WebWorker");
         _queue->retain();
         _dns = evdns_base_new(_queue->base(), EVDNS_BASE_INITIALIZE_NAMESERVERS);
         _jsContext = new kk::script::Context();
@@ -238,6 +234,9 @@ namespace kk {
     WebWorker::~WebWorker() {
         _queue->join();
         _jsContext->release();
+        if(_dns) {
+            evdns_base_free(_dns, 0);
+        }
         _queue->release();
     }
     

@@ -10,9 +10,21 @@
 #define kk_ev_h
 
 #include "kk-object.h"
+#include "kk-script.h"
 
-struct event_base;
-struct evdns_base;
+#include "kk-object.h"
+
+#if defined(__APPLE__)
+
+#include <KKEvent/KKEvent.h>
+
+#else
+
+#include <event.h>
+#include <evhttp.h>
+#include <evdns.h>
+
+#endif
 
 namespace kk {
     

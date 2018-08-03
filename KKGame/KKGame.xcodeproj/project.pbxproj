@@ -193,10 +193,10 @@
 		1A9EEB06209C2BBE004A8283 /* cpSpaceStep.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF482092C54D00224854 /* cpSpaceStep.c */; };
 		1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF452092C54D00224854 /* cpSpatialIndex.c */; };
 		1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
-		1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC5F4882090832200AB01D7 /* libz.tbd */; };
 		1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9EEB1620A065FE004A8283 /* GLMetaElement.h */; };
 		1A9EEB1920A065FE004A8283 /* GLMetaElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */; };
+		1AA7E6B021141A4500DDFC7A /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E6AF21141A4500DDFC7A /* duktape.c */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
 		1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
 		1AB72C95210F12BA00187085 /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
@@ -266,10 +266,9 @@
 		1AE2400E20230D5D001FFB58 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
 		1AE2401120231491001FFB58 /* GAShape.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401020231491001FFB58 /* GAShape.cc */; };
 		1AE2401420231F19001FFB58 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
-		1AE24019202405F1001FFB58 /* duk_config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24016202405F1001FFB58 /* duk_config.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1AE2401A202405F1001FFB58 /* duktape.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24017202405F1001FFB58 /* duktape.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1AE2401B202405F1001FFB58 /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AE24018202405F1001FFB58 /* duktape.c */; };
 		1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
+		1AFD6C862112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
+		1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
 		E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE992052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E951BE972052605200358A85 /* GLMinimapElement.h */; };
@@ -291,6 +290,55 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1AE23FE42022F361001FFB58;
 			remoteInfo = KKGame;
+		};
+		1AA7E68C211416CA00DDFC7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AFD6C1E2112AA0F0038234E;
+			remoteInfo = KKEvent;
+		};
+		1AA7E68E211416CA00DDFC7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AFD6BFC2112A8660038234E;
+			remoteInfo = KKDuktape;
+		};
+		1AFD6C432112AC110038234E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AFD6BFD2112A8660038234E;
+			remoteInfo = KKDuktape;
+		};
+		1AFD6C4A2112AC1D0038234E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1AFD6C1F2112AA0F0038234E;
+			remoteInfo = KKEvent;
+		};
+		1AFD6C502112AD3D0038234E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AFD6C1E2112AA0F0038234E;
+			remoteInfo = KKEvent;
+		};
+		1AFD6C522112AD3D0038234E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AFD6BFC2112A8660038234E;
+			remoteInfo = KKDuktape;
+		};
+		1AFD6C542112AD3D0038234E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1AE143301FF4956800D2DEAD;
+			remoteInfo = KKApplication;
 		};
 		E9F4A8A52105AF0700EAB83D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -477,6 +525,9 @@
 		1A9EEAAC209C2B3F004A8283 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1A9EEB1620A065FE004A8283 /* GLMetaElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMetaElement.h; sourceTree = "<group>"; };
 		1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMetaElement.cc; sourceTree = "<group>"; };
+		1AA7E6AD21141A4500DDFC7A /* duk_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = duk_config.h; sourceTree = "<group>"; };
+		1AA7E6AE21141A4500DDFC7A /* duktape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = duktape.h; sourceTree = "<group>"; };
+		1AA7E6AF21141A4500DDFC7A /* duktape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = duktape.c; sourceTree = "<group>"; };
 		1AB084DA20561ED300EF5783 /* GLViewportElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLViewportElement.h; sourceTree = "<group>"; };
 		1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewportElement.cc; sourceTree = "<group>"; };
 		1AB084DD2056242200EF5783 /* GADocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADocument.h; sourceTree = "<group>"; };
@@ -552,9 +603,9 @@
 		1AE2401020231491001FFB58 /* GAShape.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAShape.cc; sourceTree = "<group>"; };
 		1AE24012202315F9001FFB58 /* GABody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GABody.h; sourceTree = "<group>"; };
 		1AE2401320231F19001FFB58 /* GABody.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GABody.cc; sourceTree = "<group>"; };
-		1AE24016202405F1001FFB58 /* duk_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duk_config.h; path = ../../lib/duktape/src/duk_config.h; sourceTree = "<group>"; };
-		1AE24017202405F1001FFB58 /* duktape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = duktape.h; path = ../../lib/duktape/src/duktape.h; sourceTree = "<group>"; };
-		1AE24018202405F1001FFB58 /* duktape.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = duktape.c; path = ../../lib/duktape/src/duktape.c; sourceTree = "<group>"; };
+		1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKDuktape.xcodeproj; path = "../../kk-duktape/KKDuktape/KKDuktape.xcodeproj"; sourceTree = "<group>"; };
+		1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKEvent.xcodeproj; path = "../../kk-event/KKEvent/KKEvent.xcodeproj"; sourceTree = "<group>"; };
+		1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-atomic-pthread.cc"; sourceTree = "<group>"; };
 		E951BE962052605200358A85 /* GLMinimapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMinimapElement.cc; sourceTree = "<group>"; };
 		E951BE972052605200358A85 /* GLMinimapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMinimapElement.h; sourceTree = "<group>"; };
 		E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKWebSocket.xcodeproj; path = ../../KKWebSocket/KKWebSocket/KKWebSocket.xcodeproj; sourceTree = "<group>"; };
@@ -755,10 +806,22 @@
 		1A9EEAAB209C2B3F004A8283 /* app */ = {
 			isa = PBXGroup;
 			children = (
+				1AA7E6AC21141A4500DDFC7A /* duktape */,
 				1A9EEAAC209C2B3F004A8283 /* main.cpp */,
 			);
 			path = app;
 			sourceTree = "<group>";
+		};
+		1AA7E6AC21141A4500DDFC7A /* duktape */ = {
+			isa = PBXGroup;
+			children = (
+				1AA7E6AD21141A4500DDFC7A /* duk_config.h */,
+				1AA7E6AE21141A4500DDFC7A /* duktape.h */,
+				1AA7E6AF21141A4500DDFC7A /* duktape.c */,
+			);
+			name = duktape;
+			path = ../lib/duktape;
+			sourceTree = SOURCE_ROOT;
 		};
 		1AD7743020998C060091283D /* spine */ = {
 			isa = PBXGroup;
@@ -828,6 +891,8 @@
 		1AE23FDB2022F361001FFB58 = {
 			isa = PBXGroup;
 			children = (
+				1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */,
+				1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */,
 				E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */,
 				E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */,
 				1AE23FE72022F361001FFB58 /* KKGame */,
@@ -855,7 +920,6 @@
 				1A8BFF2F2092C52D00224854 /* Chipmunk2D */,
 				1A0A665D202D68C2008DA5A3 /* js */,
 				1A0A660E20297D68008DA5A3 /* glsl */,
-				1AE24015202405CF001FFB58 /* duktape */,
 				1AE23FF02022F3C3001FFB58 /* app */,
 				1AE23FE82022F361001FFB58 /* KKGame.h */,
 				1AE23FE92022F361001FFB58 /* Info.plist */,
@@ -911,6 +975,7 @@
 				1A2866EE210EFC83008A5B3B /* kk-wk.cc */,
 				1A32EC7E20CE31FD00C4B091 /* kk-http.h */,
 				1A32EC7D20CE31FD00C4B091 /* kk-http.cc */,
+				1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */,
 			);
 			name = app;
 			path = ../../app;
@@ -939,14 +1004,20 @@
 			path = GA;
 			sourceTree = "<group>";
 		};
-		1AE24015202405CF001FFB58 /* duktape */ = {
+		1AFD6C3F2112AC100038234E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1AE24016202405F1001FFB58 /* duk_config.h */,
-				1AE24018202405F1001FFB58 /* duktape.c */,
-				1AE24017202405F1001FFB58 /* duktape.h */,
+				1AFD6C442112AC110038234E /* KKDuktape.framework */,
 			);
-			name = duktape;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1AFD6C462112AC1C0038234E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1AFD6C4B2112AC1D0038234E /* KKEvent.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		E9F4A8A12105AF0700EAB83D /* Products */ = {
@@ -986,8 +1057,6 @@
 				1A8BFF9B2092C58A00224854 /* cpSpace.h in Headers */,
 				1AD774C320998C060091283D /* kvec.h in Headers */,
 				1A0A6590202828E1008DA5A3 /* kk-script.h in Headers */,
-				1AE24019202405F1001FFB58 /* duk_config.h in Headers */,
-				1AE2401A202405F1001FFB58 /* duktape.h in Headers */,
 				1A8BFF922092C58A00224854 /* chipmunk_ffi.h in Headers */,
 				1A0A658E202828E1008DA5A3 /* kk-event.h in Headers */,
 				1A8BFF992092C58A00224854 /* cpRatchetJoint.h in Headers */,
@@ -1074,6 +1143,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				1AA7E68D211416CA00DDFC7A /* PBXTargetDependency */,
+				1AA7E68F211416CA00DDFC7A /* PBXTargetDependency */,
 			);
 			name = app;
 			productName = app;
@@ -1092,6 +1163,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				1AFD6C512112AD3D0038234E /* PBXTargetDependency */,
+				1AFD6C532112AD3D0038234E /* PBXTargetDependency */,
+				1AFD6C552112AD3D0038234E /* PBXTargetDependency */,
 			);
 			name = KKGame;
 			productName = KKGame;
@@ -1142,6 +1216,14 @@
 					ProjectRef = E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */;
 				},
 				{
+					ProductGroup = 1AFD6C3F2112AC100038234E /* Products */;
+					ProjectRef = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+				},
+				{
+					ProductGroup = 1AFD6C462112AC1C0038234E /* Products */;
+					ProjectRef = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
+				},
+				{
 					ProductGroup = E9F4A8A12105AF0700EAB83D /* Products */;
 					ProjectRef = E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */;
 				},
@@ -1157,6 +1239,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1AFD6C442112AC110038234E /* KKDuktape.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKDuktape.framework;
+			remoteRef = 1AFD6C432112AC110038234E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1AFD6C4B2112AC1D0038234E /* KKEvent.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKEvent.framework;
+			remoteRef = 1AFD6C4A2112AC1D0038234E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E9F4A8A62105AF0700EAB83D /* KKWebSocket.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1244,8 +1340,8 @@
 				1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */,
 				1AB72C98210F27B700187085 /* kk-binary.cc in Sources */,
 				1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */,
+				1AA7E6B021141A4500DDFC7A /* duktape.c in Sources */,
 				1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */,
-				1A9EEB09209C2BCC004A8283 /* duktape.c in Sources */,
 				1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */,
 				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
 				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
@@ -1264,6 +1360,7 @@
 				1A9EEAFE209C2BBE004A8283 /* cpShape.c in Sources */,
 				1A9EEAEB209C2BBE004A8283 /* cpArray.c in Sources */,
 				1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */,
+				1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */,
 				1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */,
 				1A9EEB05209C2BBE004A8283 /* cpSpaceQuery.c in Sources */,
 				1A2866F3210F051E008A5B3B /* kk-dispatch.cc in Sources */,
@@ -1406,7 +1503,6 @@
 				1AD774BE20998C060091283D /* AtlasAttachmentLoader.c in Sources */,
 				1AD772ED20947DAC0091283D /* kk-y.cc in Sources */,
 				1A8BFF6D2092C54E00224854 /* cpCollision.c in Sources */,
-				1AE2401B202405F1001FFB58 /* duktape.c in Sources */,
 				1AD774CB20998C060091283D /* PathAttachment.c in Sources */,
 				1A8BFF5A2092C54E00224854 /* cpSpaceDebug.c in Sources */,
 				1A8BFF5C2092C54E00224854 /* cpMarch.c in Sources */,
@@ -1416,6 +1512,7 @@
 				1AB72CB1211024F500187085 /* kk-ws.cc in Sources */,
 				1A0A659620284CCB008DA5A3 /* GLContext.cc in Sources */,
 				1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */,
+				1AFD6C862112B8340038234E /* kk-atomic-pthread.cc in Sources */,
 				1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */,
 				1A8BFF572092C54E00224854 /* cpPolyline.c in Sources */,
 			);
@@ -1433,6 +1530,31 @@
 			isa = PBXTargetDependency;
 			target = 1AE23FE42022F361001FFB58 /* KKGame */;
 			targetProxy = 1A289BA6205228F200E407F2 /* PBXContainerItemProxy */;
+		};
+		1AA7E68D211416CA00DDFC7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKEvent;
+			targetProxy = 1AA7E68C211416CA00DDFC7A /* PBXContainerItemProxy */;
+		};
+		1AA7E68F211416CA00DDFC7A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKDuktape;
+			targetProxy = 1AA7E68E211416CA00DDFC7A /* PBXContainerItemProxy */;
+		};
+		1AFD6C512112AD3D0038234E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKEvent;
+			targetProxy = 1AFD6C502112AD3D0038234E /* PBXContainerItemProxy */;
+		};
+		1AFD6C532112AD3D0038234E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKDuktape;
+			targetProxy = 1AFD6C522112AD3D0038234E /* PBXContainerItemProxy */;
+		};
+		1AFD6C552112AD3D0038234E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKApplication;
+			targetProxy = 1AFD6C542112AD3D0038234E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1526,6 +1648,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
@@ -1552,6 +1675,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQQ2Y9B27K;
+				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
@@ -1691,7 +1815,6 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
-					../lib/libevent/include,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1699,10 +1822,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					../lib,
-					../lib/libevent/lib,
-				);
+				LIBRARY_SEARCH_PATHS = ../lib;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1711,7 +1831,7 @@
 					"-DKK_APP_GL",
 				);
 				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "-levent";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1731,7 +1851,6 @@
 				FRAMEWORK_SEARCH_PATHS = ../lib;
 				HEADER_SEARCH_PATHS = (
 					../lib,
-					../lib/libevent/include,
 					../lib/Chipmunk2D/include,
 					../lib/spine/include,
 				);
@@ -1739,10 +1858,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					../lib,
-					../lib/libevent/lib,
-				);
+				LIBRARY_SEARCH_PATHS = ../lib;
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
@@ -1751,7 +1867,7 @@
 					"-DKK_APP_GL",
 				);
 				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "-levent";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.kkmofang.KKGame;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

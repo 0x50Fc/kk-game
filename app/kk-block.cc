@@ -73,7 +73,6 @@ namespace kk {
         return _object;
     }
     
-    
     BlockContext::BlockContext() {
         
     }
@@ -83,7 +82,8 @@ namespace kk {
         std::map<std::string,Block *>::iterator i = _blocks.begin();
         
         while(i != _blocks.end()) {
-            i->second->release();
+            Block * v = i->second;
+            v->release();
             i ++;
         }
         
@@ -93,7 +93,8 @@ namespace kk {
         std::map<std::string,Block *>::iterator i = _blocks.find(name);
         block->retain();
         if(i != _blocks.end()) {
-            i->second->release();
+            Block * v = i->second;
+            v->release();
         }
         _blocks[name] = block;
     }
@@ -150,6 +151,5 @@ namespace kk {
         }
         return nullptr;
     }
-    
     
 }

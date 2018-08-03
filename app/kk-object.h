@@ -8,7 +8,6 @@
 #ifndef _KK_OBJECT_H
 #define _KK_OBJECT_H
 
-#include "duktape.h"
 #include <string>
 #include <vector>
 #include <set>
@@ -28,12 +27,22 @@ namespace kk {
     typedef long Intptr;
     typedef float Float;
     
+    class Object;
+    
+    class Atomic {
+    public:
+        virtual void lock() = 0;
+        virtual void unlock() = 0;
+        virtual void addObject(Object * object) = 0;
+    };
+    
+    extern Atomic * atomic();
+    
     class Object {
         
     private:
         int _retainCount;
         std::set<Object **> _weakObjects;
-        
     public:
         
         Object();

@@ -6,8 +6,6 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
-#include <event.h>
-#include <evdns.h>
 #include <pthread.h>
 
 #include "kk-config.h"
@@ -104,6 +102,7 @@ namespace kk {
             Timer * v =(Timer *) duk_to_pointer(ctx, -1);
             
             evtimer_del(v->event);
+            event_free(v->event);
             
             delete v;
             

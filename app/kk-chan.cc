@@ -34,16 +34,17 @@ namespace kk {
         while(!_queue.empty()) {
             
             ChanObject v = _queue.front();
+            _queue.pop();
             
             if(_release) {
                 (*_release)(this,v);
             }
-            
-            _queue.pop();
-            
+
         }
         
         pthread_mutex_unlock(&_lock);
+        
+        pthread_mutex_destroy(&_lock);
         
     }
     

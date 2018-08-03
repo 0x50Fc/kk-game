@@ -10,7 +10,18 @@
 #define kk_script_h
 
 #include "kk-object.h"
+
+#if defined(__APPLE__)
+
+#include <KKDuktape/KKDuktape.h>
+
+#else
+
+#include "duk_config.h"
 #include "duktape.h"
+
+#endif
+
 
 namespace kk {
     

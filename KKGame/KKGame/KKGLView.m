@@ -50,7 +50,7 @@
         
         _source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,_GLContext.queue);
         
-        int64_t frames = 30;
+        int64_t frames = 60;
         dispatch_source_set_timer(_source, dispatch_walltime(NULL, 0), (int64_t)(NSEC_PER_SEC / frames), 0);
         
         __weak KKGLView * view = self;
@@ -59,8 +59,9 @@
             [view displayGLContext];
         });
     
-        [self setOpaque:YES];
+    
         self.layer.contentsScale = [[UIScreen mainScreen] scale];
+        self.layer.opaque = NO;
         
         [self resizeGLContext];
         

@@ -115,7 +115,15 @@ namespace kk {
     }
     
     Object::~Object(){
+        
+        Atomic * a = atomic();
+        
+        if(a != nullptr) {
+            a->lock();
+        }
+        
         std::set<Object **>::iterator i =_weakObjects.begin();
+        
         while(i != _weakObjects.end()) {
             Object ** v = * i;
             if(v) {
@@ -123,6 +131,11 @@ namespace kk {
             }
             i ++;
         }
+        
+        if(a != nullptr) {
+            a->unlock();
+        }
+        
     }
     
     std::string Object::toString() {
@@ -130,14 +143,32 @@ namespace kk {
     }
     
     void Object::release() {
+        Atomic * a = atomic();
+        if(a != nullptr) {
+            a->lock();
+        }
         _retainCount --;
         if(_retainCount == 0) {
-            delete this;
+            if(a != nullptr) {
+                a->addObject(this);
+            } else {
+                delete this;
+            }
+        }
+        if(a != nullptr) {
+            a->unlock();
         }
     }
     
     void Object::retain() {
+        Atomic * a = atomic();
+        if(a != nullptr) {
+            a->lock();
+        }
         _retainCount ++;
+        if(a != nullptr) {
+            a->unlock();
+        }
     }
     
     int Object::retainCount() {
@@ -145,16 +176,30 @@ namespace kk {
     }
     
     void Object::weak(Object ** ptr) {
+        Atomic * a = atomic();
+        if(a != nullptr) {
+            a->lock();
+        }
         _weakObjects.insert(ptr);
+        if(a != nullptr) {
+            a->unlock();
+        }
     }
     
     void Object::unWeak(Object ** ptr) {
+        Atomic * a = atomic();
+        if(a != nullptr) {
+            a->lock();
+        }
         std::set<Object **>::iterator i = _weakObjects.find(ptr);
         if(i != _weakObjects.end()) {
             _weakObjects.erase(i);
         }
+        if(a != nullptr) {
+            a->unlock();
+        }
     }
-
+    
 #ifdef __ANDROID_API__
 
     void LogV(const char * format, va_list va) {

@@ -9,7 +9,7 @@
 #ifndef kk_crypto_h
 #define kk_crypto_h
 
-#include "kk-object.h"
+#include "kk-script.h"
 
 namespace kk {
     

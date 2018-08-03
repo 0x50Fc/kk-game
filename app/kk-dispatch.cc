@@ -6,12 +6,12 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
-#include <event.h>
-#include <evdns.h>
 #include <pthread.h>
 
 #include "kk-config.h"
 #include "kk-dispatch.h"
+#include "kk-ev.h"
+#include <queue>
 
 namespace kk {
     
@@ -25,38 +25,59 @@ namespace kk {
     
     class DispatchObject {
     public:
-        DispatchObject(DispatchFunc func,BK_DEF_ARG,bool synced):func(func),context(__BK_CTX),synced(synced) {
-            if(synced) {
+        
+        DispatchObject(DispatchFunc func,BK_DEF_ARG,bool synced):_synced(synced) {
+            if(_synced) {
                 pthread_mutex_init(&_lock, nullptr);
                 pthread_cond_init(&_cond, nullptr);
             }
+            _context = __BK_CTX;
+            if(_context) {
+                _context->retain();
+            }
+            _func = func;
         }
+        
         virtual ~DispatchObject() {
-            if(synced) {
+            if(_synced) {
                 pthread_cond_destroy(&_cond);
                 pthread_mutex_destroy(&_lock);
             }
+            if(_context) {
+                _context->release();
+            }
         }
+        
         virtual void wait(kk::Chan * chan) {
-            pthread_mutex_lock(&_lock);
-            chan->push(this);
-            pthread_cond_wait(&_cond, &_lock);
-            pthread_mutex_unlock(&_lock);
+            if(_synced) {
+                pthread_mutex_lock(&_lock);
+                chan->push(this);
+                pthread_cond_wait(&_cond, &_lock);
+                pthread_mutex_unlock(&_lock);
+            }
         }
         
         virtual void join() {
-            pthread_mutex_lock(&_lock);
-            pthread_cond_broadcast(&_cond);
-            pthread_mutex_unlock(&_lock);
+            if(_synced) {
+                pthread_mutex_lock(&_lock);
+                pthread_cond_broadcast(&_cond);
+                pthread_mutex_unlock(&_lock);
+            }
         }
         
-        DispatchFunc func;
-        kk::Strong context;
-        bool synced;
+        virtual void run(DispatchQueue * queue) {
+            if(_func != nullptr) {
+                _func(queue,_context);
+            }
+        }
+        
     protected:
         pthread_cond_t _cond;
         pthread_mutex_t _lock;
         event * _event;
+        bool _synced;
+        BlockContext * _context;
+        DispatchFunc _func;
     };
     
     void DispatchObjectRelease(kk::Chan * chan,kk::ChanObject object) {
@@ -64,15 +85,16 @@ namespace kk {
         delete v;
     }
     
-    static void DispatchQueueRunSIGPIPE(evutil_socket_t fd, short ev, void * ctx) {
-        
-        
-    }
+    static void DispatchQueueRunSIGPIPE(evutil_socket_t fd, short ev, void * ctx) {}
 
     void * DispatchQueueRun(void * data) {
         
         DispatchQueue * queue = (DispatchQueue *) data;
         
+#ifndef KK_PLATFORM_LINUX
+        pthread_setname_np(queue->name());
+#endif
+
         event_base * base = queue->base();
         
         struct event * s = evsignal_new(base, SIGPIPE, DispatchQueueRunSIGPIPE, NULL);
@@ -85,9 +107,7 @@ namespace kk {
         
         event_free(s);
         
-        if(queue->_pid != 0) {
-            pthread_exit(nullptr);
-        }
+        pthread_exit(nullptr);
         
         return nullptr;
     }
@@ -102,13 +122,9 @@ namespace kk {
                 break;
             }
             
-            if(object->func) {
-                (*object->func)(this,object->context.as<BlockContext>());
-            }
+            object->run(this);
             
-            if(object->synced) {
-                object->join();
-            }
+            object->join();
             
             _chan->releaseObject((ChanObject) object);
             
@@ -125,11 +141,11 @@ namespace kk {
         queue->loopbreak();
     }
         
-    DispatchQueue::DispatchQueue() {
+    DispatchQueue::DispatchQueue(kk::CString name):_name(name) {
         _attach = false;
         _joined = false;
         _loopbreak = false;
-        _chan = new kk::Chan();
+        _chan = new kk::Chan(DispatchObjectRelease);
         _chan->retain();
         _base = event_base_new();
         _event = evtimer_new(_base, DispatchQueueCB, this);
@@ -137,7 +153,7 @@ namespace kk {
         pthread_create(&_pid, nullptr, DispatchQueueRun, this);
     }
     
-    DispatchQueue::DispatchQueue(event_base * base) {
+    DispatchQueue::DispatchQueue(kk::CString name,event_base * base):_name(name) {
         _attach = true;
         _joined = false;
         _loopbreak = false;
@@ -154,6 +170,7 @@ namespace kk {
         
         if(_attach) {
             _chan->release();
+            evtimer_del(_event);
             event_free(_event);
         } else {
             if(!_joined) {
@@ -167,6 +184,10 @@ namespace kk {
             event_base_free(_base);
         }
         
+    }
+    
+    kk::CString DispatchQueue::name() {
+        return _name.c_str();
     }
     
     void DispatchQueue::join() {
@@ -202,6 +223,7 @@ namespace kk {
         DispatchObject * v = new DispatchObject(func,__BK_CTX,true);
         v->wait(_chan);
     }
+    
     
     
 }

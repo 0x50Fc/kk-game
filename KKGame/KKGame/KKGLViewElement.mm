@@ -18,9 +18,6 @@
 #include "kk-wk.h"
 #include "kk-http.h"
 
-#include <event.h>
-#include <evdns.h>
-
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 
@@ -207,7 +204,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     }
     
     if(_queue == nullptr) {
-        _queue = new kk::DispatchQueue(_base);
+        _queue = new kk::DispatchQueue("KKGLViewElement",_base);
         _queue->retain();
     }
     
@@ -254,6 +251,10 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
 -(void) uninstall {
     
     KKGLView * view = (KKGLView *) self.view;
+    
+    if(view == nil) {
+        return;
+    }
     
     [_lock lock];
     
@@ -351,7 +352,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     [_lock lock];
     
     if(_base != nullptr) {
-        event_base_loop(_base, EVLOOP_ONCE | EVLOOP_NONBLOCK);
+        event_base_loop(_base, EVLOOP_NONBLOCK);
     }
     
     if(_app != nullptr) {

@@ -226,183 +226,185 @@ namespace kk {
     
     void WebSocket::onReading() {
         
-        if(_state == WebSocketStateConnected) {
+        while(1) {
             
-            evbuffer * data = bufferevent_get_input(_bev);
-            
-            char * s = (char *) EVBUFFER_DATA(data);
-            char * e = s + EVBUFFER_LENGTH(data);
-            char * p = s;
-            int n = 0;
-            
-            while(p != e) {
-                if(*p == '\r') {
-                    
-                } else if(*p == '\n') {
-                    n++;
-                    if(n == 2) {
-                        p ++;
-                        break;
+            if(_state == WebSocketStateConnected) {
+                
+                evbuffer * data = bufferevent_get_input(_bev);
+                
+                char * s = (char *) EVBUFFER_DATA(data);
+                char * e = s + EVBUFFER_LENGTH(data);
+                char * p = s;
+                int n = 0;
+                
+                while(p != e) {
+                    if(*p == '\r') {
+                        
+                    } else if(*p == '\n') {
+                        n++;
+                        if(n == 2) {
+                            p ++;
+                            break;
+                        }
+                    } else {
+                        n = 0;
                     }
-                } else {
-                    n = 0;
+                    p ++ ;
                 }
-                p ++ ;
+                
+                if(n == 2) {
+                    
+                    int code = 0;
+                    char status[128];
+                    
+                    sscanf(s, "HTTP/1.1 %d %[^\r\n]\r\n",&code,status);
+                    
+                    evbuffer_drain(data, p - s);
+                    
+                    if(code == 101) {
+                        onOpen();
+                        return;
+                    } else {
+                        onClose(status);
+                        return ;
+                    }
+                    
+                }
+                
+                bufferevent_enable(_bev, EV_READ);
+                
+            } else if(_state == WebSocketStateOpened) {
+                
+                evbuffer * data = bufferevent_get_input(_bev);
+                uint8_t * p = EVBUFFER_DATA(data);
+                size_t n = EVBUFFER_LENGTH(data);
+                
+                if(_bodyType != WebSocketTypeNone && _bodyLength > 0 && n > 0) {
+                    
+                    ssize_t v = (ssize_t) _bodyLength - (ssize_t) EVBUFFER_LENGTH(_body);
+                    
+                    if(v > 0 && n >= v) {
+                        evbuffer_add(_body, p, v);
+                        evbuffer_drain(data, v);
+                        p = EVBUFFER_DATA(data);
+                        n = EVBUFFER_LENGTH(data);
+                    }
+                    
+                    if(EVBUFFER_LENGTH(_body) == _bodyLength){
+                        onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
+                        evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
+                        _bodyType = WebSocketTypeNone;
+                        _bodyLength = 0;
+                    } else {
+                        bufferevent_enable(_bev, EV_READ);
+                        return;
+                    }
+                }
+                
+                if(n >= 2) {
+                    
+                    bool isFin = (KKFinMask & p[0]);
+                    uint8_t receivedOpcode = KKOpCodeMask & p[0];
+                    bool isMasked = (KKMaskMask & p[1]);
+                    uint8_t payloadLen = (KKPayloadLenMask & p[1]);
+                    int offset = 2;
+                    
+                    if((isMasked  || (KKRSVMask & p[0])) && receivedOpcode != WebSocketOpCodePong) {
+                        this->onClose("不支持的协议");
+                        this->close();
+                        return;
+                    }
+                    
+                    bool isControlFrame = (receivedOpcode == WebSocketOpCodeConnectionClose || receivedOpcode == WebSocketOpCodePing);
+                    
+                    if(!isControlFrame && (receivedOpcode != WebSocketOpCodeBinaryFrame && receivedOpcode != WebSocketOpCodeContinueFrame && receivedOpcode != WebSocketOpCodeTextFrame && receivedOpcode != WebSocketOpCodePong)) {
+                        this->onClose("不支持的协议");
+                        this->close();
+                        return;
+                    }
+                    
+                    if(isControlFrame && !isFin) {
+                        this->onClose("不支持的协议");
+                        this->close();
+                        return;
+                    }
+                    
+                    if(receivedOpcode == WebSocketOpCodeConnectionClose) {
+                        this->onClose(nullptr);
+                        this->close();
+                        return;
+                    }
+                    
+                    if(isControlFrame && payloadLen > 125) {
+                        this->onClose("不支持的协议");
+                        this->close();
+                        return;
+                    }
+                    
+                    uint64_t dataLength = payloadLen;
+                    if(payloadLen == 127) {
+                        dataLength =  ntohll((*(uint64_t *)(p+offset)));
+                        offset += sizeof(uint64_t);
+                    } else if(payloadLen == 126) {
+                        dataLength = ntohs(*(uint16_t *)(p+offset));
+                        offset += sizeof(uint16_t);
+                    }
+                    
+                    if(n < offset) { // we cannot process this yet, nead more header data
+                        bufferevent_enable(_bev, EV_READ);
+                        return;
+                    }
+                    
+                    uint64_t len = dataLength;
+                    
+                    if(dataLength > (n-offset) || (n - offset) < dataLength) {
+                        len = n-offset;
+                    }
+                    
+                    if(receivedOpcode == WebSocketOpCodePong) {
+                        evbuffer_drain(data, (size_t) (offset + len));
+                        continue;
+                    }
+                    
+                    if(receivedOpcode == WebSocketOpCodeContinueFrame) {
+                        evbuffer_add(_body, p + offset, (size_t) len);
+                        evbuffer_drain(data, (size_t) (offset + len));
+                    } else if(receivedOpcode == WebSocketOpCodeTextFrame) {
+                        _bodyType = WebSocketTypeText;
+                        evbuffer_add(_body, p + offset, (size_t) len);
+                        evbuffer_drain(data, (size_t) (offset + len));
+                    } else if(receivedOpcode == WebSocketOpCodeBinaryFrame) {
+                        _bodyType = WebSocketTypeBinary;
+                        evbuffer_add(_body, p + offset, (size_t) len );
+                        evbuffer_drain(data, (size_t) (offset + len) );
+                    } else if(receivedOpcode == WebSocketOpCodePing) {
+                        _bodyType = WebSocketTypePing;
+                        evbuffer_add(_body, p + offset, (size_t) len);
+                        evbuffer_drain(data, (size_t) (offset + len) );
+                    } else {
+                        this->onClose("不支持的协议");
+                        this->close();
+                        return;
+                    }
+                    
+                    if(isFin && EVBUFFER_LENGTH(_body) == dataLength) {
+                        onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
+                        evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
+                        _bodyType = WebSocketTypeNone;
+                        _bodyLength = 0;
+                    } else {
+                        _bodyLength = dataLength;
+                    }
+                    
+                    continue;
+                }
+                
+                bufferevent_enable(_bev, EV_READ);
             }
             
-            if(n == 2) {
-                
-                int code = 0;
-                char status[128];
-                
-                sscanf(s, "HTTP/1.1 %d %[^\r\n]\r\n",&code,status);
-                
-                evbuffer_drain(data, p - s);
-                
-                if(code == 101) {
-                    onOpen();
-                    return;
-                } else {
-                    onClose(status);
-                    return ;
-                }
-
-            }
-            
-            bufferevent_enable(_bev, EV_READ);
-            
-        } else if(_state == WebSocketStateOpened) {
-            
-            evbuffer * data = bufferevent_get_input(_bev);
-            uint8_t * p = EVBUFFER_DATA(data);
-            size_t n = EVBUFFER_LENGTH(data);
-            
-            if(_bodyType != WebSocketTypeNone && _bodyLength > 0 && n > 0) {
-                
-                ssize_t v = (ssize_t) _bodyLength - (ssize_t) EVBUFFER_LENGTH(_body);
-                
-                if(v > 0 && n >= v) {
-                    evbuffer_add(_body, p, v);
-                    evbuffer_drain(data, v);
-                    p = EVBUFFER_DATA(data);
-                    n = EVBUFFER_LENGTH(data);
-                }
-                
-                if(EVBUFFER_LENGTH(_body) == _bodyLength){
-                    onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
-                    evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
-                    _bodyType = WebSocketTypeNone;
-                    _bodyLength = 0;
-                } else {
-                    bufferevent_enable(_bev, EV_READ);
-                    return;
-                }
-            }
-            
-            if(n >= 2) {
-                
-                bool isFin = (KKFinMask & p[0]);
-                uint8_t receivedOpcode = KKOpCodeMask & p[0];
-                bool isMasked = (KKMaskMask & p[1]);
-                uint8_t payloadLen = (KKPayloadLenMask & p[1]);
-                int offset = 2;
-                
-                if((isMasked  || (KKRSVMask & p[0])) && receivedOpcode != WebSocketOpCodePong) {
-                    this->onClose("不支持的协议");
-                    this->close();
-                    return;
-                }
-                
-                bool isControlFrame = (receivedOpcode == WebSocketOpCodeConnectionClose || receivedOpcode == WebSocketOpCodePing);
-                
-                if(!isControlFrame && (receivedOpcode != WebSocketOpCodeBinaryFrame && receivedOpcode != WebSocketOpCodeContinueFrame && receivedOpcode != WebSocketOpCodeTextFrame && receivedOpcode != WebSocketOpCodePong)) {
-                    this->onClose("不支持的协议");
-                    this->close();
-                    return;
-                }
-                
-                if(isControlFrame && !isFin) {
-                    this->onClose("不支持的协议");
-                    this->close();
-                    return;
-                }
-                
-                if(receivedOpcode == WebSocketOpCodeConnectionClose) {
-                    this->onClose(nullptr);
-                    this->close();
-                    return;
-                }
-                
-                if(isControlFrame && payloadLen > 125) {
-                    this->onClose("不支持的协议");
-                    this->close();
-                    return;
-                }
-                
-                uint64_t dataLength = payloadLen;
-                if(payloadLen == 127) {
-                    dataLength =  ntohll((*(uint64_t *)(p+offset)));
-                    offset += sizeof(uint64_t);
-                } else if(payloadLen == 126) {
-                    dataLength = ntohs(*(uint16_t *)(p+offset));
-                    offset += sizeof(uint16_t);
-                }
-                
-                if(n < offset) { // we cannot process this yet, nead more header data
-                    bufferevent_enable(_bev, EV_READ);
-                    return;
-                }
-                
-                uint64_t len = dataLength;
-                
-                if(dataLength > (n-offset) || (n - offset) < dataLength) {
-                    len = n-offset;
-                }
-
-                if(receivedOpcode == WebSocketOpCodePong) {
-                    evbuffer_drain(data, (size_t) (offset + len));
-                    onReading();
-                    return;
-                }
-                
-                if(receivedOpcode == WebSocketOpCodeContinueFrame) {
-                    evbuffer_add(_body, p + offset, (size_t) len);
-                    evbuffer_drain(data, (size_t) (offset + len));
-                } else if(receivedOpcode == WebSocketOpCodeTextFrame) {
-                    _bodyType = WebSocketTypeText;
-                    evbuffer_add(_body, p + offset, (size_t) len);
-                    evbuffer_drain(data, (size_t) (offset + len));
-                } else if(receivedOpcode == WebSocketOpCodeBinaryFrame) {
-                    _bodyType = WebSocketTypeBinary;
-                    evbuffer_add(_body, p + offset, (size_t) len );
-                    evbuffer_drain(data, (size_t) (offset + len) );
-                } else if(receivedOpcode == WebSocketOpCodePing) {
-                    _bodyType = WebSocketTypePing;
-                    evbuffer_add(_body, p + offset, (size_t) len);
-                    evbuffer_drain(data, (size_t) (offset + len) );
-                } else {
-                    this->onClose("不支持的协议");
-                    this->close();
-                    return;
-                }
-                
-                if(isFin && EVBUFFER_LENGTH(_body) == dataLength) {
-                    onData(_bodyType, EVBUFFER_DATA(_body), EVBUFFER_LENGTH(_body));
-                    evbuffer_drain(_body, EVBUFFER_LENGTH(_body));
-                    _bodyType = WebSocketTypeNone;
-                    _bodyLength = 0;
-                } else {
-                    _bodyLength = dataLength;
-                }
-                
-                onReading();
-                
-                return;
-            }
-            
-            bufferevent_enable(_bev, EV_READ);
+            break;
         }
-        
+
     }
     
     void WebSocket::onOpen() {
@@ -438,6 +440,7 @@ namespace kk {
             }
             
             onReading();
+            
             if(EVBUFFER_LENGTH(bufferevent_get_output(_bev)) > 0) {
                 bufferevent_enable(_bev, EV_WRITE);
             }

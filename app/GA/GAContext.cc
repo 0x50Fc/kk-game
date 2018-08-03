@@ -37,7 +37,7 @@ namespace kk {
         }
         
         
-        Context::Context():_current(0),_frames(30),_count(0),_startTimeInterval(0),_difference(0) {
+        Context::Context():_current(0),_frames(60),_count(0),_startTimeInterval(0),_difference(0) {
 
         }
         
@@ -64,7 +64,7 @@ namespace kk {
         }
         
         void Context::setFrames(kk::Uint frames) {
-            _frames = frames > 0 ? frames : 30;
+            _frames = frames > 0 ? frames : 60;
         }
         
         CString Context::basePath() {

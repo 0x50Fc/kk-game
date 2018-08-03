@@ -151,7 +151,7 @@ int main(int argc, const char * argv[]) {
     
     event_base * base = event_init();
     evdns_base * dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
-    kk::DispatchQueue * queue = new kk::DispatchQueue(base);
+    kk::DispatchQueue * queue = new kk::DispatchQueue("main",base);
     
     evdns_base_load_hosts(dns, "/etc/hosts");
     
