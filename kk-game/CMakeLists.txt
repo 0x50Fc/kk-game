@@ -120,6 +120,7 @@ add_library(kk-game
             src/main/jni/app/kk-wk.cc
             src/main/jni/app/kk-http.cc
             src/main/jni/app/kk-ws.cc
+            src/main/jni/app/kk-atomic-pthread.cc
             src/main/jni/app/GA/GAContext.cc
             src/main/jni/app/GA/GABody.cc
             src/main/jni/app/GA/GAScene.cc

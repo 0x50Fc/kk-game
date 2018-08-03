@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <KKGame/duk_config.h>
-#import <KKGame/duktape.h>
 #import <KKGame/KKGLContext.h>
 #import <KKGame/KKGLView.h>
 #import <KKGame/KKGLViewElement.h>

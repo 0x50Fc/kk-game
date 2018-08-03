@@ -96,7 +96,7 @@ Java_cn_kkmofang_game_Context_alloc(JNIEnv *env, jclass type, jstring basePath_)
         event_base *base = event_base_new();
         evdns_base *dns = evdns_base_new(base, EVDNS_BASE_INITIALIZE_NAMESERVERS);
 
-        kk::DispatchQueue *queue = new kk::DispatchQueue(base);
+        kk::DispatchQueue *queue = new kk::DispatchQueue("main",base);
 
         queue->retain();
 

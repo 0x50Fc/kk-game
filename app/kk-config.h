@@ -14,6 +14,7 @@
 #include <math.h>
 #include <assert.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 
 #if defined(__APPLE__)
