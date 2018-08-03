@@ -215,8 +215,11 @@ namespace kk {
                     if(duk_is_function(ctx, -1)) {
                         
                         if(_bodyType == HttpBodyTypeJSON) {
-                            duk_push_lstring(ctx, (const char *) data, n);
-                            duk_json_decode(ctx, -1);
+                            
+                            if(kk::script::decodeJSON(ctx, (const char *) data, n) != DUK_EXEC_SUCCESS) {
+                                kk::script::Error(ctx, -1);
+                            }
+
                         } else if(_bodyType == HttpBodyTypeBytes) {
                             void * d = duk_push_fixed_buffer(ctx, n);
                             memcpy(d, data, n);

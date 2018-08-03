@@ -317,9 +317,9 @@ namespace kk {
                 
                 duk_context * ctx = jsContext.as<kk::script::Context>()->jsContext();
                 
-                duk_push_string(ctx, vv.c_str());
-                
-                duk_json_decode(ctx, -1);
+                if(kk::script::decodeJSON(ctx, vv.c_str(), vv.size()) != DUK_EXEC_SUCCESS) {
+                    kk::script::Error(ctx, -1);
+                }
                 
                 if(duk_is_object(ctx, -1)) {
                     kk::CString vsh = Y_toString(ctx, -1, "vsh",nullptr);

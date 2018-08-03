@@ -571,5 +571,15 @@ namespace kk {
             }
         }
         
+        static duk_ret_t decodeJSON_func (duk_context *ctx, void *udata) {
+            duk_json_decode(ctx, -1);
+            return 1;
+        }
+        
+        duk_int_t decodeJSON(duk_context * ctx, kk::CString text, size_t n) {
+            duk_push_lstring(ctx, text, n);
+            return duk_safe_call(ctx, decodeJSON_func, nullptr, 1, 1);
+        }
+        
     }
 }

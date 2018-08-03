@@ -131,8 +131,9 @@ namespace kk {
             
             kk::String v = context->getString(kk::CStringPathAppend(basePath.c_str(), path).c_str());
             
-            duk_push_string(ctx, v.c_str());
-            duk_json_decode(ctx, -1);
+            if(kk::script::decodeJSON(ctx, v.c_str(), v.size())) {
+                kk::script::Error(ctx, -1);
+            }
             
             width = Y_toInt(ctx, -1, "imagewidth");
             height = Y_toInt(ctx, -1, "imageheight");
@@ -535,9 +536,9 @@ namespace kk {
                         kk::script::PushObject(ctx, this);
                         kk::script::PushObject(ctx, context);
                         
-                        duk_push_string(ctx,vv.c_str());
-                        
-                        duk_json_decode(ctx, -1);
+                        if(kk::script::decodeJSON(ctx, vv.c_str(), vv.size()) != DUK_EXEC_SUCCESS) {
+                            kk::script::Error(ctx, -1);
+                        }
                         
                         YObjectSet(this, ctx, -1);
                         

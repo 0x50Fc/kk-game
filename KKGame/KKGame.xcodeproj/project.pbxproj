@@ -291,20 +291,6 @@
 			remoteGlobalIDString = 1AE23FE42022F361001FFB58;
 			remoteInfo = KKGame;
 		};
-		1AA7E68C211416CA00DDFC7A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1AFD6C1E2112AA0F0038234E;
-			remoteInfo = KKEvent;
-		};
-		1AA7E68E211416CA00DDFC7A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 1AFD6BFC2112A8660038234E;
-			remoteInfo = KKDuktape;
-		};
 		1AFD6C432112AC110038234E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
@@ -1143,8 +1129,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				1AA7E68D211416CA00DDFC7A /* PBXTargetDependency */,
-				1AA7E68F211416CA00DDFC7A /* PBXTargetDependency */,
 			);
 			name = app;
 			productName = app;
@@ -1530,16 +1514,6 @@
 			isa = PBXTargetDependency;
 			target = 1AE23FE42022F361001FFB58 /* KKGame */;
 			targetProxy = 1A289BA6205228F200E407F2 /* PBXContainerItemProxy */;
-		};
-		1AA7E68D211416CA00DDFC7A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKEvent;
-			targetProxy = 1AA7E68C211416CA00DDFC7A /* PBXContainerItemProxy */;
-		};
-		1AA7E68F211416CA00DDFC7A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KKDuktape;
-			targetProxy = 1AA7E68E211416CA00DDFC7A /* PBXContainerItemProxy */;
 		};
 		1AFD6C512112AD3D0038234E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

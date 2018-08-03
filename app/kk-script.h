@@ -120,6 +120,9 @@ namespace kk {
         
         void SetMethod(duk_context * ctx, duk_idx_t idx, Method * methods, kk::Uint count);
         
+        duk_int_t decodeJSON(duk_context * ctx, kk::CString text, size_t n);
+        
+        
 #define DEF_SCRIPT_CLASS \
     public: \
         static kk::script::Class ScriptClass; \
