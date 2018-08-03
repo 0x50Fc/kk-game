@@ -198,7 +198,7 @@ Java_cn_kkmofang_game_Context_exec(JNIEnv *env, jclass type, jlong ptr) {
     kk::Application * app = getApp(ctx);
 
     if(base) {
-        event_base_loop(base,EVLOOP_ONCE | EVLOOP_NONBLOCK);
+        event_base_loop(base,EVLOOP_NONBLOCK);
     }
 
     if(app) {

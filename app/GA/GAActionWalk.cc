@@ -135,6 +135,14 @@ namespace kk {
                     
                     if(v > _distance) {
                         
+                        _landing = true;
+                        
+                        ::cpBody * cpBody = body->cpBody();
+                        
+                        if(cpBody) {
+                            cpBodySetVelocity(cpBody, {0,0});
+                        }
+                        
                         kk::Strong vv = new kk::ElementEvent();
                         kk::ElementEvent * e = vv.as<kk::ElementEvent>();
                         
@@ -142,7 +150,6 @@ namespace kk {
                         
                         body->emit("done", e);
                         
-                        _landing = true;
                     } else {
                         _distance = v;
                     }
@@ -165,6 +172,23 @@ namespace kk {
             } else if(key == "duration") {
                 duration = floatValue(get(key));
                 _startTimeInterval = 0;
+            }
+            
+            if(speed <=0 || !_enabled) {
+                
+                Body * body = this->body();
+                
+                if(body) {
+                    
+                    ::cpBody * cpBody = body->cpBody();
+                    
+                    if(cpBody) {
+                        cpBodySetVelocity(cpBody, {0,0});
+                    }
+                    
+                }
+                
+                
             }
             
             _hasUpdate = true;
@@ -214,6 +238,7 @@ namespace kk {
                 
                 _navigateStartTimeInterval = 0;
                 _navigateState = ActionWalkNavigateStateNavigating;
+                _landing = true;
             }
             return 0;
         }

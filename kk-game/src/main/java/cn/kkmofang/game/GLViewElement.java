@@ -55,21 +55,6 @@ public class GLViewElement extends ViewElement {
         return GLSurfaceView.class;
     }
 
-    public void onPause(Activity activity) {
-        View v = view();
-        if(v != null && v instanceof GLSurfaceView) {
-            ((GLSurfaceView) v).onPause();
-        }
-        super.onPause(activity);
-    }
-
-    public void onResume(Activity activity) {
-        View v = view();
-        if(v != null && v instanceof GLSurfaceView) {
-            ((GLSurfaceView) v).onResume();
-        }
-        super.onResume(activity);
-    }
 
     public void emit(MotionEvent event) {
 
@@ -183,7 +168,7 @@ public class GLViewElement extends ViewElement {
 
             glView.setEGLContextClientVersion(2);
             glView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
-
+            glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
             glView.setRenderer(new GLSurfaceView.Renderer() {
 
                 @Override
