@@ -483,6 +483,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
         
         NSMutableArray * items = [NSMutableArray arrayWithCapacity:4];
         
+        data[@"count"] = @([[event touchesForView:view] count]);
         data[@"items"] = items;
         
         for(UITouch * touch in touches) {

@@ -46,6 +46,7 @@ static void main_stdin_bufferevent_data_cb(struct bufferevent *bev, void *ctx) {
                 v ++ ;
                 p = v;
                 
+                app->exit();
                 event_base_loopbreak(bufferevent_get_base(bev));
                 break;
             }

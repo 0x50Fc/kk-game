@@ -38,6 +38,8 @@ namespace kk {
         virtual void exec();
         virtual void run();
         virtual kk::Boolean isRunning();
+        virtual kk::Boolean isExiting();
+        virtual void exit();
         virtual void runCommand(kk::CString command);
         virtual kk::Uint64 appid();
         virtual void installContext(duk_context * ctx);
@@ -47,6 +49,7 @@ namespace kk {
         Strong _GAElement;
         kk::Uint64 _appid;
         kk::Boolean _running;
+        kk::Boolean _exiting;
     };
     
     

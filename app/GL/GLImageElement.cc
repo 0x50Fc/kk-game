@@ -191,6 +191,11 @@ namespace kk {
                     
                 }
                 
+#ifdef KK_PLATFORM_OSX
+                glBlendFunc(GL_SRC_ALPHA , GL_ONE_MINUS_SRC_ALPHA);
+#else
+                glBlendFunc(GL_ONE , GL_ONE_MINUS_SRC_ALPHA);
+#endif
                 
                 context->drawTexture(v, GL_TRIANGLES, (TextureVertex *) _points.data(), (kk::Uint) _points.size());
             }

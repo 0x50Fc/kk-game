@@ -122,7 +122,7 @@ namespace kk {
         v->ctx = ctx;
         v->event = evtimer_new(base, ev_Timeout_cb, v);
         v->tv.tv_sec = rv / 1000;
-        v->tv.tv_usec = (rv % 1000) * 1000;
+        v->tv.tv_usec = (rv % 1000) * 1000LL;
         
         duk_push_global_object(ctx);
         
@@ -143,9 +143,11 @@ namespace kk {
         duk_put_prop(ctx, -3);
         
         duk_pop(ctx);
+
+        struct timeval tvv = {tv / 1000, 0};
         
-        struct timeval tvv = {tv / 1000, (tv % 1000) * 1000};
-        
+        tvv.tv_usec = (tv % 1000) * 1000LL;
+
         evtimer_add(v->event, &tvv);
         
         duk_push_sprintf(ctx, "__0x%x",(long) v);

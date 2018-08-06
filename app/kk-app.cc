@@ -178,7 +178,7 @@ namespace kk {
 
     kk::Float Kernel = 1.0;
     
-    Application::Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext):_appid(appid),_running(false) {
+    Application::Application(CString basePath,kk::Uint64 appid,kk::script::Context * jsContext):_appid(appid),_running(false),_exiting(false) {
         
         _jsContext = jsContext;
 #ifdef KK_APP_GL
@@ -393,6 +393,14 @@ namespace kk {
     
     kk::Uint64 Application::appid() {
         return _appid;
+    }
+    
+    kk::Boolean Application::isExiting() {
+        return _exiting;
+    }
+    
+    void Application::exit() {
+        _exiting = true;
     }
     
 }
