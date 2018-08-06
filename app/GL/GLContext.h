@@ -18,8 +18,13 @@
 
 #if defined(__APPLE__)
 
+#if TARGET_OS_OSX
+#include <OpenGL/OpenGL.h>
+#include <OpenGL/gl.h>
+#else
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
+#endif
 
 #elif defined(__ANDROID_API__)
 

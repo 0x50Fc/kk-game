@@ -269,6 +269,62 @@
 		1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
 		1AFD6C862112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
 		1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
+		ACBC6D5B21169873005C6A65 /* kk-view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACBC6D5A21169873005C6A65 /* kk-view.cpp */; };
+		ACBC6D5D21169ABD005C6A65 /* GLContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A659520284CCB008DA5A3 /* GLContext.cc */; };
+		ACBC6D5E21169ABD005C6A65 /* GLImageElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A66182029B8EE008DA5A3 /* GLImageElement.cc */; };
+		ACBC6D5F21169ABD005C6A65 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
+		ACBC6D6021169ABD005C6A65 /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
+		ACBC6D6121169ABD005C6A65 /* GLTextElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A00E55E204E5B4A00B2741D /* GLTextElement.cc */; };
+		ACBC6D6221169ABD005C6A65 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
+		ACBC6D6321169ABD005C6A65 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
+		ACBC6D6421169ABD005C6A65 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
+		ACBC6D6521169ABD005C6A65 /* GLShapeElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFAE2092FACE00224854 /* GLShapeElement.cc */; };
+		ACBC6D6621169ABD005C6A65 /* GLSpineElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7734A20996EBF0091283D /* GLSpineElement.cc */; };
+		ACBC6D6721169ABD005C6A65 /* GLMetaElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */; };
+		ACBC6D6921169B68005C6A65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D6821169B68005C6A65 /* OpenGL.framework */; };
+		ACBC6D6A21169BB2005C6A65 /* AttachmentLoader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745D20998C060091283D /* AttachmentLoader.c */; };
+		ACBC6D6B21169BB2005C6A65 /* Json.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745E20998C060091283D /* Json.c */; };
+		ACBC6D6C21169BB2005C6A65 /* Skeleton.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745F20998C060091283D /* Skeleton.c */; };
+		ACBC6D6D21169BB2005C6A65 /* extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746020998C060091283D /* extension.c */; };
+		ACBC6D6E21169BB2005C6A65 /* PathConstraintData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746120998C060091283D /* PathConstraintData.c */; };
+		ACBC6D6F21169BB2005C6A65 /* Array.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746220998C060091283D /* Array.c */; };
+		ACBC6D7021169BB2005C6A65 /* TransformConstraintData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746320998C060091283D /* TransformConstraintData.c */; };
+		ACBC6D7121169BB2005C6A65 /* SkeletonBinary.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746420998C060091283D /* SkeletonBinary.c */; };
+		ACBC6D7221169BB2005C6A65 /* VertexEffect.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746520998C060091283D /* VertexEffect.c */; };
+		ACBC6D7321169BB2005C6A65 /* Skin.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746620998C060091283D /* Skin.c */; };
+		ACBC6D7421169BB2005C6A65 /* SkeletonData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746720998C060091283D /* SkeletonData.c */; };
+		ACBC6D7521169BB2005C6A65 /* BoundingBoxAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746820998C060091283D /* BoundingBoxAttachment.c */; };
+		ACBC6D7621169BB2005C6A65 /* IkConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746920998C060091283D /* IkConstraint.c */; };
+		ACBC6D7721169BB2005C6A65 /* PathConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746A20998C060091283D /* PathConstraint.c */; };
+		ACBC6D7821169BB2005C6A65 /* MeshAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746B20998C060091283D /* MeshAttachment.c */; };
+		ACBC6D7921169BB2005C6A65 /* AnimationState.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746C20998C060091283D /* AnimationState.c */; };
+		ACBC6D7A21169BB2005C6A65 /* AtlasAttachmentLoader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746D20998C060091283D /* AtlasAttachmentLoader.c */; };
+		ACBC6D7B21169BB2005C6A65 /* BoneData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746E20998C060091283D /* BoneData.c */; };
+		ACBC6D7C21169BB2005C6A65 /* SkeletonBounds.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746F20998C060091283D /* SkeletonBounds.c */; };
+		ACBC6D7D21169BB2005C6A65 /* Slot.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747020998C060091283D /* Slot.c */; };
+		ACBC6D7E21169BB2005C6A65 /* EventData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747120998C060091283D /* EventData.c */; };
+		ACBC6D7F21169BB2005C6A65 /* SlotData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747320998C060091283D /* SlotData.c */; };
+		ACBC6D8021169BB2005C6A65 /* Animation.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747420998C060091283D /* Animation.c */; };
+		ACBC6D8121169BB2005C6A65 /* Event.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747620998C060091283D /* Event.c */; };
+		ACBC6D8221169BB2005C6A65 /* PointAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747720998C060091283D /* PointAttachment.c */; };
+		ACBC6D8321169BB2005C6A65 /* Bone.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747820998C060091283D /* Bone.c */; };
+		ACBC6D8421169BB2005C6A65 /* Atlas.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747920998C060091283D /* Atlas.c */; };
+		ACBC6D8521169BB2005C6A65 /* PathAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747A20998C060091283D /* PathAttachment.c */; };
+		ACBC6D8621169BB2005C6A65 /* SkeletonClipping.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747B20998C060091283D /* SkeletonClipping.c */; };
+		ACBC6D8721169BB2005C6A65 /* ClippingAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747C20998C060091283D /* ClippingAttachment.c */; };
+		ACBC6D8821169BB2005C6A65 /* VertexAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747D20998C060091283D /* VertexAttachment.c */; };
+		ACBC6D8921169BB2005C6A65 /* SkeletonJson.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747E20998C060091283D /* SkeletonJson.c */; };
+		ACBC6D8A21169BB2005C6A65 /* AnimationStateData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747F20998C060091283D /* AnimationStateData.c */; };
+		ACBC6D8B21169BB2005C6A65 /* IkConstraintData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748020998C060091283D /* IkConstraintData.c */; };
+		ACBC6D8C21169BB2005C6A65 /* TransformConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748120998C060091283D /* TransformConstraint.c */; };
+		ACBC6D8D21169BB2005C6A65 /* Color.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748220998C060091283D /* Color.c */; };
+		ACBC6D8E21169BB2005C6A65 /* Triangulator.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748320998C060091283D /* Triangulator.c */; };
+		ACBC6D8F21169BB2005C6A65 /* Attachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748420998C060091283D /* Attachment.c */; };
+		ACBC6D9021169BB2005C6A65 /* RegionAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748520998C060091283D /* RegionAttachment.c */; };
+		ACBC6D9121169BC9005C6A65 /* GLSLTexture.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A660F20297D68008DA5A3 /* GLSLTexture.cc */; };
+		ACBC6D9221169BC9005C6A65 /* GLSLFillColor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65AA1A20440F140001B38A /* GLSLFillColor.cc */; };
+		ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9521169EB8005C6A65 /* Cocoa.framework */; };
+		ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9921169F22005C6A65 /* CoreVideo.framework */; };
 		E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE992052605200358A85 /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
 		E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E951BE972052605200358A85 /* GLMinimapElement.h */; };
@@ -592,6 +648,13 @@
 		1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKDuktape.xcodeproj; path = "../../kk-duktape/KKDuktape/KKDuktape.xcodeproj"; sourceTree = "<group>"; };
 		1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKEvent.xcodeproj; path = "../../kk-event/KKEvent/KKEvent.xcodeproj"; sourceTree = "<group>"; };
 		1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-atomic-pthread.cc"; sourceTree = "<group>"; };
+		ACBC6D5A21169873005C6A65 /* kk-view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-view.cpp"; sourceTree = "<group>"; };
+		ACBC6D5C21169882005C6A65 /* kk-view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-view.h"; sourceTree = "<group>"; };
+		ACBC6D6821169B68005C6A65 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		ACBC6D9321169EA4005C6A65 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		ACBC6D9521169EB8005C6A65 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		ACBC6D9721169ECB005C6A65 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		ACBC6D9921169F22005C6A65 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
 		E951BE962052605200358A85 /* GLMinimapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLMinimapElement.cc; sourceTree = "<group>"; };
 		E951BE972052605200358A85 /* GLMinimapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMinimapElement.h; sourceTree = "<group>"; };
 		E9F4A8A02105AF0700EAB83D /* KKWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKWebSocket.xcodeproj; path = ../../KKWebSocket/KKWebSocket/KKWebSocket.xcodeproj; sourceTree = "<group>"; };
@@ -618,6 +681,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */,
+				ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */,
+				ACBC6D6921169B68005C6A65 /* OpenGL.framework in Frameworks */,
 				1A9EEB0A209C2BDA004A8283 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,6 +717,11 @@
 		1A0A657F2028287E008DA5A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACBC6D9921169F22005C6A65 /* CoreVideo.framework */,
+				ACBC6D9721169ECB005C6A65 /* CoreGraphics.framework */,
+				ACBC6D9521169EB8005C6A65 /* Cocoa.framework */,
+				ACBC6D9321169EA4005C6A65 /* CoreFoundation.framework */,
+				ACBC6D6821169B68005C6A65 /* OpenGL.framework */,
 				1AC5F4882090832200AB01D7 /* libz.tbd */,
 				1AD772EF2094918B0091283D /* libz.tbd */,
 				1A0A663B202C0363008DA5A3 /* libxml2.tbd */,
@@ -793,6 +864,8 @@
 			isa = PBXGroup;
 			children = (
 				1AA7E6AC21141A4500DDFC7A /* duktape */,
+				ACBC6D5C21169882005C6A65 /* kk-view.h */,
+				ACBC6D5A21169873005C6A65 /* kk-view.cpp */,
 				1A9EEAAC209C2B3F004A8283 /* main.cpp */,
 			);
 			path = app;
@@ -1320,65 +1393,118 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACBC6D7D21169BB2005C6A65 /* Slot.c in Sources */,
+				ACBC6D9121169BC9005C6A65 /* GLSLTexture.cc in Sources */,
 				1A9EEB04209C2BBE004A8283 /* cpSpaceHash.c in Sources */,
+				ACBC6D6221169ABD005C6A65 /* GLMinimapElement.cc in Sources */,
 				1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */,
+				ACBC6D7F21169BB2005C6A65 /* SlotData.c in Sources */,
+				ACBC6D6A21169BB2005C6A65 /* AttachmentLoader.c in Sources */,
 				1AB72C98210F27B700187085 /* kk-binary.cc in Sources */,
 				1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */,
 				1AA7E6B021141A4500DDFC7A /* duktape.c in Sources */,
+				ACBC6D6F21169BB2005C6A65 /* Array.c in Sources */,
 				1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */,
+				ACBC6D7B21169BB2005C6A65 /* BoneData.c in Sources */,
 				1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */,
 				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
+				ACBC6D7021169BB2005C6A65 /* TransformConstraintData.c in Sources */,
+				ACBC6D8721169BB2005C6A65 /* ClippingAttachment.c in Sources */,
+				ACBC6D5B21169873005C6A65 /* kk-view.cpp in Sources */,
+				ACBC6D7A21169BB2005C6A65 /* AtlasAttachmentLoader.c in Sources */,
 				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
 				1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */,
+				ACBC6D9021169BB2005C6A65 /* RegionAttachment.c in Sources */,
 				1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */,
 				1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */,
+				ACBC6D7321169BB2005C6A65 /* Skin.c in Sources */,
 				1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */,
+				ACBC6D6D21169BB2005C6A65 /* extension.c in Sources */,
 				1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */,
 				1A9EEAF5209C2BBE004A8283 /* cpHastySpace.c in Sources */,
+				ACBC6D6121169ABD005C6A65 /* GLTextElement.cc in Sources */,
+				ACBC6D8121169BB2005C6A65 /* Event.c in Sources */,
 				1A9EEAFA209C2BBE004A8283 /* cpPolyShape.c in Sources */,
 				1A9EEB03209C2BBE004A8283 /* cpSpaceDebug.c in Sources */,
 				1A9EEB02209C2BBE004A8283 /* cpSpaceComponent.c in Sources */,
+				ACBC6D8A21169BB2005C6A65 /* AnimationStateData.c in Sources */,
+				ACBC6D5E21169ABD005C6A65 /* GLImageElement.cc in Sources */,
+				ACBC6D7221169BB2005C6A65 /* VertexEffect.c in Sources */,
+				ACBC6D6521169ABD005C6A65 /* GLShapeElement.cc in Sources */,
+				ACBC6D7C21169BB2005C6A65 /* SkeletonBounds.c in Sources */,
 				1A9EEAB7209C2B4D004A8283 /* GADocument.cc in Sources */,
 				1A9EEB06209C2BBE004A8283 /* cpSpaceStep.c in Sources */,
 				1A9EEAB8209C2B4D004A8283 /* GATileMap.cc in Sources */,
+				ACBC6D8621169BB2005C6A65 /* SkeletonClipping.c in Sources */,
+				ACBC6D7421169BB2005C6A65 /* SkeletonData.c in Sources */,
 				1A9EEAFE209C2BBE004A8283 /* cpShape.c in Sources */,
 				1A9EEAEB209C2BBE004A8283 /* cpArray.c in Sources */,
 				1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */,
+				ACBC6D7921169BB2005C6A65 /* AnimationState.c in Sources */,
+				ACBC6D8321169BB2005C6A65 /* Bone.c in Sources */,
+				ACBC6D6421169ABD005C6A65 /* GLTileMapElement.cc in Sources */,
 				1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */,
+				ACBC6D8C21169BB2005C6A65 /* TransformConstraint.c in Sources */,
+				ACBC6D5F21169ABD005C6A65 /* GLAnimation.cc in Sources */,
 				1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */,
+				ACBC6D7621169BB2005C6A65 /* IkConstraint.c in Sources */,
 				1A9EEB05209C2BBE004A8283 /* cpSpaceQuery.c in Sources */,
 				1A2866F3210F051E008A5B3B /* kk-dispatch.cc in Sources */,
 				1A9EEAB5209C2B4D004A8283 /* GAAction.cc in Sources */,
 				1A9EEAEE209C2BBE004A8283 /* cpCollision.c in Sources */,
+				ACBC6D7521169BB2005C6A65 /* BoundingBoxAttachment.c in Sources */,
 				1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */,
 				1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */,
+				ACBC6D6621169ABD005C6A65 /* GLSpineElement.cc in Sources */,
+				ACBC6D8921169BB2005C6A65 /* SkeletonJson.c in Sources */,
 				1A9EEABE209C2B4D004A8283 /* kk-crypto.cc in Sources */,
 				1A9EEAB9209C2B4D004A8283 /* kk-object.cc in Sources */,
 				1A9EEAF3209C2BBE004A8283 /* cpGrooveJoint.c in Sources */,
 				1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */,
 				1A9EEAF6209C2BBE004A8283 /* cpMarch.c in Sources */,
+				ACBC6D6B21169BB2005C6A65 /* Json.c in Sources */,
 				1AB72C95210F12BA00187085 /* kk-block.cc in Sources */,
 				1A9EEAB4209C2B4D004A8283 /* GABody.cc in Sources */,
 				1A2866F0210EFE28008A5B3B /* kk-wk.cc in Sources */,
 				1A9EEB01209C2BBE004A8283 /* cpSpace.c in Sources */,
 				1A9EEAB1209C2B4D004A8283 /* GAContext.cc in Sources */,
+				ACBC6D8821169BB2005C6A65 /* VertexAttachment.c in Sources */,
+				ACBC6D8021169BB2005C6A65 /* Animation.c in Sources */,
+				ACBC6D8D21169BB2005C6A65 /* Color.c in Sources */,
+				ACBC6D8F21169BB2005C6A65 /* Attachment.c in Sources */,
+				ACBC6D6E21169BB2005C6A65 /* PathConstraintData.c in Sources */,
+				ACBC6D7821169BB2005C6A65 /* MeshAttachment.c in Sources */,
 				1AB72C99210F27C200187085 /* kk-chan.cc in Sources */,
+				ACBC6D8521169BB2005C6A65 /* PathAttachment.c in Sources */,
 				1A9EEAB2209C2B4D004A8283 /* GAScene.cc in Sources */,
+				ACBC6D6321169ABD005C6A65 /* GLViewportElement.cc in Sources */,
 				1A9EEAF0209C2BBE004A8283 /* cpDampedRotarySpring.c in Sources */,
 				1A9EEAF9209C2BBE004A8283 /* cpPolyline.c in Sources */,
 				1A9EEAFC209C2BBE004A8283 /* cpRobust.c in Sources */,
 				1A9EEABA209C2B4D004A8283 /* kk-string.cc in Sources */,
+				ACBC6D6021169ABD005C6A65 /* GLSliceMapElement.cc in Sources */,
 				1A9EEAF7209C2BBE004A8283 /* cpPinJoint.c in Sources */,
+				ACBC6D7721169BB2005C6A65 /* PathConstraint.c in Sources */,
 				1A9EEAB3209C2B4D004A8283 /* GAShape.cc in Sources */,
+				ACBC6D5D21169ABD005C6A65 /* GLContext.cc in Sources */,
+				ACBC6D6721169ABD005C6A65 /* GLMetaElement.cc in Sources */,
+				ACBC6D8B21169BB2005C6A65 /* IkConstraintData.c in Sources */,
+				ACBC6D6C21169BB2005C6A65 /* Skeleton.c in Sources */,
+				ACBC6D8421169BB2005C6A65 /* Atlas.c in Sources */,
 				1A9EEAEC209C2BBE004A8283 /* cpBBTree.c in Sources */,
+				ACBC6D8221169BB2005C6A65 /* PointAttachment.c in Sources */,
+				ACBC6D7121169BB2005C6A65 /* SkeletonBinary.c in Sources */,
 				1A9EEAF8209C2BBE004A8283 /* cpPivotJoint.c in Sources */,
 				1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */,
 				1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */,
 				1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */,
 				1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */,
+				ACBC6D7E21169BB2005C6A65 /* EventData.c in Sources */,
 				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
+				ACBC6D9221169BC9005C6A65 /* GLSLFillColor.cc in Sources */,
 				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
 				1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */,
+				ACBC6D8E21169BB2005C6A65 /* Triangulator.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1627,14 +1753,27 @@
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
 					/usr/local/opt/openssl/include,
+					../lib,
+					../lib/spine/include,
+					../lib/glfw/drawin/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					/usr/local/opt/openssl/lib,
+					../lib/glfw/drawin,
+					../lib/libpng/drawin,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_CFLAGS = "-DNDEBUG";
-				OTHER_LDFLAGS = "-levent";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DKK_APP_GL",
+					"-DKK_GL_VIEW",
+				);
+				OTHER_LDFLAGS = (
+					"-levent",
+					"-lglfw3",
+					"-lpng",
+				);
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
 			};
@@ -1654,14 +1793,27 @@
 					/usr/local/include,
 					../lib/Chipmunk2D/include,
 					/usr/local/opt/openssl/include,
+					../lib,
+					../lib/spine/include,
+					../lib/glfw/drawin/include,
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
 					/usr/local/opt/openssl/lib,
+					../lib/glfw/drawin,
+					../lib/libpng/drawin,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				OTHER_CFLAGS = "-DNDEBUG";
-				OTHER_LDFLAGS = "-levent";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DKK_APP_GL",
+					"-DKK_GL_VIEW",
+				);
+				OTHER_LDFLAGS = (
+					"-levent",
+					"-lglfw3",
+					"-lpng",
+				);
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
 			};

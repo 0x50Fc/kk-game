@@ -16,6 +16,12 @@
 #include <event.h>
 #include <unistd.h>
 
+#ifdef KK_GL_VIEW
+
+#include "kk-view.h"
+
+#endif
+
 static void main_stdin_bufferevent_data_cb(struct bufferevent *bev, void *ctx) {
     
     kk::Application * app = (kk::Application *) ctx;
@@ -57,6 +63,8 @@ static void main_stdin_bufferevent_data_cb(struct bufferevent *bev, void *ctx) {
     bufferevent_enable(bev, EV_READ);
 }
 
+#ifndef KK_GL_VIEW
+
 static event * app_ev_exec;
 
 static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
@@ -69,6 +77,8 @@ static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
     timeval tv = {0, (int) (1000000 / frames)};
     evtimer_add(app_ev_exec, &tv);
 }
+
+#endif
 
 static void app_sigpipe(evutil_socket_t fd, short ev, void * ctx) {
     
@@ -177,6 +187,8 @@ int main(int argc, const char * argv[]) {
     
     bufferevent_enable(ev_stdin, EV_READ);
     
+#ifndef KK_GL_VIEW
+    
     app_ev_exec =  evtimer_new(base, app_ev_exec_cb, app);
     
     kk::Uint frames = app->GAContext()->frames();
@@ -184,20 +196,30 @@ int main(int argc, const char * argv[]) {
     timeval tv = {0, (int) (1000000 / frames)};
     
     evtimer_add(app_ev_exec, &tv);
-
+    
+#endif
+    
     struct event *sigpipe = evsignal_new(base, SIGPIPE, app_sigpipe, NULL);
     
     evsignal_add(sigpipe, NULL);
     
+#ifdef KK_GL_VIEW
+    kk::view(app,base,dns);
+#else
     event_base_dispatch(base);
+#endif
     
     evsignal_del(sigpipe);
     
     event_free(sigpipe);
+ 
+#ifndef KK_GL_VIEW
     
     evtimer_del(app_ev_exec);
     
     event_free(app_ev_exec);
+    
+#endif
     
     evdns_base_free(dns, 0);
     
