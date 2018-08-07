@@ -11,7 +11,8 @@
 #include <OpenGLES/ES2/gl.h>
 #include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/EAGL.h>
-#include <KKDuktape/KKDuktape.h>
+
+struct duk_hthread;
 
 @interface KKGLContext : EAGLContext
 
@@ -21,9 +22,9 @@
 
 -(void) recycle;
 
-+(void) JSContextPushObject:(id) object ctx:(duk_context * )ctx;
++(void) JSContextPushObject:(id) object ctx:(struct duk_hthread * )ctx;
 
-+(id) JSContextToObject:(duk_idx_t) idx ctx:(duk_context * )ctx;
++(id) JSContextToObject:(int) idx ctx:(struct duk_hthread * )ctx;
 
 @end
 

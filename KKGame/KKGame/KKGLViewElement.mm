@@ -352,7 +352,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     [_lock lock];
     
     if(_base != nullptr) {
-        event_base_loop(_base, EVLOOP_NONBLOCK);
+        event_base_loop(_base, EVLOOP_ONCE | EVLOOP_NONBLOCK);
     }
     
     if(_app != nullptr) {
@@ -449,8 +449,14 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     
     if([event isKindOfClass:[KKElementEvent class]] && [@"reopen" isEqualToString:name]) {
         [(KKElementEvent *) event setCancelBubble:YES];
-        [self uninstall];
-        [self install];
+        
+        dispatch_queue_t queue = [(KKGLView *) self.view queue];
+        
+        if(queue != nil) {
+            [self uninstall];
+            [self install];
+        }
+        
         return;
     }
     

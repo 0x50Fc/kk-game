@@ -133,7 +133,7 @@ namespace kk {
                     
                     Float v = cpvlength({this->x - p.x,this->y - p.y});
                     
-                    if(v > _distance) {
+                    if(v > _distance || v < 5) {
                         
                         _landing = true;
                         
@@ -141,6 +141,10 @@ namespace kk {
                         
                         if(cpBody) {
                             cpBodySetVelocity(cpBody, {0,0});
+                            cpBodySetPosition(cpBody, {this->x,this->y});
+                            p.x = this->x;
+                            p.y = this->y;
+                            body->setPosition(p);
                         }
                         
                         kk::Strong vv = new kk::ElementEvent();

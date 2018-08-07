@@ -29,6 +29,7 @@
 
 #import <KKApplication/KKApplication.h>
 #import <CommonCrypto/CommonCrypto.h>
+#include <KKDuktape/KKDuktape.h>
 
 @interface KKGLContext() {
     BOOL _recycle;

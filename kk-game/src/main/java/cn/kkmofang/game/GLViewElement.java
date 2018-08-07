@@ -115,6 +115,8 @@ public class GLViewElement extends ViewElement {
 
         }
 
+        Log.d("kk","[GL] [TOUCH]");
+
         _context.post(new Runnable() {
             @Override
             public void run() {
