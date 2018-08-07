@@ -157,7 +157,7 @@ namespace kk {
         _attach = true;
         _joined = false;
         _loopbreak = false;
-        _chan = new kk::Chan();
+        _chan = new kk::Chan(DispatchObjectRelease);
         _chan->retain();
         _base = base;
         _event = evtimer_new(_base, DispatchQueueCB, this);

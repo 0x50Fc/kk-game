@@ -176,6 +176,11 @@ namespace kk {
     }
     
     void BinaryDealloc(Binary * binary) {
+        
+        if(binary == nullptr) {
+            return;
+        }
+        
         if(binary->next) {
             BinaryDealloc(binary->next);
         }
