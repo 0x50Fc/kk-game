@@ -28,7 +28,6 @@ namespace kk {
         
         class Body : public Element ,public IPosition {
         public:
-            Body();
             virtual ~Body();
             virtual Point position();
             virtual void setPosition(Point value);
@@ -46,7 +45,9 @@ namespace kk {
             virtual duk_ret_t duk_position(duk_context * ctx);
             virtual duk_ret_t duk_setPosition(duk_context * ctx);
             
-        DEF_SCRIPT_CLASS
+            DEF_SCRIPT_CLASS_NOALLOC
+            
+            KK_DEF_ELEMENT_CREATE(Body)
         
         protected:
             Point _position;

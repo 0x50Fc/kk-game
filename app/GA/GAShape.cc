@@ -11,13 +11,22 @@
 #include "GABody.h"
 #include "GAScene.h"
 #include <chipmunk/chipmunk.h>
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-string.h"
+
+#endif
 
 namespace kk {
     
     namespace GA {
 
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Shape, GAShape)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Shape, GAShape)
         
         IMP_SCRIPT_CLASS_END
         
@@ -25,7 +34,9 @@ namespace kk {
             return dynamic_cast<Body *> (parent());
         }
         
-        Shape::Shape():_cpShape(nullptr),shapeType(ShapeTypeCircle) {
+        KK_IMP_ELEMENT_CREATE(Shape)
+        
+        Shape::Shape(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),_cpShape(nullptr),shapeType(ShapeTypeCircle) {
             
         }
         
@@ -39,12 +50,12 @@ namespace kk {
             Element::changedKey(key);
             
             if(key == "type") {
-                kk::String & v = get(key);
-                if(v == "poly") {
+                kk::CString v = get(key.c_str());
+                if(CStringEqual(v , "poly") ){
                     shapeType = ShapeTypePoly;
-                } else if(v == "segment") {
+                } else if(CStringEqual(v , "segment")) {
                     shapeType = ShapeTypeSegment;
-                } else if(v == "box") {
+                } else if(CStringEqual(v , "box")) {
                     shapeType = ShapeTypeBox;
                 } else {
                     shapeType = ShapeTypeCircle;
@@ -106,7 +117,7 @@ namespace kk {
                         float x,y;
                         std::vector<cpVect> ps;
                         std::vector<kk::String> vs;
-                        kk::CStringSplit(get("points").c_str(), " ", vs);
+                        kk::CStringSplit(get("points"), " ", vs);
                         
                         std::vector<kk::String>::iterator i = vs.begin();
                         
@@ -149,8 +160,8 @@ namespace kk {
                     cpShapeSetUserData(_cpShape, this);
                     
                     {
-                        kk::String & v = get("density");
-                        if(!v.empty()) {
+                        kk::CString v = get("density");
+                        if(v != nullptr) {
                             Float vv = floatValue(v);
                             if(vv <= 0) {
                                 vv = 1;
@@ -160,8 +171,8 @@ namespace kk {
                     }
                     
                     {
-                        kk::String & v = get("mass");
-                        if(!v.empty()) {
+                        kk::CString v = get("mass");
+                        if(v != nullptr) {
                             Float vv = floatValue(v);
                             if(vv <= 0) {
                                 vv = 1;
@@ -171,16 +182,16 @@ namespace kk {
                     }
                     
                     {
-                        kk::String & v = get("elasticity");     //弹性
-                        if(&v != &kk::Element::NotFound) {
+                        kk::CString v = get("elasticity");     //弹性
+                        if(v != nullptr) {
                             Float vv = floatValue(v);
                             cpShapeSetElasticity(_cpShape, vv);
                         }
                     }
                     
                     {
-                        kk::String & v = get("friction");       //摩擦
-                        if(&v != &kk::Element::NotFound) {
+                        kk::CString v = get("friction");       //摩擦
+                        if(v != nullptr) {
                             Float vv = floatValue(v);
                             cpShapeSetFriction(_cpShape, vv);
                         } else {
@@ -189,8 +200,8 @@ namespace kk {
                     }
                     
                     {
-                        kk::String & v = get("group");       //组
-                        if(&v != &kk::Element::NotFound) {
+                        kk::CString v = get("group");       //组
+                        if(v != nullptr) {
                             Int vv = intValue(v);
                             cpShapeSetFilter(_cpShape, cpShapeFilterNew(vv, CP_ALL_CATEGORIES, CP_ALL_CATEGORIES));
                         }

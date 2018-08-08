@@ -10,18 +10,28 @@
 #include "GLShapeElement.h"
 #include "GAShape.h"
 #include <chipmunk/chipmunk.h>
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-string.h"
+
+#endif
 
 namespace kk {
     
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, ShapeElement, GLShapeElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, ShapeElement, GLShapeElement)
         
         IMP_SCRIPT_CLASS_END
         
-        ShapeElement::ShapeElement()
-            :color(1,0,0,1){
+        KK_IMP_ELEMENT_CREATE(ShapeElement)
+        
+        ShapeElement::ShapeElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId),color(1,0,0,1) {
             
         }
         
@@ -29,7 +39,7 @@ namespace kk {
             Element::changedKey(key);
             
             if(key == "color") {
-                color = colorValue(get(key));
+                color = colorValue(get(key.c_str()));
             }
         }
         
@@ -111,7 +121,7 @@ namespace kk {
                                 float x,y;
                                 std::vector<vec3> ps;
                                 std::vector<kk::String> vs;
-                                kk::CStringSplit(e->get("points").c_str(), " ", vs);
+                                kk::CStringSplit(e->get("points"), " ", vs);
                                 
                                 std::vector<kk::String>::iterator i = vs.begin();
                                 

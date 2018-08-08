@@ -8,7 +8,17 @@
 
 #include "kk-config.h"
 #include "GLSpineElement.h"
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-string.h"
+
+#endif
+
 #import <spine/spine.h>
 #import <spine/extension.h>
 
@@ -64,13 +74,15 @@ namespace kk {
     
     namespace GL {
     
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, SpineElement, GLSpineElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, SpineElement, GLSpineElement)
         
         IMP_SCRIPT_CLASS_END
         
+        KK_IMP_ELEMENT_CREATE(SpineElement)
         
-        SpineElement::SpineElement()
-            :_loaded(false),_spAtlas(nullptr),_spSkeletonData(nullptr)
+        SpineElement::SpineElement(kk::Document * document,kk::CString name, kk::ElementKey elementId)
+            :Element(document,name,elementId)
+            ,_loaded(false),_spAtlas(nullptr),_spSkeletonData(nullptr)
             ,_spSkeleton(nullptr),_spAnimationStateData(nullptr)
             ,_spAnimationState(nullptr),_context(nullptr),_prevTimeInterval(0)
             ,_updatting(false),_spTrackEntry(nullptr),_spClipping(nullptr) {

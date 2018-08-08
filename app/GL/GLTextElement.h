@@ -17,13 +17,14 @@ namespace kk {
         
         class TextElement : public Element {
         public:
-            TextElement();
+
             virtual void changedKey(String& key);
             
             Paint paint;
             vec2 anchor; // 0~1.0
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(TextElement)
+            DEF_SCRIPT_CLASS_NOALLOC
             
         protected:
             virtual void onDraw(Context * context);

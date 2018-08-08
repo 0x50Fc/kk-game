@@ -22,7 +22,7 @@ namespace kk {
         
         class ActionWalk : public Action {
         public:
-            ActionWalk();
+
             virtual void changedKey(String& key);
             virtual void exec(Context * context);
             Float x;       //移动位置
@@ -37,8 +37,12 @@ namespace kk {
             virtual duk_ret_t duk_setTarget(duk_context * ctx);
             virtual duk_ret_t duk_navigate(duk_context * ctx);  //碰撞寻路
             
-            DEF_SCRIPT_CLASS
+            DEF_SCRIPT_CLASS_NOALLOC
+            
+            KK_DEF_ELEMENT_CREATE(ActionWalk)
+            
         protected:
+            
             kk::Boolean _hasUpdate;
             kk::Boolean _landing;
             kk::Boolean _enabled;

@@ -23,12 +23,14 @@ namespace kk {
         
         class Animation : public kk::GA::Element {
         public:
-            Animation();
+
             virtual void exec(kk::GA::Context * context);
             virtual kk::GL::AnimationTarget * target();
             virtual void changedKey(String& key);
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(Animation)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         public:
             AnimationState animationState;
             kk::GA::TimeInterval afterDelay;    // 延时时间
@@ -45,13 +47,16 @@ namespace kk {
             kk::Int _count;
         };
         
-        class AnimationItem : public kk::Element, public LoadingProgress {
+        class AnimationItem : public kk::StyleElement, public LoadingProgress {
         public:
-            AnimationItem();
+
             virtual void changedKey(String& key);
             virtual Image * image(Context * context);
             virtual Float loadingProgress();
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(AnimationItem)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         public:
             mat4 transform;
             Float value;

@@ -25,11 +25,13 @@ namespace kk {
         
         class SpineElement : public Element {
         public:
-            SpineElement();
             virtual ~SpineElement();
             virtual void changedKey(String& key);
             virtual Image * image(kk::CString path);
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(SpineElement)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         protected:
             virtual void onDraw(Context * context);
             kk::Boolean _loaded;

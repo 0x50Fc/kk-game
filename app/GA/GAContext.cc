@@ -8,7 +8,6 @@
 
 #include "kk-config.h"
 #include "GAContext.h"
-#include "kk-string.h"
 #include <chipmunk/chipmunk.h>
 #include <sstream>
 
@@ -241,7 +240,9 @@ namespace kk {
         }
         
     
-        IMP_SCRIPT_CLASS_BEGIN(&kk::Element::ScriptClass, Element, GAElement)
+        
+        
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::StyleElement::ScriptClass, Element, GAElement)
         
         static kk::script::Method methods[] = {
             {"remove",(kk::script::Function) &Element::duk_remove},
@@ -251,9 +252,9 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
+        KK_IMP_ELEMENT_CREATE(Element)
         
-        Element::Element():_removed(false) {
-            
+        Element::Element(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::StyleElement(document,name,elementId),_removed(false) {
         }
         
         void Element::exec(Context * context) {
@@ -281,19 +282,31 @@ namespace kk {
         
         duk_ret_t Element::duk_remove(duk_context * ctx) {
             _removed = true;
+            
+            kk::Document * doc = document();
+            
+            if(doc) {
+                
+                kk::DocumentObserver * observer = doc->getObserver();
+                
+                if(observer) {
+                    observer->remove(doc, elementId());
+                }
+            }
+            
             return 0;
         }
         
-        Float floatValue(String & value) {
-            return atof(value.c_str());
+        Float floatValue(CString value) {
+            return value == nullptr ? 0 : atof(value);
         }
         
-        kk::Int intValue(String & value) {
-            return atoi(value.c_str());
+        kk::Int intValue(CString value) {
+            return value == nullptr ? 0 : atoi(value);
         }
         
-        Boolean booleanValue(String & value) {
-            return value == "true" || value == "1" || value == "yes";
+        Boolean booleanValue(CString value) {
+            return CStringEqual(value,"true") || CStringEqual(value,"1") || CStringEqual(value,"yes");
         }
         
         Float zIndexAutoY = 0x1.fffffep+127f;

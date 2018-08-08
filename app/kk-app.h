@@ -8,10 +8,18 @@
 #ifndef _KK_APP_H
 #define _KK_APP_H
 
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-object.h"
 #include "kk-script.h"
 #include "kk-object.h"
+#include "kk-string.h"
 
+#endif
 
 #ifdef KK_APP_GL
 #include "GLContext.h"
@@ -33,7 +41,7 @@ namespace kk {
         virtual ~Application();
         virtual KKGAContext * GAContext();
         virtual kk::script::Context * jsContext();
-        virtual kk::GA::Element * GAElement();
+        virtual kk::Document * document();
         virtual duk_context * dukContext();
         virtual void exec();
         virtual void run();
@@ -46,7 +54,7 @@ namespace kk {
     protected:
         Strong _jsContext;
         Strong _GAContext;
-        Strong _GAElement;
+        Strong _document;
         kk::Uint64 _appid;
         kk::Boolean _running;
         kk::Boolean _exiting;

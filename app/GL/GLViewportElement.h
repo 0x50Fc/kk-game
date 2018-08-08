@@ -18,11 +18,13 @@ namespace kk {
         
         class ViewportElement : public Element {
         public:
-            ViewportElement();
+
             virtual void changedKey(String& key);
             virtual void exec(kk::GA::Context * context);
             virtual kk::GA::Scene * scene();
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(ViewportElement)
+            DEF_SCRIPT_CLASS_NOALLOC
         };
     }
     

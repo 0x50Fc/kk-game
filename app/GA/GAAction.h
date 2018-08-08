@@ -21,10 +21,13 @@ namespace kk {
 
         class Action : public Element {
         public:
-            Action();
+
             virtual Body * body();
         
-            DEF_SCRIPT_CLASS
+            DEF_SCRIPT_CLASS_NOALLOC
+            
+            KK_DEF_ELEMENT_CREATE(Action)
+            
         };
         
     }

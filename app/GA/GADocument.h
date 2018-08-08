@@ -19,11 +19,15 @@ namespace kk {
         class Document : public Element , public IScene {
             
         public:
-            Document();
+
             virtual Scene * scene();
             virtual void onDidAddChildren(kk::Element * element);
             virtual void onWillRemoveChildren(kk::Element * element);
-            DEF_SCRIPT_CLASS
+            
+            DEF_SCRIPT_CLASS_NOALLOC
+            
+            KK_DEF_ELEMENT_CREATE(Document)
+            
         protected:
             Strong _scene;
         };

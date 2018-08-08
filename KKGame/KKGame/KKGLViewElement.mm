@@ -9,14 +9,10 @@
 #import "KKGLViewElement.h"
 #import "KKGLView.h"
 
+#include "kk-config.h"
+#include <KKObject/KKObject.h>
 #include "GLContext.h"
-#include "kk-script.h"
 #include "kk-app.h"
-#include "kk-dispatch.h"
-#include "kk-ev.h"
-#include "kk-ws.h"
-#include "kk-wk.h"
-#include "kk-http.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
@@ -236,7 +232,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
         duk_context * ctx = _jsContext->jsContext();
         duk_push_pointer(ctx, _app);
         duk_put_global_string(ctx, "__app");
-        _app->GAElement()->on("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        _app->document()->on("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
         _app->GAContext()->init();
         
         [self resizeGLContext:view.layer.contentsScale inWidth:view.width inHeight:view.height];
@@ -270,7 +266,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     }
     
     if(_app != nullptr) {
-        _app->GAElement()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        _app->document()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
         _app->release();
         _app = nullptr;
     }
@@ -364,8 +360,9 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
         _app->exec();
    
         kk::GL::Context * GLContext = _app->GAContext();
+        kk::Element * root = _app->document()->rootElement();
         
-        if(!_loaded && GLContext->loadingProgress(_app->GAElement()) >= 1.0f) {
+        if(!_loaded && (root == nullptr || GLContext->loadingProgress(root) >= 1.0f)) {
             
             _loaded = YES;
             
@@ -430,7 +427,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
                 duk_pop(ctx);
                 
                 if(e->_app != nullptr) {
-                    e->_app->GAElement()->emit([name UTF8String], ev);
+                    e->_app->document()->emit([name UTF8String], ev);
                 }
             }
             

@@ -17,7 +17,7 @@ namespace kk {
         
         class ImageElement : public Element, public LoadingProgress {
         public:
-            ImageElement();
+
             virtual kk::CString src();
             virtual void setSrc(kk::CString src);
             virtual void changedKey(String& key);
@@ -31,7 +31,10 @@ namespace kk {
             Float capRight;
             Float capBottom;
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(ImageElement)
+            
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         private:
             kk::String _src;
             Strong _animationImage;

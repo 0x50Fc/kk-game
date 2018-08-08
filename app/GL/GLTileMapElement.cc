@@ -149,11 +149,13 @@ namespace kk {
             
         }
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, TileMapElement, GLTileMapElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, TileMapElement, GLTileMapElement)
         
         IMP_SCRIPT_CLASS_END
         
-        TileMapElement::TileMapElement() {
+        KK_IMP_ELEMENT_CREATE(TileMapElement)
+
+        TileMapElement::TileMapElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId) {
             
         }
         

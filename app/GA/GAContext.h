@@ -9,7 +9,18 @@
 #ifndef GA_h
 #define GA_h
 
-#include "kk-element.h"
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKElement/KKElement.h>
+
+#else
+
+#include "kk-string.h"
+#include "kk-element-style.h"
+
+#endif
+
 
 namespace kk {
     
@@ -35,11 +46,11 @@ namespace kk {
             Size(Float width,Float height):width(width),height(height){}
         };
         
-        Float floatValue(String & value);
+        Float floatValue(CString value);
         
-        kk::Int intValue(String & value);
+        kk::Int intValue(CString value);
         
-        Boolean booleanValue(String & value);
+        Boolean booleanValue(CString value);
         
         typedef long long TimeInterval;
         
@@ -99,15 +110,18 @@ namespace kk {
             Size _viewport;
         };
         
-        class Element : public kk::Element {
+        class Element : public kk::StyleElement {
         public:
-            Element();
+            
             virtual void exec(Context * context);
             virtual void setRemoved();
             
             virtual duk_ret_t duk_remove(duk_context * ctx);
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(Element)
+            
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         protected:
             kk::Boolean _removed;
         };

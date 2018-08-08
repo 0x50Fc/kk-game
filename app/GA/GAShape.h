@@ -28,7 +28,6 @@ namespace kk {
         
         class Shape : public Element {
         public:
-            Shape();
             virtual ~Shape();
             virtual void exec(Context * context);
             virtual Body * body();
@@ -39,6 +38,9 @@ namespace kk {
             ShapeType shapeType;
   
             DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(Shape)
+            
         protected:
             ::cpShape * _cpShape;
         };

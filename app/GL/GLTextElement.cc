@@ -17,11 +17,13 @@ namespace kk {
     
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, TextElement, GLTextElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, TextElement, GLTextElement)
         
         IMP_SCRIPT_CLASS_END
         
-        TextElement::TextElement():_display(false),anchor(0.5,0.5) {
+        KK_IMP_ELEMENT_CREATE(TextElement)
+        
+        TextElement::TextElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId),_display(false),anchor(0.5,0.5) {
             paint.fontStyle = FontStyleNormal;
             paint.fontWeight = FontWeightNormal;
             paint.fontSize = 14;
@@ -35,10 +37,10 @@ namespace kk {
             Element::changedKey(key);
             
             if(key == "font-fimlay") {
-                paint.fontFimlay = get(key);
+                paint.fontFimlay = get(key.c_str());
                 _display = true;
             } else if(key == "font-weight") {
-                kk::String & v = get(key);
+                kk::String v = get(key.c_str());
                 if(v == "bold") {
                     paint.fontWeight =  FontWeightBold;
                 } else {
@@ -46,7 +48,7 @@ namespace kk {
                 }
                 _display = true;
             } else if(key == "font-style") {
-                kk::String & v = get(key);
+                kk::String v = get(key.c_str());
                 if(v == "italic") {
                     paint.fontStyle =  FontStyleItalic;
                 } else {
@@ -54,44 +56,44 @@ namespace kk {
                 }
                 _display = true;
             } else if(key == "font-size") {
-                paint.fontSize = kk::GA::floatValue(get(key));
+                paint.fontSize = kk::GA::floatValue(get(key.c_str()));
                 _display = true;
             } else if(key == "color") {
-                paint.textColor = colorValue(get(key));
+                paint.textColor = colorValue(get(key.c_str()));
                 _display = true;
             } else if(key == "text-shadow") {
-                paint.textShadow = shadowValue(get(key));
+                paint.textShadow = shadowValue(get(key.c_str()));
                 _display = true;
             } else if(key == "text-stroke") {
-                paint.textStroke = strokeValue(get(key));
+                paint.textStroke = strokeValue(get(key.c_str()));
                 _display = true;
             } else if(key == "#text") {
                 _display = true;
             } else if(key == "anchor-x") {
-                anchor.x = kk::GA::floatValue(get(key));
+                anchor.x = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "anchor-y") {
-                anchor.y = kk::GA::floatValue(get(key));
+                anchor.y = kk::GA::floatValue(get(key.c_str()));
             }
         }
         
         void TextElement::onDraw(Context * context) {
             Element::onDraw(context);
             
-            kk::String & text = get("#text");
+            kk::CString text = get("#text");
             
             Texture * v = _texture.as<Texture>();
             
-            if(_display && !text.empty()) {
+            if(_display && text != nullptr) {
                 
                 if(v == nullptr) {
                     v = new Texture();
                     _texture = v;
                 }
                 
-                ContextGetStringTexture(context, v, text.c_str(), paint);
+                ContextGetStringTexture(context, v, text, paint);
             }
             
-            if(v != nullptr && !text.empty()) {
+            if(v != nullptr && text != nullptr) {
                 
                 vec4 dest(0);
                 vec4 src(0,0,v->width(),v->height());

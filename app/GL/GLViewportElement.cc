@@ -20,11 +20,13 @@ namespace kk {
     
     namespace GL
     {
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, ViewportElement, GLViewportElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, ViewportElement, GLViewportElement)
         
         IMP_SCRIPT_CLASS_END
         
-        ViewportElement::ViewportElement() {
+        KK_IMP_ELEMENT_CREATE(ViewportElement)
+        
+        ViewportElement::ViewportElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId) {
             
         }
         

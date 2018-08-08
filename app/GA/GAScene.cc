@@ -17,7 +17,7 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Scene, GAScene)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Scene, GAScene)
         
         static kk::script::Property propertys[] = {
             {"focus",(kk::script::Function) &Scene::duk_focus,(kk::script::Function) &Scene::duk_setFocus},
@@ -102,7 +102,10 @@ namespace kk {
             
         }
         
-        Scene::Scene():_prevTimeInterval(0) {
+        KK_IMP_ELEMENT_CREATE(Scene)
+        
+        Scene::Scene(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),_prevTimeInterval(0) {
+                
             _cpSpace = cpSpaceNew();
             cpSpaceSetGravity(_cpSpace, {0,0});
             
@@ -116,7 +119,7 @@ namespace kk {
                 v->userData = this;
             }
         }
-
+        
         Scene::~Scene() {
             cpSpaceFree(_cpSpace);
         }
@@ -137,20 +140,20 @@ namespace kk {
         void Scene::changedKey(String &key){
             Element::changedKey(key);
             if(key == "width") {
-                size.width = floatValue(get(key));
+                size.width = floatValue(get(key.c_str()));
             } else if(key == "height") {
-                size.height = floatValue(get(key));
+                size.height = floatValue(get(key.c_str()));
             } else if(key == "x") {
-                _position.x = floatValue(get(key));
+                _position.x = floatValue(get(key.c_str()));
             } else if(key == "y") {
-                _position.y = floatValue(get(key));
+                _position.y = floatValue(get(key.c_str()));
             } else if(key == "gravity-x") {
                 cpVect p = cpSpaceGetGravity(_cpSpace);
-                p.x = floatValue(get(key));
+                p.x = floatValue(get(key.c_str()));
                 cpSpaceSetGravity(_cpSpace, p);
             } else if(key == "gravity-y") {
                 cpVect p = cpSpaceGetGravity(_cpSpace);
-                p.y = floatValue(get(key));
+                p.y = floatValue(get(key.c_str()));
                 cpSpaceSetGravity(_cpSpace, p);
             }
         }

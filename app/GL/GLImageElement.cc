@@ -17,12 +17,15 @@ namespace kk {
    
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, ImageElement, GLImageElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, ImageElement, GLImageElement)
         
         IMP_SCRIPT_CLASS_END
         
-        ImageElement::ImageElement()
-            :size(0),anchor(0.5,0.5),capLeft(0),capTop(0),capRight(0),capBottom(0) {
+        KK_IMP_ELEMENT_CREATE(ImageElement)
+        
+        ImageElement::ImageElement(kk::Document * document,kk::CString name, kk::ElementKey elementId)
+            :Element(document,name,elementId)
+            ,size(0),anchor(0.5,0.5),capLeft(0),capTop(0),capRight(0),capBottom(0) {
             
         }
         
@@ -39,30 +42,30 @@ namespace kk {
             Element::changedKey(key);
             
             if(key == "src") {
-                setSrc(get(key).c_str());
+                setSrc(get(key.c_str()));
             } else if(key == "width") {
-                size.x = kk::GA::floatValue(get(key));
+                size.x = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "height") {
-                size.y = kk::GA::floatValue(get(key));
+                size.y = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "anchor-x") {
-                anchor.x = kk::GA::floatValue(get(key));
+                anchor.x = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "anchor-y") {
-                anchor.y = kk::GA::floatValue(get(key));
+                anchor.y = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "cap-left") {
-                capLeft = kk::GA::floatValue(get(key));
+                capLeft = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "cap-top") {
-                capTop = kk::GA::floatValue(get(key));
+                capTop = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "cap-bottom") {
-                capBottom = kk::GA::floatValue(get(key));
+                capBottom = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             } else if(key == "cap-right") {
-                capRight = kk::GA::floatValue(get(key));
+                capRight = kk::GA::floatValue(get(key.c_str()));
                 _points.clear();
             }
         }
@@ -99,15 +102,7 @@ namespace kk {
         
         void ImageElement::onDraw(Context * context) {
             Element::onDraw(context);
-            kk::Element * p = parent();
-            kk::Element * e = p->firstChild();
-            while(e){
-                kk::GA::Body * v = dynamic_cast<kk::GA::Body *>(e);
-                if(v) {
-                    
-                }
-                e = e->nextSibling();
-            }
+            
             {
                 vec4 p[] = {{- anchor.x * size.x,- anchor.y * size.y,0,1},{(1.0f - anchor.x) * size.x,(1.0f - anchor.y) * size.y,0,1}};
                 

@@ -18,11 +18,13 @@ namespace kk {
         
         class MinimapElement : public Element, public kk::GA::IScene {
         public:
-            MinimapElement();
+    
             virtual void changedKey(String& key);
             virtual kk::GA::Scene * scene();
             vec2 size;
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(MinimapElement)
+            DEF_SCRIPT_CLASS_NOALLOC
             
         protected:
             virtual void onDraw(Context * context);

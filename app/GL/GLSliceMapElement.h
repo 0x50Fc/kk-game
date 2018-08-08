@@ -17,7 +17,7 @@ namespace kk {
         
         class SliceMapElement : public Element , public LoadingProgress {
         public:
-            SliceMapElement();
+
             virtual CString path();
             virtual void setPath(CString path);
             virtual void changedKey(String& key);
@@ -26,7 +26,8 @@ namespace kk {
             vec2 size;
             vec2 slice;
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(SliceMapElement)
+            DEF_SCRIPT_CLASS_NOALLOC
             
         protected:
             virtual void onDraw(Context * context);

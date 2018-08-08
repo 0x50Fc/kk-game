@@ -16,7 +16,7 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Action::ScriptClass, ActionWalk, GAActionWalk)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Action::ScriptClass, ActionWalk, GAActionWalk)
         
         static kk::script::Method methods[] = {
             {"navigate",(kk::script::Function) &ActionWalk::duk_navigate},
@@ -32,12 +32,11 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        ActionWalkNavigateState _navigateState;
-        TimeInterval _navigateStartTimeInterval;
-        TimeInterval _navigateDuration;
+        KK_IMP_ELEMENT_CREATE(ActionWalk)
         
-        ActionWalk::ActionWalk()
-            :x(0),y(0),speed(0),angle(0),_hasUpdate(false)
+        ActionWalk::ActionWalk(kk::Document * document,kk::CString name, kk::ElementKey elementId)
+            :Action(document,name,elementId)
+            ,x(0),y(0),speed(0),angle(0),_hasUpdate(false)
             ,_landing(true),_enabled(true),duration(0),_startTimeInterval(0)
             ,_navigateState(ActionWalkNavigateStateNone),_navigateStartTimeInterval(0),_navigateDuration(0){
             
@@ -166,33 +165,16 @@ namespace kk {
             Action::changedKey(key);
             
             if(key == "speed") {
-                speed = floatValue(get(key));
+                speed = floatValue(get(key.c_str()));
             } else if(key == "x") {
-                this->x = floatValue(get(key));
+                this->x = floatValue(get(key.c_str()));
             } else if(key == "y") {
-                this->y = floatValue(get(key));
+                this->y = floatValue(get(key.c_str()));
             } else if(key == "enabled") {
-                _enabled = booleanValue(get(key));
+                _enabled = booleanValue(get(key.c_str()));
             } else if(key == "duration") {
-                duration = floatValue(get(key));
+                duration = floatValue(get(key.c_str()));
                 _startTimeInterval = 0;
-            }
-            
-            if(speed <=0 || !_enabled) {
-                
-                Body * body = this->body();
-                
-                if(body) {
-                    
-                    ::cpBody * cpBody = body->cpBody();
-                    
-                    if(cpBody) {
-                        cpBodySetVelocity(cpBody, {0,0});
-                    }
-                    
-                }
-                
-                
             }
             
             _hasUpdate = true;

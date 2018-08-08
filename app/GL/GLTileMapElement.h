@@ -19,11 +19,14 @@ namespace kk {
 
         class TileMapElement : public Element {
         public:
-            TileMapElement();
+
             virtual void onDraw(Context * context);
             virtual kk::GA::TileMap * tileMap();
             virtual Image * image(Context * context,kk::CString path);
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(TileMapElement)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         protected:
             std::map<kk::String,kk::Strong> _images;
         };

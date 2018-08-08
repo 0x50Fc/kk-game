@@ -13,12 +13,15 @@ namespace kk {
     
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Animation, GLAnimation)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Animation, GLAnimation)
         
         IMP_SCRIPT_CLASS_END
         
-        Animation::Animation()
-            :animationState(AnimationStateNone)
+        KK_IMP_ELEMENT_CREATE(Animation)
+        
+        Animation::Animation(kk::Document * document,kk::CString name, kk::ElementKey elementId)
+            :kk::GA::Element(document,name,elementId)
+            ,animationState(AnimationStateNone)
             ,afterDelay(0)
             ,duration(0)
             ,start(0)
@@ -170,7 +173,7 @@ namespace kk {
             kk::GA::Element::changedKey(key);
             
             if(key == "enabled") {
-                kk::Boolean v = kk::GA::booleanValue(get(key));
+                kk::Boolean v = kk::GA::booleanValue(get(key.c_str()));
                 if(v != enabled) {
                     enabled = v;
                     animationState = AnimationStateNone;
@@ -184,48 +187,50 @@ namespace kk {
                 }
                 
             } else if(key == "duration") {
-                duration = kk::GA::floatValue(get(key));
+                duration = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "after-delay") {
-                afterDelay = kk::GA::floatValue(get(key));
+                afterDelay = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "repeat-count") {
-                repeatCount = kk::GA::intValue(get(key));
+                repeatCount = kk::GA::intValue(get(key.c_str()));
             } else if(key == "autoreverses") {
-                autoreverses = kk::GA::booleanValue(get(key));
+                autoreverses = kk::GA::booleanValue(get(key.c_str()));
             }
         }
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::Element::ScriptClass, AnimationItem, GLAnimationItem)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::StyleElement::ScriptClass, AnimationItem, GLAnimationItem)
         
         IMP_SCRIPT_CLASS_END
         
-        AnimationItem::AnimationItem():transform(1.0f),value(0),opacity(1) {
+        KK_IMP_ELEMENT_CREATE(AnimationItem)
+        
+        AnimationItem::AnimationItem(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::StyleElement(document,name,elementId),transform(1.0f),value(0),opacity(1) {
             
         }
         
         void AnimationItem::changedKey(String& key) {
-            kk::Element::changedKey(key);
+            kk::StyleElement::changedKey(key);
             
             if(key == "transform") {
-                transform = TransformForString(get(key));
+                transform = TransformForString(get(key.c_str()));
             } else if(key == "value") {
-                value = kk::GA::floatValue(get(key));
+                value = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "image") {
                 _image = (kk::Object *) nullptr;
             } else if(key == "opacity") {
-                opacity = kk::GA::floatValue(get(key));
+                opacity = kk::GA::floatValue(get(key.c_str()));
             }
         }
         
         Image * AnimationItem::image(Context * context) {
             
-            kk::String& v = get("image");
+            kk::CString v = get("image");
             
-            if(&v != &kk::Element::NotFound) {
+            if(v != nullptr) {
                 
                 Image * image = _image.as<Image>();
                 
                 if(image == nullptr) {
-                    Strong vv = context->image(v.c_str());
+                    Strong vv = context->image(v);
                     image = vv.as<Image>();
                     _image = image;
                 }

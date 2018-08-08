@@ -29,7 +29,6 @@ namespace kk {
         class Scene : public Element , public IPosition , public IScene {
         
         public:
-            Scene();
             virtual ~Scene();
             virtual void exec(Context * context);
             virtual void changedKey(String& key);
@@ -54,7 +53,9 @@ namespace kk {
             virtual Size & viewport();
             virtual Scene * scene();
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(Scene)
+            
+            DEF_SCRIPT_CLASS_NOALLOC
             
         public:
             Size size;

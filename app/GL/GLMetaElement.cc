@@ -13,11 +13,13 @@ namespace kk {
     
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, MetaElement, GLMetaElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, MetaElement, GLMetaElement)
         
         IMP_SCRIPT_CLASS_END
         
-        MetaElement::MetaElement():_loaded(false) {
+        KK_IMP_ELEMENT_CREATE(MetaElement)
+        
+        MetaElement::MetaElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId),_loaded(false) {
             
         }
         
@@ -33,13 +35,13 @@ namespace kk {
             Element::onDraw(context);
             
             if(!_loaded) {
-                kk::String& type = get("type");
+                kk::String type = get("type");
                 if(type == "image") {
-                    kk::String& src = get("src");
-                    if(!src.empty()) {
-                        kk::Strong v = context->image(src.c_str());
+                    kk::CString src = get("src");
+                    if(src != nullptr) {
+                        kk::Strong v = context->image(src);
                         _image = v.get();
-                        kk::Log("[MEAT] %s",src.c_str());
+                        kk::Log("[MEAT] %s",src);
                     }
                 }
                 _loaded = true;

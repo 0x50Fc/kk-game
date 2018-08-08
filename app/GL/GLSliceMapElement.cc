@@ -17,11 +17,13 @@ namespace kk {
     
     namespace GL {
         
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, SliceMapElement, GLSliceMapElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, SliceMapElement, GLSliceMapElement)
         
         IMP_SCRIPT_CLASS_END
         
-        SliceMapElement::SliceMapElement():size(0),slice(0) {
+        KK_IMP_ELEMENT_CREATE(SliceMapElement)
+        
+        SliceMapElement::SliceMapElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId),size(0),slice(0) {
             
         }
         
@@ -38,15 +40,15 @@ namespace kk {
             Element::changedKey(key);
             
             if(key == "path") {
-                setPath(get(key).c_str());
+                setPath(get(key.c_str()));
             } else if(key == "width") {
-                size.x = kk::GA::floatValue(get(key));
+                size.x = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "height") {
-                size.y = kk::GA::floatValue(get(key));
+                size.y = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "slice-width") {
-                slice.x = kk::GA::floatValue(get(key));
+                slice.x = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "slice-height") {
-                slice.y = kk::GA::floatValue(get(key));
+                slice.y = kk::GA::floatValue(get(key.c_str()));
             }
         }
         

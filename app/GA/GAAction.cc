@@ -16,12 +16,13 @@ namespace kk {
  
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Action, GAAction)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Action, GAAction)
         
         IMP_SCRIPT_CLASS_END
         
-        Action::Action() {
-            
+        KK_IMP_ELEMENT_CREATE(Action)
+        
+        Action::Action(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId){
         }
         
         Body * Action::body() {

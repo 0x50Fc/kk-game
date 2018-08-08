@@ -236,7 +236,7 @@ namespace kk {
         
         class Element : public kk::GA::Element , public AnimationTarget {
         public:
-            Element();
+
             virtual void draw(Context * context);
             virtual void changedKey(String& key);
             virtual void setAnimationOpacity(Float opacity);
@@ -247,15 +247,19 @@ namespace kk {
             mat4 transform;
             Float opacity;
             Boolean hidden;
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(Element)
+            
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         protected:
             virtual void onDraw(Context * context);
         };
 
-        mat4 TransformForString(kk::String & value);
-        vec4 colorValue(String & value);
-        Shadow shadowValue(String & value);
-        Stroke strokeValue(String & value);
+        mat4 TransformForString(kk::CString value);
+        vec4 colorValue(kk::CString value);
+        Shadow shadowValue(kk::CString value);
+        Stroke strokeValue(kk::CString value);
         
         
         

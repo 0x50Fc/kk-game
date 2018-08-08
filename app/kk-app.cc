@@ -8,8 +8,18 @@
 
 #include "kk-config.h"
 #include "kk-app.h"
-#include "kk-string.h"
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-crypto.h"
+#include "kk-document-binary.h"
+
+#endif
+
 #include "require_js.h"
 #include "GAScene.h"
 #include "GABody.h"
@@ -186,7 +196,7 @@ namespace kk {
 #else
         _GAContext = new kk::GA::Context();
 #endif
-        _GAElement = new kk::GA::Element();
+        _document = new kk::Document();
  
         GAContext()->setBasePath(basePath);
         
@@ -196,31 +206,32 @@ namespace kk {
         
         {
            
-            kk::script::SetPrototype(ctx, &kk::GA::Context::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Scene::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Shape::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Body::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Action::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::ActionWalk::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::Document::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GA::TileMap::ScriptClass);
+            kk::script::SetPrototype(ctx, &kk::DocumentBinaryObserver::ScriptClass);
             kk::script::SetPrototype(ctx, &kk::ElementEvent::ScriptClass);
             
+            kk::Document::library("kk::GA::Scene", kk::GA::Scene::Create);
+            kk::Document::library("kk::GA::Shape", kk::GA::Shape::Create);
+            kk::Document::library("kk::GA::Body", kk::GA::Body::Create);
+            kk::Document::library("kk::GA::Action", kk::GA::Action::Create);
+            kk::Document::library("kk::GA::ActionWalk", kk::GA::ActionWalk::Create);
+            kk::Document::library("kk::GA::Document", kk::GA::Document::Create);
+            kk::Document::library("kk::GA::TileMap", kk::GA::TileMap::Create);
+
         }
         
 #ifdef KK_APP_GL
         {
-            kk::script::SetPrototype(ctx, &kk::GL::SliceMapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ImageElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ShapeElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::Animation::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::AnimationItem::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::TextElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::MinimapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::ViewportElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::TileMapElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::SpineElement::ScriptClass);
-            kk::script::SetPrototype(ctx, &kk::GL::MetaElement::ScriptClass);
+            kk::Document::library("kk::GL::SliceMapElement", kk::GL::SliceMapElement::Create);
+            kk::Document::library("kk::GL::ImageElement", kk::GL::ImageElement::Create);
+            kk::Document::library("kk::GL::ShapeElement", kk::GL::ShapeElement::Create);
+            kk::Document::library("kk::GL::Animation", kk::GL::Animation::Create);
+            kk::Document::library("kk::GL::AnimationItem", kk::GL::AnimationItem::Create);
+            kk::Document::library("kk::GL::TextElement", kk::GL::TextElement::Create);
+            kk::Document::library("kk::GL::MinimapElement", kk::GL::MinimapElement::Create);
+            kk::Document::library("kk::GL::ViewportElement", kk::GL::ViewportElement::Create);
+            kk::Document::library("kk::GL::TileMapElement", kk::GL::TileMapElement::Create);
+            kk::Document::library("kk::GL::SpineElement", kk::GL::SpineElement::Create);
+            kk::Document::library("kk::GL::MetaElement", kk::GL::MetaElement::Create);
         }
 #endif
         
@@ -230,6 +241,10 @@ namespace kk {
             
             duk_push_string(ctx, "context");
             kk::script::PushObject(ctx, _GAContext.get());
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "document");
+            kk::script::PushObject(ctx, _document.get());
             duk_put_prop(ctx, -3);
             
             duk_push_string(ctx, "app");
@@ -313,19 +328,22 @@ namespace kk {
         return jsContext()->jsContext();
     }
     
-    kk::GA::Element * Application::GAElement() {
-        return _GAElement.as<kk::GA::Element>();
+    kk::Document * Application::document() {
+        return _document.as<kk::Document>();
     }
     
     void Application::exec() {
         KKGAContext * GAContext = this->GAContext();
-        kk::GA::Element * GAElement = this->GAElement();
-        if(GAContext && GAElement) {
+        kk::Document * document = this->document();
+        if(GAContext && document) {
             GAContext->tick();
-            GAContext->exec(GAElement);
+            kk::Element * element = document->rootElement();
+            if(element != nullptr) {
+                GAContext->exec(element);
 #ifdef KK_APP_GL
-            GAContext->draw(GAElement);
+                GAContext->draw(element);
 #endif
+            }
         }
     }
     
@@ -362,24 +380,15 @@ namespace kk {
         kk::GA::Context * GAContext = this->GAContext();
         
         kk::String v = GAContext->getString("main.js");
-    
-        kk::String evalCode = "(function(element) {" + v + "} )";
-        
+ 
         duk_push_string(ctx, "main.js");
         
-        duk_compile_string_filename(ctx, 0, evalCode.c_str());
+        duk_compile_string_filename(ctx, 0, v.c_str());
         
         if(duk_is_function(ctx, -1)) {
             
             if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 0)) {
                 kk::script::Error(ctx, -1);
-            } else if(duk_is_function(ctx, -1)) {
-
-                kk::script::PushObject(ctx, GAElement());
-                
-                if(DUK_EXEC_SUCCESS != duk_pcall(ctx, 1)) {
-                    kk::script::Error(ctx, -1);
-                }
             }
             
             duk_pop(ctx);

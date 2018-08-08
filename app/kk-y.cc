@@ -8,7 +8,16 @@
 
 #include "kk-config.h"
 #include "kk-y.h"
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-string.h"
+
+#endif
 
 namespace kk {
     

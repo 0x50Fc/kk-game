@@ -17,9 +17,12 @@ namespace kk {
         
         class MetaElement : public Element, public LoadingProgress {
         public:
-            MetaElement();
+
             virtual Float loadingProgress();
-            DEF_SCRIPT_CLASS
+            
+            KK_DEF_ELEMENT_CREATE(MetaElement)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         private:
             virtual void onDraw(Context * context);
             kk::Strong _image;

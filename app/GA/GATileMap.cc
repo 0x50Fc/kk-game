@@ -8,20 +8,33 @@
 
 #include "kk-config.h"
 #include "GATileMap.h"
-#include "kk-string.h"
 #include <zlib.h>
 #include <chipmunk/chipmunk.h>
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
+#include "kk-string.h"
+
+#endif
+
 
 namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, TileMap, GATileMap)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, TileMap, GATileMap)
         
         IMP_SCRIPT_CLASS_END
-
-        TileMap::TileMap()
-            :height(0),width(0),
+        
+        KK_IMP_ELEMENT_CREATE(TileMap)
+        
+        TileMap::TileMap(kk::Document * document,kk::CString name, kk::ElementKey elementId)
+            :Body(document,name,elementId)
+                ,height(0),width(0),
                 tileHeight(0),tileWidth(0),orientation(TileMapOrientationOrthogonal),_loaded(false) {
             
         }
@@ -521,11 +534,11 @@ namespace kk {
             
             if(!_loaded) {
                 
-                String& v = get("path");
+                kk::CString v = get("path");
                 
-                if(!v.empty()) {
+                if(v != nullptr) {
                     
-                    kk::String vv = context->getString(v.c_str());
+                    kk::String vv = context->getString(v);
                     
                     if(!vv.empty()) {
                         

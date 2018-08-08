@@ -9,8 +9,18 @@
 #ifndef kk_yaml_h
 #define kk_yaml_h
 
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-script.h"
 #include "kk-object.h"
+
+#endif
+
+
 
 namespace kk {
     

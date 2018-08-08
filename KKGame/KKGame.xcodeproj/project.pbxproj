@@ -23,7 +23,6 @@
 
 /* Begin PBXBuildFile section */
 		1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A00E55E204E5B4A00B2741D /* GLTextElement.cc */; };
-		1A0A65592027F073008DA5A3 /* kk-script.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65582027F073008DA5A3 /* kk-script.cc */; };
 		1A0A656D2028283D008DA5A3 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A656C2028283D008DA5A3 /* AppDelegate.mm */; };
 		1A0A65732028283D008DA5A3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A65712028283D008DA5A3 /* Main.storyboard */; };
 		1A0A65752028283D008DA5A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A0A65742028283D008DA5A3 /* Assets.xcassets */; };
@@ -34,11 +33,6 @@
 		1A0A6586202828D8008DA5A3 /* GAScene.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE2400C20230D0F001FFB58 /* GAScene.h */; };
 		1A0A6587202828D8008DA5A3 /* GAShape.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE2400F20231481001FFB58 /* GAShape.h */; };
 		1A0A6588202828D8008DA5A3 /* GABody.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE24012202315F9001FFB58 /* GABody.h */; };
-		1A0A658C202828E1008DA5A3 /* kk-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FF12022F3C3001FFB58 /* kk-config.h */; };
-		1A0A658D202828E1008DA5A3 /* kk-object.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FF32022F3C3001FFB58 /* kk-object.h */; };
-		1A0A658E202828E1008DA5A3 /* kk-event.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FFB2022F74A001FFB58 /* kk-event.h */; };
-		1A0A658F202828E1008DA5A3 /* kk-element.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FFE2022FC40001FFB58 /* kk-element.h */; };
-		1A0A6590202828E1008DA5A3 /* kk-script.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A65572027F066008DA5A3 /* kk-script.h */; };
 		1A0A659620284CCB008DA5A3 /* GLContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A659520284CCB008DA5A3 /* GLContext.cc */; };
 		1A0A659920284FF1008DA5A3 /* KKGLContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A659720284FF1008DA5A3 /* KKGLContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A0A659A20284FF1008DA5A3 /* KKGLContext.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A659820284FF1008DA5A3 /* KKGLContext.mm */; };
@@ -59,23 +53,19 @@
 		1A0A661320297D68008DA5A3 /* GLSLTexture.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A660F20297D68008DA5A3 /* GLSLTexture.cc */; };
 		1A0A661520297D68008DA5A3 /* GLSLTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A661120297D68008DA5A3 /* GLSLTexture.h */; };
 		1A0A66192029B8EE008DA5A3 /* GLImageElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A66182029B8EE008DA5A3 /* GLImageElement.cc */; };
-		1A0A6625202A96D4008DA5A3 /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
 		1A0A6629202AA88A008DA5A3 /* kk-app.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A6627202AA88A008DA5A3 /* kk-app.h */; };
 		1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
 		1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A0A665F202D698D008DA5A3 /* require_js.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A665E202D698D008DA5A3 /* require_js.h */; };
 		1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
-		1A2866E4210EC05B008A5B3B /* kk-binary.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2866E3210EC05B008A5B3B /* kk-binary.h */; };
-		1A2866ED210EFC6D008A5B3B /* kk-wk.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A2866EC210EFC6D008A5B3B /* kk-wk.h */; };
-		1A2866F0210EFE28008A5B3B /* kk-wk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EE210EFC83008A5B3B /* kk-wk.cc */; };
-		1A2866F3210F051E008A5B3B /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
-		1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
-		1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
-		1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
 		1A65A9FE20417BDE0001B38A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */; };
 		1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65AA1920440F130001B38A /* GLSLFillColor.h */; };
 		1A65AA1C20440F140001B38A /* GLSLFillColor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65AA1A20440F140001B38A /* GLSLFillColor.cc */; };
+		1A7CBCE9211AE19D006DC0A3 /* libKKDuktape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */; };
+		1A7CBCEA211AE19D006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */; };
+		1A7CBCF7211AE1D4006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
+		1A7CBCFD211AE27F006DC0A3 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A6639202C035E008DA5A3 /* libstdc++.tbd */; };
 		1A8BFF252092C49500224854 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 1A8BFF242092C49500224854 /* main */; };
 		1A8BFF512092C54E00224854 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
 		1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
@@ -144,6 +134,7 @@
 		1A8BFFB12092FACE00224854 /* GLShapeElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8BFFAF2092FACE00224854 /* GLShapeElement.h */; };
 		1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFD4209335A200224854 /* GATileMap.cc */; };
 		1A8BFFD7209335A200224854 /* GATileMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A8BFFD5209335A200224854 /* GATileMap.h */; };
+		1A9158B02119B8510055256A /* kk-config.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A9158AF2119B8510055256A /* kk-config.h */; };
 		1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEAAC209C2B3F004A8283 /* main.cpp */; };
 		1A9EEAB1209C2B4D004A8283 /* GAContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400920230A8C001FFB58 /* GAContext.cc */; };
 		1A9EEAB2209C2B4D004A8283 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
@@ -153,12 +144,6 @@
 		1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A9EEAB7209C2B4D004A8283 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
 		1A9EEAB8209C2B4D004A8283 /* GATileMap.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFFD4209335A200224854 /* GATileMap.cc */; };
-		1A9EEAB9209C2B4D004A8283 /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
-		1A9EEABA209C2B4D004A8283 /* kk-string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF42022F3C3001FFB58 /* kk-string.cc */; };
-		1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFC2022F86D001FFB58 /* kk-event.cc */; };
-		1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFF2022FC4F001FFB58 /* kk-element.cc */; };
-		1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65582027F073008DA5A3 /* kk-script.cc */; };
-		1A9EEABE209C2B4D004A8283 /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
 		1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
 		1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
 		1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF492092C54D00224854 /* chipmunk.c */; };
@@ -201,10 +186,8 @@
 		1AA7E6F621182F2C00DDFC7A /* GLSLTexture.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A660F20297D68008DA5A3 /* GLSLTexture.cc */; };
 		1AA7E6F721182F2C00DDFC7A /* cpSpaceHash.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF372092C54C00224854 /* cpSpaceHash.c */; };
 		1AA7E6F821182F2C00DDFC7A /* GLMinimapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = E951BE962052605200358A85 /* GLMinimapElement.cc */; };
-		1AA7E6F921182F2C00DDFC7A /* kk-event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFC2022F86D001FFB58 /* kk-event.cc */; };
 		1AA7E6FA21182F2C00DDFC7A /* SlotData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747320998C060091283D /* SlotData.c */; };
 		1AA7E6FB21182F2C00DDFC7A /* AttachmentLoader.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745D20998C060091283D /* AttachmentLoader.c */; };
-		1AA7E6FC21182F2C00DDFC7A /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
 		1AA7E6FD21182F2C00DDFC7A /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
 		1AA7E6FE21182F2C00DDFC7A /* duktape.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AA7E6AF21141A4500DDFC7A /* duktape.c */; };
 		1AA7E6FF21182F2C00DDFC7A /* Array.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746220998C060091283D /* Array.c */; };
@@ -218,10 +201,8 @@
 		1AA7E70721182F2C00DDFC7A /* cpDampedSpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4F2092C54E00224854 /* cpDampedSpring.c */; };
 		1AA7E70821182F2C00DDFC7A /* chipmunk.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF492092C54D00224854 /* chipmunk.c */; };
 		1AA7E70921182F2C00DDFC7A /* RegionAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748520998C060091283D /* RegionAttachment.c */; };
-		1AA7E70A21182F2C00DDFC7A /* kk-element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFF2022FC4F001FFB58 /* kk-element.cc */; };
 		1AA7E70B21182F2C00DDFC7A /* cpRatchetJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF502092C54E00224854 /* cpRatchetJoint.c */; };
 		1AA7E70C21182F2C00DDFC7A /* Skin.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746620998C060091283D /* Skin.c */; };
-		1AA7E70D21182F2C00DDFC7A /* kk-script.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A65582027F073008DA5A3 /* kk-script.cc */; };
 		1AA7E70E21182F2C00DDFC7A /* extension.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746020998C060091283D /* extension.c */; };
 		1AA7E70F21182F2C00DDFC7A /* cpHashSet.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF412092C54D00224854 /* cpHashSet.c */; };
 		1AA7E71021182F2C00DDFC7A /* cpHastySpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF402092C54D00224854 /* cpHastySpace.c */; };
@@ -246,13 +227,11 @@
 		1AA7E72321182F2C00DDFC7A /* AnimationState.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746C20998C060091283D /* AnimationState.c */; };
 		1AA7E72421182F2C00DDFC7A /* Bone.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747820998C060091283D /* Bone.c */; };
 		1AA7E72521182F2C00DDFC7A /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
-		1AA7E72621182F2C00DDFC7A /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
 		1AA7E72721182F2C00DDFC7A /* TransformConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748120998C060091283D /* TransformConstraint.c */; };
 		1AA7E72821182F2C00DDFC7A /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
 		1AA7E72921182F2C00DDFC7A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A9EEAAC209C2B3F004A8283 /* main.cpp */; };
 		1AA7E72A21182F2C00DDFC7A /* IkConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746920998C060091283D /* IkConstraint.c */; };
 		1AA7E72B21182F2C00DDFC7A /* cpSpaceQuery.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3F2092C54C00224854 /* cpSpaceQuery.c */; };
-		1AA7E72C21182F2C00DDFC7A /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
 		1AA7E72D21182F2C00DDFC7A /* GAAction.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6650202C6824008DA5A3 /* GAAction.cc */; };
 		1AA7E72E21182F2C00DDFC7A /* cpCollision.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4C2092C54E00224854 /* cpCollision.c */; };
 		1AA7E72F21182F2C00DDFC7A /* BoundingBoxAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746820998C060091283D /* BoundingBoxAttachment.c */; };
@@ -260,15 +239,11 @@
 		1AA7E73121182F2C00DDFC7A /* cpSpatialIndex.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF452092C54D00224854 /* cpSpatialIndex.c */; };
 		1AA7E73221182F2C00DDFC7A /* GLSpineElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7734A20996EBF0091283D /* GLSpineElement.cc */; };
 		1AA7E73321182F2C00DDFC7A /* SkeletonJson.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747E20998C060091283D /* SkeletonJson.c */; };
-		1AA7E73421182F2C00DDFC7A /* kk-crypto.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */; };
-		1AA7E73521182F2C00DDFC7A /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
 		1AA7E73621182F2C00DDFC7A /* cpGrooveJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3A2092C54C00224854 /* cpGrooveJoint.c */; };
 		1AA7E73721182F2C00DDFC7A /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1AA7E73821182F2C00DDFC7A /* cpMarch.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3B2092C54C00224854 /* cpMarch.c */; };
 		1AA7E73921182F2C00DDFC7A /* Json.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7745E20998C060091283D /* Json.c */; };
-		1AA7E73A21182F2C00DDFC7A /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
 		1AA7E73B21182F2C00DDFC7A /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
-		1AA7E73C21182F2C00DDFC7A /* kk-wk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EE210EFC83008A5B3B /* kk-wk.cc */; };
 		1AA7E73D21182F2C00DDFC7A /* cpSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3D2092C54C00224854 /* cpSpace.c */; };
 		1AA7E73E21182F2C00DDFC7A /* GAContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400920230A8C001FFB58 /* GAContext.cc */; };
 		1AA7E73F21182F2C00DDFC7A /* VertexAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747D20998C060091283D /* VertexAttachment.c */; };
@@ -277,14 +252,12 @@
 		1AA7E74221182F2C00DDFC7A /* Attachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748420998C060091283D /* Attachment.c */; };
 		1AA7E74321182F2C00DDFC7A /* PathConstraintData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746120998C060091283D /* PathConstraintData.c */; };
 		1AA7E74421182F2C00DDFC7A /* MeshAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746B20998C060091283D /* MeshAttachment.c */; };
-		1AA7E74521182F2C00DDFC7A /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
 		1AA7E74621182F2C00DDFC7A /* PathAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747A20998C060091283D /* PathAttachment.c */; };
 		1AA7E74721182F2C00DDFC7A /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
 		1AA7E74821182F2C00DDFC7A /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
 		1AA7E74921182F2C00DDFC7A /* cpDampedRotarySpring.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF382092C54C00224854 /* cpDampedRotarySpring.c */; };
 		1AA7E74A21182F2C00DDFC7A /* cpPolyline.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF362092C54B00224854 /* cpPolyline.c */; };
 		1AA7E74B21182F2C00DDFC7A /* cpRobust.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4B2092C54E00224854 /* cpRobust.c */; };
-		1AA7E74C21182F2C00DDFC7A /* kk-string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF42022F3C3001FFB58 /* kk-string.cc */; };
 		1AA7E74D21182F2C00DDFC7A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1AA7E74E21182F2C00DDFC7A /* cpPinJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF342092C54B00224854 /* cpPinJoint.c */; };
 		1AA7E74F21182F2C00DDFC7A /* PathConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7746A20998C060091283D /* PathConstraint.c */; };
@@ -300,13 +273,10 @@
 		1AA7E75921182F2C00DDFC7A /* cpPivotJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF3E2092C54C00224854 /* cpPivotJoint.c */; };
 		1AA7E75A21182F2C00DDFC7A /* cpGearJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF4E2092C54E00224854 /* cpGearJoint.c */; };
 		1AA7E75B21182F2C00DDFC7A /* cpSimpleMotor.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF472092C54D00224854 /* cpSimpleMotor.c */; };
-		1AA7E75C21182F2C00DDFC7A /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
-		1AA7E75D21182F2C00DDFC7A /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
 		1AA7E75E21182F2C00DDFC7A /* EventData.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7747120998C060091283D /* EventData.c */; };
 		1AA7E75F21182F2C00DDFC7A /* cpSlideJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF442092C54D00224854 /* cpSlideJoint.c */; };
 		1AA7E76021182F2C00DDFC7A /* GLSLFillColor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65AA1A20440F140001B38A /* GLSLFillColor.cc */; };
 		1AA7E76121182F2C00DDFC7A /* cpConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF322092C54B00224854 /* cpConstraint.c */; };
-		1AA7E76221182F2C00DDFC7A /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
 		1AA7E76321182F2C00DDFC7A /* Triangulator.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748320998C060091283D /* Triangulator.c */; };
 		1AA7E76521182F2C00DDFC7A /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9921169F22005C6A65 /* CoreVideo.framework */; };
 		1AA7E76621182F2C00DDFC7A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9521169EB8005C6A65 /* Cocoa.framework */; };
@@ -315,17 +285,7 @@
 		1AA7E76F21182F4300DDFC7A /* kk-view.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ACBC6D5A21169873005C6A65 /* kk-view.cpp */; };
 		1AB084DC20561FAF00EF5783 /* GLViewportElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */; };
 		1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB084DE2056242F00EF5783 /* GADocument.cc */; };
-		1AB72C95210F12BA00187085 /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
-		1AB72C98210F27B700187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
-		1AB72C99210F27C200187085 /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
-		1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866E5210EC06C008A5B3B /* kk-binary.cc */; };
 		1AB72CAC211024E700187085 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
-		1AB72CAD211024EA00187085 /* kk-chan.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EA210EF94E008A5B3B /* kk-chan.cc */; };
-		1AB72CAE211024ED00187085 /* kk-block.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AB72C94210F12BA00187085 /* kk-block.cc */; };
-		1AB72CB0211024F100187085 /* kk-ev.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC5020CA934A00C4B091 /* kk-ev.cc */; };
-		1AB72CB1211024F500187085 /* kk-ws.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7020CA9F9600C4B091 /* kk-ws.cc */; };
-		1AB72CB2211024F700187085 /* kk-wk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866EE210EFC83008A5B3B /* kk-wk.cc */; };
-		1AB72CB3211024F900187085 /* kk-http.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A32EC7D20CE31FD00C4B091 /* kk-http.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
 		1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */; };
 		1AD772ED20947DAC0091283D /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
@@ -373,18 +333,10 @@
 		1AD774D520998C060091283D /* Attachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748420998C060091283D /* Attachment.c */; };
 		1AD774D620998C060091283D /* RegionAttachment.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD7748520998C060091283D /* RegionAttachment.c */; };
 		1AE23FEA2022F361001FFB58 /* KKGame.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FE82022F361001FFB58 /* KKGame.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1AE23FF72022F3C3001FFB58 /* kk-object.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF22022F3C3001FFB58 /* kk-object.cc */; };
-		1AE23FF92022F3C3001FFB58 /* kk-string.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FF42022F3C3001FFB58 /* kk-string.cc */; };
-		1AE23FFA2022F3C3001FFB58 /* kk-string.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AE23FF52022F3C3001FFB58 /* kk-string.h */; };
-		1AE23FFD2022F86D001FFB58 /* kk-event.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFC2022F86D001FFB58 /* kk-event.cc */; };
-		1AE240002022FC4F001FFB58 /* kk-element.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE23FFF2022FC4F001FFB58 /* kk-element.cc */; };
 		1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400920230A8C001FFB58 /* GAContext.cc */; };
 		1AE2400E20230D5D001FFB58 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
 		1AE2401120231491001FFB58 /* GAShape.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401020231491001FFB58 /* GAShape.cc */; };
 		1AE2401420231F19001FFB58 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
-		1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A2866F2210F051E008A5B3B /* kk-dispatch.cc */; };
-		1AFD6C862112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
-		1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */; };
 		ACBC6D6921169B68005C6A65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D6821169B68005C6A65 /* OpenGL.framework */; };
 		ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9521169EB8005C6A65 /* Cocoa.framework */; };
 		ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9921169F22005C6A65 /* CoreVideo.framework */; };
@@ -409,6 +361,62 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1AE23FE42022F361001FFB58;
 			remoteInfo = KKGame;
+		};
+		1A7CBCB6211AE090006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7CBC7C211ADD25006DC0A3;
+			remoteInfo = KKDuktapeStaticLibrary;
+		};
+		1A7CBCDF211AE101006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A91578621196D5F0055256A;
+			remoteInfo = KKElement;
+		};
+		1A7CBCE1211AE101006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7CBCC0211AE0C4006DC0A3;
+			remoteInfo = KKElementStaticLibrary;
+		};
+		1A7CBCE3211AE194006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBCBF211AE0C4006DC0A3;
+			remoteInfo = KKElementStaticLibrary;
+		};
+		1A7CBCE5211AE194006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBC7B211ADD25006DC0A3;
+			remoteInfo = KKDuktapeStaticLibrary;
+		};
+		1A7CBCF1211AE1C5006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A9157EE21196F7B0055256A;
+			remoteInfo = KKObject;
+		};
+		1A7CBCF3211AE1C5006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1A7CBC4D211ADC8D006DC0A3;
+			remoteInfo = KKObjectStaticLibrary;
+		};
+		1A7CBCF5211AE1CD006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBC4C211ADC8D006DC0A3;
+			remoteInfo = KKObjectStaticLibrary;
 		};
 		1AFD6C432112AC110038234E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -499,8 +507,6 @@
 /* Begin PBXFileReference section */
 		1A00E55D204E562D00B2741D /* GLTextElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLTextElement.h; sourceTree = "<group>"; };
 		1A00E55E204E5B4A00B2741D /* GLTextElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLTextElement.cc; sourceTree = "<group>"; };
-		1A0A65572027F066008DA5A3 /* kk-script.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-script.h"; sourceTree = "<group>"; };
-		1A0A65582027F073008DA5A3 /* kk-script.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-script.cc"; sourceTree = "<group>"; };
 		1A0A65692028283D008DA5A3 /* demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A0A656B2028283D008DA5A3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1A0A656C2028283D008DA5A3 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -533,8 +539,6 @@
 		1A0A661220297D68008DA5A3 /* GLSLTexture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GLSLTexture.vsh; sourceTree = "<group>"; };
 		1A0A66172029B89C008DA5A3 /* GLImageElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLImageElement.h; sourceTree = "<group>"; };
 		1A0A66182029B8EE008DA5A3 /* GLImageElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLImageElement.cc; sourceTree = "<group>"; };
-		1A0A6623202A9671008DA5A3 /* kk-crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-crypto.h"; sourceTree = "<group>"; };
-		1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-crypto.cc"; sourceTree = "<group>"; };
 		1A0A6626202AA88A008DA5A3 /* kk-app.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-app.cc"; sourceTree = "<group>"; };
 		1A0A6627202AA88A008DA5A3 /* kk-app.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kk-app.h"; sourceTree = "<group>"; };
 		1A0A6639202C035E008DA5A3 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libstdc++.tbd"; sourceTree = DEVELOPER_DIR; };
@@ -547,26 +551,15 @@
 		1A0A6697202FDD8A008DA5A3 /* require.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = require.js; sourceTree = "<group>"; };
 		1A0A6699203280A7008DA5A3 /* GLAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAnimation.h; sourceTree = "<group>"; };
 		1A0A669A203280BB008DA5A3 /* GLAnimation.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLAnimation.cc; sourceTree = "<group>"; };
-		1A2866E3210EC05B008A5B3B /* kk-binary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-binary.h"; sourceTree = "<group>"; };
-		1A2866E5210EC06C008A5B3B /* kk-binary.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-binary.cc"; sourceTree = "<group>"; };
-		1A2866E8210EF1B3008A5B3B /* kk-chan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-chan.h"; sourceTree = "<group>"; };
-		1A2866EA210EF94E008A5B3B /* kk-chan.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-chan.cc"; sourceTree = "<group>"; };
-		1A2866EC210EFC6D008A5B3B /* kk-wk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-wk.h"; sourceTree = "<group>"; };
-		1A2866EE210EFC83008A5B3B /* kk-wk.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-wk.cc"; sourceTree = "<group>"; };
-		1A2866F1210F050A008A5B3B /* kk-dispatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-dispatch.h"; sourceTree = "<group>"; };
-		1A2866F2210F051E008A5B3B /* kk-dispatch.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-dispatch.cc"; sourceTree = "<group>"; };
-		1A32EC5020CA934A00C4B091 /* kk-ev.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-ev.cc"; sourceTree = "<group>"; };
-		1A32EC5120CA934A00C4B091 /* kk-ev.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ev.h"; sourceTree = "<group>"; };
-		1A32EC6F20CA9F9600C4B091 /* kk-ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-ws.h"; sourceTree = "<group>"; };
-		1A32EC7020CA9F9600C4B091 /* kk-ws.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-ws.cc"; sourceTree = "<group>"; };
-		1A32EC7D20CE31FD00C4B091 /* kk-http.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-http.cc"; sourceTree = "<group>"; };
-		1A32EC7E20CE31FD00C4B091 /* kk-http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-http.h"; sourceTree = "<group>"; };
 		1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLSliceMapElement.h; sourceTree = "<group>"; };
 		1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLSliceMapElement.cc; sourceTree = "<group>"; };
 		1A65AA1620440E7E0001B38A /* GLSLFillColor.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = GLSLFillColor.vsh; sourceTree = "<group>"; };
 		1A65AA1720440ED60001B38A /* GLSLFillColor.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = GLSLFillColor.fsh; sourceTree = "<group>"; };
 		1A65AA1920440F130001B38A /* GLSLFillColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLSLFillColor.h; sourceTree = "<group>"; };
 		1A65AA1A20440F140001B38A /* GLSLFillColor.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLSLFillColor.cc; sourceTree = "<group>"; };
+		1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKElement.xcodeproj; path = "../../kk-element/KKElement/KKElement.xcodeproj"; sourceTree = "<group>"; };
+		1A7CBCE7211AE19D006DC0A3 /* libKKObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libKKObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKObject.xcodeproj; path = "../../kk-object/KKObject/KKObject.xcodeproj"; sourceTree = "<group>"; };
 		1A8BFF242092C49500224854 /* main */ = {isa = PBXFileReference; lastKnownFileType = folder; name = main; path = ../../fruit/main; sourceTree = SOURCE_ROOT; };
 		1A8BFF302092C54B00224854 /* cpArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpArray.c; path = ../../lib/Chipmunk2D/src/cpArray.c; sourceTree = "<group>"; };
 		1A8BFF312092C54B00224854 /* cpSweep1D.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpSweep1D.c; path = ../../lib/Chipmunk2D/src/cpSweep1D.c; sourceTree = "<group>"; };
@@ -635,6 +628,7 @@
 		1A8BFFAF2092FACE00224854 /* GLShapeElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLShapeElement.h; sourceTree = "<group>"; };
 		1A8BFFD4209335A200224854 /* GATileMap.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GATileMap.cc; sourceTree = "<group>"; };
 		1A8BFFD5209335A200224854 /* GATileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GATileMap.h; sourceTree = "<group>"; };
+		1A9158AF2119B8510055256A /* kk-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "kk-config.h"; path = "../../kk-object/include/kk-config.h"; sourceTree = SOURCE_ROOT; };
 		1A9EEAAA209C2B3F004A8283 /* kk-app */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "kk-app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A9EEAAC209C2B3F004A8283 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		1A9EEB1620A065FE004A8283 /* GLMetaElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLMetaElement.h; sourceTree = "<group>"; };
@@ -647,8 +641,6 @@
 		1AB084DB20561FAF00EF5783 /* GLViewportElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewportElement.cc; sourceTree = "<group>"; };
 		1AB084DD2056242200EF5783 /* GADocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GADocument.h; sourceTree = "<group>"; };
 		1AB084DE2056242F00EF5783 /* GADocument.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GADocument.cc; sourceTree = "<group>"; };
-		1AB72C8D210F12AA00187085 /* kk-block.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-block.h"; sourceTree = "<group>"; };
-		1AB72C94210F12BA00187085 /* kk-block.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-block.cc"; sourceTree = "<group>"; };
 		1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLTileMapElement.cc; sourceTree = "<group>"; };
 		1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLTileMapElement.h; sourceTree = "<group>"; };
 		1AC5F4882090832200AB01D7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
@@ -701,15 +693,6 @@
 		1AE23FE52022F361001FFB58 /* KKGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KKGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AE23FE82022F361001FFB58 /* KKGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKGame.h; sourceTree = "<group>"; };
 		1AE23FE92022F361001FFB58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1AE23FF12022F3C3001FFB58 /* kk-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kk-config.h"; sourceTree = "<group>"; };
-		1AE23FF22022F3C3001FFB58 /* kk-object.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-object.cc"; sourceTree = "<group>"; };
-		1AE23FF32022F3C3001FFB58 /* kk-object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kk-object.h"; sourceTree = "<group>"; };
-		1AE23FF42022F3C3001FFB58 /* kk-string.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-string.cc"; sourceTree = "<group>"; };
-		1AE23FF52022F3C3001FFB58 /* kk-string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "kk-string.h"; sourceTree = "<group>"; };
-		1AE23FFB2022F74A001FFB58 /* kk-event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-event.h"; sourceTree = "<group>"; };
-		1AE23FFC2022F86D001FFB58 /* kk-event.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-event.cc"; sourceTree = "<group>"; };
-		1AE23FFE2022FC40001FFB58 /* kk-element.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-element.h"; sourceTree = "<group>"; };
-		1AE23FFF2022FC4F001FFB58 /* kk-element.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-element.cc"; sourceTree = "<group>"; };
 		1AE240082023099D001FFB58 /* GAContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAContext.h; sourceTree = "<group>"; };
 		1AE2400920230A8C001FFB58 /* GAContext.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAContext.cc; sourceTree = "<group>"; };
 		1AE2400C20230D0F001FFB58 /* GAScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAScene.h; sourceTree = "<group>"; };
@@ -720,7 +703,6 @@
 		1AE2401320231F19001FFB58 /* GABody.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GABody.cc; sourceTree = "<group>"; };
 		1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKDuktape.xcodeproj; path = "../../kk-duktape/KKDuktape/KKDuktape.xcodeproj"; sourceTree = "<group>"; };
 		1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKEvent.xcodeproj; path = "../../kk-event/KKEvent/KKEvent.xcodeproj"; sourceTree = "<group>"; };
-		1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-atomic-pthread.cc"; sourceTree = "<group>"; };
 		ACBC6D5A21169873005C6A65 /* kk-view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-view.cpp"; sourceTree = "<group>"; };
 		ACBC6D5C21169882005C6A65 /* kk-view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-view.h"; sourceTree = "<group>"; };
 		ACBC6D6821169B68005C6A65 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
@@ -765,6 +747,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A7CBCFD211AE27F006DC0A3 /* libstdc++.tbd in Frameworks */,
+				1A7CBCF7211AE1D4006DC0A3 /* libKKObject.a in Frameworks */,
+				1A7CBCE9211AE19D006DC0A3 /* libKKDuktape.a in Frameworks */,
+				1A7CBCEA211AE19D006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */,
 				1AA7E76521182F2C00DDFC7A /* CoreVideo.framework in Frameworks */,
 				1AA7E76621182F2C00DDFC7A /* Cocoa.framework in Frameworks */,
 				1AA7E76721182F2C00DDFC7A /* OpenGL.framework in Frameworks */,
@@ -801,6 +787,7 @@
 		1A0A657F2028287E008DA5A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1A7CBCE7211AE19D006DC0A3 /* libKKObject.a */,
 				ACBC6D9921169F22005C6A65 /* CoreVideo.framework */,
 				ACBC6D9721169ECB005C6A65 /* CoreGraphics.framework */,
 				ACBC6D9521169EB8005C6A65 /* Cocoa.framework */,
@@ -872,6 +859,24 @@
 			);
 			name = js;
 			path = ../../js;
+			sourceTree = "<group>";
+		};
+		1A7CBCD5211AE101006DC0A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A7CBCE0211AE101006DC0A3 /* KKElement.framework */,
+				1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1A7CBCEC211AE1C4006DC0A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A7CBCF2211AE1C5006DC0A3 /* KKObject.framework */,
+				1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		1A8BFF2F2092C52D00224854 /* Chipmunk2D */ = {
@@ -1034,6 +1039,8 @@
 		1AE23FDB2022F361001FFB58 = {
 			isa = PBXGroup;
 			children = (
+				1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */,
+				1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */,
 				1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */,
 				1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */,
 				E9F4A8A72105AF0D00EAB83D /* KKApplication.xcodeproj */,
@@ -1086,40 +1093,11 @@
 			children = (
 				1A0A659120283CA0008DA5A3 /* GL */,
 				1AE2400720230978001FFB58 /* GA */,
-				1AE23FF12022F3C3001FFB58 /* kk-config.h */,
-				1AE23FF22022F3C3001FFB58 /* kk-object.cc */,
-				1AE23FF32022F3C3001FFB58 /* kk-object.h */,
-				1AE23FF42022F3C3001FFB58 /* kk-string.cc */,
-				1AE23FF52022F3C3001FFB58 /* kk-string.h */,
-				1AE23FFB2022F74A001FFB58 /* kk-event.h */,
-				1AE23FFC2022F86D001FFB58 /* kk-event.cc */,
-				1AE23FFE2022FC40001FFB58 /* kk-element.h */,
-				1AE23FFF2022FC4F001FFB58 /* kk-element.cc */,
-				1A0A65572027F066008DA5A3 /* kk-script.h */,
-				1A0A65582027F073008DA5A3 /* kk-script.cc */,
-				1A2866E3210EC05B008A5B3B /* kk-binary.h */,
-				1A2866E5210EC06C008A5B3B /* kk-binary.cc */,
-				1A0A6623202A9671008DA5A3 /* kk-crypto.h */,
-				1A0A6624202A96D4008DA5A3 /* kk-crypto.cc */,
+				1A9158AF2119B8510055256A /* kk-config.h */,
 				1A0A6626202AA88A008DA5A3 /* kk-app.cc */,
 				1A0A6627202AA88A008DA5A3 /* kk-app.h */,
 				1AD772EC20947DAC0091283D /* kk-y.h */,
 				1AD772EB20947DAC0091283D /* kk-y.cc */,
-				1A2866E8210EF1B3008A5B3B /* kk-chan.h */,
-				1A2866EA210EF94E008A5B3B /* kk-chan.cc */,
-				1AB72C8D210F12AA00187085 /* kk-block.h */,
-				1AB72C94210F12BA00187085 /* kk-block.cc */,
-				1A2866F1210F050A008A5B3B /* kk-dispatch.h */,
-				1A2866F2210F051E008A5B3B /* kk-dispatch.cc */,
-				1A32EC5020CA934A00C4B091 /* kk-ev.cc */,
-				1A32EC5120CA934A00C4B091 /* kk-ev.h */,
-				1A32EC6F20CA9F9600C4B091 /* kk-ws.h */,
-				1A32EC7020CA9F9600C4B091 /* kk-ws.cc */,
-				1A2866EC210EFC6D008A5B3B /* kk-wk.h */,
-				1A2866EE210EFC83008A5B3B /* kk-wk.cc */,
-				1A32EC7E20CE31FD00C4B091 /* kk-http.h */,
-				1A32EC7D20CE31FD00C4B091 /* kk-http.cc */,
-				1AFD6C852112B8340038234E /* kk-atomic-pthread.cc */,
 			);
 			name = app;
 			path = ../../app;
@@ -1152,6 +1130,7 @@
 			isa = PBXGroup;
 			children = (
 				1AFD6C442112AC110038234E /* KKDuktape.framework */,
+				1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1191,7 +1170,6 @@
 			files = (
 				E951BE9B2052605200358A85 /* GLMinimapElement.h in Headers */,
 				1A0A665F202D698D008DA5A3 /* require_js.h in Headers */,
-				1A2866E4210EC05B008A5B3B /* kk-binary.h in Headers */,
 				1A0A6629202AA88A008DA5A3 /* kk-app.h in Headers */,
 				1A8BFFA22092C58A00224854 /* chipmunk_structs.h in Headers */,
 				1A8BFFAA2092C58A00224854 /* cpPolyline.h in Headers */,
@@ -1200,21 +1178,18 @@
 				1A8BFFA12092C58A00224854 /* cpPinJoint.h in Headers */,
 				1A8BFF9B2092C58A00224854 /* cpSpace.h in Headers */,
 				1AD774C320998C060091283D /* kvec.h in Headers */,
-				1A0A6590202828E1008DA5A3 /* kk-script.h in Headers */,
 				1A8BFF922092C58A00224854 /* chipmunk_ffi.h in Headers */,
-				1A0A658E202828E1008DA5A3 /* kk-event.h in Headers */,
 				1A8BFF992092C58A00224854 /* cpRatchetJoint.h in Headers */,
 				1A8BFFD7209335A200224854 /* GATileMap.h in Headers */,
-				1A0A658F202828E1008DA5A3 /* kk-element.h in Headers */,
 				1A8BFF972092C58A00224854 /* cpBB.h in Headers */,
 				1A8BFF9E2092C58A00224854 /* cpArbiter.h in Headers */,
 				1A8BFFB12092FACE00224854 /* GLShapeElement.h in Headers */,
 				1A8BFF912092C58A00224854 /* cpConstraint.h in Headers */,
 				1A0A6585202828D8008DA5A3 /* GAContext.h in Headers */,
+				1A9158B02119B8510055256A /* kk-config.h in Headers */,
 				1A8BFFA42092C58A00224854 /* cpMarch.h in Headers */,
 				1A8BFFAD2092C58A00224854 /* cpPivotJoint.h in Headers */,
 				1A8BFFA52092C58A00224854 /* cpTransform.h in Headers */,
-				1A0A658D202828E1008DA5A3 /* kk-object.h in Headers */,
 				1A0A6588202828D8008DA5A3 /* GABody.h in Headers */,
 				1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */,
 				1A8BFFA82092C58A00224854 /* cpShape.h in Headers */,
@@ -1226,7 +1201,6 @@
 				1A8BFFA72092C58A00224854 /* cpRotaryLimitJoint.h in Headers */,
 				1AD7734D20996EBF0091283D /* GLSpineElement.h in Headers */,
 				1A8BFFA92092C58A00224854 /* cpRobust.h in Headers */,
-				1A0A658C202828E1008DA5A3 /* kk-config.h in Headers */,
 				1A8BFF932092C58A00224854 /* cpHastySpace.h in Headers */,
 				1A8BFF9C2092C58A00224854 /* cpPolyShape.h in Headers */,
 				1A0A659920284FF1008DA5A3 /* KKGLContext.h in Headers */,
@@ -1244,12 +1218,10 @@
 				1A8BFF9F2092C58A00224854 /* cpSpatialIndex.h in Headers */,
 				1A8BFF9D2092C58A00224854 /* cpVect.h in Headers */,
 				1AE23FEA2022F361001FFB58 /* KKGame.h in Headers */,
-				1AE23FFA2022F3C3001FFB58 /* kk-string.h in Headers */,
 				1A8BFFA02092C58A00224854 /* chipmunk.h in Headers */,
 				1A0A65B320285DD5008DA5A3 /* KKGLView.h in Headers */,
 				1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */,
 				1A8BFFA32092C58A00224854 /* cpGearJoint.h in Headers */,
-				1A2866ED210EFC6D008A5B3B /* kk-wk.h in Headers */,
 				1A8BFF962092C58A00224854 /* cpBody.h in Headers */,
 				1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */,
 			);
@@ -1304,6 +1276,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A7CBCF6211AE1CD006DC0A3 /* PBXTargetDependency */,
+				1A7CBCE4211AE194006DC0A3 /* PBXTargetDependency */,
+				1A7CBCE6211AE194006DC0A3 /* PBXTargetDependency */,
 			);
 			name = "kk-app";
 			productName = app;
@@ -1382,8 +1357,16 @@
 					ProjectRef = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
 				},
 				{
+					ProductGroup = 1A7CBCD5211AE101006DC0A3 /* Products */;
+					ProjectRef = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+				},
+				{
 					ProductGroup = 1AFD6C462112AC1C0038234E /* Products */;
 					ProjectRef = 1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */;
+				},
+				{
+					ProductGroup = 1A7CBCEC211AE1C4006DC0A3 /* Products */;
+					ProjectRef = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
 				},
 				{
 					ProductGroup = E9F4A8A12105AF0700EAB83D /* Products */;
@@ -1402,6 +1385,41 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libKKDuktape.a;
+			remoteRef = 1A7CBCB6211AE090006DC0A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7CBCE0211AE101006DC0A3 /* KKElement.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKElement.framework;
+			remoteRef = 1A7CBCDF211AE101006DC0A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libKKElementStaticLibrary.a;
+			remoteRef = 1A7CBCE1211AE101006DC0A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7CBCF2211AE1C5006DC0A3 /* KKObject.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KKObject.framework;
+			remoteRef = 1A7CBCF1211AE1C5006DC0A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libKKObject.a;
+			remoteRef = 1A7CBCF3211AE1C5006DC0A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		1AFD6C442112AC110038234E /* KKDuktape.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1500,8 +1518,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A9EEB04209C2BBE004A8283 /* cpSpaceHash.c in Sources */,
-				1A9EEABB209C2B4D004A8283 /* kk-event.cc in Sources */,
-				1AB72C98210F27B700187085 /* kk-binary.cc in Sources */,
 				1A9EEABF209C2B4D004A8283 /* kk-app.cc in Sources */,
 				1AA7E6B021141A4500DDFC7A /* duktape.c in Sources */,
 				1A9EEAFD209C2BBE004A8283 /* cpRotaryLimitJoint.c in Sources */,
@@ -1509,9 +1525,7 @@
 				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
 				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
 				1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */,
-				1A9EEABC209C2B4D004A8283 /* kk-element.cc in Sources */,
 				1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */,
-				1A9EEABD209C2B4D004A8283 /* kk-script.cc in Sources */,
 				1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */,
 				1A9EEAF5209C2BBE004A8283 /* cpHastySpace.c in Sources */,
 				1A9EEAFA209C2BBE004A8283 /* cpPolyShape.c in Sources */,
@@ -1523,41 +1537,30 @@
 				1A9EEAFE209C2BBE004A8283 /* cpShape.c in Sources */,
 				1A9EEAEB209C2BBE004A8283 /* cpArray.c in Sources */,
 				1A9EEAC0209C2B4D004A8283 /* kk-y.cc in Sources */,
-				1AFD6C872112B8340038234E /* kk-atomic-pthread.cc in Sources */,
 				1A9EEAAD209C2B3F004A8283 /* main.cpp in Sources */,
 				1A9EEB05209C2BBE004A8283 /* cpSpaceQuery.c in Sources */,
-				1A2866F3210F051E008A5B3B /* kk-dispatch.cc in Sources */,
 				1A9EEAB5209C2B4D004A8283 /* GAAction.cc in Sources */,
 				1A9EEAEE209C2BBE004A8283 /* cpCollision.c in Sources */,
 				1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */,
 				1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */,
-				1A9EEABE209C2B4D004A8283 /* kk-crypto.cc in Sources */,
-				1A9EEAB9209C2B4D004A8283 /* kk-object.cc in Sources */,
 				1A9EEAF3209C2BBE004A8283 /* cpGrooveJoint.c in Sources */,
 				1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */,
 				1A9EEAF6209C2BBE004A8283 /* cpMarch.c in Sources */,
-				1AB72C95210F12BA00187085 /* kk-block.cc in Sources */,
 				1A9EEAB4209C2B4D004A8283 /* GABody.cc in Sources */,
-				1A2866F0210EFE28008A5B3B /* kk-wk.cc in Sources */,
 				1A9EEB01209C2BBE004A8283 /* cpSpace.c in Sources */,
 				1A9EEAB1209C2B4D004A8283 /* GAContext.cc in Sources */,
-				1AB72C99210F27C200187085 /* kk-chan.cc in Sources */,
 				1A9EEAB2209C2B4D004A8283 /* GAScene.cc in Sources */,
 				1A9EEAF0209C2BBE004A8283 /* cpDampedRotarySpring.c in Sources */,
 				1A9EEAF9209C2BBE004A8283 /* cpPolyline.c in Sources */,
 				1A9EEAFC209C2BBE004A8283 /* cpRobust.c in Sources */,
-				1A9EEABA209C2B4D004A8283 /* kk-string.cc in Sources */,
 				1A9EEAF7209C2BBE004A8283 /* cpPinJoint.c in Sources */,
 				1A9EEAB3209C2B4D004A8283 /* GAShape.cc in Sources */,
 				1A9EEAEC209C2BBE004A8283 /* cpBBTree.c in Sources */,
 				1A9EEAF8209C2BBE004A8283 /* cpPivotJoint.c in Sources */,
 				1A9EEAF2209C2BBE004A8283 /* cpGearJoint.c in Sources */,
 				1A9EEAFF209C2BBE004A8283 /* cpSimpleMotor.c in Sources */,
-				1A32EC5220CA934A00C4B091 /* kk-ev.cc in Sources */,
-				1A32EC7120CA9F9600C4B091 /* kk-ws.cc in Sources */,
 				1A9EEB00209C2BBE004A8283 /* cpSlideJoint.c in Sources */,
 				1A9EEAEF209C2BBE004A8283 /* cpConstraint.c in Sources */,
-				1A32EC7F20CE31FD00C4B091 /* kk-http.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1569,10 +1572,8 @@
 				1AA7E6F621182F2C00DDFC7A /* GLSLTexture.cc in Sources */,
 				1AA7E6F721182F2C00DDFC7A /* cpSpaceHash.c in Sources */,
 				1AA7E6F821182F2C00DDFC7A /* GLMinimapElement.cc in Sources */,
-				1AA7E6F921182F2C00DDFC7A /* kk-event.cc in Sources */,
 				1AA7E6FA21182F2C00DDFC7A /* SlotData.c in Sources */,
 				1AA7E6FB21182F2C00DDFC7A /* AttachmentLoader.c in Sources */,
-				1AA7E6FC21182F2C00DDFC7A /* kk-binary.cc in Sources */,
 				1AA7E6FD21182F2C00DDFC7A /* kk-app.cc in Sources */,
 				1AA7E6FE21182F2C00DDFC7A /* duktape.c in Sources */,
 				1AA7E6FF21182F2C00DDFC7A /* Array.c in Sources */,
@@ -1586,10 +1587,8 @@
 				1AA7E70721182F2C00DDFC7A /* cpDampedSpring.c in Sources */,
 				1AA7E70821182F2C00DDFC7A /* chipmunk.c in Sources */,
 				1AA7E70921182F2C00DDFC7A /* RegionAttachment.c in Sources */,
-				1AA7E70A21182F2C00DDFC7A /* kk-element.cc in Sources */,
 				1AA7E70B21182F2C00DDFC7A /* cpRatchetJoint.c in Sources */,
 				1AA7E70C21182F2C00DDFC7A /* Skin.c in Sources */,
-				1AA7E70D21182F2C00DDFC7A /* kk-script.cc in Sources */,
 				1AA7E70E21182F2C00DDFC7A /* extension.c in Sources */,
 				1AA7E70F21182F2C00DDFC7A /* cpHashSet.c in Sources */,
 				1AA7E71021182F2C00DDFC7A /* cpHastySpace.c in Sources */,
@@ -1614,13 +1613,11 @@
 				1AA7E72321182F2C00DDFC7A /* AnimationState.c in Sources */,
 				1AA7E72421182F2C00DDFC7A /* Bone.c in Sources */,
 				1AA7E72521182F2C00DDFC7A /* GLTileMapElement.cc in Sources */,
-				1AA7E72621182F2C00DDFC7A /* kk-atomic-pthread.cc in Sources */,
 				1AA7E72721182F2C00DDFC7A /* TransformConstraint.c in Sources */,
 				1AA7E72821182F2C00DDFC7A /* GLAnimation.cc in Sources */,
 				1AA7E72921182F2C00DDFC7A /* main.cpp in Sources */,
 				1AA7E72A21182F2C00DDFC7A /* IkConstraint.c in Sources */,
 				1AA7E72B21182F2C00DDFC7A /* cpSpaceQuery.c in Sources */,
-				1AA7E72C21182F2C00DDFC7A /* kk-dispatch.cc in Sources */,
 				1AA7E72D21182F2C00DDFC7A /* GAAction.cc in Sources */,
 				1AA7E72E21182F2C00DDFC7A /* cpCollision.c in Sources */,
 				1AA7E72F21182F2C00DDFC7A /* BoundingBoxAttachment.c in Sources */,
@@ -1628,15 +1625,11 @@
 				1AA7E73121182F2C00DDFC7A /* cpSpatialIndex.c in Sources */,
 				1AA7E73221182F2C00DDFC7A /* GLSpineElement.cc in Sources */,
 				1AA7E73321182F2C00DDFC7A /* SkeletonJson.c in Sources */,
-				1AA7E73421182F2C00DDFC7A /* kk-crypto.cc in Sources */,
-				1AA7E73521182F2C00DDFC7A /* kk-object.cc in Sources */,
 				1AA7E73621182F2C00DDFC7A /* cpGrooveJoint.c in Sources */,
 				1AA7E73721182F2C00DDFC7A /* GAActionWalk.cc in Sources */,
 				1AA7E73821182F2C00DDFC7A /* cpMarch.c in Sources */,
 				1AA7E73921182F2C00DDFC7A /* Json.c in Sources */,
-				1AA7E73A21182F2C00DDFC7A /* kk-block.cc in Sources */,
 				1AA7E73B21182F2C00DDFC7A /* GABody.cc in Sources */,
-				1AA7E73C21182F2C00DDFC7A /* kk-wk.cc in Sources */,
 				1AA7E73D21182F2C00DDFC7A /* cpSpace.c in Sources */,
 				1AA7E73E21182F2C00DDFC7A /* GAContext.cc in Sources */,
 				1AA7E76F21182F4300DDFC7A /* kk-view.cpp in Sources */,
@@ -1646,14 +1639,12 @@
 				1AA7E74221182F2C00DDFC7A /* Attachment.c in Sources */,
 				1AA7E74321182F2C00DDFC7A /* PathConstraintData.c in Sources */,
 				1AA7E74421182F2C00DDFC7A /* MeshAttachment.c in Sources */,
-				1AA7E74521182F2C00DDFC7A /* kk-chan.cc in Sources */,
 				1AA7E74621182F2C00DDFC7A /* PathAttachment.c in Sources */,
 				1AA7E74721182F2C00DDFC7A /* GAScene.cc in Sources */,
 				1AA7E74821182F2C00DDFC7A /* GLViewportElement.cc in Sources */,
 				1AA7E74921182F2C00DDFC7A /* cpDampedRotarySpring.c in Sources */,
 				1AA7E74A21182F2C00DDFC7A /* cpPolyline.c in Sources */,
 				1AA7E74B21182F2C00DDFC7A /* cpRobust.c in Sources */,
-				1AA7E74C21182F2C00DDFC7A /* kk-string.cc in Sources */,
 				1AA7E74D21182F2C00DDFC7A /* GLSliceMapElement.cc in Sources */,
 				1AA7E74E21182F2C00DDFC7A /* cpPinJoint.c in Sources */,
 				1AA7E74F21182F2C00DDFC7A /* PathConstraint.c in Sources */,
@@ -1669,13 +1660,10 @@
 				1AA7E75921182F2C00DDFC7A /* cpPivotJoint.c in Sources */,
 				1AA7E75A21182F2C00DDFC7A /* cpGearJoint.c in Sources */,
 				1AA7E75B21182F2C00DDFC7A /* cpSimpleMotor.c in Sources */,
-				1AA7E75C21182F2C00DDFC7A /* kk-ev.cc in Sources */,
-				1AA7E75D21182F2C00DDFC7A /* kk-ws.cc in Sources */,
 				1AA7E75E21182F2C00DDFC7A /* EventData.c in Sources */,
 				1AA7E75F21182F2C00DDFC7A /* cpSlideJoint.c in Sources */,
 				1AA7E76021182F2C00DDFC7A /* GLSLFillColor.cc in Sources */,
 				1AA7E76121182F2C00DDFC7A /* cpConstraint.c in Sources */,
-				1AA7E76221182F2C00DDFC7A /* kk-http.cc in Sources */,
 				1AA7E76321182F2C00DDFC7A /* Triangulator.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1688,7 +1676,6 @@
 				1A8BFFB02092FACE00224854 /* GLShapeElement.cc in Sources */,
 				1A8BFF612092C54E00224854 /* cpHastySpace.c in Sources */,
 				1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */,
-				1AE23FFD2022F86D001FFB58 /* kk-event.cc in Sources */,
 				1AE2401420231F19001FFB58 /* GABody.cc in Sources */,
 				1A8BFF512092C54E00224854 /* cpArray.c in Sources */,
 				1A8BFF542092C54E00224854 /* cpBBTree.c in Sources */,
@@ -1704,7 +1691,6 @@
 				1A8BFF6A2092C54E00224854 /* chipmunk.c in Sources */,
 				1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */,
 				1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */,
-				1AB72CB2211024F700187085 /* kk-wk.cc in Sources */,
 				1AD774B420998C060091283D /* TransformConstraintData.c in Sources */,
 				1A8BFF622092C54E00224854 /* cpHashSet.c in Sources */,
 				1A8BFF662092C54E00224854 /* cpSpatialIndex.c in Sources */,
@@ -1722,29 +1708,22 @@
 				1AD774C720998C060091283D /* Event.c in Sources */,
 				1A8BFF632092C54E00224854 /* cpSpaceComponent.c in Sources */,
 				1A8BFF5B2092C54E00224854 /* cpGrooveJoint.c in Sources */,
-				1AE23FF92022F3C3001FFB58 /* kk-string.cc in Sources */,
 				1AD774CD20998C060091283D /* ClippingAttachment.c in Sources */,
 				1AE2401120231491001FFB58 /* GAShape.cc in Sources */,
 				1A0A65AC20285788008DA5A3 /* KKStrong.mm in Sources */,
 				1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */,
 				1AD774CA20998C060091283D /* Atlas.c in Sources */,
-				1A0A65592027F073008DA5A3 /* kk-script.cc in Sources */,
 				1A8BFF702092C54E00224854 /* cpDampedSpring.c in Sources */,
 				1AD774D420998C060091283D /* Triangulator.c in Sources */,
-				1AB72CAD211024EA00187085 /* kk-chan.cc in Sources */,
 				1AD774B220998C060091283D /* PathConstraintData.c in Sources */,
-				1AB72CB0211024F100187085 /* kk-ev.cc in Sources */,
 				1AD774D020998C060091283D /* AnimationStateData.c in Sources */,
 				1A8BFF652092C54E00224854 /* cpSlideJoint.c in Sources */,
 				E951BE982052605200358A85 /* GLMinimapElement.cc in Sources */,
 				1A8BFF532092C54E00224854 /* cpConstraint.c in Sources */,
-				1AB72CB3211024F900187085 /* kk-http.cc in Sources */,
 				1AD774BA20998C060091283D /* IkConstraint.c in Sources */,
-				1A0A6625202A96D4008DA5A3 /* kk-crypto.cc in Sources */,
 				1A0A65B0202857C3008DA5A3 /* KKWeak.mm in Sources */,
 				1A9EEB1920A065FE004A8283 /* GLMetaElement.cc in Sources */,
 				1AD774D120998C060091283D /* IkConstraintData.c in Sources */,
-				1AE240002022FC4F001FFB58 /* kk-element.cc in Sources */,
 				1A8BFF602092C54E00224854 /* cpSpaceQuery.c in Sources */,
 				1A65AA1C20440F140001B38A /* GLSLFillColor.cc in Sources */,
 				1AD774C120998C060091283D /* Slot.c in Sources */,
@@ -1761,7 +1740,6 @@
 				1A8BFF592092C54E00224854 /* cpDampedRotarySpring.c in Sources */,
 				1A8BFF682092C54E00224854 /* cpSimpleMotor.c in Sources */,
 				1AD774B620998C060091283D /* VertexEffect.c in Sources */,
-				1AE23FF72022F3C3001FFB58 /* kk-object.cc in Sources */,
 				1AB72CAC211024E700187085 /* kk-app.cc in Sources */,
 				1AD774CE20998C060091283D /* VertexAttachment.c in Sources */,
 				1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */,
@@ -1779,8 +1757,6 @@
 				1A0A661320297D68008DA5A3 /* GLSLTexture.cc in Sources */,
 				1AD7734C20996EBF0091283D /* GLSpineElement.cc in Sources */,
 				1AD774C020998C060091283D /* SkeletonBounds.c in Sources */,
-				1AFD6BE6211039C10038234E /* kk-dispatch.cc in Sources */,
-				1AB72CA5211002DF00187085 /* kk-binary.cc in Sources */,
 				1A8BFF5F2092C54E00224854 /* cpPivotJoint.c in Sources */,
 				1AD774BE20998C060091283D /* AtlasAttachmentLoader.c in Sources */,
 				1AD772ED20947DAC0091283D /* kk-y.cc in Sources */,
@@ -1788,13 +1764,10 @@
 				1AD774CB20998C060091283D /* PathAttachment.c in Sources */,
 				1A8BFF5A2092C54E00224854 /* cpSpaceDebug.c in Sources */,
 				1A8BFF5C2092C54E00224854 /* cpMarch.c in Sources */,
-				1AB72CAE211024ED00187085 /* kk-block.cc in Sources */,
 				1AD774BD20998C060091283D /* AnimationState.c in Sources */,
 				1A0A66192029B8EE008DA5A3 /* GLImageElement.cc in Sources */,
-				1AB72CB1211024F500187085 /* kk-ws.cc in Sources */,
 				1A0A659620284CCB008DA5A3 /* GLContext.cc in Sources */,
 				1A00E55F204E5B4A00B2741D /* GLTextElement.cc in Sources */,
-				1AFD6C862112B8340038234E /* kk-atomic-pthread.cc in Sources */,
 				1AE2400A20230A8C001FFB58 /* GAContext.cc in Sources */,
 				1A8BFF572092C54E00224854 /* cpPolyline.c in Sources */,
 			);
@@ -1812,6 +1785,21 @@
 			isa = PBXTargetDependency;
 			target = 1AE23FE42022F361001FFB58 /* KKGame */;
 			targetProxy = 1A289BA6205228F200E407F2 /* PBXContainerItemProxy */;
+		};
+		1A7CBCE4211AE194006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKElementStaticLibrary;
+			targetProxy = 1A7CBCE3211AE194006DC0A3 /* PBXContainerItemProxy */;
+		};
+		1A7CBCE6211AE194006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKDuktapeStaticLibrary;
+			targetProxy = 1A7CBCE5211AE194006DC0A3 /* PBXContainerItemProxy */;
+		};
+		1A7CBCF6211AE1CD006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKObjectStaticLibrary;
+			targetProxy = 1A7CBCF5211AE1CD006DC0A3 /* PBXContainerItemProxy */;
 		};
 		1AFD6C512112AD3D0038234E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2000,6 +1988,10 @@
 					../lib,
 					../lib/spine/include,
 					../lib/glfw/drawin/include,
+					"../../kk-object/include",
+					"../../kk-duktape/include",
+					"../../kk-event/include",
+					"../../kk-element/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
@@ -2040,6 +2032,10 @@
 					../lib,
 					../lib/spine/include,
 					../lib/glfw/drawin/include,
+					"../../kk-object/include",
+					"../../kk-duktape/include",
+					"../../kk-event/include",
+					"../../kk-element/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,

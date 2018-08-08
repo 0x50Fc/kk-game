@@ -15,11 +15,13 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Document, GADocument)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Document, GADocument)
         
         IMP_SCRIPT_CLASS_END
         
-        Document::Document() {
+        KK_IMP_ELEMENT_CREATE(Document)
+
+        Document::Document(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId) {
             
         }
         

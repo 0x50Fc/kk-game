@@ -9,8 +9,8 @@
 #ifndef GLShapeElement_h
 #define GLShapeElement_h
 
-
 #include "GLContext.h"
+
 
 namespace kk {
     
@@ -18,13 +18,15 @@ namespace kk {
         
         class ShapeElement : public Element {
         public:
-            ShapeElement();
+
             virtual void changedKey(String& key);
             virtual void onDraw(Context * context);
             
             vec4 color;
             
-            DEF_SCRIPT_CLASS
+            KK_DEF_ELEMENT_CREATE(ShapeElement)
+            DEF_SCRIPT_CLASS_NOALLOC
+            
         protected:
             
         };

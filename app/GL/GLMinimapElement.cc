@@ -20,22 +20,23 @@ namespace kk {
     
     namespace GL
     {
-        IMP_SCRIPT_CLASS_BEGIN(&Element::ScriptClass, MinimapElement, GLMinimapElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Element::ScriptClass, MinimapElement, GLMinimapElement)
         
         IMP_SCRIPT_CLASS_END
         
-        MinimapElement::MinimapElement(): size(0) {
+        KK_IMP_ELEMENT_CREATE(MinimapElement)
+        
+        MinimapElement::MinimapElement(kk::Document * document,kk::CString name, kk::ElementKey elementId):Element(document,name,elementId), size(0) {
             
         }
-        
         
         void MinimapElement::changedKey(String& key) {
             Element::changedKey(key);
             
             if(key == "width") {
-                size.x = kk::GA::floatValue(get(key));
+                size.x = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "height") {
-                size.y = kk::GA::floatValue(get(key));
+                size.y = kk::GA::floatValue(get(key.c_str()));
             } 
         }
         
@@ -75,9 +76,9 @@ namespace kk {
                     
                     if (v) {
                         
-                        kk::String & path = v->get("mini-src");
+                        kk::CString path = v->get("mini-src");
                         
-                        if(v && !path.empty()) {
+                        if(v && path != nullptr) {
                             
                             float x = v->position().x * size.x / scene->size.width;
                             float y = v->position().y * size.y / scene->size.height;
@@ -89,7 +90,7 @@ namespace kk {
                             if(i != _images.end()) {
                                 image = i->second.as<Image>();
                             } else {
-                                Strong vv = context->image(path.c_str());
+                                Strong vv = context->image(path);
                                 image = vv.as<Image>();
                                 _images[path] = image;
                             }

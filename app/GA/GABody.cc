@@ -20,7 +20,7 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Body, GABody)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Body, GABody)
         
         static kk::script::Property propertys[] = {
             {"position",(kk::script::Function) &Body::duk_position,(kk::script::Function)  &Body::duk_setPosition},
@@ -30,7 +30,9 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        Body::Body():bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr),angle(0) {
+        KK_IMP_ELEMENT_CREATE(Body)
+        
+        Body::Body(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId), bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr),angle(0) {
         }
         
         Body::~Body() {
@@ -75,42 +77,42 @@ namespace kk {
         void Body::changedKey(String& key) {
             Element::changedKey(key);
             if(key == "x") {
-                _position.x = floatValue(get(key));
+                _position.x = floatValue(get(key.c_str()));
                 if(_cpBody != nullptr) {
                     cpVect p = {_position.x,_position.y};
                     cpBodySetPosition(_cpBody, p);
                 }
             } else if(key == "y") {
-                _position.y = floatValue(get(key));
+                _position.y = floatValue(get(key.c_str()));
                 if(_cpBody != nullptr) {
                     cpVect p = {_position.x,_position.y};
                     cpBodySetPosition(_cpBody, p);
                 }
             } else if(key == "z") {
-                String& v = get(key);
-                if(v == "auto-y") {
+                CString v = get(key.c_str());
+                if(CStringEqual(v , "auto-y") ) {
                     _zIndex = zIndexAutoY;
                 } else {
                     _zIndex = floatValue(v);
                 }
             } else if(key == "focus") {
                 Scene * v = scene();
-                if(v && booleanValue(get(key))) {
+                if(v && booleanValue(get(key.c_str()))) {
                     v->setFocus(this);
                 }
             } else if(key == "type") {
-                String& v = get(key);
-                if(v == "movable") {
+                CString v = get(key.c_str());
+                if(CStringEqual(v , "movable")) {
                     bodyType = BodyTypeMovable;
                 } else {
                     bodyType = BodyTypeFixed;
                 }
             } else if(key == "mass") {
                 if(_cpBody != nullptr) {
-                    cpBodySetMass(_cpBody, floatValue(get(key))); //质量
+                    cpBodySetMass(_cpBody, floatValue(get(key.c_str()))); //质量
                 }
             } else if(key == "angle") {
-                angle = floatValue(get(key));
+                angle = floatValue(get(key.c_str()));
             }
     
         }

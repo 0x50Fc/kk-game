@@ -6,7 +6,8 @@
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 
-#include "kk-object.h"
+
+#include <KKObject/KKObject.h>
 #import "KKStrong.h"
 
 @implementation KKStrong

@@ -118,7 +118,7 @@ namespace kk {
         class TileMap : public Body,public YObject  {
             
         public:
-            TileMap();
+
             virtual kk::Boolean isLoaded();
             virtual void exec(Context * context);
             virtual void set(kk::CString key,duk_context * ctx,duk_idx_t idx) ;
@@ -126,7 +126,9 @@ namespace kk {
             virtual TileLocal local(Point global);
             virtual Point global(TileLocal local);
             
-            DEF_SCRIPT_CLASS
+            DEF_SCRIPT_CLASS_NOALLOC
+            
+            KK_DEF_ELEMENT_CREATE(TileMap)
             
             kk::Int height;
             kk::Int width;

@@ -13,7 +13,17 @@
 #include <glm/gtc/constants.hpp>
 #include "GLSLTexture.h"
 #include "GLSLFillColor.h"
+
+#if defined(KK_PLATFORM_IOS)
+
+#include <KKObject/KKObject.h>
+
+#else
+
 #include "kk-string.h"
+
+#endif
+
 #include "kk-y.h"
 #include <algorithm>
 #include <sstream>
@@ -707,11 +717,13 @@ namespace kk {
             glVertexAttribPointer(loc, size, GL_FLOAT, GL_FALSE, stride, data);
         }
         
-        IMP_SCRIPT_CLASS_BEGIN(&kk::GA::Element::ScriptClass, Element, GLElement)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Element, GLElement)
         
         IMP_SCRIPT_CLASS_END
 
-        Element::Element():position(0.0f),scale(1.0f),transform(1.0f),opacity(1.0f),hidden(false) {
+        KK_IMP_ELEMENT_CREATE(Element)
+
+        Element::Element(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),position(0.0f),scale(1.0f),transform(1.0f),opacity(1.0f),hidden(false) {
             
         }
         
@@ -748,29 +760,29 @@ namespace kk {
             kk::GA::Element::changedKey(key);
             
             if(key == "hidden") {
-                hidden = kk::GA::booleanValue(get(key));
+                hidden = kk::GA::booleanValue(get(key.c_str()));
             } else if(key == "x") {
-                position.x = kk::GA::floatValue(get(key));
+                position.x = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "y") {
-                position.y = kk::GA::floatValue(get(key));
+                position.y = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "z") {
-                position.z = kk::GA::floatValue(get(key));
+                position.z = kk::GA::floatValue(get(key.c_str()));
             } else if(key == "scale") {
                 std::vector<kk::String> vs;
-                CStringSplit(get(key).c_str(), " ", vs);
+                CStringSplit(get(key.c_str()), " ", vs);
                 
                 if(vs.size() == 1) {
-                    scale.x = scale.y = kk::GA::floatValue(vs[0]);
+                    scale.x = scale.y = kk::GA::floatValue(vs[0].c_str());
                 } else if(vs.size() == 3) {
-                    scale.x =  kk::GA::floatValue(vs[0]);
-                    scale.y =  kk::GA::floatValue(vs[1]);
-                    scale.z =  kk::GA::floatValue(vs[2]);
+                    scale.x =  kk::GA::floatValue(vs[0].c_str());
+                    scale.y =  kk::GA::floatValue(vs[1].c_str());
+                    scale.z =  kk::GA::floatValue(vs[2].c_str());
                 }
                 
             } else if(key == "transform") {
-                transform = TransformForString(get(key));
+                transform = TransformForString(get(key.c_str()));
             } else if(key == "opacity") {
-                opacity = kk::GA::floatValue(get(key));
+                opacity = kk::GA::floatValue(get(key.c_str()));
             }
             
         }
@@ -787,10 +799,10 @@ namespace kk {
             this->opacity = opacity;
         }
         
-        mat4 TransformForString(kk::String & value) {
+        mat4 TransformForString(kk::CString value) {
             mat4 v(1.0f);
             std::vector<kk::String> items;
-            kk::CStringSplit(value.c_str(), " ", items);
+            kk::CStringSplit(value, " ", items);
             std::vector<kk::String>::iterator i = items.begin();
             
             while(i != items.end()) {
@@ -831,32 +843,33 @@ namespace kk {
             return v;
         }
         
-        vec4 colorValue(String & value) {
+        vec4 colorValue(CString value) {
             vec4 v(0);
             
-            if(CStringHasPrefix(value.c_str(), "#")) {
-                if(value.length() == 9) {
+            if(CStringHasPrefix(value, "#")) {
+                size_t n = strlen(value);
+                if(n == 9) {
                     {
                         kk::Int r=0,g=0,b=0,a=0;
-                        sscanf(value.c_str(), "#%02x%02x%02x%02x",&a,&r,&g,&b);
+                        sscanf(value, "#%02x%02x%02x%02x",&a,&r,&g,&b);
                         v.r = (Float) r / 255.0f;
                         v.g = (Float) g / 255.0f;
                         v.b = (Float) b / 255.0f;
                         v.a = (Float) a / 255.0f;
                     }
-                } else if(value.length() == 7) {
+                } else if(n == 7) {
                     {
                         kk::Int r=0,g=0,b=0;
-                        sscanf(value.c_str(), "#%02x%02x%02x",&r,&g,&b);
+                        sscanf(value, "#%02x%02x%02x",&r,&g,&b);
                         v.r = (Float) r / 255.0f;
                         v.g = (Float) g / 255.0f;
                         v.b = (Float) b / 255.0f;
                         v.a = 1.0f;
                     }
-                } else if(value.length() == 4) {
+                } else if(n == 4) {
                     {
                         kk::Int r=0,g=0,b=0;
-                        sscanf(value.c_str(), "#%1x%1x%1x",&r,&g,&b);
+                        sscanf(value, "#%1x%1x%1x",&r,&g,&b);
                         v.r = (Float) (r | (r << 4)) / 255.0f;
                         v.g = (Float) (g | (g << 4)) / 255.0f;
                         v.b = (Float) (b | (b << 4)) / 255.0f;
@@ -868,30 +881,35 @@ namespace kk {
             return v;
         }
         
-        Shadow shadowValue(String & value) {
+        Shadow shadowValue(kk::CString value) {
             Shadow v = {vec4(0),0,0,0};
             std::vector<kk::String> vs;
             
-            CStringSplit(value.c_str(), " ", vs);
+            CStringSplit(value, " ", vs);
             
-            if(vs.size() == 4) {
-                v.x = kk::GA::floatValue(vs[0]);
-                v.y = kk::GA::floatValue(vs[1]);
-                v.radius = kk::GA::floatValue(vs[2]);
-                v.color = colorValue(vs[3]);
+            size_t n = value ? strlen(value) : 0;
+            
+            if(n == 4) {
+                v.x = kk::GA::floatValue(vs[0].c_str());
+                v.y = kk::GA::floatValue(vs[1].c_str());
+                v.radius = kk::GA::floatValue(vs[2].c_str());
+                v.color = colorValue(vs[3].c_str());
             }
+            
             return v;
         }
         
-        Stroke strokeValue(String & value) {
+        Stroke strokeValue(kk::CString value) {
             Stroke v = {vec4(0),0};
             std::vector<kk::String> vs;
             
-            CStringSplit(value.c_str(), " ", vs);
+            CStringSplit(value, " ", vs);
             
-            if(vs.size() == 2) {
-                v.size = kk::GA::floatValue(vs[0]);
-                v.color = colorValue(vs[1]);
+            size_t n = value ? strlen(value) : 0;
+            
+            if(n == 2) {
+                v.size = kk::GA::floatValue(vs[0].c_str());
+                v.color = colorValue(vs[1].c_str());
             }
             return v;
         }
