@@ -71,7 +71,7 @@ namespace kk {
             
             Scene * scene = (Scene *) userData;
             
-            if(scene->has("runin")) {
+            if(scene->hasBubble("runin")) {
                 
                 return Scene_emit(scene,arb,"runin");
                 
@@ -94,7 +94,7 @@ namespace kk {
     
             Scene * scene = (Scene *) userData;
             
-            if(scene->has("runout")) {
+            if(scene->hasBubble("runout")) {
                 
                 Scene_emit(scene,arb,"runout");
                 
