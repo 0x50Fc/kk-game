@@ -305,6 +305,10 @@ namespace kk {
             return value == nullptr ? 0 : atoi(value);
         }
         
+        kk::Int64 int64Value(CString value) {
+            return value == nullptr ? 0 : atoll(value);
+        }
+        
         Boolean booleanValue(CString value) {
             return CStringEqual(value,"true") || CStringEqual(value,"1") || CStringEqual(value,"yes");
         }

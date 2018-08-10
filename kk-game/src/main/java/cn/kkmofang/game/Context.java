@@ -40,6 +40,8 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
     static {
         System.loadLibrary("duktape");
         System.loadLibrary("event");
+        System.loadLibrary("kk-object");
+        System.loadLibrary("kk-element");
         System.loadLibrary("kk-game");
     }
 

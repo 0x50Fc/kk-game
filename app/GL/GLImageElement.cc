@@ -104,6 +104,14 @@ namespace kk {
             Element::onDraw(context);
             
             {
+                ContextState & state = context->state();
+                
+                if(state.opacity == 0) {
+                    return;
+                }
+            }
+            
+            {
                 vec4 p[] = {{- anchor.x * size.x,- anchor.y * size.y,0,1},{(1.0f - anchor.x) * size.x,(1.0f - anchor.y) * size.y,0,1}};
                 
                 if(!context->isVisible(p, 2,vec4(0))) {

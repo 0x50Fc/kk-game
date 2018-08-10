@@ -223,11 +223,11 @@ namespace kk {
                 
                 if(_updatting) {
                     
-                    kk::String name = get("animation");
+                    kk::CString name = get("animation");
                     
-                    if(!name.empty()) {
+                    if(name != nullptr) {
                         
-                        spAnimation * anim = spSkeletonData_findAnimation(_spSkeletonData, name.c_str());
+                        spAnimation * anim = spSkeletonData_findAnimation(_spSkeletonData, name);
                         
                         if(anim) {
                             if(_spTrackEntry == nullptr || _spTrackEntry->animation != anim) {
@@ -235,7 +235,7 @@ namespace kk {
                             }
                         
                         } else {
-                            kk::Log("Spine Not Found Animation %s",name.c_str());
+                            kk::Log("Spine Not Found Animation %s",name);
                         }
                     }
                     

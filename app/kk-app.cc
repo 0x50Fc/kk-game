@@ -221,6 +221,7 @@ namespace kk {
         
 #ifdef KK_APP_GL
         {
+            kk::Document::library("kk::GL::Element", kk::GL::MetaElement::Create);
             kk::Document::library("kk::GL::SliceMapElement", kk::GL::SliceMapElement::Create);
             kk::Document::library("kk::GL::ImageElement", kk::GL::ImageElement::Create);
             kk::Document::library("kk::GL::ShapeElement", kk::GL::ShapeElement::Create);

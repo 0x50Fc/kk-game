@@ -35,8 +35,8 @@ namespace kk {
             Element::onDraw(context);
             
             if(!_loaded) {
-                kk::String type = get("type");
-                if(type == "image") {
+                kk::CString type = get("type");
+                if(CStringEqual(type,"image")) {
                     kk::CString src = get("src");
                     if(src != nullptr) {
                         kk::Strong v = context->image(src);

@@ -66,6 +66,9 @@
 		1A7CBCEA211AE19D006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */; };
 		1A7CBCF7211AE1D4006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
 		1A7CBCFD211AE27F006DC0A3 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A6639202C035E008DA5A3 /* libstdc++.tbd */; };
+		1A7CBD1D211D4991006DC0A3 /* libKKDuktape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */; };
+		1A7CBD1E211D4991006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */; };
+		1A7CBD1F211D4991006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
 		1A8BFF252092C49500224854 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 1A8BFF242092C49500224854 /* main */; };
 		1A8BFF512092C54E00224854 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
 		1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
@@ -418,6 +421,27 @@
 			remoteGlobalIDString = 1A7CBC4C211ADC8D006DC0A3;
 			remoteInfo = KKObjectStaticLibrary;
 		};
+		1A7CBD17211D4988006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBC4C211ADC8D006DC0A3;
+			remoteInfo = KKObjectStaticLibrary;
+		};
+		1A7CBD19211D4988006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBC7B211ADD25006DC0A3;
+			remoteInfo = KKDuktapeStaticLibrary;
+		};
+		1A7CBD1B211D4988006DC0A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A7CBCBF211AE0C4006DC0A3;
+			remoteInfo = KKElementStaticLibrary;
+		};
 		1AFD6C432112AC110038234E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
@@ -736,6 +760,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A7CBD1D211D4991006DC0A3 /* libKKDuktape.a in Frameworks */,
+				1A7CBD1E211D4991006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */,
+				1A7CBD1F211D4991006DC0A3 /* libKKObject.a in Frameworks */,
 				ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */,
 				ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */,
 				ACBC6D6921169B68005C6A65 /* OpenGL.framework in Frameworks */,
@@ -1259,6 +1286,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A7CBD18211D4988006DC0A3 /* PBXTargetDependency */,
+				1A7CBD1A211D4988006DC0A3 /* PBXTargetDependency */,
+				1A7CBD1C211D4988006DC0A3 /* PBXTargetDependency */,
 			);
 			name = app;
 			productName = app;
@@ -1801,6 +1831,21 @@
 			name = KKObjectStaticLibrary;
 			targetProxy = 1A7CBCF5211AE1CD006DC0A3 /* PBXContainerItemProxy */;
 		};
+		1A7CBD18211D4988006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKObjectStaticLibrary;
+			targetProxy = 1A7CBD17211D4988006DC0A3 /* PBXContainerItemProxy */;
+		};
+		1A7CBD1A211D4988006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKDuktapeStaticLibrary;
+			targetProxy = 1A7CBD19211D4988006DC0A3 /* PBXContainerItemProxy */;
+		};
+		1A7CBD1C211D4988006DC0A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKElementStaticLibrary;
+			targetProxy = 1A7CBD1B211D4988006DC0A3 /* PBXContainerItemProxy */;
+		};
 		1AFD6C512112AD3D0038234E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KKEvent;
@@ -1916,6 +1961,10 @@
 					../lib,
 					../lib/spine/include,
 					../lib/glfw/drawin/include,
+					"../../kk-object/include",
+					"../../kk-duktape/include",
+					"../../kk-event/include",
+					"../../kk-element/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,
@@ -1952,6 +2001,10 @@
 					../lib,
 					../lib/spine/include,
 					../lib/glfw/drawin/include,
+					"../../kk-object/include",
+					"../../kk-duktape/include",
+					"../../kk-event/include",
+					"../../kk-element/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/lib,

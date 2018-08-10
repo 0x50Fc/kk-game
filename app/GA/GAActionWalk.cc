@@ -175,6 +175,15 @@ namespace kk {
             } else if(key == "duration") {
                 duration = floatValue(get(key.c_str()));
                 _startTimeInterval = 0;
+            } else if(key == "target") {
+                kk::ElementKey elementId = int64Value(get(key.c_str()));
+                kk::Document * doc = document();
+                if(doc) {
+                    kk::Strong e = doc->element(elementId);
+                    target = e.as<Body>();
+                } else {
+                    target = (kk::Object *) nullptr;
+                }
             }
             
             _hasUpdate = true;

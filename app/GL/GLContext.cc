@@ -300,6 +300,29 @@ namespace kk {
             return v;
         }
         
+        Strong Context::program(CString name,CString vsh, CString fsh) {
+            
+            Program * v = nullptr;
+            
+            std::map<String,kk::Weak>::iterator i = _programs.find(name);
+            
+            if(i != _programs.end()) {
+                kk::Weak & weak = i->second;
+                v = weak.as<Program>();
+                if(v != nullptr) {
+                    return v;
+                } else {
+                    _programs.erase(i);
+                }
+            }
+            
+            v = new Program(vsh,fsh);
+            
+            _programs[name] = v;
+            
+            return v;
+        }
+        
         Strong Context::program(CString path) {
             
             if(path == nullptr){
@@ -315,6 +338,8 @@ namespace kk {
                 v = weak.as<Program>();
                 if(v != nullptr) {
                     return v;
+                } else {
+                    _programs.erase(i);
                 }
             }
             
@@ -687,11 +712,13 @@ namespace kk {
         void Program::setUniform(kk::Int loc,kk::Int value) {
             glUniform1i(loc,value);
         }
+        
         void Program::setUniform(kk::Int loc,kk::Int * value, kk::Int count) {
             if(_value) {
                 glUniform1iv(loc,count,value);
             }
         }
+        
         void Program::setUniform(kk::Int loc,mat3 value) {
             glUniformMatrix3fv(loc,1,GL_FALSE, (Float *) &value);
         }

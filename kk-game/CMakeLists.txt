@@ -17,6 +17,21 @@ set_target_properties(event
             PROPERTIES IMPORTED_LOCATION
             ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libevent.so)
 
+add_library(kk-object
+            SHARED
+            IMPORTED)
+
+set_target_properties(kk-object
+            PROPERTIES IMPORTED_LOCATION
+            ${CMAKE_SOURCE_DIR}/lib/${ANDROID_ABI}/libkk-object.so)
+
+add_library(kk-element
+            SHARED
+            IMPORTED)
+
+set_target_properties(kk-element
+            PROPERTIES IMPORTED_LOCATION
+            ${CMAKE_SOURCE_DIR}/lib/${ANDROID_ABI}/libkk-element.so)
 
 add_library(chipmunk
         STATIC
@@ -103,24 +118,8 @@ add_library(kk-game
             SHARED
             src/main/jni/kk-game.cc
             src/main/jni/kk.c
-            src/main/jni/md5/md5.c
-            src/main/jni/app/kk-script.cc
-            src/main/jni/app/kk-object.cc
-            src/main/jni/app/kk-string.cc
-            src/main/jni/app/kk-event.cc
-            src/main/jni/app/kk-element.cc
-            src/main/jni/app/kk-crypto.cc
             src/main/jni/app/kk-y.cc
             src/main/jni/app/kk-app.cc
-            src/main/jni/app/kk-binary.cc
-            src/main/jni/app/kk-chan.cc
-            src/main/jni/app/kk-block.cc
-            src/main/jni/app/kk-dispatch.cc
-            src/main/jni/app/kk-ev.cc
-            src/main/jni/app/kk-wk.cc
-            src/main/jni/app/kk-http.cc
-            src/main/jni/app/kk-ws.cc
-            src/main/jni/app/kk-atomic-pthread.cc
             src/main/jni/app/GA/GAContext.cc
             src/main/jni/app/GA/GABody.cc
             src/main/jni/app/GA/GAScene.cc
@@ -156,6 +155,8 @@ include_directories(
             src/main/jni/spine/include
             src/main/jni/
             src/main/jni/libevent/include
+            src/main/jni/kk-object/include
+            src/main/jni/kk-element/include
             )
 
 set_target_properties(kk-game PROPERTIES
@@ -171,6 +172,8 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries(
                     kk-game
+                    kk-element
+                    kk-object
                     duktape
                     event
                     chipmunk

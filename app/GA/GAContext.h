@@ -50,6 +50,8 @@ namespace kk {
         
         kk::Int intValue(CString value);
         
+        kk::Int64 int64Value(CString value);
+        
         Boolean booleanValue(CString value);
         
         typedef long long TimeInterval;

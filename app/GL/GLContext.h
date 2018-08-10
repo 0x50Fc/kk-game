@@ -145,6 +145,7 @@ namespace kk {
             virtual ~Context();
             virtual Strong image(CString uri);
             virtual Strong program(CString path);
+            virtual Strong program(CString name,CString vsh, CString fsh);
             virtual void draw(kk::Element * element);
             virtual ContextState& state();
             virtual void store();
