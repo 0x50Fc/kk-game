@@ -16,6 +16,8 @@
 #include <stdarg.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/queue.h>
+#include <arpa/inet.h>
 
 #if defined(__APPLE__)
 #include <TargetConditionals.h>

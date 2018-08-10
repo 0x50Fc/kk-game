@@ -169,7 +169,7 @@ Java_cn_kkmofang_game_Context_dealloc(JNIEnv *env, jclass type, jlong ptr) {
     }
 
     if(app) {
-        app->GAElement()->off("", (kk::EventCFunction) nullptr, nullptr);
+        app->document()->off("", (kk::EventCFunction) nullptr, nullptr);
         app->release();
     }
 
@@ -257,7 +257,7 @@ Java_cn_kkmofang_game_Context_emit(JNIEnv *env, jclass type, jlong ptr) {
         ev->data = new kk::script::Object(kk::script::GetContext(ctx),-1);
         duk_pop(ctx);
 
-        app->GAElement()->emit(name,ev);
+        app->document()->emit(name,ev);
     }
 
 }
@@ -271,7 +271,7 @@ Java_cn_kkmofang_game_Context_on(JNIEnv *env, jclass type, jlong ptr) {
     kk::Application * app = getApp(ctx);
 
     if(app && duk_is_string(ctx,-2) && duk_is_function(ctx,-1)) {
-        app->GAElement()->duk_on(ctx);
+        app->document()->duk_on(ctx);
     }
 
 }
@@ -285,7 +285,7 @@ Java_cn_kkmofang_game_Context_off(JNIEnv *env, jclass type, jlong ptr) {
     kk::Application * app = getApp(ctx);
 
     if(app && duk_is_string(ctx,-1)) {
-        app->GAElement()->duk_off(ctx);
+        app->document()->duk_off(ctx);
     }
 
 }
@@ -299,7 +299,13 @@ Java_cn_kkmofang_game_Context_loadingProgress(JNIEnv *env, jclass type, jlong pt
     kk::Application * app = getApp(ctx);
 
     if(app) {
-        return app->GAContext()->loadingProgress(app->GAElement());
+        kk::Document * doc = app->document();
+        if(doc) {
+            kk::Element *element = doc->rootElement();
+            if (element) {
+                app->GAContext()->loadingProgress(element);
+            }
+        }
     }
 
     return 0;
