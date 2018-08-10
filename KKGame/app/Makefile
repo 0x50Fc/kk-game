@@ -1,21 +1,26 @@
 
+
+
 LIBRARY = -L/usr/lib -L/usr/local/lib -levent -lchipmunk -lz -lstdc++ -lm -lrt -lcrypto -lssl
-INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape  -I../../lib/Chipmunk2D/include -I/usr/local/opt/openssl/include
+INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape  -I../../lib/Chipmunk2D/include -I/usr/local/opt/openssl/include -I../../../kk-object/include -I../../../kk-element/include
 CFLAGS = -g
 CCFLAGS = -std=gnu++11 -g
 
 DUKTAPE = ../../lib/duktape
 SRC = ../../app
 GA = ../../app/GA
+KK_OBJECT = ../../../kk-object/src
+KK_ELEMENT = ../../../kk-element/src
 
 OUTPUT = ../../bin
 TARGET = $(OUTPUT)/kk-app
 OBJOUTPUT = ./objs
  
-OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-element.o $(OBJOUTPUT)/kk-string.o \
+OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-string.o \
+	$(OBJOUTPUT)/kk-element.o $(OBJOUTPUT)/kk-element-style.o $(OBJOUTPUT)/kk-document.o $(OBJOUTPUT)/kk-document-binary.o \
 	$(OBJOUTPUT)/kk-script.o $(OBJOUTPUT)/kk-crypto.o $(OBJOUTPUT)/kk-app.o \
 	$(OBJOUTPUT)/kk-ev.o $(OBJOUTPUT)/kk-y.o $(OBJOUTPUT)/kk-ws.o $(OBJOUTPUT)/kk-http.o  \
-	$(OBJOUTPUT)/kk-block.o $(OBJOUTPUT)/kk-dispatch.o $(OBJOUTPUT)/kk-wk.o $(OBJOUTPUT)/kk-binary.o $(OBJOUTPUT)/kk-chan.o  \
+	$(OBJOUTPUT)/kk-block.o $(OBJOUTPUT)/kk-dispatch.o $(OBJOUTPUT)/kk-wk.o $(OBJOUTPUT)/kk-binary.o $(OBJOUTPUT)/kk-chan.o $(OBJOUTPUT)/kk-bio.o  \
 	$(OBJOUTPUT)/GAContext.o $(OBJOUTPUT)/GAScene.o $(OBJOUTPUT)/GABody.o $(OBJOUTPUT)/GAShape.o \
 	$(OBJOUTPUT)/GAAction.o $(OBJOUTPUT)/GAActionWalk.o $(OBJOUTPUT)/GATileMap.o $(OBJOUTPUT)/GADocument.o \
 	$(OBJOUTPUT)/duktape.o  \
@@ -28,56 +33,68 @@ $(TARGET):$(OBJECTS)
 $(OBJOUTPUT)/main.o: ./main.cpp
 	gcc $(CCFLAGS) $(INCLUDE) -c ./main.cpp -o $(OBJOUTPUT)/main.o
 
-$(OBJOUTPUT)/kk-object.o:$(SRC)/kk-object.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-object.cc -o $(OBJOUTPUT)/kk-object.o
+$(OBJOUTPUT)/kk-object.o:$(KK_OBJECT)/kk-object.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-object.cc -o $(OBJOUTPUT)/kk-object.o
 
-$(OBJOUTPUT)/kk-event.o:$(SRC)/kk-event.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-event.cc -o $(OBJOUTPUT)/kk-event.o
+$(OBJOUTPUT)/kk-event.o:$(KK_OBJECT)/kk-event.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-event.cc -o $(OBJOUTPUT)/kk-event.o
 
-$(OBJOUTPUT)/kk-element.o:$(SRC)/kk-element.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-element.cc -o $(OBJOUTPUT)/kk-element.o
+$(OBJOUTPUT)/kk-string.o:$(KK_OBJECT)/kk-string.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-string.cc -o $(OBJOUTPUT)/kk-string.o
 
-$(OBJOUTPUT)/kk-string.o:$(SRC)/kk-string.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-string.cc -o $(OBJOUTPUT)/kk-string.o
+$(OBJOUTPUT)/kk-script.o:$(KK_OBJECT)/kk-script.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-script.cc -o $(OBJOUTPUT)/kk-script.o
 
-$(OBJOUTPUT)/kk-script.o:$(SRC)/kk-script.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-script.cc -o $(OBJOUTPUT)/kk-script.o
-
-$(OBJOUTPUT)/kk-crypto.o:$(SRC)/kk-crypto.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-crypto.cc -o $(OBJOUTPUT)/kk-crypto.o
+$(OBJOUTPUT)/kk-crypto.o:$(KK_OBJECT)/kk-crypto.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-crypto.cc -o $(OBJOUTPUT)/kk-crypto.o
 
 $(OBJOUTPUT)/kk-app.o:$(SRC)/kk-app.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-app.cc -o $(OBJOUTPUT)/kk-app.o
 
-$(OBJOUTPUT)/kk-ev.o:$(SRC)/kk-ev.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-ev.cc -o $(OBJOUTPUT)/kk-ev.o
+$(OBJOUTPUT)/kk-ev.o:$(KK_OBJECT)/kk-ev.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-ev.cc -o $(OBJOUTPUT)/kk-ev.o
 
 $(OBJOUTPUT)/kk-y.o:$(SRC)/kk-y.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-y.cc -o $(OBJOUTPUT)/kk-y.o
 
-$(OBJOUTPUT)/kk-ws.o:$(SRC)/kk-ws.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-ws.cc -o $(OBJOUTPUT)/kk-ws.o
+$(OBJOUTPUT)/kk-ws.o:$(KK_OBJECT)/kk-ws.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-ws.cc -o $(OBJOUTPUT)/kk-ws.o
 
-$(OBJOUTPUT)/kk-http.o:$(SRC)/kk-http.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-http.cc -o $(OBJOUTPUT)/kk-http.o
+$(OBJOUTPUT)/kk-http.o:$(KK_OBJECT)/kk-http.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-http.cc -o $(OBJOUTPUT)/kk-http.o
 
-$(OBJOUTPUT)/kk-binary.o:$(SRC)/kk-binary.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-binary.cc -o $(OBJOUTPUT)/kk-binary.o
+$(OBJOUTPUT)/kk-binary.o:$(KK_OBJECT)/kk-binary.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-binary.cc -o $(OBJOUTPUT)/kk-binary.o
 
-$(OBJOUTPUT)/kk-block.o:$(SRC)/kk-block.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-block.cc -o $(OBJOUTPUT)/kk-block.o
+$(OBJOUTPUT)/kk-block.o:$(KK_OBJECT)/kk-block.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-block.cc -o $(OBJOUTPUT)/kk-block.o
 
-$(OBJOUTPUT)/kk-dispatch.o:$(SRC)/kk-dispatch.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-dispatch.cc -o $(OBJOUTPUT)/kk-dispatch.o
+$(OBJOUTPUT)/kk-dispatch.o:$(KK_OBJECT)/kk-dispatch.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-dispatch.cc -o $(OBJOUTPUT)/kk-dispatch.o
 
-$(OBJOUTPUT)/kk-wk.o:$(SRC)/kk-wk.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-wk.cc -o $(OBJOUTPUT)/kk-wk.o
+$(OBJOUTPUT)/kk-wk.o:$(KK_OBJECT)/kk-wk.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-wk.cc -o $(OBJOUTPUT)/kk-wk.o
 
-$(OBJOUTPUT)/kk-chan.o:$(SRC)/kk-chan.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-chan.cc -o $(OBJOUTPUT)/kk-chan.o
+$(OBJOUTPUT)/kk-chan.o:$(KK_OBJECT)/kk-chan.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-chan.cc -o $(OBJOUTPUT)/kk-chan.o
 
-$(OBJOUTPUT)/kk-atomic.o:$(SRC)/kk-atomic-pthread.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(SRC)/kk-atomic-pthread.cc -o $(OBJOUTPUT)/kk-atomic.o
+$(OBJOUTPUT)/kk-bio.o:$(KK_OBJECT)/kk-bio.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-bio.cc -o $(OBJOUTPUT)/kk-bio.o
+
+$(OBJOUTPUT)/kk-atomic.o:$(KK_OBJECT)/kk-atomic-pthread.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-atomic-pthread.cc -o $(OBJOUTPUT)/kk-atomic.o
+
+$(OBJOUTPUT)/kk-element.o:$(KK_ELEMENT)/kk-element.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_ELEMENT)/kk-element.cc -o $(OBJOUTPUT)/kk-element.o
+
+$(OBJOUTPUT)/kk-element-style.o:$(KK_ELEMENT)/kk-element-style.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_ELEMENT)/kk-element-style.cc -o $(OBJOUTPUT)/kk-element-style.o
+
+$(OBJOUTPUT)/kk-document.o:$(KK_ELEMENT)/kk-document.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_ELEMENT)/kk-document.cc -o $(OBJOUTPUT)/kk-document.o
+
+$(OBJOUTPUT)/kk-document-binary.o:$(KK_ELEMENT)/kk-document-binary.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_ELEMENT)/kk-document-binary.cc -o $(OBJOUTPUT)/kk-document-binary.o
 
 $(OBJOUTPUT)/GAContext.o:$(GA)/GAContext.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(GA)/GAContext.cc -o $(OBJOUTPUT)/GAContext.o
