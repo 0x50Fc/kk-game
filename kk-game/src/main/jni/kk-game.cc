@@ -304,6 +304,8 @@ Java_cn_kkmofang_game_Context_loadingProgress(JNIEnv *env, jclass type, jlong pt
             kk::Element *element = doc->rootElement();
             if (element) {
                 app->GAContext()->loadingProgress(element);
+            } else {
+                return 1;
             }
         }
     }

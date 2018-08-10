@@ -141,10 +141,11 @@ namespace kk {
                         if(cpBody) {
                             cpBodySetVelocity(cpBody, {0,0});
                             cpBodySetPosition(cpBody, {this->x,this->y});
-                            p.x = this->x;
-                            p.y = this->y;
-                            body->setPosition(p);
                         }
+                        
+                        p.x = this->x;
+                        p.y = this->y;
+                        body->setPosition(p);
                         
                         kk::Strong vv = new kk::ElementEvent();
                         kk::ElementEvent * e = vv.as<kk::ElementEvent>();

@@ -248,7 +248,7 @@ namespace kk {
         
         TileMapTileLayer::~TileMapTileLayer() {
             if(_dataBytes) {
-                delete [] _dataBytes;
+                free(_dataBytes);
             }
         }
         
@@ -278,10 +278,9 @@ namespace kk {
                         int n = width * height;
                         
                         if(_dataBytes) {
-                            delete [] _dataBytes;
-                            _dataBytes = new kk::Int[n];
+                            _dataBytes = (kk::Int *) realloc(_dataBytes, n * sizeof(kk::Int));
                         } else {
-                            _dataBytes = new kk::Int[n];
+                            _dataBytes = (kk::Int *) malloc(n * sizeof(kk::Int));
                         }
                         
                         memset(_dataBytes, 0, n * sizeof(kk::Int));

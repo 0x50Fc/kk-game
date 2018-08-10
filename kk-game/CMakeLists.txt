@@ -17,21 +17,8 @@ set_target_properties(event
             PROPERTIES IMPORTED_LOCATION
             ${CMAKE_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI}/libevent.so)
 
-add_library(kk-object
-            SHARED
-            IMPORTED)
-
-set_target_properties(kk-object
-            PROPERTIES IMPORTED_LOCATION
-            ${CMAKE_SOURCE_DIR}/lib/${ANDROID_ABI}/libkk-object.so)
-
-add_library(kk-element
-            SHARED
-            IMPORTED)
-
-set_target_properties(kk-element
-            PROPERTIES IMPORTED_LOCATION
-            ${CMAKE_SOURCE_DIR}/lib/${ANDROID_ABI}/libkk-element.so)
+add_subdirectory(kk-object)
+add_subdirectory(kk-element)
 
 add_library(chipmunk
         STATIC

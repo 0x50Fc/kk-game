@@ -50,6 +50,4 @@ dependencies {
     compile project(':kk-script')
     compile project(':kk-websocket')
     compile project(':kk-app')
-    compile project(':kk-element')
-    compile project(':kk-object')
 }

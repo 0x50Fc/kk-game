@@ -19,8 +19,8 @@
 
 #endif
 
-#import <spine/spine.h>
-#import <spine/extension.h>
+#include <spine/spine.h>
+#include <spine/extension.h>
 
 void _spAtlasPage_createTexture (spAtlasPage* page, const char* path) {
     kk::GL::SpineElement * e = (kk::GL::SpineElement *) page->atlas->rendererObject;
@@ -161,41 +161,21 @@ namespace kk {
                         _loaded = true;
                         return;
                     }
-//
-//                    if(kk::CStringHasSuffix(path.c_str(), ".json")) {
-//
-//                        spSkeletonJson* json = spSkeletonJson_create(_spAtlas);
-//
-//                        json->scale = 1.0f;
-//
-//                        _spSkeletonData = spSkeletonJson_readSkeletonDataFile(json, path.c_str());
-//
-//                        if (_spSkeletonData == nullptr) {
-//                            kk::Log("Not Open %s",path.c_str());
-//                            _loaded = true;
-//                            spSkeletonJson_dispose(json);
-//                            return;
-//                        }
-//
-//                        spSkeletonJson_dispose(json);
-//
-//                    } else {
-//
-                        spSkeletonBinary* binary = spSkeletonBinary_create(_spAtlas);
-                        
-                        binary->scale = 1.0f;
-                
-                        _spSkeletonData = spSkeletonBinary_readSkeletonDataFile(binary, path.c_str());
-                        
-                        if (_spSkeletonData == nullptr) {
-                            kk::Log("Not Open %s",path.c_str());
-                            _loaded = true;
-                            spSkeletonBinary_dispose(binary);
-                            return;
-                        }
-                        
+
+                    spSkeletonBinary* binary = spSkeletonBinary_create(_spAtlas);
+                    
+                    binary->scale = 1.0f;
+            
+                    _spSkeletonData = spSkeletonBinary_readSkeletonDataFile(binary, path.c_str());
+                    
+                    if (_spSkeletonData == nullptr) {
+                        kk::Log("Not Open %s",path.c_str());
+                        _loaded = true;
                         spSkeletonBinary_dispose(binary);
-//                    }
+                        return;
+                    }
+                    
+                    spSkeletonBinary_dispose(binary);
                     
                     _spClipping = spSkeletonClipping_create();
                     
