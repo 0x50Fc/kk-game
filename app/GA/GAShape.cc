@@ -28,6 +28,13 @@ namespace kk {
 
         IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Shape, GAShape)
         
+        static kk::script::Property propertys[] = {
+            {"position",(kk::script::Function) &Shape::duk_position,(kk::script::Function)  &Shape::duk_setPosition},
+        };
+        
+        kk::script::SetProperty(ctx, -1, propertys, sizeof(propertys) / sizeof(kk::script::Property));
+        
+        
         IMP_SCRIPT_CLASS_END
         
         Body * Shape::body(){
@@ -46,6 +53,14 @@ namespace kk {
             }
         }
         
+        Point Shape::position() {
+            return _position;
+        }
+
+        void Shape::setPosition(Point value){
+            _position = value;
+        }
+        
         void Shape::changedKey(String& key) {
             Element::changedKey(key);
             
@@ -60,6 +75,10 @@ namespace kk {
                 } else {
                     shapeType = ShapeTypeCircle;
                 }
+            } else if(key == "x") {
+                _position.x = floatValue(get(key.c_str()));
+            } else if(key == "y") {
+                _position.y = floatValue(get(key.c_str()));
             }
             
             if(_cpShape != nullptr) {
@@ -234,6 +253,41 @@ namespace kk {
             }
             
             Element::onWillRemoveFromParent(element);
+        }
+        
+        duk_ret_t Shape::duk_position(duk_context * ctx) {
+            
+            duk_push_object(ctx);
+            
+            duk_push_string(ctx, "x");
+            duk_push_number(ctx, _position.x);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "y");
+            duk_push_number(ctx, _position.y);
+            duk_put_prop(ctx, -3);
+            
+            return 1;
+        }
+        
+        duk_ret_t Shape::duk_setPosition(duk_context * ctx) {
+            
+            int top = duk_get_top(ctx);
+            
+            if(top > 0 && duk_is_object(ctx, -top)) {
+                duk_get_prop_string(ctx, -top, "x");
+                if(duk_is_number(ctx, -1)) {
+                    _position.x = duk_to_number(ctx, -1);
+                }
+                duk_pop(ctx);
+                duk_get_prop_string(ctx, -top, "y");
+                if(duk_is_number(ctx, -1)) {
+                    _position.y = duk_to_number(ctx, -1);
+                }
+                duk_pop(ctx);
+            }
+            
+            return 0;
         }
         
     

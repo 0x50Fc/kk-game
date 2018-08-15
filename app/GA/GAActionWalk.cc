@@ -173,6 +173,12 @@ namespace kk {
                     }
                 }
             }
+            
+            Body * body = this->body();
+            
+            if(body) {
+                _lastPosition = body->position();
+            }
         
         }
         
@@ -246,35 +252,27 @@ namespace kk {
                     _navigateDuration = 120;
                 }
 
-//                if(_navigateState == ActionWalkNavigateStateNone) {
-//                    
-//                    Body * body = this->body();
-//                    
-//                    if(body) {
-//                        
-//                        ::cpBody * cpBody = body->cpBody();
-//                        
-//                        if(cpBody) {
-//                            
-//                            Point p = body->position();
-//                            
-//                            cpVect v = cpvmult(cpvnormalize({this->x - p.x,this->y - p.y}), speed);
-//                            
-//                            if(top > 2 && duk_is_number(ctx, -top + 1) && duk_is_number(ctx, -top + 2)) {
-//                                cpVect t = cpv(duk_to_number(ctx, -top + 1), duk_to_number(ctx, -top + 2));
-//                                t = cpvmult(cpvnormalize({t.x - p.x,t.y - p.y}),speed);
-//                                v = cpvperp(t);
-//                            } else {
-//                                v = cpvperp(v);
-//                            }
-//                            
-//
-//                            //cpBodySetVelocity(cpBody, v);
-//                            
-//                        }
-//                        
-//                    }
-//                }
+                Body * body = this->body();
+                
+                if(body) {
+                    
+                    body->setPosition(_lastPosition);
+                    
+                    ::cpBody * cpBody = body->cpBody();
+                    
+                    if(cpBody) {
+                        
+                        cpBodySetPosition(cpBody, cpv(_lastPosition.x,_lastPosition.y));
+                        
+                        Point p = body->position();
+                        
+                        cpVect v = cpvmult(cpvnormalize({p.x - this->x,p.y - this->y}),speed * 1.5f);
+ 
+                        cpBodySetForce(cpBody, v);
+
+                    }
+                    
+                }
                 
                 _navigateStartTimeInterval = 0;
                 _navigateState = ActionWalkNavigateStateNavigating;

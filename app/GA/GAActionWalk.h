@@ -51,6 +51,7 @@ namespace kk {
             ActionWalkNavigateState _navigateState;
             TimeInterval _navigateStartTimeInterval;
             TimeInterval _navigateDuration;
+            Point _lastPosition;
         };
     }
     

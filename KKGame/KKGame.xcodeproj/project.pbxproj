@@ -69,7 +69,6 @@
 		1A7CBD1D211D4991006DC0A3 /* libKKDuktape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */; };
 		1A7CBD1E211D4991006DC0A3 /* libKKElement.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElement.a */; };
 		1A7CBD1F211D4991006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
-		1A8BFF252092C49500224854 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 1A8BFF242092C49500224854 /* main */; };
 		1A8BFF512092C54E00224854 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
 		1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF312092C54B00224854 /* cpSweep1D.c */; };
 		1A8BFF532092C54E00224854 /* cpConstraint.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF322092C54B00224854 /* cpConstraint.c */; };
@@ -291,6 +290,11 @@
 		1AB72CAC211024E700187085 /* kk-app.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A6626202AA88A008DA5A3 /* kk-app.cc */; };
 		1AC5F40E2090226800AB01D7 /* GLTileMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */; };
 		1AC5F40F2090226800AB01D7 /* GLTileMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */; };
+		1ACE01EF212427290009BEF1 /* KKDuktape.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFD6C442112AC110038234E /* KKDuktape.framework */; };
+		1ACE01F0212427290009BEF1 /* KKElement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE0211AE101006DC0A3 /* KKElement.framework */; };
+		1ACE01F1212427290009BEF1 /* KKEvent.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFD6C4B2112AC1D0038234E /* KKEvent.framework */; };
+		1ACE01F2212427290009BEF1 /* KKObject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF2211AE1C5006DC0A3 /* KKObject.framework */; };
+		1ACE07EA212427780009BEF1 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 1ACE07E9212427780009BEF1 /* main */; };
 		1AD772ED20947DAC0091283D /* kk-y.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AD772EB20947DAC0091283D /* kk-y.cc */; };
 		1AD772EE20947DAC0091283D /* kk-y.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AD772EC20947DAC0091283D /* kk-y.h */; };
 		1AD772F02094918B0091283D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AD772EF2094918B0091283D /* libz.tbd */; };
@@ -584,7 +588,6 @@
 		1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKElement.xcodeproj; path = "../../kk-element/KKElement/KKElement.xcodeproj"; sourceTree = "<group>"; };
 		1A7CBCE7211AE19D006DC0A3 /* libKKObject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libKKObject.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKObject.xcodeproj; path = "../../kk-object/KKObject/KKObject.xcodeproj"; sourceTree = "<group>"; };
-		1A8BFF242092C49500224854 /* main */ = {isa = PBXFileReference; lastKnownFileType = folder; name = main; path = ../../fruit/main; sourceTree = SOURCE_ROOT; };
 		1A8BFF302092C54B00224854 /* cpArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpArray.c; path = ../../lib/Chipmunk2D/src/cpArray.c; sourceTree = "<group>"; };
 		1A8BFF312092C54B00224854 /* cpSweep1D.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpSweep1D.c; path = ../../lib/Chipmunk2D/src/cpSweep1D.c; sourceTree = "<group>"; };
 		1A8BFF322092C54B00224854 /* cpConstraint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cpConstraint.c; path = ../../lib/Chipmunk2D/src/cpConstraint.c; sourceTree = "<group>"; };
@@ -668,6 +671,7 @@
 		1AC5F40C2090226800AB01D7 /* GLTileMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLTileMapElement.cc; sourceTree = "<group>"; };
 		1AC5F40D2090226800AB01D7 /* GLTileMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLTileMapElement.h; sourceTree = "<group>"; };
 		1AC5F4882090832200AB01D7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		1ACE07E9212427780009BEF1 /* main */ = {isa = PBXFileReference; lastKnownFileType = folder; name = main; path = ../../../../../git.sc.weibo.com/kk/fruit/main; sourceTree = "<group>"; };
 		1AD772EB20947DAC0091283D /* kk-y.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-y.cc"; sourceTree = "<group>"; };
 		1AD772EC20947DAC0091283D /* kk-y.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kk-y.h"; sourceTree = "<group>"; };
 		1AD772EF2094918B0091283D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -745,6 +749,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1ACE01EF212427290009BEF1 /* KKDuktape.framework in Frameworks */,
+				1ACE01F0212427290009BEF1 /* KKElement.framework in Frameworks */,
+				1ACE01F1212427290009BEF1 /* KKEvent.framework in Frameworks */,
+				1ACE01F2212427290009BEF1 /* KKObject.framework in Frameworks */,
 				E9F4A8B92105AFF200EAB83D /* KKApplication.framework in Frameworks */,
 				E9F4A8B82105AFE200EAB83D /* KKWebSocket.framework in Frameworks */,
 				1AD772F02094918B0091283D /* libz.tbd in Frameworks */,
@@ -798,7 +806,7 @@
 		1A0A656A2028283D008DA5A3 /* demo */ = {
 			isa = PBXGroup;
 			children = (
-				1A8BFF242092C49500224854 /* main */,
+				1ACE07E9212427780009BEF1 /* main */,
 				1A0A656B2028283D008DA5A3 /* AppDelegate.h */,
 				1A0A656C2028283D008DA5A3 /* AppDelegate.mm */,
 				1A0A65712028283D008DA5A3 /* Main.storyboard */,
@@ -1499,7 +1507,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A8BFF252092C49500224854 /* main in Resources */,
+				1ACE07EA212427780009BEF1 /* main in Resources */,
 				1A0A65782028283D008DA5A3 /* LaunchScreen.storyboard in Resources */,
 				1A0A65752028283D008DA5A3 /* Assets.xcassets in Resources */,
 				1A0A65732028283D008DA5A3 /* Main.storyboard in Resources */,

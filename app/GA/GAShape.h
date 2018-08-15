@@ -35,6 +35,12 @@ namespace kk {
             virtual void changedKey(String& key);
             virtual void onWillRemoveFromParent(kk::Element * element);
             
+            virtual Point position();
+            virtual void setPosition(Point value);
+            
+            virtual duk_ret_t duk_position(duk_context * ctx);
+            virtual duk_ret_t duk_setPosition(duk_context * ctx);
+            
             ShapeType shapeType;
   
             DEF_SCRIPT_CLASS
@@ -42,6 +48,7 @@ namespace kk {
             KK_DEF_ELEMENT_CREATE(Shape)
             
         protected:
+            Point _position;
             ::cpShape * _cpShape;
         };
         

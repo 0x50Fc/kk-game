@@ -281,18 +281,24 @@ namespace kk {
         }
         
         duk_ret_t Element::duk_remove(duk_context * ctx) {
-            _removed = true;
             
-            kk::Document * doc = document();
             
-            if(doc) {
+            if(!_removed) {
                 
-                kk::DocumentObserver * observer = doc->getObserver();
+                kk::Document * doc = document();
                 
-                if(observer) {
-                    observer->remove(doc, elementId());
+                if(doc) {
+                    
+                    kk::DocumentObserver * observer = doc->getObserver();
+                    
+                    if(observer) {
+                        observer->remove(doc, elementId());
+                    }
                 }
+                
             }
+            
+            _removed = true;
             
             return 0;
         }
