@@ -213,6 +213,10 @@ namespace kk {
             return p;
         }
         
+        void Scene::setPosition(Point p) {
+            _position = p;
+        }
+        
         Float Scene::zIndex() {
             return 0.0f;
         }

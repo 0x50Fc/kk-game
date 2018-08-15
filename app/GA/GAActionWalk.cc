@@ -52,7 +52,21 @@ namespace kk {
                 }
                 
                 if(context->current() > _navigateStartTimeInterval + _navigateDuration) {
+                    
                     _navigateState = ActionWalkNavigateStateNone;
+                    
+                    Body * body = this->body();
+                    
+                    if(body) {
+                        
+                        ::cpBody * cpBody = body->cpBody();
+                        
+                        if(cpBody) {
+                            cpBodySetVelocity(cpBody, {0,0});
+                        }
+                        
+                    }
+                    
                 } else {
                     return;
                 }
@@ -231,10 +245,41 @@ namespace kk {
                 } else {
                     _navigateDuration = 120;
                 }
+
+//                if(_navigateState == ActionWalkNavigateStateNone) {
+//                    
+//                    Body * body = this->body();
+//                    
+//                    if(body) {
+//                        
+//                        ::cpBody * cpBody = body->cpBody();
+//                        
+//                        if(cpBody) {
+//                            
+//                            Point p = body->position();
+//                            
+//                            cpVect v = cpvmult(cpvnormalize({this->x - p.x,this->y - p.y}), speed);
+//                            
+//                            if(top > 2 && duk_is_number(ctx, -top + 1) && duk_is_number(ctx, -top + 2)) {
+//                                cpVect t = cpv(duk_to_number(ctx, -top + 1), duk_to_number(ctx, -top + 2));
+//                                t = cpvmult(cpvnormalize({t.x - p.x,t.y - p.y}),speed);
+//                                v = cpvperp(t);
+//                            } else {
+//                                v = cpvperp(v);
+//                            }
+//                            
+//
+//                            //cpBodySetVelocity(cpBody, v);
+//                            
+//                        }
+//                        
+//                    }
+//                }
                 
                 _navigateStartTimeInterval = 0;
                 _navigateState = ActionWalkNavigateStateNavigating;
                 _landing = true;
+                
             }
             return 0;
         }

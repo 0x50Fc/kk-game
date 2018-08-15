@@ -63,11 +63,11 @@
 		1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65AA1920440F130001B38A /* GLSLFillColor.h */; };
 		1A65AA1C20440F140001B38A /* GLSLFillColor.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65AA1A20440F140001B38A /* GLSLFillColor.cc */; };
 		1A7CBCE9211AE19D006DC0A3 /* libKKDuktape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */; };
-		1A7CBCEA211AE19D006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */; };
+		1A7CBCEA211AE19D006DC0A3 /* libKKElement.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElement.a */; };
 		1A7CBCF7211AE1D4006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
 		1A7CBCFD211AE27F006DC0A3 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A0A6639202C035E008DA5A3 /* libstdc++.tbd */; };
 		1A7CBD1D211D4991006DC0A3 /* libKKDuktape.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCB7211AE090006DC0A3 /* libKKDuktape.a */; };
-		1A7CBD1E211D4991006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */; };
+		1A7CBD1E211D4991006DC0A3 /* libKKElement.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCE2211AE101006DC0A3 /* libKKElement.a */; };
 		1A7CBD1F211D4991006DC0A3 /* libKKObject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A7CBCF4211AE1C5006DC0A3 /* libKKObject.a */; };
 		1A8BFF252092C49500224854 /* main in Resources */ = {isa = PBXBuildFile; fileRef = 1A8BFF242092C49500224854 /* main */; };
 		1A8BFF512092C54E00224854 /* cpArray.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A8BFF302092C54B00224854 /* cpArray.c */; };
@@ -761,7 +761,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7CBD1D211D4991006DC0A3 /* libKKDuktape.a in Frameworks */,
-				1A7CBD1E211D4991006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */,
+				1A7CBD1E211D4991006DC0A3 /* libKKElement.a in Frameworks */,
 				1A7CBD1F211D4991006DC0A3 /* libKKObject.a in Frameworks */,
 				ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */,
 				ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */,
@@ -777,7 +777,7 @@
 				1A7CBCFD211AE27F006DC0A3 /* libstdc++.tbd in Frameworks */,
 				1A7CBCF7211AE1D4006DC0A3 /* libKKObject.a in Frameworks */,
 				1A7CBCE9211AE19D006DC0A3 /* libKKDuktape.a in Frameworks */,
-				1A7CBCEA211AE19D006DC0A3 /* libKKElementStaticLibrary.a in Frameworks */,
+				1A7CBCEA211AE19D006DC0A3 /* libKKElement.a in Frameworks */,
 				1AA7E76521182F2C00DDFC7A /* CoreVideo.framework in Frameworks */,
 				1AA7E76621182F2C00DDFC7A /* Cocoa.framework in Frameworks */,
 				1AA7E76721182F2C00DDFC7A /* OpenGL.framework in Frameworks */,
@@ -892,7 +892,7 @@
 			isa = PBXGroup;
 			children = (
 				1A7CBCE0211AE101006DC0A3 /* KKElement.framework */,
-				1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */,
+				1A7CBCE2211AE101006DC0A3 /* libKKElement.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1429,10 +1429,10 @@
 			remoteRef = 1A7CBCDF211AE101006DC0A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1A7CBCE2211AE101006DC0A3 /* libKKElementStaticLibrary.a */ = {
+		1A7CBCE2211AE101006DC0A3 /* libKKElement.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libKKElementStaticLibrary.a;
+			path = libKKElement.a;
 			remoteRef = 1A7CBCE1211AE101006DC0A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1974,11 +1974,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNDEBUG";
-				OTHER_LDFLAGS = (
-					"-levent",
-					"-lglfw3",
-					"-lpng",
-				);
+				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
 			};
@@ -2014,11 +2010,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNDEBUG";
-				OTHER_LDFLAGS = (
-					"-levent",
-					"-lglfw3",
-					"-lpng",
-				);
+				OTHER_LDFLAGS = "-levent";
 				PRODUCT_NAME = "kk-app";
 				SDKROOT = macosx;
 			};

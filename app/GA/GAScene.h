@@ -49,6 +49,7 @@ namespace kk {
             virtual duk_ret_t duk_nearby(duk_context * ctx);
             
             virtual Point position();
+            virtual void setPosition(Point p);
             virtual Float zIndex();
             virtual Size & viewport();
             virtual Scene * scene();

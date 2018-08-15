@@ -11,6 +11,7 @@
 #include "kk-ev.h"
 #include "kk-view.h"
 #include "kk-string.h"
+#include "GAScene.h"
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
@@ -48,6 +49,39 @@ namespace kk {
         
     }
     
+    static kk::GA::Point _focus = {0,0};
+    
+    static void view_GLFWscrollfun(GLFWwindow* window, double x,double y) {
+        
+        kk::Application * app = (kk::Application *) glfwGetWindowUserPointer(window);
+        
+        std::list<Strong> elements;
+        
+        app->document()->elementsByName("ga:scene", elements);
+        
+        if(!elements.empty()) {
+            Strong & v = elements.front();
+            kk::GA::Scene * scene = v.as<kk::GA::Scene>();
+            if(scene) {
+                _focus.x -= x * 10;
+                _focus.y -= y * 10;
+                if(_focus.x < scene->size.width * -0.5f) {
+                    _focus.x =scene->size.width * -0.5f;
+                }
+                if(_focus.x > scene->size.width * 0.5f) {
+                    _focus.x =scene->size.width * 0.5f;
+                }
+                if(_focus.y < scene->size.height * -0.5f) {
+                    _focus.y =scene->size.height * -0.5f;
+                }
+                if(_focus.y > scene->size.height * 0.5f) {
+                    _focus.y =scene->size.height * 0.5f;
+                }
+                scene->setPosition(_focus);
+            }
+        }
+    }
+    
     void view(kk::Application * app, struct event_base * base, struct evdns_base * dns) {
         
         GLFWwindow* window;
@@ -69,6 +103,7 @@ namespace kk {
         glfwSetWindowUserPointer(window, app);
         
         glfwSetFramebufferSizeCallback(window, view_GLFWframebuffersizefun);
+        glfwSetScrollCallback(window, view_GLFWscrollfun);
         
         glfwMakeContextCurrent(window);
 
