@@ -49,10 +49,6 @@ namespace kk {
             
             Point np(n.x,n.y);
             
-            n = cpArbiterTotalImpulse(arb);
-            
-            kk::Log("Scene_cpCollisionBegin %g,%g",n.x,n.y);
-            
             if(a && b) {
                 
                 kk::Int a_collisionType = (kk::Int) cpShapeGetCollisionType(a);
