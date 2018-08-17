@@ -377,6 +377,20 @@
 			remoteGlobalIDString = 1AE23FE42022F361001FFB58;
 			remoteInfo = KKGame;
 		};
+		1A4490692126D70E00C9A50A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCEB211AE1C4006DC0A3 /* KKObject.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A9157ED21196F7B0055256A;
+			remoteInfo = KKObject;
+		};
+		1A4490762126D71200C9A50A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1A7CBCD4211AE101006DC0A3 /* KKElement.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A91578521196D5F0055256A;
+			remoteInfo = KKElement;
+		};
 		1A7CBCB6211AE090006DC0A3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */;
@@ -1353,6 +1367,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				1A4490772126D71200C9A50A /* PBXTargetDependency */,
+				1A44906A2126D70E00C9A50A /* PBXTargetDependency */,
 				1AFD6C512112AD3D0038234E /* PBXTargetDependency */,
 				1AFD6C532112AD3D0038234E /* PBXTargetDependency */,
 				1AFD6C552112AD3D0038234E /* PBXTargetDependency */,
@@ -1847,6 +1863,16 @@
 			isa = PBXTargetDependency;
 			target = 1AE23FE42022F361001FFB58 /* KKGame */;
 			targetProxy = 1A289BA6205228F200E407F2 /* PBXContainerItemProxy */;
+		};
+		1A44906A2126D70E00C9A50A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKObject;
+			targetProxy = 1A4490692126D70E00C9A50A /* PBXContainerItemProxy */;
+		};
+		1A4490772126D71200C9A50A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KKElement;
+			targetProxy = 1A4490762126D71200C9A50A /* PBXContainerItemProxy */;
 		};
 		1A7CBCE4211AE194006DC0A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

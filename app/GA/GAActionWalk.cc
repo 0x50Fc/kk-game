@@ -256,7 +256,7 @@ namespace kk {
             
             if(a && b) {
                 
-                cpVect p = cpvmult(cpv(-n.x,-n.y), speed);
+                cpVect p = cpvmult(cpv(-n.x,-n.y), 0.5f * speed);
                 
                 a->setPosition(_lastPosition);
                 
@@ -267,7 +267,7 @@ namespace kk {
                     cpBodySetVelocity(cpBody, {0,0});
                     cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
                     
-                    p = cpvmult(cpvnormalize({this->x - _lastPosition.x,this->y - _lastPosition.y}), speed);
+                    p = cpvmult(cpvnormalize({this->x - _lastPosition.x,this->y - _lastPosition.y}), 0.5f * speed);
                     
                     cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
                     
