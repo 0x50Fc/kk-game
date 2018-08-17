@@ -10,6 +10,7 @@
 #define GAActionWalk_h
 
 #include "GAAction.h"
+#include <queue>
 
 namespace kk {
     
@@ -35,7 +36,12 @@ namespace kk {
             
             virtual duk_ret_t duk_target(duk_context * ctx);
             virtual duk_ret_t duk_setTarget(duk_context * ctx);
-            virtual duk_ret_t duk_navigate(duk_context * ctx);  //碰撞寻路
+            
+            virtual kk::Boolean inCollisionShape(Shape * a, Shape * b,Point n);
+            virtual void outCollisionShape(Shape * a, Shape * b,Point n);
+            
+            virtual kk::Boolean inCollisionShape(Shape * shape,Point n);
+            virtual void outCollisionShape(Shape * shape,Point n);
             
             DEF_SCRIPT_CLASS_NOALLOC
             
@@ -49,9 +55,9 @@ namespace kk {
             Float _distance;
             TimeInterval _startTimeInterval;
             ActionWalkNavigateState _navigateState;
-            TimeInterval _navigateStartTimeInterval;
-            TimeInterval _navigateDuration;
+            TimeInterval _navigateTimeIterval;
             Point _lastPosition;
+            std::queue<Point> _navigateVelocitys;
         };
     }
     

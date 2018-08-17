@@ -34,50 +34,76 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_END
         
-        static cpBool Scene_emit(Scene * scene, ::cpArbiter *arb, kk::CString name) {
-            
-            kk::Strong v = new kk::ElementEvent();
-            
-            kk::ElementEvent * e = v.as<kk::ElementEvent>();
-            
-            e->element = scene;
-            
-            ::cpShape * a = nullptr;
-            ::cpShape * b = nullptr;
-            
-            cpArbiterGetShapes(arb, &a, &b);
-            
-            if(a != nullptr) {
-                scene->setObject("a", (kk::Object *) cpShapeGetUserData(a));
-            }
-            
-            if(b != nullptr) {
-                scene->setObject("b", (kk::Object *) cpShapeGetUserData(b));
-            }
-            
-            scene->emit(name, e);
-            
-            scene->setObject("a", nullptr);
-            scene->setObject("b", nullptr);
-            
-            if(e->cancelBubble) {
-                return cpFalse;
-            }
-            
-            return cpTrue;
-        }
         
         static cpBool Scene_cpCollisionBegin(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
             
-            Scene * scene = (Scene *) userData;
+            cpBool r = cpTrue;
             
-            if(scene->hasBubble("runin")) {
+            Scene * scene = (Scene *) cpSpaceGetUserData(space);
+            
+            ::cpShape * a = nullptr, * b = nullptr;
+            
+            cpArbiterGetShapes(arb, &a, &b);
+            
+            cpVect n = cpArbiterGetNormal(arb);
+            
+            Point np(n.x,n.y);
+            
+            n = cpArbiterTotalImpulse(arb);
+            
+            kk::Log("Scene_cpCollisionBegin %g,%g",n.x,n.y);
+            
+            if(a && b) {
                 
-                return Scene_emit(scene,arb,"runin");
+                kk::Int a_collisionType = (kk::Int) cpShapeGetCollisionType(a);
+                kk::Int b_collisionType = (kk::Int) cpShapeGetCollisionType(b);
+                Shape * a_shape = (Shape *) cpShapeGetUserData(a);
+                Shape * b_shape = (Shape *) cpShapeGetUserData(b);
                 
+                if(a_shape && b_shape) {
+                    
+                    {
+                        kk::Element * e = scene->firstChild();
+                        
+                        while(e) {
+                            
+                            Body * b = dynamic_cast<Body *>(e);
+                            
+                            Collision * v = dynamic_cast<Collision *>(e);
+                            
+                            if(b == nullptr && v != nullptr) {
+                                
+                                if(v->collisionType() == a_collisionType && v->hasCollisionType(b_collisionType)) {
+                                    r = v->inCollisionShape(a_shape, b_shape,np) && r;
+                                }
+                                
+                                if(v->collisionType() == b_collisionType && v->hasCollisionType(a_collisionType)) {
+                                    r = v->inCollisionShape(b_shape, a_shape,np) && r;
+                                }
+                                
+                            } else {
+                                break;
+                            }
+                            
+                            e = e->nextSibling();
+                        }
+                    }
+                    
+                    Body * a_body = a_shape->body();
+                    Body * b_body = b_shape->body();
+                    
+                    if(a_body) {
+                        r = a_body->inCollisionShape(a_shape, b_shape,np) && r;
+                    }
+                    
+                    if(b_body) {
+                        r = b_body->inCollisionShape(b_shape, a_shape,np) && r;
+                    }
+                    
+                }
             }
-            
-            return cpTrue;
+
+            return r;
         }
         
         static cpBool Scene_cpCollisionPreSolve(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
@@ -91,15 +117,66 @@ namespace kk {
         
         static void Scene_cpCollisionSeparate(::cpArbiter *arb, ::cpSpace *space, ::cpDataPointer userData) {
             
-    
-            Scene * scene = (Scene *) userData;
+            Scene * scene = (Scene *) cpSpaceGetUserData(space);
             
-            if(scene->hasBubble("runout")) {
+            ::cpShape * a = nullptr, * b = nullptr;
+            
+            cpArbiterGetShapes(arb, &a, &b);
+            
+            cpVect n = cpArbiterGetNormal(arb);
+            
+            Point np(n.x,n.y);
+            
+            if(a && b) {
                 
-                Scene_emit(scene,arb,"runout");
+                kk::Int a_collisionType = (kk::Int) cpShapeGetCollisionType(a);
+                kk::Int b_collisionType = (kk::Int) cpShapeGetCollisionType(b);
+                Shape * a_shape = (Shape *) cpShapeGetUserData(a);
+                Shape * b_shape = (Shape *) cpShapeGetUserData(b);
                 
+                if(a_shape && b_shape) {
+                    
+                    {
+                        kk::Element * e = scene->firstChild();
+                        
+                        while(e) {
+                            
+                            Body * b = dynamic_cast<Body *>(e);
+                            
+                            Collision * v = dynamic_cast<Collision *>(e);
+                            
+                            if(b == nullptr && v != nullptr) {
+                                
+                                if(v->collisionType() == a_collisionType && v->hasCollisionType(b_collisionType)) {
+                                    v->outCollisionShape(a_shape, b_shape,np);
+                                }
+                                
+                                if(v->collisionType() == b_collisionType && v->hasCollisionType(a_collisionType)) {
+                                    v->outCollisionShape(b_shape, a_shape,np);
+                                }
+                                
+                            } else {
+                                break;
+                            }
+                            
+                            e = e->nextSibling();
+                        }
+                    }
+                    
+                    Body * a_body = a_shape->body();
+                    Body * b_body = b_shape->body();
+                    
+                    if(a_body) {
+                        a_body->outCollisionShape(a_shape, b_shape,np);
+                    }
+                    
+                    if(b_body) {
+                        b_body->outCollisionShape(b_shape, a_shape,np);
+                    }
+                    
+                }
             }
-            
+       
         }
         
         KK_IMP_ELEMENT_CREATE(Scene)
@@ -107,6 +184,7 @@ namespace kk {
         Scene::Scene(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),_prevTimeInterval(0) {
                 
             _cpSpace = cpSpaceNew();
+            cpSpaceSetUserData(_cpSpace, this);
             cpSpaceSetGravity(_cpSpace, {0,0});
             
             {

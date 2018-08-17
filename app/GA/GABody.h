@@ -10,6 +10,7 @@
 #define GABody_h
 
 #include "GAContext.h"
+#include "GACollision.h"
 
 struct cpBody;
 
@@ -26,7 +27,7 @@ namespace kk {
             BodyTypeMovable,    //活动的
         };
         
-        class Body : public Element ,public IPosition {
+        class Body : public Collision ,public IPosition {
         public:
             virtual ~Body();
             virtual Point position();
@@ -38,6 +39,12 @@ namespace kk {
             virtual void onWillRemoveFromParent(kk::Element * element);
             
             virtual void exec(Context * context);
+            
+            virtual kk::Boolean inCollisionShape(Shape * a, Shape * b,Point n);
+            virtual void outCollisionShape(Shape * a, Shape * b,Point n);
+            
+            virtual kk::Boolean inCollisionShape(Shape * shape,Point n);
+            virtual void outCollisionShape(Shape * shape,Point n);
 
             BodyType bodyType;
             Float angle;    //方向弧度

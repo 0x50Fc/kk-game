@@ -58,6 +58,14 @@
 		1A0A665C202D4124008DA5A3 /* GAActionWalk.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A665B202D4124008DA5A3 /* GAActionWalk.cc */; };
 		1A0A665F202D698D008DA5A3 /* require_js.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A0A665E202D698D008DA5A3 /* require_js.h */; };
 		1A0A669B203280BC008DA5A3 /* GLAnimation.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A0A669A203280BB008DA5A3 /* GLAnimation.cc */; };
+		1A4490252126671100C9A50A /* GAInCollision.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A4490242126671100C9A50A /* GAInCollision.h */; };
+		1A4490322126673D00C9A50A /* GAInCollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A4490312126673D00C9A50A /* GAInCollision.cc */; };
+		1A4490332126673D00C9A50A /* GAInCollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A4490312126673D00C9A50A /* GAInCollision.cc */; };
+		1A4490342126673D00C9A50A /* GAInCollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A4490312126673D00C9A50A /* GAInCollision.cc */; };
+		1A44903621266AC200C9A50A /* GACollision.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A44903521266AC200C9A50A /* GACollision.h */; };
+		1A44903821266C0000C9A50A /* GACollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A44903721266C0000C9A50A /* GACollision.cc */; };
+		1A44903921266C0000C9A50A /* GACollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A44903721266C0000C9A50A /* GACollision.cc */; };
+		1A44903A21266C0000C9A50A /* GACollision.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A44903721266C0000C9A50A /* GACollision.cc */; };
 		1A65A9FE20417BDE0001B38A /* GLSliceMapElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */; };
 		1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */; };
 		1A65AA1B20440F140001B38A /* GLSLFillColor.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A65AA1920440F130001B38A /* GLSLFillColor.h */; };
@@ -579,6 +587,10 @@
 		1A0A6697202FDD8A008DA5A3 /* require.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = require.js; sourceTree = "<group>"; };
 		1A0A6699203280A7008DA5A3 /* GLAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLAnimation.h; sourceTree = "<group>"; };
 		1A0A669A203280BB008DA5A3 /* GLAnimation.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLAnimation.cc; sourceTree = "<group>"; };
+		1A4490242126671100C9A50A /* GAInCollision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAInCollision.h; sourceTree = "<group>"; };
+		1A4490312126673D00C9A50A /* GAInCollision.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAInCollision.cc; sourceTree = "<group>"; };
+		1A44903521266AC200C9A50A /* GACollision.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GACollision.h; sourceTree = "<group>"; };
+		1A44903721266C0000C9A50A /* GACollision.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GACollision.cc; sourceTree = "<group>"; };
 		1A65A9F820416FCB0001B38A /* GLSliceMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLSliceMapElement.h; sourceTree = "<group>"; };
 		1A65A9FD20417BDE0001B38A /* GLSliceMapElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLSliceMapElement.cc; sourceTree = "<group>"; };
 		1A65AA1620440E7E0001B38A /* GLSLFillColor.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = GLSLFillColor.vsh; sourceTree = "<group>"; };
@@ -1145,6 +1157,10 @@
 				1AE2400920230A8C001FFB58 /* GAContext.cc */,
 				1AE2400C20230D0F001FFB58 /* GAScene.h */,
 				1AE2400D20230D5D001FFB58 /* GAScene.cc */,
+				1A4490242126671100C9A50A /* GAInCollision.h */,
+				1A4490312126673D00C9A50A /* GAInCollision.cc */,
+				1A44903521266AC200C9A50A /* GACollision.h */,
+				1A44903721266C0000C9A50A /* GACollision.cc */,
 				1AE2400F20231481001FFB58 /* GAShape.h */,
 				1AE2401020231491001FFB58 /* GAShape.cc */,
 				1AE24012202315F9001FFB58 /* GABody.h */,
@@ -1238,11 +1254,13 @@
 				1A8BFFA92092C58A00224854 /* cpRobust.h in Headers */,
 				1A8BFF932092C58A00224854 /* cpHastySpace.h in Headers */,
 				1A8BFF9C2092C58A00224854 /* cpPolyShape.h in Headers */,
+				1A4490252126671100C9A50A /* GAInCollision.h in Headers */,
 				1A0A659920284FF1008DA5A3 /* KKGLContext.h in Headers */,
 				1A0A65C620286C82008DA5A3 /* KKGLViewElement.h in Headers */,
 				1A8BFF672092C54E00224854 /* prime.h in Headers */,
 				1A0A6586202828D8008DA5A3 /* GAScene.h in Headers */,
 				1A8BFF902092C58A00224854 /* chipmunk_types.h in Headers */,
+				1A44903621266AC200C9A50A /* GACollision.h in Headers */,
 				1A8BFFAC2092C58A00224854 /* cpSlideJoint.h in Headers */,
 				1A8BFFA62092C58A00224854 /* chipmunk_private.h in Headers */,
 				1A9EEB1820A065FE004A8283 /* GLMetaElement.h in Headers */,
@@ -1562,6 +1580,7 @@
 				1A9EEAED209C2BBE004A8283 /* cpBody.c in Sources */,
 				1A9EEAEA209C2BBE004A8283 /* cpArbiter.c in Sources */,
 				1A9EEAF1209C2BBE004A8283 /* cpDampedSpring.c in Sources */,
+				1A4490332126673D00C9A50A /* GAInCollision.cc in Sources */,
 				1A9EEAE9209C2BBE004A8283 /* chipmunk.c in Sources */,
 				1A9EEAFB209C2BBE004A8283 /* cpRatchetJoint.c in Sources */,
 				1A9EEAF4209C2BBE004A8283 /* cpHashSet.c in Sources */,
@@ -1580,6 +1599,7 @@
 				1A9EEAB5209C2B4D004A8283 /* GAAction.cc in Sources */,
 				1A9EEAEE209C2BBE004A8283 /* cpCollision.c in Sources */,
 				1A9EEB08209C2BBE004A8283 /* cpSweep1D.c in Sources */,
+				1A44903921266C0000C9A50A /* GACollision.cc in Sources */,
 				1A9EEB07209C2BBE004A8283 /* cpSpatialIndex.c in Sources */,
 				1A9EEAF3209C2BBE004A8283 /* cpGrooveJoint.c in Sources */,
 				1A9EEAB6209C2B4D004A8283 /* GAActionWalk.cc in Sources */,
@@ -1609,6 +1629,7 @@
 				1AA7E6F521182F2C00DDFC7A /* Slot.c in Sources */,
 				1AA7E6F621182F2C00DDFC7A /* GLSLTexture.cc in Sources */,
 				1AA7E6F721182F2C00DDFC7A /* cpSpaceHash.c in Sources */,
+				1A4490342126673D00C9A50A /* GAInCollision.cc in Sources */,
 				1AA7E6F821182F2C00DDFC7A /* GLMinimapElement.cc in Sources */,
 				1AA7E6FA21182F2C00DDFC7A /* SlotData.c in Sources */,
 				1AA7E6FB21182F2C00DDFC7A /* AttachmentLoader.c in Sources */,
@@ -1620,6 +1641,7 @@
 				1AA7E70221182F2C00DDFC7A /* cpBody.c in Sources */,
 				1AA7E70321182F2C00DDFC7A /* cpArbiter.c in Sources */,
 				1AA7E70421182F2C00DDFC7A /* TransformConstraintData.c in Sources */,
+				1A44903A21266C0000C9A50A /* GACollision.cc in Sources */,
 				1AA7E70521182F2C00DDFC7A /* ClippingAttachment.c in Sources */,
 				1AA7E70621182F2C00DDFC7A /* AtlasAttachmentLoader.c in Sources */,
 				1AA7E70721182F2C00DDFC7A /* cpDampedSpring.c in Sources */,
@@ -1726,6 +1748,7 @@
 				1A8BFF642092C54E00224854 /* cpBody.c in Sources */,
 				1AD774D320998C060091283D /* Color.c in Sources */,
 				1AD774C920998C060091283D /* Bone.c in Sources */,
+				1A44903821266C0000C9A50A /* GACollision.cc in Sources */,
 				1A8BFF6A2092C54E00224854 /* chipmunk.c in Sources */,
 				1A8BFF522092C54E00224854 /* cpSweep1D.c in Sources */,
 				1A0A6651202C6824008DA5A3 /* GAAction.cc in Sources */,
@@ -1753,6 +1776,7 @@
 				1AD774CA20998C060091283D /* Atlas.c in Sources */,
 				1A8BFF702092C54E00224854 /* cpDampedSpring.c in Sources */,
 				1AD774D420998C060091283D /* Triangulator.c in Sources */,
+				1A4490322126673D00C9A50A /* GAInCollision.cc in Sources */,
 				1AD774B220998C060091283D /* PathConstraintData.c in Sources */,
 				1AD774D020998C060091283D /* AnimationStateData.c in Sources */,
 				1A8BFF652092C54E00224854 /* cpSlideJoint.c in Sources */,

@@ -18,12 +18,6 @@ namespace kk {
         
         IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&Action::ScriptClass, ActionWalk, GAActionWalk)
         
-        static kk::script::Method methods[] = {
-            {"navigate",(kk::script::Function) &ActionWalk::duk_navigate},
-        };
-        
-        kk::script::SetMethod(ctx, -1, methods, sizeof(methods) / sizeof(kk::script::Method));
-        
         static kk::script::Property propertys[] = {
             {"target",(kk::script::Function) &ActionWalk::duk_target,(kk::script::Function) &ActionWalk::duk_setTarget},
         };
@@ -38,7 +32,7 @@ namespace kk {
             :Action(document,name,elementId)
             ,x(0),y(0),speed(0),angle(0),_hasUpdate(false)
             ,_landing(true),_enabled(true),duration(0),_startTimeInterval(0)
-            ,_navigateState(ActionWalkNavigateStateNone),_navigateStartTimeInterval(0),_navigateDuration(0){
+            ,_navigateState(ActionWalkNavigateStateNone){
             
         }
 
@@ -47,30 +41,27 @@ namespace kk {
             
             if(_navigateState == ActionWalkNavigateStateNavigating) {
                 
-                if(_navigateStartTimeInterval == 0) {
-                    _navigateStartTimeInterval = context->current();
+                if(_navigateTimeIterval == 0) {
+                    _navigateTimeIterval = context->current();
                 }
                 
-                if(context->current() > _navigateStartTimeInterval + _navigateDuration) {
-                    
+                if(context->current() - _navigateTimeIterval > 120) {
                     _navigateState = ActionWalkNavigateStateNone;
                     
-                    Body * body = this->body();
+                    Body * a = body();
                     
-                    if(body) {
+                    if(a != nullptr && !_navigateVelocitys.empty()) {
                         
-                        ::cpBody * cpBody = body->cpBody();
+                        ::cpBody * cpBody = a->cpBody();
                         
                         if(cpBody) {
                             cpBodySetVelocity(cpBody, {0,0});
                         }
                         
                     }
-                    
                 } else {
                     return;
                 }
-            
             }
             
             Body * tBody = target.as<Body>();
@@ -240,46 +231,57 @@ namespace kk {
             return 0;
         }
         
-        duk_ret_t ActionWalk::duk_navigate(duk_context * ctx) {
+        kk::Boolean ActionWalk::inCollisionShape(Shape * a, Shape * b,Point n) {
             
-            if(_navigateState == ActionWalkNavigateStateNone) {
-                
-                int top = duk_get_top(ctx);
-                
-                if(top >0 && duk_is_number(ctx, -top)) {
-                    _navigateDuration = duk_to_int(ctx, -top);
-                } else {
-                    _navigateDuration = 120;
-                }
-
-                Body * body = this->body();
-                
-                if(body) {
-                    
-                    body->setPosition(_lastPosition);
-                    
-                    ::cpBody * cpBody = body->cpBody();
-                    
-                    if(cpBody) {
-                        
-                        cpBodySetPosition(cpBody, cpv(_lastPosition.x,_lastPosition.y));
-                        
-                        Point p = body->position();
-                        
-                        cpVect v = cpvmult(cpvnormalize({p.x - this->x,p.y - this->y}),speed * 1.5f);
- 
-                        cpBodySetForce(cpBody, v);
-
-                    }
-                    
-                }
-                
-                _navigateStartTimeInterval = 0;
-                _navigateState = ActionWalkNavigateStateNavigating;
-                _landing = true;
-                
+            kk::Boolean v = Action::inCollisionShape(a, b,n);
+            
+            if(a->body() == body()) {
+                v = inCollisionShape(b,n) && v;
             }
-            return 0;
+            
+            return v;
+        }
+        
+        void ActionWalk::outCollisionShape(Shape * a, Shape * b,Point n) {
+            Action::outCollisionShape(a, b, n);
+            if(a->body() == body()) {
+                outCollisionShape(b,n);
+            }
+        }
+        
+        kk::Boolean ActionWalk::inCollisionShape(Shape * shape,Point n) {
+            
+            Body * a = body();
+            Body * b = shape->body();
+            
+            if(a && b) {
+                
+                cpVect p = cpvmult(cpv(-n.x,-n.y), speed);
+                
+                a->setPosition(_lastPosition);
+                
+                ::cpBody * cpBody = a->cpBody();
+                
+                if(cpBody) {
+                    cpBodySetPosition(cpBody, {_lastPosition.x,_lastPosition.y});
+                    cpBodySetVelocity(cpBody, {0,0});
+                    cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
+                    
+                    p = cpvmult(cpvnormalize({this->x - _lastPosition.x,this->y - _lastPosition.y}), speed);
+                    
+                    cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
+                    
+                }
+            }
+            
+            _navigateState = ActionWalkNavigateStateNavigating;
+            _navigateTimeIterval = 0;
+            
+            return true;
+        }
+        
+        void ActionWalk::outCollisionShape(Shape * shape,Point n) {
+
         }
         
     }

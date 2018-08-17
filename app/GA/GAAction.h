@@ -10,6 +10,7 @@
 #define GAAction_h
 
 #include "GAContext.h"
+#include "GAInCollision.h"
 
 namespace kk {
 
@@ -19,7 +20,7 @@ namespace kk {
         class Shape;
   
 
-        class Action : public Element {
+        class Action : public InCollision {
         public:
 
             virtual Body * body();

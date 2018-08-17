@@ -23,6 +23,7 @@ OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-stri
 	$(OBJOUTPUT)/kk-block.o $(OBJOUTPUT)/kk-dispatch.o $(OBJOUTPUT)/kk-wk.o $(OBJOUTPUT)/kk-binary.o $(OBJOUTPUT)/kk-chan.o $(OBJOUTPUT)/kk-bio.o  \
 	$(OBJOUTPUT)/GAContext.o $(OBJOUTPUT)/GAScene.o $(OBJOUTPUT)/GABody.o $(OBJOUTPUT)/GAShape.o \
 	$(OBJOUTPUT)/GAAction.o $(OBJOUTPUT)/GAActionWalk.o $(OBJOUTPUT)/GATileMap.o $(OBJOUTPUT)/GADocument.o \
+	$(OBJOUTPUT)/GAInCollision.o $(OBJOUTPUT)/GACollision.o \
 	$(OBJOUTPUT)/duktape.o  \
 	$(OBJOUTPUT)/kk-atomic.o  \
 	$(OBJOUTPUT)/main.o 
@@ -119,6 +120,12 @@ $(OBJOUTPUT)/GATileMap.o:$(GA)/GATileMap.cc
 
 $(OBJOUTPUT)/GADocument.o:$(GA)/GADocument.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(GA)/GADocument.cc -o $(OBJOUTPUT)/GADocument.o
+
+$(OBJOUTPUT)/GAInCollision.o:$(GA)/GAInCollision.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(GA)/GAInCollision.cc -o $(OBJOUTPUT)/GAInCollision.o
+
+$(OBJOUTPUT)/GACollision.o:$(GA)/GACollision.cc
+	gcc $(CCFLAGS) $(INCLUDE) -c $(GA)/GACollision.cc -o $(OBJOUTPUT)/GACollision.o
 
 $(OBJOUTPUT)/duktape.o:$(DUKTAPE)/duktape.c
 	gcc $(CFLAGS) $(INCLUDE) -c $(DUKTAPE)/duktape.c -o $(OBJOUTPUT)/duktape.o

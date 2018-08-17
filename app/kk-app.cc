@@ -216,6 +216,7 @@ namespace kk {
             kk::Document::library("kk::GA::ActionWalk", kk::GA::ActionWalk::Create);
             kk::Document::library("kk::GA::Document", kk::GA::Document::Create);
             kk::Document::library("kk::GA::TileMap", kk::GA::TileMap::Create);
+            kk::Document::library("kk::GA::Collision", kk::GA::Collision::Create);
 
         }
         

@@ -115,6 +115,8 @@ add_library(kk-game
             src/main/jni/app/GA/GAAction.cc
             src/main/jni/app/GA/GAActionWalk.cc
             src/main/jni/app/GA/GATileMap.cc
+            src/main/jni/app/GA/GAInCollision.cc
+            src/main/jni/app/GA/GACollision.cc
             src/main/jni/app/GL/GLContext.cc
             src/main/jni/app/GL/GLImageElement.cc
             src/main/jni/app/GL/GLMinimapElement.cc

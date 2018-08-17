@@ -47,7 +47,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/hailong11/Documents/src/git.sc.weibo.com/kk/fruit/main/fighting/player"
+      customWorkingDirectory = "/Users/hailong11/Documents/src/git.sc.weibo.com/kk/fruit/map"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"

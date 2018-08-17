@@ -20,7 +20,7 @@ namespace kk {
     
     namespace GA {
         
-        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Element::ScriptClass, Body, GABody)
+        IMP_SCRIPT_CLASS_BEGIN_NOALLOC(&kk::GA::Collision::ScriptClass, Body, GABody)
         
         static kk::script::Property propertys[] = {
             {"position",(kk::script::Function) &Body::duk_position,(kk::script::Function)  &Body::duk_setPosition},
@@ -32,7 +32,7 @@ namespace kk {
         
         KK_IMP_ELEMENT_CREATE(Body)
         
-        Body::Body(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId), bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr),angle(0) {
+        Body::Body(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Collision(document,name,elementId), bodyType(BodyTypeFixed),_zIndex(zIndexAutoY),_cpBody(nullptr),angle(0){
         }
         
         Body::~Body() {
@@ -75,7 +75,7 @@ namespace kk {
         }
         
         void Body::changedKey(String& key) {
-            Element::changedKey(key);
+            Collision::changedKey(key);
             if(key == "x") {
                 _position.x = floatValue(get(key.c_str()));
                 if(_cpBody != nullptr) {
@@ -164,7 +164,7 @@ namespace kk {
             _position.x = p.x;
             _position.y = p.y;
             
-            Element::exec(context);
+            Collision::exec(context);
         }
     
         cpBody * Body::cpBody() {
@@ -243,6 +243,31 @@ namespace kk {
             }
             
             Element::onWillRemoveFromParent(element);
+        }
+        
+        kk::Boolean Body::inCollisionShape(Shape * a, Shape * b,Point n) {
+            kk::Boolean v = Collision::inCollisionShape(a, b,n);
+            
+            if(a->body() == this) {
+                v = inCollisionShape(b,n) && v;
+            }
+            
+            return v;
+        }
+        
+        void Body::outCollisionShape(Shape * a, Shape * b,Point n) {
+            Collision::outCollisionShape(a, b,n);
+            if(a->body() == this) {
+                outCollisionShape(b,n);
+            }
+        }
+        
+        kk::Boolean Body::inCollisionShape(Shape * shape,Point n) {
+            return true;
+        }
+        
+        void Body::outCollisionShape(Shape * shape,Point n) {
+            
         }
         
     }

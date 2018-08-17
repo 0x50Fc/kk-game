@@ -43,7 +43,7 @@ namespace kk {
         
         KK_IMP_ELEMENT_CREATE(Shape)
         
-        Shape::Shape(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),_cpShape(nullptr),shapeType(ShapeTypeCircle) {
+        Shape::Shape(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId),_cpShape(nullptr),shapeType(ShapeTypeCircle),_collisionType(0) {
             
         }
         
@@ -79,6 +79,8 @@ namespace kk {
                 _position.x = floatValue(get(key.c_str()));
             } else if(key == "y") {
                 _position.y = floatValue(get(key.c_str()));
+            } else if(key == "collisionType") {
+                _collisionType = intValue(get(key.c_str()));
             }
             
             if(_cpShape != nullptr) {
@@ -98,6 +100,18 @@ namespace kk {
                         v = 1;
                     }
                     cpShapeSetDensity(_cpShape, v);  // 密度
+                }
+                
+                if(_collisionType == 0) {
+                    
+                    Body * body = this->body();
+                    
+                    if(body) {
+                        cpShapeSetCollisionType(_cpShape, body->collisionType());
+                    }
+                    
+                } else {
+                    cpShapeSetCollisionType(_cpShape, _collisionType);
                 }
             }
         }
@@ -147,6 +161,7 @@ namespace kk {
                             ps.push_back({x,y});
                             i ++;
                         }
+                        
                         _cpShape = cpPolyShapeNewRaw(cpBody, (int) ps.size(), ps.data(), floatValue(get("radius")));
                     }
                         break;
@@ -177,6 +192,12 @@ namespace kk {
                     Scene * scene = body->scene();
                     
                     cpShapeSetUserData(_cpShape, this);
+                    
+                    if(_collisionType == 0) {
+                        cpShapeSetCollisionType(_cpShape, body->collisionType());
+                    } else {
+                        cpShapeSetCollisionType(_cpShape, _collisionType);
+                    }
                     
                     {
                         kk::CString v = get("density");
@@ -288,6 +309,20 @@ namespace kk {
             }
             
             return 0;
+        }
+        
+        kk::Int Shape::collisionType() {
+            if(_collisionType == 0) {
+                Body * v = body();
+                if(v) {
+                    _collisionType = v->collisionType();
+                }
+            }
+            return _collisionType;
+        }
+        
+        void Shape::setCollisionType(kk::Int collisionType) {
+            _collisionType = collisionType;
         }
         
     

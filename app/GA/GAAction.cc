@@ -22,14 +22,14 @@ namespace kk {
         
         KK_IMP_ELEMENT_CREATE(Action)
         
-        Action::Action(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::Element(document,name,elementId){
+        Action::Action(kk::Document * document,kk::CString name, kk::ElementKey elementId):kk::GA::InCollision(document,name,elementId){
         }
         
         Body * Action::body() {
             return dynamic_cast<Body *>(parent());
         }
         
-        
+
     }
 
 }
