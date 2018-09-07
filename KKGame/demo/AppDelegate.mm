@@ -37,24 +37,6 @@
 
 -(BOOL) KKShell:(KKShell *) shell openApplication:(KKApplication *) application {
     
-    [application.observer set:@[@"auth"] value:@{@"uid":@"2956325241",@"gsid":@"_2A252O38DDeRxGeRH7lQS8ivOzz2IHXVTUfXLrDV6PUJbkdANLXCmkWpNTbZTlpM2ryzbkmMLWusEljr3jjJ6UBnS"}];
-    
-    NSString * proxy = [[application.observer get:@[@"info",@"http",@"proxy"] defaultValue:nil] kk_stringValue];
-    
-    if(proxy != nil) {
-        
-        NSArray * vs = [proxy componentsSeparatedByString:@":"];
-        
-        NSURLSessionConfiguration * config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        
-        config.connectionProxyDictionary =
-        @{(id)kCFNetworkProxiesHTTPEnable:@YES,
-          (id)kCFNetworkProxiesHTTPProxy:vs[0],
-          (id)kCFNetworkProxiesHTTPPort:@([vs count] >1 ? [vs[1] intValue]:80)};
-        
-        application.http = [[KKHttp alloc] initWithConfiguration:config];
-        
-    }
     
     return NO;
 }

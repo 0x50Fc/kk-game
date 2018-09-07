@@ -254,44 +254,62 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     
     [_lock lock];
     
-    [EAGLContext setCurrentContext:view.GLContext];
+    kk::DispatchQueue * queue = _queue;
+    _queue = nullptr;
     
-    if(_queue != nullptr) {
-        _queue->join();
+    kk::script::Context * jsContext = _jsContext;
+    _jsContext = nullptr;
+    
+    kk::Application * app = _app;
+    _app = nullptr;
+    
+    if(app != nullptr) {
+        app->document()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
     }
     
-    if(_jsContext != nullptr) {
-        _jsContext->release();
-        _jsContext = nullptr;
-    }
+    struct evdns_base * dns = _dns;
+    _dns = nullptr;
     
-    if(_app != nullptr) {
-        _app->document()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
-        _app->release();
-        _app = nullptr;
-    }
-    
-    if(_queue != nullptr) {
-        _queue->release();
-        _queue = nullptr;
-    }
-    
-    if(_dns != nullptr) {
-        evdns_base_free(_dns, 0);
-        _dns = nullptr;
-    }
-    
-    if(_base != nullptr) {
-        event_base_free(_base);
-        _base = nullptr;
-    }
+    struct event_base * base = _base;
+    _base = nullptr;
     
     _loaded = NO;
     
+    [_lock unlock];
+    
+    [EAGLContext setCurrentContext:view.GLContext];
+    
+    if(queue != nullptr) {
+        queue->join();
+    }
+    
+    if(jsContext != nullptr) {
+        jsContext->release();
+        jsContext = nullptr;
+    }
+    
+    if(app != nullptr) {
+        app->release();
+        app = nullptr;
+    }
+    
+    if(queue != nullptr) {
+        queue->release();
+        queue = nullptr;
+    }
+    
+    if(dns != nullptr) {
+        evdns_base_free(dns, 0);
+        dns = nullptr;
+    }
+    
+    if(base != nullptr) {
+        event_base_free(base);
+        base = nullptr;
+    }
+    
     [EAGLContext setCurrentContext:nil];
     
-    [_lock unlock];
-
 }
 
 -(void) setView:(UIView *)view {
