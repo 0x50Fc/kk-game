@@ -128,6 +128,9 @@ add_library(kk-game
             src/main/jni/app/GL/GLShapeElement.cc
             src/main/jni/app/GL/GLSpineElement.cc
             src/main/jni/app/GL/GLMetaElement.cc
+            src/main/jni/app/GL/GLProgramElement.cc
+            src/main/jni/app/GL/GLRenderElement.cc
+            src/main/jni/app/GL/GLViewElement.cc
             src/main/jni/glsl/GLSLTexture.cc
             src/main/jni/glsl/GLSLFillColor.cc
             )
