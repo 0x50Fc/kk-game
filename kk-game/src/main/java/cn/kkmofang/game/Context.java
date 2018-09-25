@@ -241,8 +241,8 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
             }
         }
 
-        int mWidth = (int) Math.ceil(width);
-        int mHeight = layout.getHeight();
+        int mWidth = Math.max(1, (int) Math.ceil(width));
+        int mHeight =  Math.max(1,layout.getHeight());
 
         Bitmap bitmap = Bitmap.createBitmap(mWidth,mHeight, Bitmap.Config.ARGB_8888);
 
