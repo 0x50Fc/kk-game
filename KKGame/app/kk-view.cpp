@@ -82,6 +82,103 @@ namespace kk {
         }
     }
     
+    static kk::Int _cursorButton = -1;
+    
+  
+    
+    static void view_emitTouchEvent(GLFWwindow* window,kk::Application * app,kk::CString name) {
+        
+        kk::script::Context * jsContext = app->jsContext();
+        
+        kk::ElementEvent * event = new kk::ElementEvent();
+        
+        kk::Strong e = event;
+        
+        duk_context * ctx = jsContext->jsContext();
+        
+        duk_push_object(ctx);
+        
+        int width = 0;
+        int height = 0;
+        
+        glfwGetWindowSize(window, &width, &height);
+        
+        duk_push_int(ctx, width);
+        duk_put_prop_string(ctx, -2, "width");
+        
+        duk_push_int(ctx, height);
+        duk_put_prop_string(ctx, -2, "height");
+        
+        duk_push_string(ctx, name);
+        duk_put_prop_string(ctx, -2, "type");
+        
+        duk_push_int(ctx, 1);
+        duk_put_prop_string(ctx, -2, "count");
+        
+        duk_push_array(ctx);
+        
+        duk_push_object(ctx);
+        
+        double x = 0;
+        double y = 0;
+        
+        glfwGetCursorPos(window, &x, &y);
+        
+        duk_push_number(ctx, x);
+        duk_put_prop_string(ctx, -2, "x");
+        
+        duk_push_number(ctx, y);
+        duk_put_prop_string(ctx, -2, "y");
+        
+        duk_push_number(ctx, x * 2.0f / width -1.0f);
+        duk_put_prop_string(ctx, -2, "dx");
+        
+        duk_push_number(ctx, y * 2.0f / height -1.0f);
+        duk_put_prop_string(ctx, -2, "dy");
+        
+        duk_push_string(ctx,"1");
+        duk_put_prop_string(ctx, -2, "id");
+        
+        duk_put_prop_index(ctx, -2, 0);
+    
+        duk_put_prop_string(ctx, -2, "items");
+        
+        event->data = new kk::script::Object(jsContext,-1);
+        
+        duk_pop(ctx);
+        
+        app->document()->emit(name, event);
+
+    }
+    
+    static void view_GLFWcursorposfun(GLFWwindow* window,double x,double y) {
+        
+        kk::Application * app = (kk::Application *) glfwGetWindowUserPointer(window);
+        
+        if(_cursorButton != -1) {
+            view_emitTouchEvent(window,app,"touchmove");
+        }
+        
+    }
+    
+    static void view_GLFWmousebuttonfun(GLFWwindow* window,int button,int action,int mods) {
+        
+        kk::Application * app = (kk::Application *) glfwGetWindowUserPointer(window);
+        
+        if(button == 0) {
+            if(action == GLFW_PRESS) {
+                _cursorButton = button;
+                view_emitTouchEvent(window,app,"touchstart");
+            } else {
+                if(_cursorButton == button) {
+                    view_emitTouchEvent(window,app,"touchend");
+                }
+                _cursorButton = -1;
+            }
+        }
+        
+    }
+    
     void view(kk::Application * app, struct event_base * base, struct evdns_base * dns) {
         
         GLFWwindow* window;
@@ -104,6 +201,8 @@ namespace kk {
         
         glfwSetFramebufferSizeCallback(window, view_GLFWframebuffersizefun);
         glfwSetScrollCallback(window, view_GLFWscrollfun);
+        glfwSetCursorPosCallback(window, view_GLFWcursorposfun);
+        glfwSetMouseButtonCallback(window, view_GLFWmousebuttonfun);
         
         glfwMakeContextCurrent(window);
 

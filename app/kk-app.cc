@@ -42,6 +42,9 @@
 #include "GLMetaElement.h"
 #include "GLSliceMapElement.h"
 #include "GLImageElement.h"
+#include "GLProgramElement.h"
+#include "GLRenderElement.h"
+#include "GLViewElement.h"
 
 #endif
 
@@ -234,6 +237,12 @@ namespace kk {
             kk::Document::library("kk::GL::TileMapElement", kk::GL::TileMapElement::Create);
             kk::Document::library("kk::GL::SpineElement", kk::GL::SpineElement::Create);
             kk::Document::library("kk::GL::MetaElement", kk::GL::MetaElement::Create);
+            kk::Document::library("kk::GL::ProgramElement", kk::GL::ProgramElement::Create);
+            kk::Document::library("kk::GL::RenderElement", kk::GL::RenderElement::Create);
+            kk::Document::library("kk::GL::UniformElement", kk::GL::UniformElement::Create);
+            kk::Document::library("kk::GL::VertexElement", kk::GL::VertexElement::Create);
+            kk::Document::library("kk::GL::AttribElement", kk::GL::AttribElement::Create);
+            kk::Document::library("kk::GL::ViewElement", kk::GL::ViewElement::Create);
         }
 #endif
         

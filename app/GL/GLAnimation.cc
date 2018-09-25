@@ -116,6 +116,8 @@ namespace kk {
                 return ;
             }
             
+            e->setAnimationValue(value);
+            
             Float idx = 100 * value;
             Float cur = 0;
             

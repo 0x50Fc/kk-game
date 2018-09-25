@@ -144,7 +144,7 @@ namespace kk {
             Context();
             virtual ~Context();
             virtual Strong image(CString uri);
-            virtual Strong program(CString path);
+            virtual Strong program(CString name);
             virtual Strong program(CString name,CString vsh, CString fsh);
             virtual void draw(kk::Element * element);
             virtual ContextState& state();
@@ -233,6 +233,7 @@ namespace kk {
             virtual void setAnimationTransform(mat4 transform) = 0;
             virtual void setAnimationOpacity(Float opacity) = 0;
             virtual void setAnimationImage(Image * image) = 0;
+            virtual void setAnimationValue(Float value) = 0;
         };
         
         class Element : public kk::GA::Element , public AnimationTarget {
@@ -243,6 +244,8 @@ namespace kk {
             virtual void setAnimationOpacity(Float opacity);
             virtual void setAnimationTransform(mat4 transform);
             virtual void setAnimationImage(Image * image);
+            virtual void setAnimationValue(Float value);
+            
             vec3 position;
             vec3 scale;
             mat4 transform;

@@ -323,56 +323,19 @@ namespace kk {
             return v;
         }
         
-        Strong Context::program(CString path) {
+        Strong Context::program(CString name) {
             
-            if(path == nullptr){
+            if(name == nullptr){
                 return nullptr;
             }
             
-            Program * v = nullptr;
-            
-            std::map<String,kk::Weak>::iterator i = _programs.find(path);
+            std::map<String,kk::Weak>::iterator i = _programs.find(name);
             
             if(i != _programs.end()) {
-                kk::Weak & weak = i->second;
-                v = weak.as<Program>();
-                if(v != nullptr) {
-                    return v;
-                } else {
-                    _programs.erase(i);
-                }
+                return i->second.as<Program>();
             }
             
-            kk::String vv = getString(path);
-            
-            if(!vv.empty()) {
-                
-                
-                kk::Strong jsContext = new kk::script::Context();
-                
-                duk_context * ctx = jsContext.as<kk::script::Context>()->jsContext();
-                
-                if(kk::script::decodeJSON(ctx, vv.c_str(), vv.size()) != DUK_EXEC_SUCCESS) {
-                    kk::script::Error(ctx, -1);
-                }
-                
-                if(duk_is_object(ctx, -1)) {
-                    kk::CString vsh = Y_toString(ctx, -1, "vsh",nullptr);
-                    kk::CString fsh = Y_toString(ctx, -1, "fsh",nullptr);
-                    if(vsh && fsh) {
-                        v = new Program(vsh,fsh);
-                    }
-                }
-                
-                duk_pop_n(ctx, 1);
-                
-            }
-            
-            if(v != nullptr) {
-                _programs[path] = v;
-            }
-            
-            return v;
+            return nullptr;
         }
         
         void Context::drawTexture(Texture * texture,GLenum mode,TextureVertex * points,kk::Uint count) {
@@ -819,6 +782,10 @@ namespace kk {
         }
         
         void Element::setAnimationImage(Image * image) {
+            
+        }
+        
+        void Element::setAnimationValue(Float value) {
             
         }
         

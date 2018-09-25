@@ -15,7 +15,7 @@ namespace kk {
     
     namespace GL {
         
-        class MetaElement : public Element, public LoadingProgress {
+        class MetaElement : public Element{
         public:
 
             virtual Float loadingProgress();

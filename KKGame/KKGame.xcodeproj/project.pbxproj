@@ -352,6 +352,14 @@
 		1AE2400E20230D5D001FFB58 /* GAScene.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2400D20230D5D001FFB58 /* GAScene.cc */; };
 		1AE2401120231491001FFB58 /* GAShape.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401020231491001FFB58 /* GAShape.cc */; };
 		1AE2401420231F19001FFB58 /* GABody.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AE2401320231F19001FFB58 /* GABody.cc */; };
+		1AFC60CE2159D59C00393544 /* GLProgramElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AFC60CD2159D59C00393544 /* GLProgramElement.h */; };
+		1AFC60D92159D5FD00393544 /* GLProgramElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60D82159D5FD00393544 /* GLProgramElement.cc */; };
+		1AFC60DC2159DFA900393544 /* GLRenderElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60DB2159DFA900393544 /* GLRenderElement.cc */; };
+		1AFC60DD2159F53700393544 /* GLProgramElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60D82159D5FD00393544 /* GLProgramElement.cc */; };
+		1AFC60DE2159F53700393544 /* GLRenderElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60DB2159DFA900393544 /* GLRenderElement.cc */; };
+		1AFC60E0215A110400393544 /* GLViewElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 1AFC60DF215A110400393544 /* GLViewElement.h */; };
+		1AFC60E2215A115400393544 /* GLViewElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60E1215A115400393544 /* GLViewElement.cc */; };
+		1AFC60E3215A115400393544 /* GLViewElement.cc in Sources */ = {isa = PBXBuildFile; fileRef = 1AFC60E1215A115400393544 /* GLViewElement.cc */; };
 		ACBC6D6921169B68005C6A65 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D6821169B68005C6A65 /* OpenGL.framework */; };
 		ACBC6D9621169EB9005C6A65 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9521169EB8005C6A65 /* Cocoa.framework */; };
 		ACBC6D9A21169F22005C6A65 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBC6D9921169F22005C6A65 /* CoreVideo.framework */; };
@@ -755,6 +763,12 @@
 		1AE2401020231491001FFB58 /* GAShape.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GAShape.cc; sourceTree = "<group>"; };
 		1AE24012202315F9001FFB58 /* GABody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GABody.h; sourceTree = "<group>"; };
 		1AE2401320231F19001FFB58 /* GABody.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GABody.cc; sourceTree = "<group>"; };
+		1AFC60CD2159D59C00393544 /* GLProgramElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLProgramElement.h; sourceTree = "<group>"; };
+		1AFC60D82159D5FD00393544 /* GLProgramElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLProgramElement.cc; sourceTree = "<group>"; };
+		1AFC60DA2159DF2B00393544 /* GLRenderElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLRenderElement.h; sourceTree = "<group>"; };
+		1AFC60DB2159DFA900393544 /* GLRenderElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLRenderElement.cc; sourceTree = "<group>"; };
+		1AFC60DF215A110400393544 /* GLViewElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GLViewElement.h; sourceTree = "<group>"; };
+		1AFC60E1215A115400393544 /* GLViewElement.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GLViewElement.cc; sourceTree = "<group>"; };
 		1AFD6C3E2112AC100038234E /* KKDuktape.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKDuktape.xcodeproj; path = "../../kk-duktape/KKDuktape/KKDuktape.xcodeproj"; sourceTree = "<group>"; };
 		1AFD6C452112AC1C0038234E /* KKEvent.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KKEvent.xcodeproj; path = "../../kk-event/KKEvent/KKEvent.xcodeproj"; sourceTree = "<group>"; };
 		ACBC6D5A21169873005C6A65 /* kk-view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kk-view.cpp"; sourceTree = "<group>"; };
@@ -892,6 +906,12 @@
 				1AD7734A20996EBF0091283D /* GLSpineElement.cc */,
 				1A9EEB1620A065FE004A8283 /* GLMetaElement.h */,
 				1A9EEB1720A065FE004A8283 /* GLMetaElement.cc */,
+				1AFC60CD2159D59C00393544 /* GLProgramElement.h */,
+				1AFC60D82159D5FD00393544 /* GLProgramElement.cc */,
+				1AFC60DA2159DF2B00393544 /* GLRenderElement.h */,
+				1AFC60DB2159DFA900393544 /* GLRenderElement.cc */,
+				1AFC60DF215A110400393544 /* GLViewElement.h */,
+				1AFC60E1215A115400393544 /* GLViewElement.cc */,
 			);
 			path = GL;
 			sourceTree = "<group>";
@@ -1237,6 +1257,7 @@
 				1A0A665F202D698D008DA5A3 /* require_js.h in Headers */,
 				1A0A6629202AA88A008DA5A3 /* kk-app.h in Headers */,
 				1A8BFFA22092C58A00224854 /* chipmunk_structs.h in Headers */,
+				1AFC60CE2159D59C00393544 /* GLProgramElement.h in Headers */,
 				1A8BFFAA2092C58A00224854 /* cpPolyline.h in Headers */,
 				1A0A661520297D68008DA5A3 /* GLSLTexture.h in Headers */,
 				1A65A9FF204180DE0001B38A /* GLSliceMapElement.h in Headers */,
@@ -1285,6 +1306,7 @@
 				1A8BFF9F2092C58A00224854 /* cpSpatialIndex.h in Headers */,
 				1A8BFF9D2092C58A00224854 /* cpVect.h in Headers */,
 				1AE23FEA2022F361001FFB58 /* KKGame.h in Headers */,
+				1AFC60E0215A110400393544 /* GLViewElement.h in Headers */,
 				1A8BFFA02092C58A00224854 /* chipmunk.h in Headers */,
 				1A0A65B320285DD5008DA5A3 /* KKGLView.h in Headers */,
 				1A0A65AF202857C3008DA5A3 /* KKWeak.h in Headers */,
@@ -1690,6 +1712,7 @@
 				1AA7E72421182F2C00DDFC7A /* Bone.c in Sources */,
 				1AA7E72521182F2C00DDFC7A /* GLTileMapElement.cc in Sources */,
 				1AA7E72721182F2C00DDFC7A /* TransformConstraint.c in Sources */,
+				1AFC60DE2159F53700393544 /* GLRenderElement.cc in Sources */,
 				1AA7E72821182F2C00DDFC7A /* GLAnimation.cc in Sources */,
 				1AA7E72921182F2C00DDFC7A /* main.cpp in Sources */,
 				1AA7E72A21182F2C00DDFC7A /* IkConstraint.c in Sources */,
@@ -1712,6 +1735,7 @@
 				1AA7E73F21182F2C00DDFC7A /* VertexAttachment.c in Sources */,
 				1AA7E74021182F2C00DDFC7A /* Animation.c in Sources */,
 				1AA7E74121182F2C00DDFC7A /* Color.c in Sources */,
+				1AFC60DD2159F53700393544 /* GLProgramElement.cc in Sources */,
 				1AA7E74221182F2C00DDFC7A /* Attachment.c in Sources */,
 				1AA7E74321182F2C00DDFC7A /* PathConstraintData.c in Sources */,
 				1AA7E74421182F2C00DDFC7A /* MeshAttachment.c in Sources */,
@@ -1722,6 +1746,7 @@
 				1AA7E74A21182F2C00DDFC7A /* cpPolyline.c in Sources */,
 				1AA7E74B21182F2C00DDFC7A /* cpRobust.c in Sources */,
 				1AA7E74D21182F2C00DDFC7A /* GLSliceMapElement.cc in Sources */,
+				1AFC60E3215A115400393544 /* GLViewElement.cc in Sources */,
 				1AA7E74E21182F2C00DDFC7A /* cpPinJoint.c in Sources */,
 				1AA7E74F21182F2C00DDFC7A /* PathConstraint.c in Sources */,
 				1AA7E75021182F2C00DDFC7A /* GAShape.cc in Sources */,
@@ -1785,7 +1810,9 @@
 				1AD774C720998C060091283D /* Event.c in Sources */,
 				1A8BFF632092C54E00224854 /* cpSpaceComponent.c in Sources */,
 				1A8BFF5B2092C54E00224854 /* cpGrooveJoint.c in Sources */,
+				1AFC60DC2159DFA900393544 /* GLRenderElement.cc in Sources */,
 				1AD774CD20998C060091283D /* ClippingAttachment.c in Sources */,
+				1AFC60D92159D5FD00393544 /* GLProgramElement.cc in Sources */,
 				1AE2401120231491001FFB58 /* GAShape.cc in Sources */,
 				1A0A65AC20285788008DA5A3 /* KKStrong.mm in Sources */,
 				1A8BFFD6209335A200224854 /* GATileMap.cc in Sources */,
@@ -1821,6 +1848,7 @@
 				1AB72CAC211024E700187085 /* kk-app.cc in Sources */,
 				1AD774CE20998C060091283D /* VertexAttachment.c in Sources */,
 				1AB084DF2056242F00EF5783 /* GADocument.cc in Sources */,
+				1AFC60E2215A115400393544 /* GLViewElement.cc in Sources */,
 				1AD774D520998C060091283D /* Attachment.c in Sources */,
 				1A8BFF6C2092C54E00224854 /* cpRobust.c in Sources */,
 				1A8BFF562092C54E00224854 /* cpPolyShape.c in Sources */,
