@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 
 import java.nio.ByteBuffer;
 
+import cn.kkmofang.view.value.Pixel;
+
 /**
  * Created by hailong11 on 2018/6/25.
  */
@@ -38,7 +40,7 @@ public class WeakImage extends WeakTexture {
             b.recycle();
         }
 
-        setTexture(width,height,data.array());
+        setTexture(width,height,data.array(),1.0f);
 
     }
 

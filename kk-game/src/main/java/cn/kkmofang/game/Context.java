@@ -23,6 +23,7 @@ import cn.kkmofang.script.IScriptFunction;
 import cn.kkmofang.script.ScriptContext;
 import cn.kkmofang.view.IViewContext;
 import cn.kkmofang.view.ImageCallback;
+import cn.kkmofang.view.value.Pixel;
 
 /**
  * Created by hailong11 on 2018/4/10.
@@ -270,7 +271,7 @@ public class Context extends cn.kkmofang.duktape.BasicContext implements IRecycl
 
         bitmap.recycle();
 
-        texture.setTexture(mWidth,mHeight,data.array());
+        texture.setTexture(mWidth,mHeight,data.array(), 1.0f);
 
     }
 

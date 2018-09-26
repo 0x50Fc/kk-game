@@ -6,10 +6,10 @@ package cn.kkmofang.game;
 
 public class WeakTexture extends Weak {
 
-    public void setTexture(int width,int height,byte[] data) {
-        setTexture(_ptr,width,height,data);
+    public void setTexture(int width,int height,byte[] data,float scale) {
+        setTexture(_ptr,width,height,data,scale);
     }
 
 
-    private final static native void setTexture(long ptr,int width,int height,byte[] data);
+    private final static native void setTexture(long ptr,int width,int height,byte[] data,float scale);
 }

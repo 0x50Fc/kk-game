@@ -45,10 +45,10 @@ public class TextPaint extends android.text.TextPaint {
         setFakeBoldText(bold);
         setColor(color & 0x00ffffff);
         setAlpha((color >> 24) & 0x0ff);
-        setTextSize(fontSize * Pixel.UnitRPX);
+        setTextSize(fontSize);
         this.color = color;
-        this.maxWidth = maxWidth * Pixel.UnitRPX;
+        this.maxWidth = maxWidth;
         this.strokeColor = strokeColor;
-        this.strokeWidth = strokeWidth * Pixel.UnitRPX;
+        this.strokeWidth = strokeWidth;
     }
 }

@@ -344,9 +344,9 @@ Java_cn_kkmofang_game_Weak_get__J(JNIEnv *env, jclass type, jlong ptr) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_cn_kkmofang_game_WeakTexture_setTexture__JII_3B(JNIEnv *env, jclass type, jlong ptr,
-                                                               jint width, jint height,
-                                                               jbyteArray data_) {
+Java_cn_kkmofang_game_WeakTexture_setTexture__JII_3BF(JNIEnv *env, jclass type, jlong ptr,
+                                                                jint width, jint height,
+                                                                jbyteArray data_, jfloat scale) {
     jbyte *data = env->GetByteArrayElements(data_, NULL);
 
     kk::Weak * v = (kk::Weak *) (long) ptr;
@@ -366,7 +366,7 @@ Java_cn_kkmofang_game_WeakTexture_setTexture__JII_3B(JNIEnv *env, jclass type, j
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
-        texture->setSize(width,height);
+        texture->setSize((GLsizei) (width * scale),(GLsizei) (height * scale));
 
     }
 
