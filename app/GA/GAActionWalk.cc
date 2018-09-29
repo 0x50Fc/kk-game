@@ -45,7 +45,7 @@ namespace kk {
                     _navigateTimeIterval = context->current();
                 }
                 
-                if(context->current() - _navigateTimeIterval > 120) {
+                if(context->current() - _navigateTimeIterval > 300) {
                     _navigateState = ActionWalkNavigateStateNone;
                     
                     Body * a = body();
@@ -256,7 +256,7 @@ namespace kk {
             
             if(a && b) {
                 
-                cpVect p = cpvmult(cpv(-n.x,-n.y), 0.5f * speed);
+                cpVect p = cpvmult(cpv(-n.x,-n.y), 0.8f * speed);
                 
                 a->setPosition(_lastPosition);
                 
@@ -267,7 +267,7 @@ namespace kk {
                     cpBodySetVelocity(cpBody, {0,0});
                     cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
                     
-                    p = cpvmult(cpvnormalize({this->x - _lastPosition.x,this->y - _lastPosition.y}), 0.5f * speed);
+                    p = cpvmult(cpvnormalize({this->x - _lastPosition.x,this->y - _lastPosition.y}), 0.8f * speed);
                     
                     cpBodyApplyImpulseAtLocalPoint(cpBody, p, {0,0});
                     
