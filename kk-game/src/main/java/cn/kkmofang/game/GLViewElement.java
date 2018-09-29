@@ -104,7 +104,7 @@ public class GLViewElement extends ViewElement {
             item.put("dy", y * 2.0f / height - 1.0f);
             item.put("x", x);
             item.put("y", y);
-            item.put("id", String.valueOf(event.getPointerId(i)));
+            item.put("id", String.valueOf(event.getPointerId(i) + 1));
 
             if(i == event.getActionIndex()
                     && event.getActionMasked() != MotionEvent.ACTION_MOVE) {
