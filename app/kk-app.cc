@@ -392,9 +392,7 @@ namespace kk {
         
         kk::String v = GAContext->getString("main.js");
  
-        duk_push_string(ctx, "main.js");
-        
-        duk_compile_string_filename(ctx, 0, v.c_str());
+        kk::script::compile(ctx, v.c_str(), "main.js");
         
         if(duk_is_function(ctx, -1)) {
             
