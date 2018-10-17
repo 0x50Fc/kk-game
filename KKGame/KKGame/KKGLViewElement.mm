@@ -32,9 +32,11 @@
 
 @end
 
-static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString name,kk::Event * event,void * context) {
+static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString name,kk::Event * event,BK_DEF_ARG) {
     
     @autoreleasepool{
+        
+        BK_GET_VAR(element, CFTypeRef)
         
         kk::ElementEvent * e = dynamic_cast<kk::ElementEvent *>(event);
         
@@ -54,7 +56,7 @@ static void KKGLViewElement_event_cb (kk::EventEmitter * emitter,kk::CString nam
                 
                 duk_pop(ctx);
                 
-                __strong KKGLViewElement * elem = (__bridge KKGLViewElement *) context;
+                __strong KKGLViewElement * elem = (__bridge KKGLViewElement *) element;
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     
@@ -232,7 +234,12 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
         duk_context * ctx = _jsContext->jsContext();
         duk_push_pointer(ctx, _app);
         duk_put_global_string(ctx, "__app");
-        _app->document()->on("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        
+        BK_CTX
+        BK_PTR(element, CFBridgingRetain(self), CFRelease);
+        
+        _app->document()->on("app_*", KKGLViewElement_event_cb, BK_ARG);
+        
         _app->GAContext()->init();
         
         [self resizeGLContext:view.layer.contentsScale inWidth:view.width inHeight:view.height];
@@ -264,7 +271,7 @@ static void KKGLViewElement_EventOnCreateContext (duk_context * ctx,kk::Dispatch
     _app = nullptr;
     
     if(app != nullptr) {
-        app->document()->off("app_*", KKGLViewElement_event_cb, (__bridge void *) self);
+        app->document()->off("app_*", KKGLViewElement_event_cb);
     }
     
     struct evdns_base * dns = _dns;

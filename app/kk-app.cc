@@ -205,6 +205,8 @@ namespace kk {
         
         duk_context * ctx = dukContext();
         
+        Scope scope;
+        
         installContext(ctx);
         
         {
@@ -347,6 +349,7 @@ namespace kk {
         KKGAContext * GAContext = this->GAContext();
         kk::Document * document = this->document();
         if(GAContext && document) {
+            Scope scope;
             GAContext->tick();
             kk::Element * element = document->rootElement();
             if(element != nullptr) {
@@ -359,6 +362,8 @@ namespace kk {
     }
     
     void Application::runCommand(kk::CString command) {
+        
+        Scope scope;
         
         duk_context * ctx = dukContext();
         
@@ -385,6 +390,8 @@ namespace kk {
     }
     
     void Application::run() {
+        
+        Scope scope;
         
         duk_context * ctx = dukContext();
         

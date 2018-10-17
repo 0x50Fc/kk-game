@@ -2,7 +2,7 @@
 //  GLViewElement.h
 //  KKGame
 //
-//  Created by hailong11 on 2018/9/25.
+//  Created by zhanghailong on 2018/9/25.
 //  Copyright © 2018年 kkmofang.cn. All rights reserved.
 //
 

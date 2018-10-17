@@ -1,0 +1,6 @@
+framework module KKGame {
+  umbrella header "KKGame.h"
+
+  export *
+  module * { export * }
+}
