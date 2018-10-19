@@ -72,6 +72,14 @@ static void app_ev_exec_cb(evutil_socket_t fd, short ev, void * ctx) {
     
     kk::Application * app = (kk::Application *) ctx;
     
+    if(app->isExiting()) {
+        struct event_base * base = kk::ev_base(app->dukContext());
+        if(base) {
+            event_base_loopbreak(base);
+        }
+        return;
+    }
+    
     app->exec();
     
     kk::Uint frames = app->GAContext()->frames();

@@ -50,6 +50,28 @@
 
 namespace kk {
 
+    
+    static duk_ret_t Application_exit(duk_context * ctx) {
+    
+        Application * app = nullptr;
+        
+        duk_push_current_function(ctx);
+        
+        duk_get_prop_string(ctx, -1, "__object");
+        
+        if(duk_is_pointer(ctx, -1)) {
+            app = (Application *)(duk_to_pointer(ctx, -1));
+        }
+        
+        duk_pop_2(ctx);
+        
+        if(app) {
+            app->exit();
+        }
+        
+        return 0;
+    }
+        
     static duk_ret_t Application_print(duk_context * ctx) {
         
         Application * app = nullptr;
@@ -293,6 +315,13 @@ namespace kk {
             
             duk_push_string(ctx, "print");
             duk_push_c_function(ctx, Application_print, DUK_VARARGS);
+            duk_push_string(ctx, "__object");
+            duk_push_pointer(ctx, this);
+            duk_put_prop(ctx, -3);
+            duk_put_prop(ctx, -3);
+            
+            duk_push_string(ctx, "exit");
+            duk_push_c_function(ctx, Application_exit, 1);
             duk_push_string(ctx, "__object");
             duk_push_pointer(ctx, this);
             duk_put_prop(ctx, -3);

@@ -1,12 +1,12 @@
 
 
 
-LIBRARY = -L/usr/lib -L/usr/local/lib -levent -lchipmunk -lz -lstdc++ -lm -lrt -lcrypto -lssl
+LIBRARY = -static -L/usr/lib -L/usr/local/lib -levent -lchipmunk -lz -lstdc++ -lm -lrt -lcrypto -lssl -lpthread -ldl
 INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape  -I../../lib/Chipmunk2D/include -I/usr/local/opt/openssl/include -I../../../kk-object/include -I../../../kk-element/include
 CFLAGS = -g
 CCFLAGS = -std=gnu++11 -g
 
-DUKTAPE = ../../lib/duktape
+DUKTAPE = ../../../kk-duktape/lib/duktape/src
 SRC = ../../app
 GA = ../../app/GA
 KK_OBJECT = ../../../kk-object/src
@@ -25,7 +25,6 @@ OBJECTS := $(OBJOUTPUT)/kk-object.o $(OBJOUTPUT)/kk-event.o $(OBJOUTPUT)/kk-stri
 	$(OBJOUTPUT)/GAAction.o $(OBJOUTPUT)/GAActionWalk.o $(OBJOUTPUT)/GATileMap.o $(OBJOUTPUT)/GADocument.o \
 	$(OBJOUTPUT)/GAInCollision.o $(OBJOUTPUT)/GACollision.o \
 	$(OBJOUTPUT)/duktape.o  \
-	$(OBJOUTPUT)/kk-atomic.o  \
 	$(OBJOUTPUT)/main.o 
 
 $(TARGET):$(OBJECTS)
@@ -81,9 +80,6 @@ $(OBJOUTPUT)/kk-chan.o:$(KK_OBJECT)/kk-chan.cc
 
 $(OBJOUTPUT)/kk-bio.o:$(KK_OBJECT)/kk-bio.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-bio.cc -o $(OBJOUTPUT)/kk-bio.o
-
-$(OBJOUTPUT)/kk-atomic.o:$(KK_OBJECT)/kk-atomic-pthread.cc
-	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_OBJECT)/kk-atomic-pthread.cc -o $(OBJOUTPUT)/kk-atomic.o
 
 $(OBJOUTPUT)/kk-element.o:$(KK_ELEMENT)/kk-element.cc
 	gcc $(CCFLAGS) $(INCLUDE) -c $(KK_ELEMENT)/kk-element.cc -o $(OBJOUTPUT)/kk-element.o

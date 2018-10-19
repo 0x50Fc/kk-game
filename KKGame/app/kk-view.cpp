@@ -240,6 +240,10 @@ namespace kk {
             
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
+            if(app->isExiting()) {
+                break;
+            }
+            
             app->exec();
             
             glFlush();
