@@ -98,6 +98,8 @@ static kk::Application * app;
 
 static void main_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * queue, duk_context * newContext) {
     
+    kk::Scope scope;
+    
     evdns_base_load_hosts(kk::ev_dns(newContext), "/etc/hosts");
     
     app->installContext(newContext);
@@ -121,7 +123,7 @@ static void main_EventOnCreateContext (duk_context * ctx,kk::DispatchQueue * que
 
 int main(int argc, const char * argv[]) {
     
-
+    kk::Scope scope;
     kk::Uint64 appid = 0;
     kk::CString path = nullptr;
     std::map<kk::String,kk::String> query;
@@ -174,10 +176,12 @@ int main(int argc, const char * argv[]) {
     
     evdns_base_load_hosts(dns, "/etc/hosts");
     
-    kk::ev_openlibs(jsContext->jsContext(), base,dns);
-    kk::wk_openlibs(jsContext->jsContext(), queue,main_EventOnCreateContext);
     
     {
+        kk::Scope scope;
+        
+        kk::ev_openlibs(jsContext->jsContext(), base,dns);
+        kk::wk_openlibs(jsContext->jsContext(), queue,main_EventOnCreateContext);
         
         kk::script::SetPrototype(ctx, &kk::WebSocket::ScriptClass);
         kk::script::SetPrototype(ctx, &kk::Http::ScriptClass);

@@ -1,7 +1,7 @@
 
 
 
-LIBRARY = -static -L/usr/lib -L/usr/local/lib -levent -lchipmunk -lz -lstdc++ -lm -lrt -lcrypto -lssl -lpthread -ldl
+LIBRARY = -L/usr/lib -L/usr/local/lib -levent -lchipmunk -lz -lstdc++ -lm -lrt -lcrypto -lssl -lpthread -ldl
 INCLUDE = -I/usr/local/include -I../../app -I../../js -I../../app/GA -I../../lib -I../../lib/duktape  -I../../lib/Chipmunk2D/include -I/usr/local/opt/openssl/include -I../../../kk-object/include -I../../../kk-element/include
 CFLAGS = -g
 CCFLAGS = -std=gnu++11 -g
