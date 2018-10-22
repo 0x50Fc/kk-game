@@ -169,7 +169,7 @@ Java_cn_kkmofang_game_Context_dealloc(JNIEnv *env, jclass type, jlong ptr) {
     }
 
     if(app) {
-        app->document()->off("", (kk::EventCFunction) nullptr, nullptr);
+        app->document()->off("", nullptr);
         app->release();
     }
 

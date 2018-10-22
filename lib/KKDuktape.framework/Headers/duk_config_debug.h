@@ -2821,7 +2821,7 @@ typedef struct duk_hthread duk_context;
 #undef DUK_USE_EXTSTR_INTERN_CHECK
 #undef DUK_USE_FASTINT
 #define DUK_USE_FAST_REFCOUNT_DEFAULT
-#undef DUK_USE_FATAL_HANDLER
+#define DUK_USE_FATAL_HANDLER(udata,msg) do { const char *fatal_msg = (msg); fprintf(stderr, "*** FATAL ERROR: %s\n", fatal_msg ? fatal_msg : "no message"); abort(); } while (0);
 #define DUK_USE_FINALIZER_SUPPORT
 #undef DUK_USE_FINALIZER_TORTURE
 #undef DUK_USE_FUNCPTR16
