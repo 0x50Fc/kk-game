@@ -274,6 +274,7 @@ Java_cn_kkmofang_game_Context_on(JNIEnv *env, jclass type, jlong ptr) {
         app->document()->duk_on(ctx);
     }
 
+    duk_pop_n(ctx,duk_get_top(ctx));
 }
 
 extern "C"
@@ -287,6 +288,8 @@ Java_cn_kkmofang_game_Context_off(JNIEnv *env, jclass type, jlong ptr) {
     if(app && duk_is_string(ctx,-1)) {
         app->document()->duk_off(ctx);
     }
+
+    duk_pop_n(ctx,duk_get_top(ctx));
 
 }
 

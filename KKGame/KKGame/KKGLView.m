@@ -53,13 +53,17 @@
         int64_t frames = 60;
         dispatch_source_set_timer(_source, dispatch_walltime(NULL, 0), (int64_t)(NSEC_PER_SEC / frames), 0);
         
+        __block dispatch_source_t s = _source;
         __weak KKGLView * view = self;
-        
+
         dispatch_source_set_event_handler(_source, ^{
             [view displayGLContext];
         });
-    
-    
+        
+        dispatch_source_set_cancel_handler(_source, ^{
+            s = nil;
+        });
+        
         self.layer.contentsScale = [[UIScreen mainScreen] scale];
         self.layer.opaque = NO;
         
@@ -76,30 +80,6 @@
 
 -(void) dealloc {
 
-    if(_source) {
-        dispatch_source_cancel(_source);
-        _source = nil;
-    }
-    
-    [EAGLContext setCurrentContext:_GLContext];
-    
-    if(_data.frame) {
-        glDeleteFramebuffers(1,&_data.frame);
-        _data.frame = 0;
-    }
-    
-    if(_data.render) {
-        glDeleteFramebuffers(1,&_data.render);
-        _data.render = 0;
-    }
-    
-    if(_data.depth) {
-        glDeleteFramebuffers(1,&_data.depth);
-        _data.depth = 0;
-    }
-    
-    [EAGLContext setCurrentContext:nil];
-    
 }
 
 -(void) setBounds:(CGRect)bounds {
@@ -174,7 +154,9 @@
 
     glFlush();
     
-    [_GLContext presentRenderbuffer:GL_RENDERBUFFER]; // 渲染到设备
+    if(_visible) {
+        [_GLContext presentRenderbuffer:GL_RENDERBUFFER]; // 渲染到设备
+    }
     
     [EAGLContext setCurrentContext:nil];
 }
@@ -216,7 +198,44 @@
     [super touchesCancelled:touches withEvent:event];
 }
 
+-(void) recycleGLContext {
+    
+    [EAGLContext setCurrentContext:_GLContext];
+    
+    if(_data.frame) {
+        glDeleteFramebuffers(1,&_data.frame);
+        _data.frame = 0;
+    }
+    
+    if(_data.render) {
+        glDeleteFramebuffers(1,&_data.render);
+        _data.render = 0;
+    }
+    
+    if(_data.depth) {
+        glDeleteFramebuffers(1,&_data.depth);
+        _data.depth = 0;
+    }
+    
+    [EAGLContext setCurrentContext:nil];
+    
+}
+
 -(void) recycle {
+    
+    if(_source) {
+        dispatch_source_cancel(_source);
+        _source = nil;
+    }
+    
+    if(_GLContext != nil) {
+
+        dispatch_sync(_GLContext.queue, ^{
+            [self recycleGLContext];
+        });
+        
+    }
+    
     [_GLContext recycle];
 }
 

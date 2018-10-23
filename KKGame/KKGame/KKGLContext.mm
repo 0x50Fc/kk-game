@@ -291,7 +291,11 @@ void kk::GL::ContextGetStringTexture(kk::GL::Context * context,kk::GL::Texture *
 -(instancetype) initWithAPI:(EAGLRenderingAPI)api {
     if((self = [super initWithAPI:api])) {
         self.multiThreaded = YES;
-        _queue = dispatch_queue_create("KKGLContext", DISPATCH_QUEUE_SERIAL);
+        static dispatch_queue_t v = nil;
+        if(v == nil) {
+            v = dispatch_queue_create("KKGLContext", DISPATCH_QUEUE_SERIAL);
+        }
+        _queue = v;
     }
     return self;
 }
