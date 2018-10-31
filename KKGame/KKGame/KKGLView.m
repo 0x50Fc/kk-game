@@ -57,7 +57,9 @@
         __weak KKGLView * view = self;
 
         dispatch_source_set_event_handler(_source, ^{
-            [view displayGLContext];
+            @synchronized (view) {
+                [view displayGLContext];
+            }
         });
         
         dispatch_source_set_cancel_handler(_source, ^{
@@ -84,12 +86,16 @@
 
 -(void) setBounds:(CGRect)bounds {
     [super setBounds:bounds];
-    [self resizeGLContext];
+    @synchronized (self) {
+        [self resizeGLContext];
+    }
 }
 
 -(void) setFrame:(CGRect)frame {
     [super setFrame:frame];
-    [self resizeGLContext];
+    @synchronized (self) {
+        [self resizeGLContext];
+    }
 }
 
 -(void) resizeGLContext {
